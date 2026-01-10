@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon | GIS Digital Textbook</title>
+    <meta name="description" content="The GIS digital textbook is currently under development. Stay tuned for an applied introduction to spatial thinking and cartography.">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+        .coming-soon-card {
+            text-align: center;
+            max-width: 600px;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden; /* Ensure image corners align with card */
+        }
+        .hero-image {
+            width: calc(100% + 4rem);
+            margin: -2rem -2rem 2rem -2rem;
+            height: 300px;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .coming-soon-card h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--primary-dark), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .coming-soon-card p {
+            color: var(--text-muted);
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+        }
+        .status-badge {
+            display: inline-block;
+            background: var(--callout-info-bg);
+            color: var(--callout-info-border);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--callout-info-border);
+        }
+        .footer-subtle {
+            position: fixed;
+            bottom: 2rem;
+            width: 100%;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+        .dev-link {
+            text-decoration: none;
+            color: transparent;
+            cursor: default;
+            user-select: none;
+        }
+        .dev-link:hover {
+            color: rgba(0,0,0,0.05); /* Very subtle easter egg */
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="coming-soon-card">
+        <img src="assets/img/hero-gis.png" alt="GIS Digital Textbook Preview" class="hero-image">
+        <div class="status-badge">CURRENT STATUS: UNDER DEVELOPMENT</div>
+        <h1>Geographic Information Systems</h1>
+        <p>We are building a premium, open-access digital textbook for the next generation of spatial thinkers. Our team is currently mapping out the modules and interactive exercises.</p>
+        <div class="callout warning" style="text-align: left; margin: 0 auto; max-width: 400px;">
+            <strong>Check back soon!</strong> We are working hard to complete the first set of modules for the upcoming semester.
+        </div>
+    </div>
+
+    <div class="footer-subtle">
+        &copy; 2026 Dr. Moulay Anwar Sounny-Slitine <a href="index-dev.html" class="dev-link">.</a>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+# GIS Textbook Project Ignored Files
+
+# Reference materials used for development
+references/
+
+# Agent configuration and status files
+agents.md

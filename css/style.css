@@ -1,0 +1,203 @@
+/* 
+   GIS Textbook Core Styles
+   Designed by Antigravity for Dr. Sounny
+   Premium, Minimalist, and Modern
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;800&display=swap');
+
+:root {
+    /* Color Palette */
+    --primary: #4A90A4;
+    --primary-dark: #2D5A68;
+    --secondary: #6B7280;
+    --accent: #FF7F50;
+    --bg-main: #F8FAFC;
+    --bg-card: #FFFFFF;
+    --text-main: #1E293B;
+    --text-muted: #64748B;
+    
+    /* Callout Backgrounds */
+    --callout-info-bg: #E0F2FE;
+    --callout-info-border: #0EA5E9;
+    --callout-success-bg: #F0FDF4;
+    --callout-success-border: #22C55E;
+    --callout-warning-bg: #FFFBEB;
+    --callout-warning-border: #F59E0B;
+    --callout-error-bg: #FEF2F2;
+    --callout-error-border: #EF4444;
+
+    /* Spacing & Borders */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: var(--text-main);
+    background-color: var(--bg-main);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    color: var(--text-main);
+    line-height: 1.2;
+}
+
+/* Layout */
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Header/Hero Section */
+.hero {
+    padding: 4rem 0;
+    text-align: center;
+    background: linear-gradient(135deg, #4a90a415 0%, #ffffff 100%);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    margin-bottom: 3rem;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+    background: linear-gradient(to right, var(--primary-dark), var(--primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Cards & Content Blocks */
+.card {
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Callouts (Bootstrap-style but cleaner) */
+.callout {
+    padding: 1.5rem;
+    margin: 2rem 0;
+    border-radius: var(--radius-sm);
+    border-left: 5px solid transparent;
+}
+
+.callout.info {
+    background-color: var(--callout-info-bg);
+    border-left-color: var(--callout-info-border);
+}
+
+.callout.success {
+    background-color: var(--callout-success-bg);
+    border-left-color: var(--callout-success-border);
+}
+
+.callout.warning {
+    background-color: var(--callout-warning-bg);
+    border-left-color: var(--callout-warning-border);
+}
+
+/* Progress/Navigation Grid */
+.module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.module-item {
+    background: white;
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(0,0,0,0.05);
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.module-item:hover {
+    background: var(--primary);
+    color: white;
+    transform: scale(1.02);
+}
+
+.module-number {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+}
+
+.module-item:hover .module-number {
+    color: rgba(255,255,255,0.8);
+}
+
+.module-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    border-top: 1px solid rgba(0,0,0,0.05);
+}
