@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 01: Foundations of Remote Sensing | GIS & RS Textbook</title>
+    <meta name="description" content="Introduction to the principles of Remote Sensing, the electromagnetic spectrum, and how satellites see the Earth.">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .spectrum-analyzer {
+            background: #fff;
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            margin: 3rem 0;
+        }
+
+        .spectrum-gradient {
+            height: 60px;
+            background: linear-gradient(to right, 
+                #4b0082, #0000ff, #00ff00, #ffff00, #ff7f00, #ff0000, 
+                #8b0000 70%, #4a148c 100%);
+            border-radius: var(--radius-sm);
+            margin: 2rem 0;
+            position: relative;
+            cursor: pointer;
+            border: 2px solid #e2e8f0;
+        }
+
+        .spectrum-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        .selector-box {
+            position: absolute;
+            top: -10px;
+            width: 4px;
+            height: 80px;
+            background: var(--primary);
+            box-shadow: 0 0 15px rgba(74, 144, 164, 0.5);
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .object-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .object-card {
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius-md);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .object-card:hover {
+            border-color: var(--primary);
+            background: #f8fafc;
+        }
+
+        .object-card.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .response-graph {
+            height: 200px;
+            margin-top: 2rem;
+            background: #f1f5f9;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: flex-end;
+            padding: 0 20px;
+            gap: 2px;
+        }
+
+        .graph-bar {
+            flex: 1;
+            background: var(--primary);
+            transition: height 0.5s ease;
+            opacity: 0.7;
+        }
+
+        .info-panel {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--callout-info-bg);
+            border-radius: var(--radius-md);
+            border-left: 5px solid var(--callout-info-border);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="hero">
+        <div class="container">
+            <nav style="margin-bottom: 1rem;">
+                <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Modules</a>
+            </nav>
+            <h1>Module 01: Foundations of Remote Sensing</h1>
+            <p>Understanding how satellites use electromagnetic energy to "see" beyond the capabilities of the human eye.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="card">
+            <h2>The Science of Reflectance</h2>
+            <p>Every object on Earth's surface reflects, absorbs, and transmits light differently. By measuring these unique "spectral signatures," Remote Sensing sensors can distinguish between different types of vegetation, soil, and water—even if they look similar to our eyes.</p>
+        </section>
+
+        <h2>🔬 Interactive Spectral Explorer</h2>
+        <p>Select an object and slide across the spectrum to see its **Reflectance Character**.</p>
+
+        <div class="spectrum-analyzer">
+            <div class="object-grid">
+                <div class="object-card active" onclick="selectObject('veg', this)">
+                    <span style="font-size: 2rem;">🌿</span>
+                    <div style="font-weight: 700; margin-top: 0.5rem;">Healthy Vegetation</div>
+                </div>
+                <div class="object-card" onclick="selectObject('water', this)">
+                    <span style="font-size: 2rem;">💧</span>
+                    <div style="font-weight: 700; margin-top: 0.5rem;">Clear Water</div>
+                </div>
+                <div class="object-card" onclick="selectObject('soil', this)">
+                    <span style="font-size: 2rem;">🏜️</span>
+                    <div style="font-weight: 700; margin-top: 0.5rem;">Dry Soil</div>
+                </div>
+                <div class="object-card" onclick="selectObject('urban', this)">
+                    <span style="font-size: 2rem;">🏢</span>
+                    <div style="font-weight: 700; margin-top: 0.5rem;">Concrete/Urban</div>
+                </div>
+            </div>
+
+            <div class="spectrum-gradient" id="spectrum" onclick="moveSelector(event)">
+                <div class="selector-box" id="selector" style="left: 20%;"></div>
+            </div>
+            
+            <div class="spectrum-labels">
+                <span>Ultraviolet</span>
+                <span>Visible (RGB)</span>
+                <span>Near-Infrared (NIR)</span>
+                <span>Shortwave IR (SWIR)</span>
+                <span>Thermal IR</span>
+            </div>
+
+            <div class="response-graph" id="graph">
+                <!-- Bars generated by JS -->
+            </div>
+
+            <div class="info-panel" id="info">
+                <strong>Current Insight:</strong> Healthy vegetation reflects highly in the NIR (Near-Infrared) range due to the cellular structure of leaves, but absorbs strongly in Red for photosynthesis.
+            </div>
+        </div>
+
+        <section class="card">
+            <h3>Why does this matter?</h3>
+            <p>By comparing the reflectance in different bands, we can calculate **Spectral Indices** like NDVI (Normalized Difference Vegetation Index). This mathematical approach allows us to monitor global food security, detect forest fires, and analyze urban heat islands with scientific precision.</p>
+        </section>
+    </main>
+
+    <script>
+        const data = {
+            veg: [10, 15, 20, 15, 10, 80, 85, 90, 40, 20, 10],
+            water: [50, 40, 30, 20, 10, 5, 2, 1, 0, 0, 0],
+            soil: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55],
+            urban: [60, 60, 60, 60, 60, 65, 70, 75, 80, 85, 90]
+        };
+
+        let currentObject = 'veg';
+
+        function initGraph() {
+            const graph = document.getElementById('graph');
+            graph.innerHTML = '';
+            for(let i=0; i<50; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'graph-bar';
+                graph.appendChild(bar);
+            }
+            updateGraph();
+        }
+
+        function selectObject(obj, el) {
+            currentObject = obj;
+            document.querySelectorAll('.object-card').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            updateGraph();
+            updateInfo();
+        }
+
+        function moveSelector(e) {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const pct = (x / rect.width) * 100;
+            document.getElementById('selector').style.left = pct + '%';
+            updateInfo(pct);
+        }
+
+        function updateGraph() {
+            const bars = document.querySelectorAll('.graph-bar');
+            const values = data[currentObject];
+            bars.forEach((bar, i) => {
+                // Simple interpolation for the 50 bars from the ~11 data points
+                const idx = Math.floor((i / bars.length) * (values.length - 1));
+                const nextIdx = Math.min(idx + 1, values.length - 1);
+                const weight = (i / bars.length * (values.length - 1)) % 1;
+                const val = values[idx] * (1 - weight) + values[nextIdx] * weight;
+                bar.style.height = val + '%';
+            });
+        }
+
+        function updateInfo(pct = 20) {
+            const info = document.getElementById('info');
+            let text = "";
+            
+            if (currentObject === 'veg') {
+                if (pct < 40) text = "Visible Range: Chlorophyll absorbs Red/Blue light for energy.";
+                else if (pct < 80) text = "NIR Range: Spongy mesophyll cells reflect NIR light strongly. This is why healthy plants 'glow' in NIR imagery.";
+                else text = "Thermal/SWIR Range: Moisture content in the plant affects these longer wavelengths.";
+            } else if (currentObject === 'water') {
+                text = "Water is an 'absorber.' It reflects some blue light but absorbs NIR and SWIR almost completely. This makes water look black in NIR bands.";
+            } else if (currentObject === 'soil') {
+                text = "Soil has a 'rising' spectral signature. As wavelength increases, reflectance generally increases steadily.";
+            } else {
+                text = "Urban materials like concrete have relatively flat or high reflectance across most bands, causing them to look bright in imagery.";
+            }
+            
+            info.innerHTML = `<strong>Current Insight:</strong> ${text}`;
+        }
+
+        initGraph();
+    </script>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. Brand-neutral Open Educational Resource.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

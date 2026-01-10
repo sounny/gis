@@ -3,94 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon | GIS Digital Textbook</title>
-    <meta name="description" content="The GIS digital textbook is currently under development. Stay tuned for an applied introduction to spatial thinking and cartography.">
+    <title>GIS & Remote Sensing | Digital Textbook</title>
+    <meta name="description" content="A premium, open-access digital textbook for Geographic Information Systems, covering spatial analysis, data management, and cartographic design.">
     <link rel="stylesheet" href="css/style.css">
     <style>
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-        }
-        .coming-soon-card {
+        .hero-banner {
+            background: linear-gradient(rgba(74, 144, 164, 0.9), rgba(74, 144, 164, 0.8)), url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 6rem 2rem;
             text-align: center;
-            max-width: 600px;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-            overflow: hidden; /* Ensure image corners align with card */
+            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+            margin-bottom: 4rem;
         }
-        .hero-image {
-            width: calc(100% + 4rem);
-            margin: -2rem -2rem 2rem -2rem;
-            height: 300px;
-            object-fit: cover;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+        .hero-banner h1 {
+            color: white;
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            -webkit-text-fill-color: initial;
+            background: none;
         }
-        .coming-soon-card h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(to right, var(--primary-dark), var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .hero-banner p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
         }
-        .coming-soon-card p {
-            color: var(--text-muted);
-            font-size: 1.25rem;
+        .section-title {
             margin-bottom: 2rem;
-        }
-        .status-badge {
+            font-size: 2rem;
+            border-bottom: 2px solid var(--primary);
             display: inline-block;
-            background: var(--callout-info-bg);
-            color: var(--callout-info-border);
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.875rem;
-            margin-bottom: 2rem;
-            border: 1px solid var(--callout-info-border);
-        }
-        .footer-subtle {
-            position: fixed;
-            bottom: 2rem;
-            width: 100%;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.875rem;
-        }
-        .dev-link {
-            text-decoration: none;
-            color: transparent;
-            cursor: default;
-            user-select: none;
-        }
-        .dev-link:hover {
-            color: rgba(0,0,0,0.05); /* Very subtle easter egg */
-            cursor: pointer;
+            padding-bottom: 0.5rem;
         }
     </style>
 </head>
 <body>
 
-    <div class="coming-soon-card">
-        <img src="assets/img/hero-gis.png" alt="GIS Digital Textbook Preview" class="hero-image">
-        <div class="status-badge">CURRENT STATUS: UNDER DEVELOPMENT</div>
-        <h1>Geographic Information Systems</h1>
-        <p>We are building a premium, open-access digital textbook for the next generation of spatial thinkers. Our team is currently mapping out the modules and interactive exercises.</p>
-        <div class="callout warning" style="text-align: left; margin: 0 auto; max-width: 400px;">
-            <strong>Check back soon!</strong> We are working hard to complete the first set of modules for the upcoming semester.
+    <header class="hero-banner">
+        <div class="container">
+            <h1>GIS & Remote Sensing</h1>
+            <p>Master the science of where through Earth Observation, satellite imagery analysis, and spatial data science.</p>
         </div>
-    </div>
+    </header>
 
-    <div class="footer-subtle">
-        &copy; 2026 Dr. Moulay Anwar Sounny-Slitine <a href="index-dev.html" class="dev-link">.</a>
-    </div>
+    <main class="container">
+        <section class="card">
+            <h2>About this Textbook</h2>
+            <p>This interactive digital textbook is designed for students and professionals seeking to master GIS using modern tools. Following the rigorous standards of Dr. Sounny's research, we bridge the gap between theoretical spatial thinking and hands-on technical proficiency.</p>
+            
+            <div class="callout success">
+                <strong>New:</strong> Interactive Learning Tools are now being integrated into every module! Explore simulations of scale, projections, and spatial analysis directly in your browser.
+            </div>
+        </section>
+
+        <h2 class="section-title">Learning Modules</h2>
+        <div class="module-grid">
+            <!-- Core GIS -->
+            <a href="modules/module-01-orientation.html" class="module-item">
+                <span class="module-number">Module 01</span>
+                <span class="module-title">What is GIS? Orientation</span>
+            </a>
+            <a href="#" class="module-item">
+                <span class="module-number">Module 02</span>
+                <span class="module-title">Map Elements & Design</span>
+            </a>
+            <a href="#" class="module-item">
+                <span class="module-number">Module 03</span>
+                <span class="module-title">Working with GIS Data</span>
+            </a>
+            <a href="#" class="module-item">
+                <span class="module-number">Module 04</span>
+                <span class="module-title">Geocoding Addresses</span>
+            </a>
+            <a href="#" class="module-item">
+                <span class="module-number">Module 05</span>
+                <span class="module-title">Georeferencing Imagery</span>
+            </a>
+            <a href="#" class="module-item">
+                <span class="module-number">Module 06</span>
+                <span class="module-title">Modern Web Mapping</span>
+            </a>
+
+            <!-- Analysis -->
+            <a href="#" class="module-item">
+                <span class="module-number">Module 09</span>
+                <span class="module-title">Basic Spatial Analysis</span>
+            </a>
+            <a href="#" class="module-item">
+                <span class="module-number">Module 10</span>
+                <span class="module-title">Vector Analysis</span>
+            </a>
+            <a href="#" class="module-item">
+                <span class="module-number">Module 11</span>
+                <span class="module-title">Raster Analysis</span>
+            </a>
+            <a href="#" class="module-item">
+                <span class="module-number">Module 12</span>
+                <span class="module-title">Network Analysis</span>
+            </a>
+
+            <!-- Advanced -->
+            <a href="#" class="module-item">
+                <span class="module-number">Module 16</span>
+                <span class="module-title">GIS Ethics & AI</span>
+            </a>
+            <a href="#" class="module-item">
+                <span class="module-number">Module 17</span>
+                <span class="module-title">Mobile GIS & Fieldwork</span>
+            </a>
+            <a href="#" class="module-item">
+                <span class="module-number">Module 18</span>
+                <span class="module-title">Storytelling with Maps</span>
+            </a>
+            <a href="#" class="module-item">
+                <span class="module-number">Module 19</span>
+                <span class="module-title">Cartograms & Data Viz</span>
+            </a>
+
+            <!-- Synthesis -->
+            <a href="#" class="module-item">
+                <span class="module-number">Capstone</span>
+                <span class="module-title">GIS Research & Projects</span>
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. Brand-neutral Open Educational Resource.</p>
+        </div>
+    </footer>
 
 </body>
 </html>
