@@ -3,5 +3,5 @@
 # Reference materials used for development
 references/
 
-# Agent configuration and status files
-agents.md
+# Development documentation (markdown files)
+*.md
