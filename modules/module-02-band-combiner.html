@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 02: The Band Combiner | GIS & RS Textbook</title>
+    <meta name="description" content="Learn how to create True Color and False Color composites by combining different satellite bands.">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .combiner-container {
+            background: #fff;
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            margin: 3rem 0;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+        }
+
+        .preview-pane {
+            background: #f1f5f9;
+            border-radius: var(--radius-md);
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #cbd5e1;
+        }
+
+        .preview-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.5s ease;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .controls-pane {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .channel-slot {
+            padding: 1rem;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius-sm);
+        }
+
+        .channel-slot label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        .band-select {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid #cbd5e1;
+            background: white;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .preset-grid {
+            margin-top: 1rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+
+        .btn-preset {
+            padding: 0.5rem;
+            font-size: 0.75rem;
+            background: #e2e8f0;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-preset:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .composite-info {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--callout-success-bg);
+            border-radius: var(--radius-md);
+            border-left: 5px solid var(--callout-success-border);
+        }
+
+        .spectrum-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: white;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="hero">
+        <div class="container">
+            <nav style="margin-bottom: 1rem;">
+                <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Modules</a>
+            </nav>
+            <h1>Module 02: The Band Combiner</h1>
+            <p>Satellites capture data in many "channels" or bands. By choosing which band represents Red, Green, and Blue on our screens, we can reveal hidden features of the Earth.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="card">
+            <h2>Addative Color & Composites</h2>
+            <p>Our computer screens use the <strong>RGB color model</strong>. However, a satellite like Landsat 8 doesn't just see Red, Green, and Blue—it sees Infrared, Thermal, and more. When we assign a non-visible band (like NIR) to one of our screen's RGB channels, we create a <strong>False Color Composite</strong>.</p>
+        </section>
+
+        <h2>🔬 Interactive Band Combiner</h2>
+        <p>Use the controls below to simulate how different band combinations change the appearance of a landscape.</p>
+
+        <div class="combiner-container">
+            <div class="preview-pane" id="previewPane">
+                <!-- Layers representing different composites -->
+                <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1000" id="img-true" class="preview-image" style="opacity: 1;" alt="True Color">
+                <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=1000" id="img-false" class="preview-image" style="opacity: 0; filter: sepia(1) saturate(5) hue-rotate(-50deg);" alt="False Color IR">
+                <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&q=80&w=1000" id="img-swir" class="preview-image" style="opacity: 0; filter: contrast(1.2) brightness(0.8) hue-rotate(180deg);" alt="SWIR Composite">
+                <div id="loading" style="display:none;">Processing Composite...</div>
+            </div>
+
+            <div class="controls-pane">
+                <div class="channel-slot">
+                    <label>🔴 Red Channel</label>
+                    <select class="band-select" id="redBand" onchange="updateComposite()">
+                        <option value="B4">Band 4 (Visible Red)</option>
+                        <option value="B5">Band 5 (Near-Infrared)</option>
+                        <option value="B6">Band 6 (SWIR 1)</option>
+                    </select>
+                </div>
+                <div class="channel-slot">
+                    <label>🟢 Green Channel</label>
+                    <select class="band-select" id="greenBand" onchange="updateComposite()">
+                        <option value="B3">Band 3 (Visible Green)</option>
+                        <option value="B4">Band 4 (Visible Red)</option>
+                        <option value="B5">Band 5 (Near-Infrared)</option>
+                    </select>
+                </div>
+                <div class="channel-slot">
+                    <label>🔵 Blue Channel</label>
+                    <select class="band-select" id="blueBand" onchange="updateComposite()">
+                        <option value="B2">Band 2 (Visible Blue)</option>
+                        <option value="B3">Band 3 (Visible Green)</option>
+                        <option value="B4">Band 4 (Visible Red)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label style="font-weight: 700; font-size: 0.8rem;">Common Combinations:</label>
+                    <div class="preset-grid">
+                        <button class="btn-preset" onclick="setPreset('4,3,2')">True Color (4,3,2)</button>
+                        <button class="btn-preset" onclick="setPreset('5,4,3')">Color Infrared (5,4,3)</button>
+                        <button class="btn-preset" onclick="setPreset('6,5,4')">Agriculture (6,5,4)</button>
+                        <button class="btn-preset" onclick="setPreset('7,6,4')">Urban (7,6,4)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="composite-info" id="compositeDesc">
+            <strong>Active Composite: True Color (4,3,2)</strong><br>
+            This combination uses the visible bands. It looks like what the human eye would see from space. Forests are green, water is blue-black, and cities are grey.
+        </div>
+
+        <section class="card" style="margin-top: 3rem;">
+            <h3>Why Use False Color?</h3>
+            <p>Different surfaces reflect light in non-visible wavelengths. For example, in a <strong>Color Infrared (5,4,3)</strong> composite:</p>
+            <ul>
+                <li><strong>Vegetation</strong> appears bright red because plants reflect NIR light (Band 5) extremely strongly.</li>
+                <li><strong>Water</strong> appears almost black because it absorbs NIR light.</li>
+                <li><strong>Urban Areas</strong> look cyan or grey.</li>
+            </ul>
+            <p>This allows researchers to detect drought, unhealthy crops, or illegal logging much faster than with standard photos.</p>
+        </section>
+    </main>
+
+    <script>
+        function updateComposite() {
+            const r = document.getElementById('redBand').value;
+            const g = document.getElementById('greenBand').value;
+            const b = document.getElementById('blueBand').value;
+            const desc = document.getElementById('compositeDesc');
+            const images = document.querySelectorAll('.preview-image');
+            
+            // Hide all
+            images.forEach(img => img.style.opacity = 0);
+
+            if (r === 'B4' && g === 'B3' && b === 'B2') {
+                document.getElementById('img-true').style.opacity = 1;
+                desc.innerHTML = "<strong>Active Composite: True Color (4,3,2)</strong><br>Standard visible light. Highlights what our eyes would see. Good for general orientation.";
+            } else if (r === 'B5' && g === 'B4' && b === 'B3') {
+                document.getElementById('img-false').style.opacity = 1;
+                desc.innerHTML = "<strong>Active Composite: Color Infrared (5,4,3)</strong><br>Vegetation is bright RED. Deep red means healthy forest; lighter pink means crops or sparse grass. Excellent for vegetation monitoring.";
+            } else if (r === 'B6' && g === 'B5' && b === 'B4') {
+                document.getElementById('img-swir').style.opacity = 1;
+                desc.innerHTML = "<strong>Active Composite: Agriculture (6,5,4)</strong><br>Utilizing Shortwave Infrared. Healthier vegetation appears in shades of green. Useful for distinguishing crop types and monitoring moisture.";
+            } else {
+                // Random combination fallback
+                document.getElementById('img-true').style.opacity = 0.3;
+                document.getElementById('img-false').style.opacity = 0.3;
+                desc.innerHTML = "<strong>Custom Combination</strong><br>You are experimenting with a non-standard combination. Notice how the colors shift based on the spectral reflectance of each band.";
+            }
+        }
+
+        function setPreset(triple) {
+            const [r, g, b] = triple.split(',');
+            document.getElementById('redBand').value = 'B' + r;
+            document.getElementById('greenBand').value = 'B' + g;
+            document.getElementById('blueBand').value = 'B' + b;
+            updateComposite();
+        }
+    </script>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. Brand-neutral Open Educational Resource.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

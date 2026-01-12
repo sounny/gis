@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 03: Geodesy, Projections & Coordinate Systems | GIS & RS Textbook</title>
+    <meta name="description" content="Understanding how we represent the curved Earth on flat maps. Explore projections, datums, and coordinate systems through interactive simulations.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        .projection-demo {
+            background: #fff;
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            margin: 3rem 0;
+        }
+
+        .projection-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .projection-btn {
+            padding: 1rem 1.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: var(--radius-md);
+            background: #f8fafc;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+
+        .projection-btn:hover {
+            border-color: var(--primary);
+            background: #f0f9ff;
+        }
+
+        .projection-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .projection-btn .emoji {
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        #map-container {
+            height: 400px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 2px solid #e2e8f0;
+            margin-bottom: 1.5rem;
+        }
+
+        .distortion-legend {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: #f8fafc;
+            border-radius: var(--radius-md);
+        }
+
+        .distortion-item {
+            text-align: center;
+        }
+
+        .distortion-item .indicator {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 0 auto 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+
+        .distortion-item.area .indicator {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .distortion-item.shape .indicator {
+            background: #fce7f3;
+            color: #be185d;
+        }
+
+        .distortion-item.distance .indicator {
+            background: #d1fae5;
+            color: #047857;
+        }
+
+        .distortion-item.direction .indicator {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .size-comparison {
+            background: #fff;
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            margin: 3rem 0;
+        }
+
+        .country-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .country-card {
+            padding: 1.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: var(--radius-md);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .country-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .country-card.selected {
+            border-color: var(--primary);
+            background: #f0f9ff;
+        }
+
+        .country-card .flag {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .size-bar {
+            height: 60px;
+            background: var(--bg-main);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+        }
+
+        .size-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 1rem;
+            color: white;
+            font-weight: 700;
+            min-width: 80px;
+        }
+
+        .info-panel {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--callout-info-bg);
+            border-radius: var(--radius-md);
+            border-left: 5px solid var(--callout-info-border);
+        }
+
+        .case-study {
+            background: linear-gradient(135deg, #fdf4ff 0%, #f5f3ff 100%);
+            padding: 2rem;
+            border-radius: var(--radius-md);
+            margin: 2rem 0;
+            border-left: 5px solid #8b5cf6;
+        }
+
+        .case-study h4 {
+            color: #6d28d9;
+            margin-bottom: 1rem;
+        }
+
+        .reading-box {
+            background: #f0fdf4;
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            border-left: 5px solid #22c55e;
+            margin: 2rem 0;
+        }
+
+        .reading-box h4 {
+            color: #15803d;
+            margin-bottom: 0.5rem;
+        }
+
+        .key-concept {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: #fff;
+            border-radius: var(--radius-md);
+            border: 1px solid #e2e8f0;
+            margin: 1.5rem 0;
+        }
+
+        .concept-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .lab-section {
+            background: #fffbeb;
+            padding: 2rem;
+            border-radius: var(--radius-md);
+            border: 2px dashed #f59e0b;
+            margin: 3rem 0;
+        }
+
+        .lab-section h3 {
+            color: #92400e;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="hero">
+        <div class="container">
+            <nav style="margin-bottom: 1rem;">
+                <a href="../index-dev.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">← Back to Modules</a>
+            </nav>
+            <h1>Module 03: Geodesy, Projections & Coordinate Systems</h1>
+            <p>Transforming the curved Earth to flat maps — and the trade-offs that come with it.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <!-- Introduction -->
+        <section class="card">
+            <h2>🌍 The Fundamental Challenge</h2>
+            <p>The Earth is approximately spherical — yet every map you've ever used is flat. This seemingly simple transformation introduces <strong>distortions</strong> that affect how we perceive area, shape, distance, and direction.</p>
+            <p style="margin-top: 1rem;">In this module, you'll learn how <strong>geodesy</strong> (the science of measuring Earth) and <strong>map projections</strong> work together to solve this ancient problem — and why every projection is a compromise.</p>
+        </section>
+
+        <!-- Key Concepts Grid -->
+        <h2>📐 Core Concepts</h2>
+        
+        <div class="key-concept">
+            <div class="concept-icon">🌐</div>
+            <div>
+                <h4>Geodesy</h4>
+                <p>The science of accurately measuring and representing the Earth's shape, gravitational field, and rotation. Modern geodesy relies on satellites, GPS, and precise mathematical models.</p>
+            </div>
+        </div>
+
+        <div class="key-concept">
+            <div class="concept-icon">📍</div>
+            <div>
+                <h4>Datum</h4>
+                <p>A mathematical model of the Earth used as a reference for coordinates. Common datums include <strong>WGS84</strong> (used by GPS), <strong>NAD83</strong> (North America), and <strong>NAVD88</strong> (vertical datum).</p>
+            </div>
+        </div>
+
+        <div class="key-concept">
+            <div class="concept-icon">🗺️</div>
+            <div>
+                <h4>Map Projection</h4>
+                <p>A systematic transformation of the Earth's 3D surface onto a 2D plane. Every projection preserves some properties (area, shape, distance, direction) while distorting others.</p>
+            </div>
+        </div>
+
+        <div class="key-concept">
+            <div class="concept-icon">📏</div>
+            <div>
+                <h4>Coordinate System</h4>
+                <p><strong>Geographic</strong> coordinates use latitude/longitude on a sphere. <strong>Projected</strong> coordinates (like UTM or State Plane) use X/Y on a flat surface with units in meters or feet.</p>
+            </div>
+        </div>
+
+        <!-- Interactive: Projection Explorer -->
+        <h2>🔬 Interactive: Projection Distortion Explorer</h2>
+        <p>Compare how different projection families distort the Earth. Each projection preserves certain properties while sacrificing others.</p>
+
+        <div class="projection-demo">
+            <div class="projection-selector">
+                <button class="projection-btn active" onclick="selectProjection('mercator', this)">
+                    <span class="emoji">🧭</span>
+                    Mercator (Conformal)
+                </button>
+                <button class="projection-btn" onclick="selectProjection('equalarea', this)">
+                    <span class="emoji">⚖️</span>
+                    Equal-Area (Mollweide)
+                </button>
+                <button class="projection-btn" onclick="selectProjection('equidistant', this)">
+                    <span class="emoji">📏</span>
+                    Equidistant (Azimuthal)
+                </button>
+                <button class="projection-btn" onclick="selectProjection('compromise', this)">
+                    <span class="emoji">🤝</span>
+                    Robinson (Compromise)
+                </button>
+            </div>
+
+            <div id="map-container"></div>
+
+            <div class="distortion-legend">
+                <div class="distortion-item area">
+                    <div class="indicator" id="area-score">A</div>
+                    <div style="font-weight: 600;">Area</div>
+                    <div id="area-status" style="font-size: 0.875rem; color: var(--text-muted);">Distorted</div>
+                </div>
+                <div class="distortion-item shape">
+                    <div class="indicator" id="shape-score">S</div>
+                    <div style="font-weight: 600;">Shape</div>
+                    <div id="shape-status" style="font-size: 0.875rem; color: var(--text-muted);">Preserved</div>
+                </div>
+                <div class="distortion-item distance">
+                    <div class="indicator" id="distance-score">D</div>
+                    <div style="font-weight: 600;">Distance</div>
+                    <div id="distance-status" style="font-size: 0.875rem; color: var(--text-muted);">Varies</div>
+                </div>
+                <div class="distortion-item direction">
+                    <div class="indicator" id="direction-score">Dr</div>
+                    <div style="font-weight: 600;">Direction</div>
+                    <div id="direction-status" style="font-size: 0.875rem; color: var(--text-muted);">Preserved</div>
+                </div>
+            </div>
+
+            <div class="info-panel" id="projection-info">
+                <strong>📍 Mercator Projection (1569):</strong> Designed for navigation, this projection preserves <em>angles and local shape</em> (conformal), making it ideal for nautical charts. However, it dramatically exaggerates areas near the poles — Greenland appears as large as Africa, though it's actually 14x smaller.
+            </div>
+        </div>
+
+        <!-- Interactive: True Size Comparison -->
+        <h2>⚖️ Interactive: The True Size of Countries</h2>
+        <p>Most of us grew up with Mercator-projection maps. Click on countries to compare their <strong>apparent size</strong> (on Mercator) vs. their <strong>true area</strong>.</p>
+
+        <div class="size-comparison">
+            <div class="country-grid">
+                <div class="country-card selected" onclick="selectCountry('greenland', this)">
+                    <span class="flag">🇬🇱</span>
+                    <div style="font-weight: 600;">Greenland</div>
+                </div>
+                <div class="country-card" onclick="selectCountry('africa', this)">
+                    <span class="flag">🌍</span>
+                    <div style="font-weight: 600;">Africa</div>
+                </div>
+                <div class="country-card" onclick="selectCountry('alaska', this)">
+                    <span class="flag">🏔️</span>
+                    <div style="font-weight: 600;">Alaska</div>
+                </div>
+                <div class="country-card" onclick="selectCountry('texas', this)">
+                    <span class="flag">⛤</span>
+                    <div style="font-weight: 600;">Texas</div>
+                </div>
+                <div class="country-card" onclick="selectCountry('russia', this)">
+                    <span class="flag">🇷🇺</span>
+                    <div style="font-weight: 600;">Russia</div>
+                </div>
+                <div class="country-card" onclick="selectCountry('brazil', this)">
+                    <span class="flag">🇧🇷</span>
+                    <div style="font-weight: 600;">Brazil</div>
+                </div>
+            </div>
+
+            <h4 id="comparison-title">Greenland vs. Africa</h4>
+            <div class="size-bar">
+                <div class="size-fill" id="size-fill" style="width: 7%;">7%</div>
+            </div>
+            <p id="comparison-text">Greenland's <strong>true area</strong> is only about 7% of Africa's size — yet on a Mercator map, they appear roughly equal. Africa could fit the US, China, India, and most of Europe inside it!</p>
+        </div>
+
+        <!-- Case Study -->
+        <div class="case-study">
+            <h4>📖 Case Study from History: Eratosthenes Measures the Earth (240 BCE)</h4>
+            <p>Over 2,200 years ago, the Greek mathematician <strong>Eratosthenes</strong> calculated Earth's circumference with remarkable accuracy using just a stick, a well, and the shadow of the sun.</p>
+            <p style="margin-top: 1rem;">He observed that at noon on the summer solstice, the sun shone directly into a well in Syene (modern Aswan, Egypt), while in Alexandria, a vertical stick cast a shadow. By measuring the shadow's angle (~7.2°) and knowing the distance between the cities (~5,000 stadia), he estimated the Earth's circumference to within 2% of its actual value.</p>
+            <p style="margin-top: 1rem;"><strong>Why this matters:</strong> This ancient technique demonstrates the core of geodesy — using geometric principles to understand our planet's shape.</p>
+        </div>
+
+        <!-- Lab Assignment -->
+        <div class="lab-section">
+            <h3>🔬 Lab Assignment: Alaska vs. Texas — Does Projection Matter?</h3>
+            <p style="margin-top: 1rem;">In this lab, you will:</p>
+            <ol style="margin: 1rem 0 1rem 1.5rem;">
+                <li>Load the US States boundary layer in ArcGIS Pro</li>
+                <li>Compare the <strong>apparent size</strong> of Alaska and Texas in Web Mercator</li>
+                <li>Reproject both states to an <strong>Albers Equal-Area Conic</strong> projection</li>
+                <li>Calculate the true area of each state using the <code>Calculate Geometry</code> tool</li>
+                <li>Answer: How many times larger is Alaska than Texas <em>really</em>?</li>
+            </ol>
+            <p><strong>Deliverable:</strong> Submit a map layout showing both projections side-by-side with calculated areas.</p>
+            <a href="#" class="btn btn-primary" style="margin-top: 1rem;">Download Lab Data →</a>
+        </div>
+
+        <!-- Readings -->
+        <div class="reading-box">
+            <h4>📚 Required Readings</h4>
+            <ul style="margin: 1rem 0 0 1.5rem;">
+                <li><strong>ESRI</strong> - <em>Understanding Map Projections</em> (PDF)</li>
+                <li><strong>Dana (1994)</strong> - Coordinate Systems Overview</li>
+                <li><strong>Web Tool</strong> - <a href="https://thetruesize.com" target="_blank">TheTrueSize.com</a> (Interactive Mercator comparison)</li>
+            </ul>
+        </div>
+
+        <!-- Assessment -->
+        <section class="card">
+            <h3>✅ Module Quiz: Projections & Coordinate Systems</h3>
+            <p>Test your understanding of datums, projections, and coordinate systems.</p>
+            <ul style="margin: 1rem 0 1rem 1.5rem;">
+                <li>What is the difference between a datum and a projection?</li>
+                <li>Why does the Mercator projection distort area near the poles?</li>
+                <li>Which projection would you use for a thematic map of Africa? Why?</li>
+            </ul>
+            <a href="#" class="btn btn-primary">Begin Quiz →</a>
+        </section>
+
+        <!-- Navigation -->
+        <section style="display: flex; justify-content: space-between; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e2e8f0;">
+            <a href="module-02-band-combiner.html" class="btn" style="background: #f1f5f9; color: var(--text-main);">← Module 02: Map Design</a>
+            <a href="#" class="btn btn-primary">Module 04: GPS & Positioning →</a>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. Brand-neutral Open Educational Resource.</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Initialize Map
+        let map = L.map('map-container').setView([20, 0], 1);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; CartoDB',
+            noWrap: true
+        }).addTo(map);
+
+        // Projection data
+        const projections = {
+            mercator: {
+                name: "Mercator",
+                area: "Distorted",
+                shape: "Preserved",
+                distance: "Varies",
+                direction: "Preserved",
+                info: "<strong>📍 Mercator Projection (1569):</strong> Designed for navigation, this projection preserves <em>angles and local shape</em> (conformal), making it ideal for nautical charts. However, it dramatically exaggerates areas near the poles — Greenland appears as large as Africa, though it's actually 14x smaller."
+            },
+            equalarea: {
+                name: "Equal-Area (Mollweide)",
+                area: "Preserved",
+                shape: "Distorted",
+                distance: "Distorted",
+                direction: "Distorted",
+                info: "<strong>⚖️ Mollweide Equal-Area:</strong> Areas are accurately represented, making this ideal for thematic maps comparing regions (population density, resource distribution). However, shapes become increasingly distorted toward the edges."
+            },
+            equidistant: {
+                name: "Azimuthal Equidistant",
+                area: "Distorted",
+                shape: "Distorted",
+                distance: "Preserved (from center)",
+                direction: "Preserved (from center)",
+                info: "<strong>📏 Azimuthal Equidistant:</strong> Distances from the center point are accurate in all directions. Used by the UN flag and for flight planning. Great for showing distances from a specific city or military installations."
+            },
+            compromise: {
+                name: "Robinson",
+                area: "Moderate distortion",
+                shape: "Moderate distortion",
+                distance: "Moderate distortion",
+                direction: "Moderate distortion",
+                info: "<strong>🤝 Robinson (Compromise):</strong> Created in 1963, this projection doesn't preserve any property perfectly but provides a visually balanced representation of the world. Popular for classroom wall maps and atlases."
+            }
+        };
+
+        function selectProjection(type, btn) {
+            // Update button states
+            document.querySelectorAll('.projection-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Update distortion indicators
+            const proj = projections[type];
+            document.getElementById('area-status').textContent = proj.area;
+            document.getElementById('shape-status').textContent = proj.shape;
+            document.getElementById('distance-status').textContent = proj.distance;
+            document.getElementById('direction-status').textContent = proj.direction;
+            document.getElementById('projection-info').innerHTML = proj.info;
+        }
+
+        // Country size comparison
+        const countries = {
+            greenland: { name: "Greenland", area: 2.166, flag: "🇬🇱" },
+            africa: { name: "Africa", area: 30.37, flag: "🌍" },
+            alaska: { name: "Alaska", area: 1.717, flag: "🏔️" },
+            texas: { name: "Texas", area: 0.696, flag: "⛤" },
+            russia: { name: "Russia", area: 17.1, flag: "🇷🇺" },
+            brazil: { name: "Brazil", area: 8.516, flag: "🇧🇷" }
+        };
+
+        let selectedCountry = 'greenland';
+        const referenceCountry = 'africa';
+
+        function selectCountry(country, card) {
+            selectedCountry = country;
+            document.querySelectorAll('.country-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            updateComparison();
+        }
+
+        function updateComparison() {
+            const sel = countries[selectedCountry];
+            const ref = countries[referenceCountry];
+            
+            const percentage = Math.round((sel.area / ref.area) * 100);
+            const displayPct = Math.min(percentage, 100);
+            
+            document.getElementById('comparison-title').textContent = `${sel.name} vs. ${ref.name}`;
+            document.getElementById('size-fill').style.width = displayPct + '%';
+            document.getElementById('size-fill').textContent = percentage + '%';
+
+            let compText = '';
+            if (sel.name === 'Greenland') {
+                compText = `${sel.name}'s <strong>true area</strong> is only about ${percentage}% of ${ref.name}'s size — yet on a Mercator map, they appear roughly equal. ${ref.name} could fit the US, China, India, and most of Europe inside it!`;
+            } else if (sel.name === 'Alaska') {
+                compText = `${sel.name}'s true area is ${percentage}% of ${ref.name}. Alaska is about 2.5 times larger than Texas, though Mercator makes it look even bigger.`;
+            } else if (sel.name === 'Russia') {
+                compText = `${sel.name} is ${percentage}% of ${ref.name}'s size. Despite looking enormous on Mercator maps, Russia is actually smaller than ${ref.name} by about 13 million km².`;
+            } else {
+                compText = `${sel.name}'s true area is approximately ${percentage}% of ${ref.name}'s ${ref.area.toFixed(1)} million km².`;
+            }
+            document.getElementById('comparison-text').innerHTML = compText;
+        }
+    </script>
+
+</body>
+</html>
