@@ -85,13 +85,8 @@
       }
 
       .objective-card {
-        background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.05) 0%,
-          rgba(255, 255, 255, 0.02) 100%
-        );
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 16px;
         padding: 1.5rem;
         transition: all 0.3s ease;
@@ -99,8 +94,9 @@
 
       .objective-card:hover {
         transform: translateY(-5px);
-        border-color: rgba(74, 144, 164, 0.5);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        border-color: var(--accent);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        background: #fff;
       }
 
       .objective-icon {
@@ -113,16 +109,17 @@
         justify-content: center;
         font-size: 1.5rem;
         margin-bottom: 1rem;
+        box-shadow: 0 4px 6px rgba(74, 144, 164, 0.2);
       }
 
       .objective-card h3 {
-        color: #fff;
+        color: #1e293b;
         font-size: 1.1rem;
         margin-bottom: 0.5rem;
       }
 
       .objective-card p {
-        color: rgba(255, 255, 255, 0.7);
+        color: #475569;
         font-size: 0.95rem;
         line-height: 1.6;
       }
@@ -216,14 +213,14 @@
         border: none;
       }
 
-      .module-preview {
+      .part-preview {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         gap: 1rem;
         margin: 2rem 0;
       }
 
-      .module-item {
+      .part-item {
         background: var(--card-bg);
         border: 1px solid var(--card-border);
         border-radius: 12px;
@@ -232,12 +229,12 @@
         transition: all 0.3s ease;
       }
 
-      .module-item:hover {
+      .part-item:hover {
         border-color: var(--accent);
         transform: translateY(-3px);
       }
 
-      .module-number {
+      .part-number {
         font-size: 2rem;
         font-weight: 800;
         background: linear-gradient(135deg, #4a90a4, #50c878);
@@ -246,7 +243,7 @@
         background-clip: text;
       }
 
-      .module-title {
+      .part-title {
         font-size: 0.9rem;
         color: var(--text-secondary);
         margin-top: 0.5rem;
@@ -319,7 +316,7 @@
         </p>
 
         <p>
-          Our journey is divided into modules, each one a milestone on the path
+          Our journey is divided into chapters, each one a milestone on the path
           to mastering GIS. Think of this book as a curated selection of
           essential GIS concepts and techniques—a comprehensive survey that covers
           everything from <strong>Spatial Analysis</strong> and
@@ -410,26 +407,26 @@
           foundational concepts to advanced applications:
         </p>
 
-        <div class="module-preview">
-          <div class="module-item">
-            <div class="module-number">I</div>
-            <div class="module-title">Foundations of GIS & Spatial Data</div>
+        <div class="part-preview">
+          <div class="part-item">
+            <div class="part-number">I</div>
+            <div class="part-title">Foundations of GIS & Spatial Data</div>
           </div>
-          <div class="module-item">
-            <div class="module-number">II</div>
-            <div class="module-title">Data Creation & Management</div>
+          <div class="part-item">
+            <div class="part-number">II</div>
+            <div class="part-title">Data Creation & Management</div>
           </div>
-          <div class="module-item">
-            <div class="module-number">III</div>
-            <div class="module-title">Remote Sensing & Earth Observation</div>
+          <div class="part-item">
+            <div class="part-number">III</div>
+            <div class="part-title">Remote Sensing & Earth Observation</div>
           </div>
-          <div class="module-item">
-            <div class="module-number">IV</div>
-            <div class="module-title">Spatial Analysis & Modeling</div>
+          <div class="part-item">
+            <div class="part-number">IV</div>
+            <div class="part-title">Spatial Analysis & Modeling</div>
           </div>
-          <div class="module-item">
-            <div class="module-number">V</div>
-            <div class="module-title">Applied GIS & Capstone</div>
+          <div class="part-item">
+            <div class="part-number">V</div>
+            <div class="part-title">Applied GIS and Research</div>
           </div>
         </div>
 
@@ -450,7 +447,7 @@
 
         <h3>ArcGIS Pro Setup</h3>
         <p>
-          ArcGIS Pro is the industry-leading desktop GIS software from Esri.
+          ArcGIS Pro is the industry-leading desktop GIS software from <a href="https://www.esri.com" target="_blank">Esri</a>.
           You'll use this for most of your hands-on exercises involving vector
           analysis, cartography, and spatial modeling.
         </p>
@@ -493,6 +490,8 @@
         <ul style="margin-top: 0.5rem; margin-bottom: 1rem; padding-left: 1.5rem; list-style-type: disc; color: var(--text-secondary);">
           <li><strong>ArcGIS Online:</strong> For creating interactive web maps, StoryMaps, and dashboard visualizations.</li>
           <li><strong>Kepler.gl / Unfolded:</strong> For high-performance visualization of large spatial datasets.</li>
+          <li><strong>Google My Maps:</strong> Simple custom map creation for introductory projects.</li>
+          <li><strong><a href="https://sounny.github.io" target="_blank">Sounny.github.io</a>:</strong> Collection of online GIS tools and demos.</li>
         </ul>
       </section>
 
