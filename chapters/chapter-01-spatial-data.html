@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 01: What is Spatial Data? | GIS Digital Textbook</title>
+    <meta name="description" content="Introduction to the two fundamental models of geographic data: Vector and Raster.">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <header class="hero">
+        <div class="container">
+            <nav style="margin-bottom: 1rem;">
+                <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Chapters</a>
+            </nav>
+            <h1>Chapter 01: What is Spatial Data?</h1>
+            <p>The digital world is built on two primary ways of representing geography: Points, lines, and polygons (Vector) or grids of pixels (Raster).</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="card">
+            <h2>Two Ways to View the World</h2>
+            <p>Geographic Information Systems (GIS) rely on digital representations of the real world. While reality is infinitely complex, we simplify it into two data models:</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
+                <div style="padding: 1.5rem; border: 1px solid #e2e8f0; border-radius: 8px;">
+                    <h3>📍 Vector Data</h3>
+                    <p>Discrete objects defined by coordinates.</p>
+                    <ul>
+                        <li><strong>Points:</strong> Trees, hydrants, poles.</li>
+                        <li><strong>Lines:</strong> Roads, rivers, pipelines.</li>
+                        <li><strong>Polygons:</strong> Parcels, lakes, counties.</li>
+                    </ul>
+                    <div style="margin-top: 1rem; padding: 1rem; background: #f8fafc; font-size: 0.9rem;">
+                        <em>Best for:</em> Human-made features with clear boundaries.
+                    </div>
+                </div>
+
+                <div style="padding: 1.5rem; border: 1px solid #e2e8f0; border-radius: 8px;">
+                    <h3>▦ Raster Data</h3>
+                    <p>Continuous grids of values (pixels).</p>
+                    <ul>
+                        <li><strong>Imagery:</strong> Satellite photos, aerial drone maps.</li>
+                        <li><strong>Elevation:</strong> Digital Elevation Models (DEMs).</li>
+                        <li><strong>Temperature:</strong> Interpolated surface heat maps.</li>
+                    </ul>
+                    <div style="margin-top: 1rem; padding: 1rem; background: #f8fafc; font-size: 0.9rem;">
+                        <em>Best for:</em> Continuous phenomena without hard edges.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>The "Sandwich" Model of GIS</h2>
+            <p>
+                A GIS project is often visualized as a "sandwich" of layers. The bottom layer might be a <strong>raster</strong> base map (satellite imagery), overlaid with <strong>vector</strong> layers like roads (lines) and landmarks (points).
+            </p>
+            <div class="callout info">
+                <strong>Key Takeaway:</strong> Vector data is scalable and precise, while raster data is rich in detail but file-size heavy. Knowing when to use each is the first skill of a GIS analyst.
+            </div>
+        </section>
+        
+        <div class="next-steps" style="margin-top: 3rem; text-align: center;">
+            <a href="chapter-02-map-design.html" class="btn">Next: Chapter 02 - Map Elements & Design →</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
