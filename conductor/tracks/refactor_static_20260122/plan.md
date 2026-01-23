@@ -9,9 +9,9 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Structure & Cleanup' (Protocol in workflow.md)
 
 ## Phase 2: Relative Pathing & Linking
-- [~] Task: Update CSS References
-    - [ ] Audit `css/style.css` for absolute or broken URLs.
-    - [ ] Update to relative paths.
+- [x] Task: Update CSS References <!-- 5f35c33 -->
+    - [x] Audit `css/style.css` for absolute or broken URLs.
+    - [x] Update to relative paths.
 - [ ] Task: Update HTML Internal Links
     - [ ] Audit `index.html` and `chapters/*.html`.
     - [ ] Replace `$IMS-CC-FILEBASE$` and similar placeholders with relative paths to `assets/`.
