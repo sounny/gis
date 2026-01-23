@@ -1,1 +1,8 @@
-# Project Tracks`n`nThis file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.`n`n---`n`n- [ ] **Track: Refactor codebase for static deployment**`n  *Link: [./tracks/refactor_static_20260122/](./tracks/refactor_static_20260122/)*
+# Project Tracks
+
+This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
+
+---
+
+- [~] **Track: Refactor codebase for static deployment**
+  *Link: [./tracks/refactor_static_20260122/](./tracks/refactor_static_20260122/)*
