@@ -3,9 +3,9 @@
 ## Phase 1: Structure & Cleanup
 - [x] Task: Remove LMS Manifests <!-- 462ecd7 -->
     - [x] Identify and delete `imsmanifest.xml`.
-- [ ] Task: Standardize Asset Directories
-    - [ ] Ensure `assets/img/` contains all textbook images.
-    - [ ] Move any remaining media from `references/uf_canvas_extract/` to `assets/`.
+- [x] Task: Standardize Asset Directories <!-- 3c33403 -->
+    - [x] Ensure `assets/img/` contains all textbook images.
+    - [x] Move any remaining media from `references/uf_canvas_extract/` to `assets/`.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Structure & Cleanup' (Protocol in workflow.md)
 
 ## Phase 2: Relative Pathing & Linking
