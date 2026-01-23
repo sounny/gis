@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedagogical Component Library</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+    <style>
+        body { padding: 4rem; background: #f0f0f0; }
+        .component-demo { margin-bottom: 4rem; background: white; padding: 2rem; border-radius: 12px; }
+        .code-block { background: #1e1e1e; color: #dcdcdc; padding: 1rem; border-radius: 6px; overflow-x: auto; font-family: monospace; margin-top: 1rem; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Pedagogical Component Library</h1>
+        <p>Copy-paste these snippets to implement the "Gold Standard" features in chapters.</p>
+
+        <!-- 1. Local to Global Sidebar -->
+        <div class="component-demo">
+            <h2>1. Local to Global Sidebar</h2>
+            <div class="sidebar-local-global">
+                <h3>🇨🇱 Texas Connection</h3>
+                <p>
+                    While we discuss global sea level rise, notice how this affects the <strong>Texas Gulf Coast</strong>. 
+                    The Texas General Land Office (GLO) monitors erosion rates on Galveston Island that exceed the global average.
+                </p>
+                <a href="#" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem;">Explore Texas Data</a>
+            </div>
+
+            <div class="code-block">
+&lt;div class="sidebar-local-global"&gt;
+  &lt;h3&gt;🇨🇱 Texas Connection&lt;/h3&gt;
+  &lt;p&gt;
+    [Content connecting global concept to Texas example...]
+  &lt;/p&gt;
+&lt;/div&gt;
+            </div>
+        </div>
+
+        <!-- 2. Bio Box -->
+        <div class="component-demo">
+            <h2>2. Important Person Highlight</h2>
+            <div class="box-bio">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Roger_Tomlinson.jpg" alt="Roger Tomlinson">
+                <div>
+                    <h3>Roger Tomlinson</h3>
+                    <span class="bio-dates">(1933–2014)</span>
+                    <p>
+                        Known as the "Father of GIS," Tomlinson initiated, planned, and directed the development of the 
+                        Canada Geographic Information System (CGIS), the first computerized GIS in the world, in the 1960s.
+                    </p>
+                </div>
+            </div>
+
+            <div class="code-block">
+&lt;div class="box-bio"&gt;
+  &lt;img src="[IMAGE_URL]" alt="[NAME]"&gt;
+  &lt;div&gt;
+      &lt;h3&gt;[NAME]&lt;/h3&gt;
+      &lt;span class="bio-dates"&gt;([BIRTH]–[DEATH])&lt;/span&gt;
+      &lt;p&gt;[BIO DESCRIPTION]&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+            </div>
+        </div>
+
+        <!-- 3. Glossary -->
+        <div class="component-demo">
+            <h2>3. Glossary Terms & Section</h2>
+            <p>
+                GIS relies on <a href="#" class="term" data-tooltip="Information about location, such as coordinates or addresses.">Spatial Data</a> 
+                to function.
+            </p>
+
+            <div class="section-glossary">
+                <h2>📚 Chapter Glossary</h2>
+                <div class="glossary-list">
+                    <div class="glossary-item">
+                        <span class="glossary-term">Spatial Data</span>
+                        <span class="glossary-def">Information about the location and shape of geographic features and the relationships between them.</span>
+                    </div>
+                    <div class="glossary-item">
+                        <span class="glossary-term">Topology</span>
+                        <span class="glossary-def">The spatial relationships between connecting or adjacent vector features (e.g., adjacency, connectivity).</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="code-block">
+&lt;!-- Inline Tooltip --&gt;
+&lt;a href="#" class="term" data-tooltip="[DEFINITION]"&gt;[TERM]&lt;/a&gt;
+
+&lt;!-- End of Chapter Section --&gt;
+&lt;div class="section-glossary"&gt;
+  &lt;h2&gt;📚 Chapter Glossary&lt;/h2&gt;
+  &lt;div class="glossary-list"&gt;
+    &lt;div class="glossary-item"&gt;
+      &lt;span class="glossary-term"&gt;[TERM]&lt;/span&gt;
+      &lt;span class="glossary-def"&gt;[DEFINITION]&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+            </div>
+        </div>
+
+        <!-- 4. Regional Decision -->
+        <div class="component-demo">
+            <h2>4. Regional Decision Activity</h2>
+            <div class="activity-decision">
+                <span class="activity-icon">⚖️</span>
+                <h3>Scenario: The Austin Highway Expansion</h3>
+                <p>
+                    <strong>The Context:</strong> TxDOT proposes widening I-35 through downtown Austin. 
+                    <br><strong>The Data:</strong> You have layers for Traffic Volume, Historic Neighborhoods, and Air Quality.
+                </p>
+                <div style="background: white; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+                    <strong>Decision Point:</strong> As the GIS Analyst for the city, which route do you recommend?
+                    <ul style="margin-top:0.5rem; margin-left: 1.5rem;">
+                        <li>Option A: Displace 50 businesses but improve flow by 40%.</li>
+                        <li>Option B: Tunnel underneath (Cost: 10x higher) but preserve surface level.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="code-block">
+&lt;div class="activity-decision"&gt;
+  &lt;span class="activity-icon"&gt;⚖️&lt;/span&gt;
+  &lt;h3&gt;Scenario: [TITLE]&lt;/h3&gt;
+  &lt;p&gt;
+      &lt;strong&gt;The Context:&lt;/strong&gt; [DESC]
+  &lt;/p&gt;
+  &lt;div style="background: white; padding: 1rem; border-radius: 8px; margin-top: 1rem;"&gt;
+      &lt;strong&gt;Decision Point:&lt;/strong&gt; [QUESTION]
+  &lt;/div&gt;
+&lt;/div&gt;
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
