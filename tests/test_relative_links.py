@@ -19,21 +19,21 @@ class TestLinks(unittest.TestCase):
                                 self.fail(f"Found placeholder {p} in {path}")
 
     def test_no_absolute_paths(self):
-        # Regex for src="/..." or href="/..."
+        # Regex for src="/..." or href="/..." or url("/...")
         # But allow http://, https://, //
-        regex = re.compile(r'(src|href)=["\']/(?!(/))')
+        regex = re.compile(r'(src|href|url)\s*([=:(])\s*["\']?/(?!(/))')
         
         for root, dirs, files in os.walk('.'):
             if 'conductor' in root or '.git' in root or 'tests' in root or 'scripts' in root or 'references' in root:
                 continue
             for file in files:
-                if file.endswith('.html'):
+                if file.endswith('.html') or file.endswith('.css'):
                     path = os.path.join(root, file)
                     with open(path, 'r', encoding='utf-8', errors='ignore') as f:
                         content = f.read()
                         matches = regex.findall(content)
                         if matches:
-                            self.fail(f"Found absolute path in {path}")
+                            self.fail(f"Found absolute path in {path}: {matches}")
 
 if __name__ == '__main__':
     unittest.main()
