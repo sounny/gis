@@ -53,8 +53,36 @@
 
 
 
-- [ ] Task: Cross-browser Smoke Test
+- [x] Task: Cross-browser Smoke Test
 
-    - [ ] Open site in Chrome and Firefox to verify static rendering.
+
+
+
+
+
+
+
+
+    - [x] Open site in Chrome and Firefox to verify static rendering.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Final Integration' (Protocol in workflow.md)
