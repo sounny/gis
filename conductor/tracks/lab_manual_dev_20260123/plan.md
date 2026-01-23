@@ -1,6 +1,6 @@
 # Implementation Plan: Lab Manual Development
 
-## Phase 1: Architecture & Templates [checkpoint: 5e31bd0]
+## Phase 1: Architecture & Templates [checkpoint: a3df5c4]
 - [x] **Task: Design Lab Layout** <!-- 5e31bd0 -->
     - [x] Create `labs/css/lab.css` with styles for the Tabbed Interface (Blue/Green/Orange themes).
     - [x] Create `labs/js/lab-switcher.js` to handle platform toggling.
