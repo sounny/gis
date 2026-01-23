@@ -201,6 +201,12 @@
             margin-bottom: 0.5rem;
         }
 
+        .reading-box ul {
+            margin: 1rem 0 0 1.5rem;
+        }
+
+        .reading-box li {
+            margin-bottom: 0.5rem;
         .key-concept {
             display: grid;
             grid-template-columns: 60px 1fr;
@@ -299,257 +305,302 @@
         <h2>🔬 Interactive: Projection Distortion Explorer</h2>
         <p>Compare how different projection families distort the Earth. Each projection preserves certain properties while sacrificing others.</p>
 
-        <div class="projection-demo">
-            <div class="projection-selector">
-                <button class="projection-btn active" onclick="selectProjection('mercator', this)">
-                    <span class="emoji">🧭</span>
-                    Mercator (Conformal)
-                </button>
-                <button class="projection-btn" onclick="selectProjection('equalarea', this)">
-                    <span class="emoji">⚖️</span>
-                    Equal-Area (Mollweide)
-                </button>
-                <button class="projection-btn" onclick="selectProjection('equidistant', this)">
-                    <span class="emoji">📏</span>
-                    Equidistant (Azimuthal)
-                </button>
-                <button class="projection-btn" onclick="selectProjection('compromise', this)">
-                    <span class="emoji">🤝</span>
-                    Robinson (Compromise)
-                </button>
-            </div>
-
-            <div id="map-container"></div>
-
-            <div class="distortion-legend">
-                <div class="distortion-item area">
-                    <div class="indicator" id="area-score">A</div>
-                    <div style="font-weight: 600;">Area</div>
-                    <div id="area-status" style="font-size: 0.875rem; color: var(--text-muted);">Distorted</div>
-                </div>
-                <div class="distortion-item shape">
-                    <div class="indicator" id="shape-score">S</div>
-                    <div style="font-weight: 600;">Shape</div>
-                    <div id="shape-status" style="font-size: 0.875rem; color: var(--text-muted);">Preserved</div>
-                </div>
-                <div class="distortion-item distance">
-                    <div class="indicator" id="distance-score">D</div>
-                    <div style="font-weight: 600;">Distance</div>
-                    <div id="distance-status" style="font-size: 0.875rem; color: var(--text-muted);">Varies</div>
-                </div>
-                <div class="distortion-item direction">
-                    <div class="indicator" id="direction-score">Dr</div>
-                    <div style="font-weight: 600;">Direction</div>
-                    <div id="direction-status" style="font-size: 0.875rem; color: var(--text-muted);">Preserved</div>
-                </div>
-            </div>
-
-            <div class="info-panel" id="projection-info">
-                <strong>📍 Mercator Projection (1569):</strong> Designed for navigation, this projection preserves <em>angles and local shape</em> (conformal), making it ideal for nautical charts. However, it dramatically exaggerates areas near the poles — Greenland appears as large as Africa, though it's actually 14x smaller.
-            </div>
-        </div>
-
-        <!-- Interactive: True Size Comparison -->
-        <h2>⚖️ Interactive: The True Size of Countries</h2>
-        <p>Most of us grew up with Mercator-projection maps. Click on countries to compare their <strong>apparent size</strong> (on Mercator) vs. their <strong>true area</strong>.</p>
-
-        <div class="size-comparison">
-            <div class="country-grid">
-                <div class="country-card selected" onclick="selectCountry('greenland', this)">
-                    <span class="flag">🇬🇱</span>
-                    <div style="font-weight: 600;">Greenland</div>
-                </div>
-                <div class="country-card" onclick="selectCountry('africa', this)">
-                    <span class="flag">🌍</span>
-                    <div style="font-weight: 600;">Africa</div>
-                </div>
-                <div class="country-card" onclick="selectCountry('alaska', this)">
-                    <span class="flag">🏔️</span>
-                    <div style="font-weight: 600;">Alaska</div>
-                </div>
-                <div class="country-card" onclick="selectCountry('texas', this)">
-                    <span class="flag">⛤</span>
-                    <div style="font-weight: 600;">Texas</div>
-                </div>
-                <div class="country-card" onclick="selectCountry('russia', this)">
-                    <span class="flag">🇷🇺</span>
-                    <div style="font-weight: 600;">Russia</div>
-                </div>
-                <div class="country-card" onclick="selectCountry('brazil', this)">
-                    <span class="flag">🇧🇷</span>
-                    <div style="font-weight: 600;">Brazil</div>
-                </div>
-            </div>
-
-            <h4 id="comparison-title">Greenland vs. Africa</h4>
-            <div class="size-bar">
-                <div class="size-fill" id="size-fill" style="width: 7%;">7%</div>
-            </div>
-            <p id="comparison-text">Greenland's <strong>true area</strong> is only about 7% of Africa's size — yet on a Mercator map, they appear roughly equal. Africa could fit the US, China, India, and most of Europe inside it!</p>
-        </div>
-
-        <!-- Case Study -->
-        <div class="case-study">
-            <h4>📖 Case Study from History: Eratosthenes Measures the Earth (240 BCE)</h4>
-            <p>Over 2,200 years ago, the Greek mathematician <strong>Eratosthenes</strong> calculated Earth's circumference with remarkable accuracy using just a stick, a well, and the shadow of the sun.</p>
-            <p style="margin-top: 1rem;">He observed that at noon on the summer solstice, the sun shone directly into a well in Syene (modern Aswan, Egypt), while in Alexandria, a vertical stick cast a shadow. By measuring the shadow's angle (~7.2°) and knowing the distance between the cities (~5,000 stadia), he estimated the Earth's circumference to within 2% of its actual value.</p>
-            <p style="margin-top: 1rem;"><strong>Why this matters:</strong> This ancient technique demonstrates the core of geodesy — using geometric principles to understand our planet's shape.</p>
-        </div>
-
-        <!-- Lab Assignment -->
-        <div class="lab-section">
-            <h3>🔬 Lab Assignment: Alaska vs. Texas — Does Projection Matter?</h3>
-            <p style="margin-top: 1rem;">In this lab, you will:</p>
-            <ol style="margin: 1rem 0 1rem 1.5rem;">
-                <li>Load the US States boundary layer in ArcGIS Pro</li>
-                <li>Compare the <strong>apparent size</strong> of Alaska and Texas in Web Mercator</li>
-                <li>Reproject both states to an <strong>Albers Equal-Area Conic</strong> projection</li>
-                <li>Calculate the true area of each state using the <code>Calculate Geometry</code> tool</li>
-                <li>Answer: How many times larger is Alaska than Texas <em>really</em>?</li>
-            </ol>
-            <p><strong>Deliverable:</strong> Submit a map layout showing both projections side-by-side with calculated areas.</p>
-            <a href="#" class="btn btn-primary" style="margin-top: 1rem;">Download Lab Data →</a>
-        </div>
-
-        <!-- Readings -->
-        <div class="reading-box">
-            <h4>📚 Required Readings</h4>
-            <ul style="margin: 1rem 0 0 1.5rem;">
-                <li><strong>ESRI</strong> - <em>Understanding Map Projections</em> (PDF)</li>
-                <li><strong>Dana (1994)</strong> - Coordinate Systems Overview</li>
-                <li><strong>Web Tool</strong> - <a href="https://thetruesize.com" target="_blank">TheTrueSize.com</a> (Interactive Mercator comparison)</li>
-            </ul>
-        </div>
-
-        <!-- Assessment -->
-        <section class="card">
-            <h3>✅ Chapter Quiz: Projections & Coordinate Systems</h3>
-            <p>Test your understanding of datums, projections, and coordinate systems.</p>
-            <ul style="margin: 1rem 0 1rem 1.5rem;">
-                <li>What is the difference between a datum and a projection?</li>
-                <li>Why does the Mercator projection distort area near the poles?</li>
-                <li>Which projection would you use for a thematic map of Africa? Why?</li>
-            </ul>
-            <a href="#" class="btn btn-primary">Begin Quiz →</a>
-        </section>
-
-        <!-- Navigation -->
-        <section style="display: flex; justify-content: space-between; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e2e8f0;">
-            <a href="module-02-band-combiner.html" class="btn" style="background: #f1f5f9; color: var(--text-main);">← Chapter 02: Map Design</a>
-            <a href="#" class="btn btn-primary">Chapter 04: GPS & Positioning →</a>
-        </section>
-
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. Brand-neutral Open Educational Resource.</p>
-        </div>
-    </footer>
-
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script>
-        // Initialize Map
-        let map = L.map('map-container').setView([20, 0], 1);
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; CartoDB',
-            noWrap: true
-        }).addTo(map);
-
-        // Projection data
-        const projections = {
-            mercator: {
-                name: "Mercator",
-                area: "Distorted",
-                shape: "Preserved",
-                distance: "Varies",
-                direction: "Preserved",
-                info: "<strong>📍 Mercator Projection (1569):</strong> Designed for navigation, this projection preserves <em>angles and local shape</em> (conformal), making it ideal for nautical charts. However, it dramatically exaggerates areas near the poles — Greenland appears as large as Africa, though it's actually 14x smaller."
-            },
-            equalarea: {
-                name: "Equal-Area (Mollweide)",
-                area: "Preserved",
-                shape: "Distorted",
-                distance: "Distorted",
-                direction: "Distorted",
-                info: "<strong>⚖️ Mollweide Equal-Area:</strong> Areas are accurately represented, making this ideal for thematic maps comparing regions (population density, resource distribution). However, shapes become increasingly distorted toward the edges."
-            },
-            equidistant: {
-                name: "Azimuthal Equidistant",
-                area: "Distorted",
-                shape: "Distorted",
-                distance: "Preserved (from center)",
-                direction: "Preserved (from center)",
-                info: "<strong>📏 Azimuthal Equidistant:</strong> Distances from the center point are accurate in all directions. Used by the UN flag and for flight planning. Great for showing distances from a specific city or military installations."
-            },
-            compromise: {
-                name: "Robinson",
-                area: "Moderate distortion",
-                shape: "Moderate distortion",
-                distance: "Moderate distortion",
-                direction: "Moderate distortion",
-                info: "<strong>🤝 Robinson (Compromise):</strong> Created in 1963, this projection doesn't preserve any property perfectly but provides a visually balanced representation of the world. Popular for classroom wall maps and atlases."
+        <style>
+            .tools {
+                text-align: center;
+                margin-bottom: 1rem;
             }
-        };
 
-        function selectProjection(type, btn) {
-            // Update button states
-            document.querySelectorAll('.projection-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            // Update distortion indicators
-            const proj = projections[type];
-            document.getElementById('area-status').textContent = proj.area;
-            document.getElementById('shape-status').textContent = proj.shape;
-            document.getElementById('distance-status').textContent = proj.distance;
-            document.getElementById('direction-status').textContent = proj.direction;
-            document.getElementById('projection-info').innerHTML = proj.info;
-        }
-
-        // Country size comparison
-        const countries = {
-            greenland: { name: "Greenland", area: 2.166, flag: "🇬🇱" },
-            africa: { name: "Africa", area: 30.37, flag: "🌍" },
-            alaska: { name: "Alaska", area: 1.717, flag: "🏔️" },
-            texas: { name: "Texas", area: 0.696, flag: "⛤" },
-            russia: { name: "Russia", area: 17.1, flag: "🇷🇺" },
-            brazil: { name: "Brazil", area: 8.516, flag: "🇧🇷" }
-        };
-
-        let selectedCountry = 'greenland';
-        const referenceCountry = 'africa';
-
-        function selectCountry(country, card) {
-            selectedCountry = country;
-            document.querySelectorAll('.country-card').forEach(c => c.classList.remove('selected'));
-            card.classList.add('selected');
-            updateComparison();
-        }
-
-        function updateComparison() {
-            const sel = countries[selectedCountry];
-            const ref = countries[referenceCountry];
-            
-            const percentage = Math.round((sel.area / ref.area) * 100);
-            const displayPct = Math.min(percentage, 100);
-            
-            document.getElementById('comparison-title').textContent = `${sel.name} vs. ${ref.name}`;
-            document.getElementById('size-fill').style.width = displayPct + '%';
-            document.getElementById('size-fill').textContent = percentage + '%';
-
-            let compText = '';
-            if (sel.name === 'Greenland') {
-                compText = `${sel.name}'s <strong>true area</strong> is only about ${percentage}% of ${ref.name}'s size — yet on a Mercator map, they appear roughly equal. ${ref.name} could fit the US, China, India, and most of Europe inside it!`;
-            } else if (sel.name === 'Alaska') {
-                compText = `${sel.name}'s true area is ${percentage}% of ${ref.name}. Alaska is about 2.5 times larger than Texas, though Mercator makes it look even bigger.`;
-            } else if (sel.name === 'Russia') {
-                compText = `${sel.name} is ${percentage}% of ${ref.name}'s size. Despite looking enormous on Mercator maps, Russia is actually smaller than ${ref.name} by about 13 million km².`;
-            } else {
-                compText = `${sel.name}'s true area is approximately ${percentage}% of ${ref.name}'s ${ref.area.toFixed(1)} million km².`;
+            .tools select, .tools input {
+                font-size: 1.1em;
+                padding: 0.5em 1em;
+                border: 1px solid #cbd5e1;
+                border-radius: 6px;
+                background: #f8fafc;
+                cursor: pointer;
             }
-            document.getElementById('comparison-text').innerHTML = compText;
-        }
-    </script>
 
+            .tools select:hover, .tools input:hover {
+                border-color: var(--primary);
+            }
+
+            #chartdiv {
+                width: 100%;
+                height: 500px;
+                border: 2px solid #e2e8f0;
+                border-radius: 12px;
+                overflow: hidden;
+                background: #edf7fa;
+            }
+        </style>
+
+        <!-- Resources -->
+        <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+        <script src="https://cdn.amcharts.com/lib/5/map.js"></script>
+        <script src="https://cdn.amcharts.com/lib/5/geodata/worldLow.js"></script>
+        <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+        <script src="https://d3js.org/d3-array.v1.min.js"></script>
+        <script src="https://d3js.org/d3-geo.v1.min.js"></script>
+        <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+
+        <div class="projection-demo" style="background: transparent; box-shadow: none; padding: 0;">
+            <div class="tools">
+                <input id="selector-prev" type="button" value="&lt;" onclick="setIndex(-1);" disabled="disabled" />
+                <select id="selector" onchange="setProjection(this.options[this.selectedIndex].value);">
+                    <option value="geoAiry">d3.geoAiry()</option>
+                    <option value="geoAitoff">d3.geoAitoff()</option>
+                    <option value="geoArmadillo">d3.geoArmadillo()</option>
+                    <option value="geoAugust">d3.geoAugust()</option>
+                    <option value="geoAzimuthalEqualArea">d3.geoAzimuthalEqualArea()</option>
+                    <option value="geoAzimuthalEquidistant">d3.geoAzimuthalEquidistant()</option>
+                    <option value="geoBaker">d3.geoBaker()</option>
+                    <option value="geoBerghaus">d3.geoBerghaus()</option>
+                    <option value="geoBertin1953">d3.geoBertin1953()</option>
+                    <option value="geoBoggs">d3.geoBoggs()</option>
+                    <option value="geoBonne">d3.geoBonne()</option>
+                    <option value="geoBottomley">d3.geoBottomley()</option>
+                    <option value="geoBromley">d3.geoBromley()</option>
+                    <option value="geoChamberlinAfrica">d3.geoChamberlinAfrica()</option>
+                    <option value="geoCollignon">d3.geoCollignon()</option>
+                    <option value="geoConicConformal">d3.geoConicConformal()</option>
+                    <option value="geoConicEqualArea">d3.geoConicEqualArea()</option>
+                    <option value="geoConicEquidistant">d3.geoConicEquidistant()</option>
+                    <option value="geoCraig">d3.geoCraig()</option>
+                    <option value="geoCraster">d3.geoCraster()</option>
+                    <option value="geoCylindricalEqualArea">d3.geoCylindricalEqualArea()</option>
+                    <option value="geoCylindricalStereographic">d3.geoCylindricalStereographic()</option>
+                    <option value="geoEckert1">d3.geoEckert1()</option>
+                    <option value="geoEckert2">d3.geoEckert2()</option>
+                    <option value="geoEckert3">d3.geoEckert3()</option>
+                    <option value="geoEckert4">d3.geoEckert4()</option>
+                    <option value="geoEckert5">d3.geoEckert5()</option>
+                    <option value="geoEckert6">d3.geoEckert6()</option>
+                    <option value="geoEisenlohr">d3.geoEisenlohr()</option>
+                    <option value="geoEquirectangular">d3.geoEquirectangular()</option>
+                    <option value="geoFahey">d3.geoFahey()</option>
+                    <option value="geoFoucaut">d3.geoFoucaut()</option>
+                    <option value="geoFoucautSinusoidal">d3.geoFoucautSinusoidal()</option>
+                    <option value="geoGingery">d3.geoGingery()</option>
+                    <option value="geoGinzburg4">d3.geoGinzburg4()</option>
+                    <option value="geoGinzburg5">d3.geoGinzburg5()</option>
+                    <option value="geoGinzburg6">d3.geoGinzburg6()</option>
+                    <option value="geoGinzburg8">d3.geoGinzburg8()</option>
+                    <option value="geoGinzburg9">d3.geoGinzburg9()</option>
+                    <option value="geoGnomonic">d3.geoGnomonic()</option>
+                    <option value="geoGringorten">d3.geoGringorten()</option>
+                    <option value="geoGuyou">d3.geoGuyou()</option>
+                    <option value="geoHammer">d3.geoHammer()</option>
+                    <option value="geoHammerRetroazimuthal">d3.geoHammerRetroazimuthal()</option>
+                    <option value="geoHealpix">d3.geoHealpix()</option>
+                    <option value="geoHill">d3.geoHill()</option>
+                    <option value="geoHomolosine">d3.geoHomolosine()</option>
+                    <option value="geoHufnagel">d3.geoHufnagel()</option>
+                    <option value="geoHyperelliptical">d3.geoHyperelliptical()</option>
+                    <option value="geoKavrayskiy7">d3.geoKavrayskiy7()</option>
+                    <option value="geoLagrange">d3.geoLagrange()</option>
+                    <option value="geoLarrivee">d3.geoLarrivee()</option>
+                    <option value="geoLaskowski">d3.geoLaskowski()</option>
+                    <option value="geoLittrow">d3.geoLittrow()</option>
+                    <option value="geoLoximuthal">d3.geoLoximuthal()</option>
+                    <option value="geoMercator">d3.geoMercator()</option>
+                    <option value="geoMiller">d3.geoMiller()</option>
+                    <option value="geoModifiedStereographicAlaska">d3.geoModifiedStereographicAlaska()</option>
+                    <option value="geoModifiedStereographicGs48">d3.geoModifiedStereographicGs48()</option>
+                    <option value="geoModifiedStereographicGs50">d3.geoModifiedStereographicGs50()</option>
+                    <option value="geoModifiedStereographicMiller">d3.geoModifiedStereographicMiller()</option>
+                    <option value="geoModifiedStereographicLee">d3.geoModifiedStereographicLee()</option>
+                    <option value="geoMollweide">d3.geoMollweide()</option>
+                    <option value="geoMtFlatPolarParabolic">d3.geoMtFlatPolarParabolic()</option>
+                    <option value="geoMtFlatPolarQuartic">d3.geoMtFlatPolarQuartic()</option>
+                    <option value="geoMtFlatPolarSinusoidal">d3.geoMtFlatPolarSinusoidal()</option>
+                    <option value="geoNaturalEarth1">d3.geoNaturalEarth1()</option>
+                    <option value="geoNaturalEarth2">d3.geoNaturalEarth2()</option>
+                    <option value="geoNellHammer">d3.geoNellHammer()</option>
+                    <option value="geoNicolosi">d3.geoNicolosi()</option>
+                    <option value="geoOrthographic">d3.geoOrthographic()</option>
+                    <option value="geoPatterson">d3.geoPatterson()</option>
+                    <option value="geoPolyconic">d3.geoPolyconic()</option>
+                    <option value="geoRectangularPolyconic">d3.geoRectangularPolyconic()</option>
+                    <option value="geoRobinson">d3.geoRobinson()</option>
+                    <option value="geoSatellite">d3.geoSatellite()</option>
+                    <option value="geoSinusoidal">d3.geoSinusoidal()</option>
+                    <option value="geoSinuMollweide">d3.geoSinuMollweide()</option>
+                    <option value="geoStereographic">d3.geoStereographic()</option>
+                    <option value="geoTimes">d3.geoTimes()</option>
+                    <option value="geoTransverseMercator">d3.geoTransverseMercator()</option>
+                    <option value="geoTwoPointAzimuthalUsa">d3.geoTwoPointAzimuthalUsa()</option>
+                    <option value="geoTwoPointEquidistantUsa">d3.geoTwoPointEquidistantUsa()</option>
+                    <option value="geoVanDerGrinten">d3.geoVanDerGrinten()</option>
+                    <option value="geoVanDerGrinten2">d3.geoVanDerGrinten2()</option>
+                    <option value="geoVanDerGrinten3">d3.geoVanDerGrinten3()</option>
+                    <option value="geoVanDerGrinten4">d3.geoVanDerGrinten4()</option>
+                    <option value="geoWagner">d3.geoWagner()</option>
+                    <option value="geoWagner4">d3.geoWagner4()</option>
+                    <option value="geoWagner6">d3.geoWagner6()</option>
+                    <option value="geoWagner7">d3.geoWagner7()</option>
+                    <option value="geoWiechel">d3.geoWiechel()</option>
+                    <option value="geoWinkel3">d3.geoWinkel3()</option>
+                    <option value="geoInterruptedHomolosine">d3.geoInterruptedHomolosine()</option>
+                    <option value="geoInterruptedSinusoidal">d3.geoInterruptedSinusoidal()</option>
+                    <option value="geoInterruptedBoggs">d3.geoInterruptedBoggs()</option>
+                    <option value="geoInterruptedSinuMollweide">d3.geoInterruptedSinuMollweide()</option>
+                    <option value="geoInterruptedMollweide">d3.geoInterruptedMollweide()</option>
+                    <option value="geoInterruptedMollweideHemispheres">d3.geoInterruptedMollweideHemispheres()</option>
+                    <option value="geoPolyhedralButterfly">d3.geoPolyhedralButterfly()</option>
+                    <option value="geoPolyhedralCollignon">d3.geoPolyhedralCollignon()</option>
+                    <option value="geoPolyhedralWaterman">d3.geoPolyhedralWaterman()</option>
+                    <option value="geoGringortenQuincuncial">d3.geoGringortenQuincuncial()</option>
+                    <option value="geoPeirceQuincuncial">d3.geoPeirceQuincuncial()</option>
+                </select>
+                <input id="selector-next" type="button" value="&gt;" onclick="setIndex(1);" />
+            </div>
+            <div id="chartdiv"></div>
+            <p style="text-align: right; font-size: 0.8em; color: #666; margin-top: 5px;">
+                Visualization powered by <a href="https://www.amcharts.com/" target="_blank">amCharts</a> & D3
+            </p>
+        </div>
+
+        <script>
+            // AmCharts Projection Explorer
+            // Code adapted from https://www.amcharts.com/demos/map-using-d3-projections/
+            
+            let chart;
+
+            am5.ready(function() {
+
+            // Create root and chart
+            var root = am5.Root.new("chartdiv"); 
+            chart = root.container.children.push(
+              am5map.MapChart.new(root, {
+                panX: "rotateX",
+                panY: "translateY",
+                projection: am5map.geoNaturalEarth1()
+              })
+            );
+
+            // Set themes
+            root.setThemes([
+              am5themes_Animated.new(root)
+            ]);
+
+            // Create polygon series
+            var polygonSeries = chart.series.push(
+              am5map.MapPolygonSeries.new(root, {
+                geoJSON: am5geodata_worldLow
+              })
+            );
+
+            // Add Graticule
+            var graticuleSeries = chart.series.insertIndex(
+              0, am5map.GraticuleSeries.new(root, {})
+            );
+
+            graticuleSeries.mapLines.template.setAll({
+              stroke: am5.color(0x000000),
+              strokeOpacity: 0.1
+            });
+
+            // Add background (Ocean)
+            var backgroundSeries = chart.series.unshift(
+              am5map.MapPolygonSeries.new(root, {})
+            );
+
+            backgroundSeries.mapPolygons.template.setAll({
+              fill: am5.color(0xedf7fa),
+              stroke: am5.color(0xedf7fa),
+            });
+
+            backgroundSeries.data.push({
+              geometry: am5map.getGeoRectangle(90, 180, -90, -180)
+            });
+            
+            // Set initial projection
+            setProjection("geoMercator");
+            document.getElementById("selector").value = "geoMercator";
+
+            }); // end am5.ready()
+
+            // Global functions for HTML controls
+            window.setProjection = function(name) {
+              if(chart) {
+                  chart.set("projection", d3[name].call(this));
+              }
+              setButtonState();
+            }
+
+            window.setIndex = function(offset) {
+              var selector = document.getElementById("selector");
+              var index = selector.selectedIndex + offset;
+              if (index < 0) {
+                index = 0;
+              }
+              if (index > (selector.options.length - 1)) {
+                index = selector.options.length - 1;
+              }
+              selector.selectedIndex = index;
+              setProjection(selector.options[index].value);
+            }
+
+            window.setButtonState = function() {
+              var selector = document.getElementById("selector");
+              var index = selector.selectedIndex;
+              if (index == 0) {
+                document.getElementById("selector-prev").disabled = "disabled";
+                document.getElementById("selector-next").disabled = "";
+              }
+              else if (index >= (selector.options.length - 1)) {
+                document.getElementById("selector-prev").disabled = "";
+                document.getElementById("selector-next").disabled = "disabled";
+              }
+              else {
+                document.getElementById("selector-prev").disabled = "";
+                document.getElementById("selector-next").disabled = "";
+              }
+            }
+
+            // -- COUNTRY SIZE COMPARISON (Logic remains same) --
+            const countries = {
+                greenland: { name: "Greenland", area: 2.166, flag: "🇬🇱" },
+                africa: { name: "Africa", area: 30.37, flag: "🌍" },
+                alaska: { name: "Alaska", area: 1.717, flag: "🏔️" },
+                texas: { name: "Texas", area: 0.696, flag: "⛤" },
+                russia: { name: "Russia", area: 17.1, flag: "🇷🇺" },
+                brazil: { name: "Brazil", area: 8.516, flag: "🇧🇷" }
+            };
+
+            let selectedCountry = 'greenland';
+            const referenceCountry = 'africa';
+
+            window.selectCountry = function(country, card) {
+                selectedCountry = country;
+                document.querySelectorAll('.country-card').forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+                updateComparison();
+            }
+
+            function updateComparison() {
+                const sel = countries[selectedCountry];
+                const ref = countries[referenceCountry];
+                
+                const percentage = Math.round((sel.area / ref.area) * 100);
+                const displayPct = Math.min(percentage, 100);
+                
+                document.getElementById('comparison-title').textContent = `${sel.name} vs. ${ref.name}`;
+                document.getElementById('size-fill').style.width = displayPct + '%';
+                document.getElementById('size-fill').textContent = percentage + '%';
+
+                let compText = '';
+                if (sel.name === 'Greenland') {
+                    compText = `${sel.name}'s <strong>true area</strong> is only about ${percentage}% of ${ref.name}'s size — yet on a Mercator map, they appear roughly equal. ${ref.name} could fit the US, China, India, and most of Europe inside it!`;
+                } else if (sel.name === 'Alaska') {
+                    compText = `${sel.name}'s true area is ${percentage}% of ${ref.name}. Alaska is about 2.5 times larger than Texas, though Mercator makes it look even bigger.`;
+                } else if (sel.name === 'Russia') {
+                    compText = `${sel.name} is ${percentage}% of ${ref.name}'s size. Despite looking enormous on Mercator maps, Russia is actually smaller than ${ref.name} by about 13 million km².`;
+                } else {
+                    compText = `${sel.name}'s true area is approximately ${percentage}% of ${ref.name}'s ${ref.area.toFixed(1)} million km².`;
+                }
+                document.getElementById('comparison-text').innerHTML = compText;
+            }
+        </script>
 </body>
 </html>
