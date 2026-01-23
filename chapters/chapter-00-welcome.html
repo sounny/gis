@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chapter 0: Orientation & Introduction | GIS Digital Textbook</title>
+    <title>Chapter 00: Welcome to GIS | GIS Digital Textbook</title>
     <meta
       name="description"
       content="Welcome to the wonderful world of Geographic Information Systems. This orientation chapter introduces the book's structure, learning objectives, and your first steps into spatial thinking."
@@ -124,29 +124,77 @@
         line-height: 1.6;
       }
 
-      .quote-block {
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-        border-left: 4px solid #e94560;
-        padding: 2rem;
+      .course-map {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
         margin: 2rem 0;
-        border-radius: 0 16px 16px 0;
+        position: relative;
+      }
+      .course-map-item {
+        display: grid;
+        grid-template-columns: 80px 1fr;
+        gap: 1rem;
+        align-items: center;
+        background: #f1f5f9;
+        padding: 1rem;
+        border-radius: 12px;
+        border-left: 6px solid #cbd5e1;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        color: inherit;
+      }
+      .course-map-item:hover {
+        transform: translateX(10px);
+        background: #fff;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      }
+      .map-step {
+        font-weight: 800;
+        font-size: 1.25rem;
+        color: #64748b;
         text-align: center;
       }
+      .map-content h4 { margin: 0; color: #1e293b; }
+      .map-content p { margin: 0; font-size: 0.85rem; color: #64748b; }
+      
+      .map-part-i { border-color: #3b82f6; } /* Foundations */
+      .map-part-ii { border-color: #10b981; } /* Data */
+      .map-part-iii { border-color: #f59e0b; } /* RS */
+      .map-part-iv { border-color: #8b5cf6; } /* Analysis */
+      .map-part-v { border-color: #ec4899; } /* Applied */
+      .map-part-vi { border-color: #6366f1; } /* Research */
 
-      .quote-block blockquote {
-        font-size: 1.5rem;
-        font-style: italic;
-        color: #fff;
-        margin: 0;
-        line-height: 1.6;
+      .btn-quiz {
+        padding: 0.75rem 1rem;
+        background: white;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        cursor: pointer;
+        text-align: left;
+        transition: all 0.2s;
+        width: 100%;
+        margin-bottom: 0.5rem;
+      }
+      .btn-quiz:hover { border-color: #3b82f6; background: #eff6ff; }
+
+      .video-container {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+        border-radius: 16px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        margin: 2rem 0;
       }
 
-      .quote-block cite {
-        display: block;
-        margin-top: 1rem;
-        color: rgba(255, 255, 255, 0.6);
-        font-size: 1rem;
-        font-style: normal;
+      .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
       }
 
       .success-tips {
@@ -182,10 +230,6 @@
         border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       }
 
-      .success-tips li:last-child {
-        border-bottom: none;
-      }
-
       .success-tips li::before {
         content: "✓";
         position: absolute;
@@ -193,574 +237,179 @@
         color: #50c878;
         font-weight: bold;
       }
-
-      .video-container {
-        position: relative;
-        padding-bottom: 56.25%;
-        height: 0;
-        overflow: hidden;
-        border-radius: 16px;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-        margin: 2rem 0;
-      }
-
-      .video-container iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border: none;
-      }
-
-      .part-preview {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-        margin: 2rem 0;
-      }
-
-      .part-item {
-        background: var(--card-bg);
-        border: 1px solid var(--card-border);
-        border-radius: 12px;
-        padding: 1.25rem;
-        text-align: center;
-        transition: all 0.3s ease;
-      }
-
-      .part-item:hover {
-        border-color: var(--accent);
-        transform: translateY(-3px);
-      }
-
-      .part-number {
-        font-size: 2rem;
-        font-weight: 800;
-        background: linear-gradient(135deg, #4a90a4, #50c878);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-      }
-
-      .part-title {
-        font-size: 0.9rem;
-        color: var(--text-secondary);
-        margin-top: 0.5rem;
-      }
-
-      .next-steps {
-        background: linear-gradient(135deg, #e94560 0%, #ff6b6b 100%);
-        border-radius: 16px;
-        padding: 2rem;
-        text-align: center;
-        margin: 3rem 0 2rem;
-      }
-
-      .next-steps h3 {
-        color: white;
-        margin-bottom: 1rem;
-      }
-
-      .next-steps p {
-        color: rgba(255, 255, 255, 0.9);
-        margin-bottom: 1.5rem;
-      }
-
-      .next-steps .btn {
-        background: white;
-        color: #e94560;
-        padding: 1rem 2rem;
-        border-radius: 30px;
-        font-weight: 700;
-        text-decoration: none;
-        display: inline-block;
-        transition: all 0.3s ease;
-      }
-
-      .next-steps .btn:hover {
-        transform: scale(1.05);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      }
     </style>
   </head>
   <body>
     <header class="hero-chapter">
       <div class="container">
-        <span class="chapter-badge">Chapter 0</span>
+        <span class="chapter-badge">Chapter 00</span>
         <h1>Welcome to GIS</h1>
         <p class="subtitle">
-          Your gateway to a world where geography meets technology, where data
-          becomes insight, and where you can make your mark on the map of
-          knowledge. This book emphasizes <strong>spatial thinking</strong>, the
-          ability to analyze and interpret geographic information to solve real-world
-          problems.
+          Your gateway to a world where geography meets technology. This book emphasizes <strong>spatial thinking</strong> to solve real-world problems using the lens of Remote Sensing.
         </p>
       </div>
     </header>
 
     <main class="container">
       <nav style="margin: 2rem 0">
-        <a href="../index.html" style="color: var(--accent)"
-          >← Back to Textbook</a
-        >
+        <a href="../index.html" style="color: var(--accent)">← Back to Textbook</a>
       </nav>
 
       <section class="card">
-        <h2>🌍 The Digital Age of Exploration</h2>
-        <p>
-          Welcome to the wonderful world of Geographic Information Systems!
-          Whether you're a seasoned explorer or just setting foot on this
-          terrain, there's no need to worry about the jargon. Even academics
-          continue to debate the exact meaning of the 'S' in GIS.
-        </p>
-
-        <p>
-          Our journey is divided into chapters, each one a milestone on the path
-          to mastering GIS. Think of this book as a curated selection of
-          essential GIS concepts and techniques—a comprehensive survey that covers
-          everything from <strong>Spatial Analysis</strong> and
-          <strong>Cartography</strong> to
-          <strong>Remote Sensing</strong> and so much more.
-        </p>
-
-        <p>
-          The practical exercises in this book are grounded in real-world scenarios,
-          providing you with practical experience and a taste of GIS's impact.
-          The goal? To equip you with a robust understanding of GIS that serves
-          as a solid foundation for future specialization.
-        </p>
-
-        <div class="quote-block">
-          <blockquote>
-            "We are in the Digital Age of Exploration... go out and discover
-            something new!"
-          </blockquote>
+        <h2>What is GIS?</h2>
+        <p>Before we dive into the technical details, let's explore the fundamental question: What exactly is GIS? Is it just a tool for making maps, a rigorous science, or something more?</p>
+        <div class="video-container">
+          <iframe 
+            src="https://www.youtube.com/embed/XF9t-oQ1r0I" 
+            title="What is GIS? - The Tool, Science, and Art" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+          </iframe>
         </div>
       </section>
 
       <section class="card">
-        <h2>🎯 Learning Objectives</h2>
-        <p>By the end of this book, you will be able to:</p>
+        <h2>The GIS Learning Journey</h2>
+        <p>This textbook is designed as a progressive journey across six parts. Each module builds upon the previous one.</p>
+        
+        <div class="course-map">
+          <div class="course-map-item map-part-i">
+            <div class="map-step">I</div>
+            <div class="map-content">
+              <h4>Foundations</h4>
+              <p>Spatial thinking, map design, geodesy, and GNSS.</p>
+            </div>
+          </div>
+          <div class="course-map-item map-part-ii">
+            <div class="map-step">II</div>
+            <div class="map-content">
+              <h4>Data Creation</h4>
+              <p>Georeferencing, digitizing, and database management.</p>
+            </div>
+          </div>
+          <div class="course-map-item map-part-iii">
+            <div class="map-step">III</div>
+            <div class="map-content">
+              <h4>Remote Sensing</h4>
+              <p>Spectral analysis, imagery foundations, and LiDAR.</p>
+            </div>
+          </div>
+          <div class="course-map-item map-part-iv">
+            <div class="map-step">IV</div>
+            <div class="map-content">
+              <h4>Spatial Analysis</h4>
+              <p>Raster/Vector operations and complex spatial modeling.</p>
+            </div>
+          </div>
+          <div class="course-map-item map-part-v">
+            <div class="map-step">V</div>
+            <div class="map-content">
+              <h4>Applied GIS</h4>
+              <p>Field data collection, storytelling, and ethical AI.</p>
+            </div>
+          </div>
+          <div class="course-map-item map-part-vi">
+            <div class="map-step">VI</div>
+            <div class="map-content">
+              <h4>Research</h4>
+              <p>Advanced project management and research lifecycles.</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
+      <section class="card">
+        <h2>Spatial Thinking Pre-Check</h2>
+        <p>Test your natural spatial intuition before we begin.</p>
+        
+        <div id="quiz-container" style="background: #f8fafc; padding: 2rem; border-radius: 12px; margin-top: 1rem;">
+          <div id="quiz-question">
+            <strong>Question:</strong> Which of these is a better example of "Vector" data?
+          </div>
+          <div id="quiz-options" style="margin: 1rem 0;">
+            <button class="btn-quiz" onclick="checkAnswer(true)">A city boundary polygon</button>
+            <button class="btn-quiz" onclick="checkAnswer(false)">A satellite photo of the city</button>
+          </div>
+          <div id="quiz-feedback" style="display: none; padding: 1rem; border-radius: 8px; font-weight: 600;"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Learning Objectives</h2>
         <div class="objectives-grid">
           <div class="objective-card">
-            <div class="objective-icon">🗺️</div>
-            <h3>Understand Spatial Data</h3>
-            <p>
-              Distinguish between vector and raster data models and know when to
-              use each.
-            </p>
-          </div>
-
-          <div class="objective-card">
             <div class="objective-icon">🛰️</div>
-            <h3>Apply Remote Sensing</h3>
-            <p>
-              Analyze satellite imagery using spectral indices like NDVI for
-              environmental monitoring.
-            </p>
+            <h3>Master Remote Sensing</h3>
+            <p>Analyze satellite imagery to monitor environmental changes.</p>
           </div>
-
           <div class="objective-card">
             <div class="objective-icon">📊</div>
-            <h3>Perform Spatial Analysis</h3>
-            <p>
-              Use buffering, overlay, and interpolation to solve real-world
-              geographic problems.
-            </p>
+            <h3>Spatial Analysis</h3>
+            <p>Use buffering, overlay, and interpolation for problem solving.</p>
           </div>
-
           <div class="objective-card">
             <div class="objective-icon">🎨</div>
-            <h3>Create Professional Maps</h3>
-            <p>
-              Design cartographically sound maps that effectively communicate
-              spatial information.
-            </p>
-          </div>
-
-          <div class="objective-card">
-            <div class="objective-icon">📍</div>
-            <h3>Work with GPS</h3>
-            <p>
-              Understand positioning systems and apply coordinate
-              transformations.
-            </p>
-          </div>
-
-          <div class="objective-card">
-            <div class="objective-icon">💾</div>
-            <h3>Manage Geographic Data</h3>
-            <p>
-              Organize, query, and maintain spatial databases using
-              industry-standard tools.
-            </p>
+            <h3>Cartographic Design</h3>
+            <p>Create professional maps that communicate clearly.</p>
           </div>
         </div>
       </section>
 
       <section class="card">
-        <h2>📚 Book Structure</h2>
-        <p>
-          This textbook is organized into five major parts, taking you from
-          foundational concepts to advanced applications:
-        </p>
-
-        <div class="part-preview">
-          <div class="part-item">
-            <div class="part-number">I</div>
-            <div class="part-title">Foundations of GIS & Spatial Data</div>
-          </div>
-          <div class="part-item">
-            <div class="part-number">II</div>
-            <div class="part-title">Data Creation & Management</div>
-          </div>
-          <div class="part-item">
-            <div class="part-number">III</div>
-            <div class="part-title">Remote Sensing & Earth Observation</div>
-          </div>
-          <div class="part-item">
-            <div class="part-number">IV</div>
-            <div class="part-title">Spatial Analysis & Modeling</div>
-          </div>
-          <div class="part-item">
-            <div class="part-number">V</div>
-            <div class="part-title">Applied GIS and Research</div>
-          </div>
-        </div>
-
+        <h2>Software Toolkit</h2>
         <div class="callout info">
-          <strong>Dual-Platform Learning:</strong> This book uses both
-          <strong>ArcGIS Pro</strong> for industry-standard desktop GIS and
-          <strong>Google Earth Engine</strong> for cloud-based remote sensing
-          analysis.
+          <strong>Dual-Platform:</strong> We use <strong>ArcGIS Pro</strong> for desktop GIS and <strong>Google Earth Engine</strong> for cloud-based imagery analysis.
         </div>
-      </section>
-
-      <section class="card">
-        <h2>🚀 Getting Started with GIS Software</h2>
-
-        <div class="callout info">
-          <strong>Multi-Platform Learning:</strong> While this book uses <strong>ArcGIS Pro</strong> and <strong>Google Earth Engine</strong> as primary tools, we also explore open-source alternatives like <strong>QGIS</strong> and accessible <strong>Web GIS</strong> platforms.
-        </div>
-
-        <h3>ArcGIS Pro Setup</h3>
-        <p>
-          ArcGIS Pro is the industry-leading desktop GIS software from <a href="https://www.esri.com" target="_blank">Esri</a>.
-          You'll use this for most of your hands-on exercises involving vector
-          analysis, cartography, and spatial modeling.
-        </p>
-
-        <div class="callout warning">
-          <strong>System Requirements:</strong> ArcGIS Pro requires Windows
-          10/11 (64-bit). Mac users can use a virtual machine, Boot Camp, or
-          access through cloud-based solutions.
-        </div>
-
-        <h3>QGIS (Open Source Alternative)</h3>
-        <p>
-          <a href="https://qgis.org" target="_blank">QGIS</a> is a powerful, free, and open-source desktop GIS application. It runs on Windows, Mac, and Linux. While our primary exercises use ArcGIS Pro, QGIS is an excellent alternative for readers who:
-        </p>
-        <ul style="margin-top: 0.5rem; margin-bottom: 1rem; padding-left: 1.5rem; list-style-type: disc; color: var(--text-secondary);">
-          <li>Use Mac or Linux operating systems natively.</li>
-          <li>Want a completely free professional GIS suite.</li>
-          <li>Wish to develop skills in the open-source geospatial ecosystem.</li>
-        </ul>
-
-        <h3>Google Earth Engine (Cloud RS)</h3>
-        <p>
-          For remote sensing and large-scale imagery analysis, we'll use Google
-          Earth Engine—a cloud-based platform that provides access to petabytes
-          of satellite imagery and geospatial datasets.
-        </p>
-
-        <div class="callout success">
-          <strong>Free Access:</strong> Google Earth Engine is freely available
-          for research, education, and non-profit uses. Sign up at
-          <a href="https://earthengine.google.com/" target="_blank"
-            >earthengine.google.com</a
-          >.
-        </div>
-
-        <h3>Web GIS Platforms</h3>
-        <p>
-          Beyond desktop software, we will leverage modern Web GIS tools to share our work and perform lightweight analysis directly in the browser:
-        </p>
-        <ul style="margin-top: 0.5rem; margin-bottom: 1rem; padding-left: 1.5rem; list-style-type: disc; color: var(--text-secondary);">
-          <li><strong>ArcGIS Online:</strong> For creating interactive web maps, StoryMaps, and dashboard visualizations.</li>
-          <li><strong>Kepler.gl / Unfolded:</strong> For high-performance visualization of large spatial datasets.</li>
-          <li><strong>Google My Maps:</strong> Simple custom map creation for introductory projects.</li>
-          <li><strong><a href="https://sounny.github.io" target="_blank">Sounny.github.io</a>:</strong> Collection of online GIS tools and demos.</li>
-        </ul>
-
-        <h3>Setting up a Public ArcGIS Account</h3>
-        <p>
-          To access Esri's cloud-based tools without a paid license, you can create a free <strong>ArcGIS Public Account</strong>. This basic account allows you to:
-        </p>
-        <ul style="margin-top: 0.5rem; margin-bottom: 1rem; padding-left: 1.5rem; list-style-type: disc; color: var(--text-secondary);">
-          <li>Create, store, and manage maps, scenes, and apps.</li>
-          <li>Share your maps with others.</li>
-          <li>Access content shared by Esri and other GIS users.</li>
-        </ul>
-        <div class="callout success">
-            <strong>Action Item:</strong> Go to <a href="https://www.arcgis.com/sharing/rest/oauth2/signup?client_id=arcgisonline&redirect_uri=http://www.arcgis.com&response_type=token" target="_blank">ArcGIS.com</a> and sign up for a free Public Account to get started with Cloud GIS today.
-        </div>
+        <p>Ensure you have your ArcGIS Pro license activated and your Google Earth Engine account approved (signup at <a href="https://earthengine.google.com/">earthengine.google.com</a>).</p>
       </section>
 
       <section class="card">
         <div class="success-tips">
-          <h3>💡 Tips for Success</h3>
+          <h3>Tips for Success</h3>
           <ul>
-            <li>
-              <strong>Establish a regular reading and practice routine.</strong>
-              Consistency is key when learning complex spatial concepts and
-              software workflows.
-            </li>
-            <li>
-              <strong>Read through the material thoroughly.</strong> This
-              textbook contains numerous tips and "pro-tips" that can save you
-              hours of troubleshooting.
-            </li>
-            <li>
-              <strong>Engage with the GIS community.</strong> Join online forums
-              like GIS Stack Exchange or Esri Community to see how professionals
-              solve problems.
-            </li>
-            <li>
-              <strong>Don't skip the hands-on exercises.</strong> Theory is
-              important, but GIS is a craft that is best learned by doing.
-            </li>
-            <li>
-              <strong>Work through chapters incrementally.</strong> Each chapter
-              builds on the concepts introduced in the previous ones.
-            </li>
-            <li>
-              <strong>Back up your spatial data.</strong> GIS projects can be
-              complex; always keep backups of your work on a cloud service or
-              external drive.
-            </li>
+            <li><strong>Consistency:</strong> Establish a regular practice routine.</li>
+            <li><strong>Hands-on:</strong> Don't skip the labs; GIS is learned by doing.</li>
+            <li><strong>Backups:</strong> Cloud-save your spatial data frequently.</li>
           </ul>
         </div>
       </section>
 
-      <section class="card">
-        <h2>🔧 Technical Requirements</h2>
-
-        <table style="width: 100%; border-collapse: collapse; margin: 1rem 0">
-          <thead>
-            <tr style="background: rgba(255, 255, 255, 0.05)">
-              <th
-                scope="col"
-                style="
-                  text-align: left;
-                  padding: 1rem;
-                  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                "
-              >
-                Requirement
-              </th>
-              <th
-                scope="col"
-                style="
-                  text-align: left;
-                  padding: 1rem;
-                  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                "
-              >
-                Minimum
-              </th>
-              <th
-                scope="col"
-                style="
-                  text-align: left;
-                  padding: 1rem;
-                  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                "
-              >
-                Recommended
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td
-                style="
-                  padding: 1rem;
-                  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-                "
-              >
-                Operating System
-              </td>
-              <td
-                style="
-                  padding: 1rem;
-                  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-                "
-              >
-                Windows 10 (64-bit)
-              </td>
-              <td
-                style="
-                  padding: 1rem;
-                  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-                "
-              >
-                Windows 11 (64-bit)
-              </td>
-            </tr>
-            <tr>
-              <td
-                style="
-                  padding: 1rem;
-                  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-                "
-              >
-                RAM
-              </td>
-              <td
-                style="
-                  padding: 1rem;
-                  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-                "
-              >
-                8 GB
-              </td>
-              <td
-                style="
-                  padding: 1rem;
-                  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-                "
-              >
-                16 GB or more
-              </td>
-            </tr>
-            <tr>
-              <td
-                style="
-                  padding: 1rem;
-                  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-                "
-              >
-                Storage
-              </td>
-              <td
-                style="
-                  padding: 1rem;
-                  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-                "
-              >
-                10 GB free space
-              </td>
-              <td
-                style="
-                  padding: 1rem;
-                  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-                "
-              >
-                SSD with 50+ GB free
-              </td>
-            </tr>
-            <tr>
-              <td
-                style="
-                  padding: 1rem;
-                  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-                "
-              >
-                Graphics
-              </td>
-              <td
-                style="
-                  padding: 1rem;
-                  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-                "
-              >
-                DirectX 11 compatible
-              </td>
-              <td
-                style="
-                  padding: 1rem;
-                  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-                "
-              >
-                Dedicated GPU (4+ GB VRAM)
-              </td>
-            </tr>
-            <tr>
-              <td style="padding: 1rem">Internet</td>
-              <td style="padding: 1rem">Broadband connection</td>
-              <td style="padding: 1rem">High-speed for cloud processing</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section class="card">
-        <h2>📖 Glossary Preview</h2>
-        <p>Here are some key terms you'll encounter throughout this book:</p>
-
-        <dl style="margin: 1.5rem 0">
-          <dt style="font-weight: 700; color: var(--accent); margin-top: 1rem">
-            GIS (Geographic Information System)
-          </dt>
-          <dd style="margin-left: 1.5rem; color: var(--text-secondary)">
-            A system designed to capture, store, manipulate, analyze, manage,
-            and present spatial or geographic data.
-          </dd>
-
-          <dt style="font-weight: 700; color: var(--accent); margin-top: 1rem">
-            Remote Sensing
-          </dt>
-          <dd style="margin-left: 1.5rem; color: var(--text-secondary)">
-            The acquisition of information about an object or phenomenon without
-            making physical contact, typically using satellite or aerial
-            sensors.
-          </dd>
-
-          <dt style="font-weight: 700; color: var(--accent); margin-top: 1rem">
-            Vector Data
-          </dt>
-          <dd style="margin-left: 1.5rem; color: var(--text-secondary)">
-            Geographic data represented as points, lines, and polygons with
-            associated attributes.
-          </dd>
-
-          <dt style="font-weight: 700; color: var(--accent); margin-top: 1rem">
-            Raster Data
-          </dt>
-          <dd style="margin-left: 1.5rem; color: var(--text-secondary)">
-            Geographic data represented as a grid of cells (pixels), commonly
-            used for imagery and continuous phenomena.
-          </dd>
-
-          <dt style="font-weight: 700; color: var(--accent); margin-top: 1rem">
-            Spatial Analysis
-          </dt>
-          <dd style="margin-left: 1.5rem; color: var(--text-secondary)">
-            The process of examining the locations, attributes, and
-            relationships of features in spatial data through techniques such as
-            overlay and proximity analysis.
-          </dd>
-        </dl>
-      </section>
-
       <div class="next-steps">
         <h3>Ready to Begin?</h3>
-        <p>Start your GIS journey with Chapter 1: What is Spatial Data?</p>
-        <a href="chapter-01-orientation.html" class="btn"
-          >Continue to Chapter 1 →</a
-        >
+        <p>Start your GIS journey with Chapter 01: What is Spatial Data?</p>
+        <div class="chapter-nav">
+          <a href="../index.html" class="prev">
+            <div class="nav-label">Back</div>
+            <div class="nav-title">Textbook Home</div>
+          </a>
+          <a href="chapter-01-spatial-data.html" class="next">
+            <div class="nav-label">Next Chapter</div>
+            <div class="nav-title">Chapter 01: Spatial Data →</div>
+          </a>
+        </div>
       </div>
     </main>
 
     <footer>
       <div class="container">
         <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine</p>
-        <p style="margin-top: 0.5rem; font-size: 0.85rem; opacity: 0.7">
-          GIS Digital Textbook | Open Educational Resource
-        </p>
       </div>
     </footer>
+
+    <script>
+      function checkAnswer(isCorrect) {
+        const feedback = document.getElementById('quiz-feedback');
+        feedback.style.display = 'block';
+        if(isCorrect) {
+          feedback.style.background = '#dcfce7';
+          feedback.style.color = '#166534';
+          feedback.innerHTML = "Correct! Vector data uses discrete shapes like polygons to represent distinct boundaries.";
+        } else {
+          feedback.style.background = '#fee2e2';
+          feedback.style.color = '#991b1b';
+          feedback.innerHTML = "Not quite. A satellite photo is made of pixels (Raster). Vector data uses coordinates to define points, lines, or polygons.";
+        }
+      }
+    </script>
   </body>
 </html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 13: Raster Spatial Analysis | GIS Digital Textbook</title>
+    <meta name="description" content="Master the art of Map Algebra. Learn how to perform local, focal, zonal, and global operations on raster data to model the physical world.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ef4444;
+            --secondary: #64748b;
+            --accent: #f97316;
+            --success: #10b981;
+            --bg: #f8fafc;
+        }
+
+        .hero-chapter {
+            background: linear-gradient(135deg, #991b1b 0%, #ef4444 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-chapter::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .chapter-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 1100px) {
+            .layout-grid { grid-template-columns: 1fr; }
+        }
+
+        .sidebar-box {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary);
+        }
+        .sidebar-box.local { border-top-color: var(--success); }
+
+        .sidebar-box h3 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .bio-img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
+
+        .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        
+        /* Map Algebra Tool */
+        .algebra-container {
+            background: #1e293b;
+            padding: 2rem;
+            border-radius: 16px;
+            color: #fff;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .grid-flex {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .grid-box {
+            display: grid;
+            grid-template-columns: repeat(3, 40px);
+            gap: 4px;
+            background: #334155;
+            padding: 4px;
+            border-radius: 4px;
+        }
+
+        .cell {
+            width: 40px;
+            height: 40px;
+            background: #0f172a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .cell.result { background: var(--primary); }
+
+        /* Quiz Styles */
+        .quiz-container { background: #fef2f2; padding: 2rem; border-radius: 16px; margin-top: 3rem; }
+        .option { background: white; padding: 1rem; border-radius: 8px; border: 2px solid #e2e8f0; cursor: pointer; margin-bottom: 0.75rem; transition: 0.2s; color: #1e293b; }
+        .option:hover { border-color: var(--primary); }
+        .option.correct { border-color: var(--success); background: #ecfdf5; }
+        .option.wrong { border-color: var(--primary); background: #fff1f2; }
+    </style>
+</head>
+<body>
+
+    <header class="hero-chapter">
+        <div class="container">
+            <span class="chapter-badge">Chapter 13</span>
+            <h1>Raster Spatial Analysis</h1>
+            <p class="subtitle">Math with maps. Learn the foundations of Map Algebra and discover how to perform complex site selection and suitability modeling.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav style="margin: 2rem 0;">
+            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
+        </nav>
+
+        <div class="layout-grid">
+            <div class="content">
+                <section class="card">
+                    <h2>🧮 What is Map Algebra?</h2>
+                    <p>Because raster data is essentially a matrix of numbers, we can perform mathematical operations on maps. This framework, developed by <strong>Dana Tomlin</strong>, treats geographic layers as variables in an equation.</p>
+                    
+                    <div class="callout" style="background: #fef2f2; border-left: 5px solid #ef4444; color: #7f1d1d; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                        <strong>🔑 The Equation:</strong> Input Layer + Function = Output Layer.
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>The Four Scopes</h2>
+                    <p>Raster operations are categorized by how many cells they "look at" to calculate an answer:</p>
+                    <ul style="line-height: 2; margin-top: 1rem;">
+                        <li><strong>Local:</strong> Uses only the cell at the same location (Cell-by-cell).</li>
+                        <li><strong>Focal:</strong> Uses a neighborhood of cells (e.g., 3x3 window).</li>
+                        <li><strong>Zonal:</strong> Uses all cells within a specific region or "zone."</li>
+                        <li><strong>Global:</strong> Considers every cell in the entire map.</li>
+                    </ul>
+                </section>
+
+                <section class="algebra-container">
+                    <h3>Interactive: Local Algebra (Add)</h3>
+                    <p style="color: #94a3b8; font-size: 0.8rem;">Watch how [A] + [B] = [Result] for every pixel</p>
+                    <div class="grid-flex">
+                        <div>
+                            <div class="grid-box" id="gridA"></div>
+                            <small>Layer A</small>
+                        </div>
+                        <div style="font-size: 2rem;">+</div>
+                        <div>
+                            <div class="grid-box" id="gridB"></div>
+                            <small>Layer B</small>
+                        </div>
+                        <div style="font-size: 2rem;">=</div>
+                        <div>
+                            <div class="grid-box" id="gridRes"></div>
+                            <small>Result</small>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>Summary of Big Ideas</h2>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Reclassification</strong> allows us to simplify complex values into simple ranks (e.g., 1-10).</li>
+                        <li><strong>Weighted Overlay</strong> combines multiple factors with different levels of importance.</li>
+                        <li><strong>Euclidean Distance</strong> calculates the straight-line distance to the nearest source.</li>
+                        <li><strong>Surface Analysis</strong> (Slope, Aspect) is a focal operation derived from elevation data.</li>
+                    </ul>
+                </section>
+
+                <div class="quiz-container">
+                    <h2>Chapter 13 Checkpoint</h2>
+                    <div class="question">
+                        <p><strong>1. Which operation would you use to find the average elevation of every "County" polygon?</strong></p>
+                        <div class="option" onclick="this.classList.add('wrong')">Focal Statistics</div>
+                        <div class="option" onclick="this.classList.add('correct')">Zonal Statistics</div>
+                    </div>
+                    <div class="question">
+                        <p><strong>2. A "Slope" map is created by looking at a pixel and its eight immediate neighbors. This is a:</strong></p>
+                        <div class="option" onclick="this.classList.add('correct')">Focal Operation</div>
+                        <div class="option" onclick="this.classList.add('wrong')">Global Operation</div>
+                    </div>
+                </div>
+
+                <section class="card" style="margin-top: 3rem;">
+                    <h2>📚 Glossary</h2>
+                    <dl>
+                        <dt><strong>Map Algebra:</strong></dt>
+                        <dd>A mathematical language for raster analysis where layers are treated as numbers.</dd>
+                        
+                        <dt><strong>Neighborhood:</strong></dt>
+                        <dd>The set of cells surrounding a focal cell (often a 3x3 or 5x5 moving window).</dd>
+                        
+                        <dt><strong>Mask:</strong></dt>
+                        <dd>A raster layer used to define areas of interest (AOI) where analysis should be performed.</dd>
+                    </dl>
+                </section>
+            </div>
+
+            <aside class="sidebar">
+                <div class="sidebar-box bio">
+                    <h3>Important Person</h3>
+                    <img src="https://almanac.upenn.edu/uploads/images/tomlin-c-dana.jpg" alt="Dana Tomlin" class="bio-img">
+                    <p><strong>C. Dana Tomlin</strong></p>
+                    <p>A Professor at the University of Pennsylvania and Yale, Dana Tomlin is the pioneer who developed **Map Algebra**. In the 1980s, he created the GIS software "MAP" which introduced the local, focal, zonal, and global operations that are now standard in every GIS system on the planet.</p>
+                </div>
+
+                <div class="sidebar-box local">
+                    <h3>Local to Global</h3>
+                    <p><strong>Flood Analysis in Houston</strong></p>
+                    <p>In the wake of Hurricane Harvey, Houston engineers used raster analysis to model how water flows across the city. By performing **Focal Flow Direction** and **Zonal Accumulation** on high-resolution LiDAR data, they can identify the exact "Cost Paths" where water will collect in neighborhoods along Buffalo Bayou.</p>
+                    <p>This "math on maps" is the foundation for the billion-dollar flood mitigation projects protecting the Texas coast.</p>
+                </div>
+            </aside>
+        </div>
+
+        <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+          <a href="chapter-12-lidar.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 12: LiDAR</a>
+          <a href="chapter-14-vector-analysis.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 14: Vector Analysis &rarr;</a>
+        </div>
+    </main>
+
+    <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const a = [5,2,8, 1,3,4, 9,6,7];
+        const b = [1,4,2, 3,3,1, 0,2,5];
+        
+        function drawGrid(id, vals, isResult=false) {
+            const el = document.getElementById(id);
+            el.innerHTML = '';
+            vals.forEach(v => {
+                const cell = document.createElement('div');
+                cell.className = isResult ? 'cell result' : 'cell';
+                cell.textContent = v;
+                el.appendChild(cell);
+            });
+        }
+
+        drawGrid('gridA', a);
+        drawGrid('gridB', b);
+        drawGrid('gridRes', a.map((v, i) => v + b[i]), true);
+    </script>
+</body>
+</html>

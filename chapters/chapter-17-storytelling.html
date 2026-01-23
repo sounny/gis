@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 17: Storytelling with Maps | GIS Digital Textbook</title>
+    <meta name="description" content="Master the art of narrative cartography. Learn how to combine maps, multimedia, and scrollytelling to communicate complex geographic stories effectively.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ec4899;
+            --secondary: #64748b;
+            --accent: #f43f5e;
+            --success: #10b981;
+            --bg: #f8fafc;
+        }
+
+        .hero-chapter {
+            background: linear-gradient(135deg, #831843 0%, #ec4899 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-chapter::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(circle at 85% 15%, rgba(255,255,255,0.1) 0%, transparent 40%);
+        }
+
+        .chapter-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 1100px) {
+            .layout-grid { grid-template-columns: 1fr; }
+        }
+
+        .sidebar-box {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary);
+        }
+        .sidebar-box.local { border-top-color: var(--accent); }
+
+        .sidebar-box h3 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .bio-img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
+
+        .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        
+        /* Scrolly Demo */
+        .scrolly-demo {
+            height: 400px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: #1e293b;
+            color: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+
+        .scrolly-text-pane { padding: 2rem; overflow-y: auto; text-align: left; }
+        .scrolly-map-pane { background: #0f172a; position: relative; }
+        
+        .map-layer { position: absolute; inset: 0; opacity: 0; transition: 1s; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.5rem; text-transform: uppercase; }
+        .map-layer.active { opacity: 1; }
+
+        /* Quiz Styles */
+        .quiz-container { background: #fdf2f8; padding: 2rem; border-radius: 16px; margin-top: 3rem; }
+        .option { background: white; padding: 1rem; border-radius: 8px; border: 2px solid #e2e8f0; cursor: pointer; margin-bottom: 0.75rem; transition: 0.2s; color: #1e293b; }
+        .option:hover { border-color: var(--primary); }
+        .option.correct { border-color: var(--success); background: #ecfdf5; }
+        .option.wrong { border-color: var(--primary); background: #fff1f2; }
+    </style>
+</head>
+<body>
+
+    <header class="hero-chapter">
+        <div class="container">
+            <span class="chapter-badge">Chapter 17</span>
+            <h1>Storytelling with Maps</h1>
+            <p class="subtitle">Maps as narrative. Learn how to combine interactive cartography with multimedia to tell powerful, data-driven stories that inspire change.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav style="margin: 2rem 0;">
+            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
+        </nav>
+
+        <div class="layout-grid">
+            <div class="content">
+                <section class="card">
+                    <h2>📖 Narrative Cartography</h2>
+                    <p>Analysis is only half the battle. To be a successful GIS professional, you must be able to communicate your findings. <strong>Storytelling with Maps</strong> is the art of weaving geographic data into a compelling narrative arc—complete with a hook, a conflict, and a resolution.</p>
+                    
+                    <div class="callout" style="background: #fdf2f8; border-left: 5px solid #ec4899; color: #831843; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                        <strong>The "Scrollytelling" Format:</strong> This modern web technique allows the user's scroll position to trigger changes on the map, focusing their attention on exactly what the narrator is describing.
+                    </div>
+                </section>
+
+                <section class="scrolly-demo">
+                    <div class="scrolly-text-pane" onscroll="handleScroll(this)">
+                        <div style="height: 300px; padding-top: 50px;">
+                            <h3>Step 1: The Context</h3>
+                            <p style="color: #94a3b8;">Start by setting the scene. Where are we in the world?</p>
+                        </div>
+                        <div style="height: 300px; padding-top: 50px;">
+                            <h3>Step 2: The Data</h3>
+                            <p style="color: #94a3b8;">Layer on the evidence. What problem are we seeing?</p>
+                        </div>
+                        <div style="height: 300px; padding-top: 50px;">
+                            <h3>Step 3: The Call to Action</h3>
+                            <p style="color: #94a3b8;">What should the reader do next? How can we solve this?</p>
+                        </div>
+                    </div>
+                    <div class="scrolly-map-pane">
+                        <div class="map-layer active" id="layer1" style="background: url('https://images.unsplash.com/photo-1519791883288-dc8bd696e667?q=80&w=2070&auto=format&fit=crop'); background-size: cover;">Global View</div>
+                        <div class="map-layer" id="layer2" style="background: #be185d;">Local Heatmap</div>
+                        <div class="map-layer" id="layer3" style="background: #10b981;">Solution Plan</div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>Summary of Big Ideas</h2>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Driving Attention:</strong> Use bookmarks and pop-ups to guide the reader's eye.</li>
+                        <li><strong>Multimedia Integration:</strong> A map is better when supported by photos, videos, and scientific text.</li>
+                        <li><strong>Mobile-First Design:</strong> Ensure your StoryMap works on a phone as well as it does on a desktop.</li>
+                        <li><strong>Ethical Storytelling:</strong> Always cite your data sources and avoid "lying" with maps through manipulation of scales.</li>
+                    </ul>
+                </section>
+
+                <div class="quiz-container">
+                    <h2>Chapter 17 Checkpoint</h2>
+                    <div class="question">
+                        <p><strong>1. What is the primary advantage of a StoryMap over a traditional paper map?</strong></p>
+                        <div class="option" onclick="this.classList.add('correct')">It allows for an interactive, multimedia narrative experience.</div>
+                        <div class="option" onclick="this.classList.add('wrong')">It is easier to print out for a report.</div>
+                    </div>
+                    <div class="question">
+                        <p><strong>2. In "Scrollytelling", what triggers the changes in the map view?</strong></p>
+                        <div class="option" onclick="this.classList.add('wrong')">The user clicking a "Next" button.</div>
+                        <div class="option" onclick="this.classList.add('correct')">The user scrolling down the page.</div>
+                    </div>
+                </div>
+
+                <section class="card" style="margin-top: 3rem;">
+                    <h2>📚 Glossary</h2>
+                    <dl>
+                        <dt><strong>Scrollytelling:</strong></dt>
+                        <dd>A web design technique where the map or visualization changes as the user scrolls through the text.</dd>
+                        
+                        <dt><strong>Pop-up:</strong></dt>
+                        <dd>An interactive window that appears when a user clicks a map feature, providing more detailed attribute data.</dd>
+                        
+                        <dt><strong>Narrative Arc:</strong></dt>
+                        <dd>The structural framework of a story, moving from introduction to climax and resolution.</dd>
+                    </dl>
+                </section>
+            </div>
+
+            <aside class="sidebar">
+                <div class="sidebar-box bio">
+                    <h3>Important Person</h3>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Dawn_Wright_at_Google_2016.jpg/220px-Dawn_Wright_at_Google_2016.jpg" alt="Dawn Wright" class="bio-img">
+                    <p><strong>Dr. Dawn Wright</strong></p>
+                    <p>Known as "Deepsea Dawn," Wright is the Chief Scientist at Esri and a world-renowned ocean mapper. She has spent her career using GIS to explore the deepest parts of the ocean floor. She is a massive advocate for StoryMaps as a tool for "science communication," helping researchers translate complex data into stories the public can understand.</p>
+                </div>
+
+                <div class="sidebar-box local">
+                    <h3>Local to Global</h3>
+                    <p><strong>TXST StoryMap Collection</strong></p>
+                    <p>Students at Texas State University (Dr. Sounny's alma mater) have created a legendary collection of StoryMaps documenting the history and ecology of the San Marcos River. By layering historical photos with maps of modern water quality, they tell a story of a river that is both a scientific treasure and a community lifeblood.</p>
+                    <p>This is "Local to Global" in action—using local Texas data to prove universal geographic truths.</p>
+                </div>
+            </aside>
+        </div>
+
+        <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+          <a href="chapter-16-mobile-gis.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 16: Mobile GIS</a>
+          <a href="chapter-18-gis-ethics-ai.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 18: Ethics & AI &rarr;</a>
+        </div>
+    </main>
+
+    <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function handleScroll(el) {
+            const scrollTop = el.scrollTop;
+            const h = 300;
+            const layers = [1, 2, 3];
+            
+            let activeIdx = Math.floor(scrollTop / h);
+            if (activeIdx > 2) activeIdx = 2;
+
+            layers.forEach((l, i) => {
+                document.getElementById('layer' + l).classList.toggle('active', i === activeIdx);
+            });
+        }
+    </script>
+</body>
+</html>

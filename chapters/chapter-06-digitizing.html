@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 06: Digitizing Vector Data | GIS Digital Textbook</title>
+    <meta name="description" content="Learn the art and precision of digitizing vector data. Mastering snapping, topology, and attribution to create high-quality geographic features.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #f43f5e;
+            --secondary: #64748b;
+            --accent: #1e293b;
+            --success: #10b981;
+            --bg: #f8fafc;
+        }
+
+        .hero-chapter {
+            background: linear-gradient(135deg, #881337 0%, #f43f5e 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-chapter::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(circle at 50% 120%, rgba(255,255,255,0.1) 0%, transparent 60%);
+        }
+
+        .chapter-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 1100px) {
+            .layout-grid { grid-template-columns: 1fr; }
+        }
+
+        .sidebar-box {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary);
+        }
+        .sidebar-box.local { border-top-color: var(--success); }
+
+        .sidebar-box h3 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .bio-img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
+
+        .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        
+        /* Digitizing Sandbox */
+        .digitizing-sandbox {
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 1rem;
+            margin: 2rem 0;
+        }
+
+        .canvas-container {
+            width: 100%;
+            height: 400px;
+            background: #f8fafc;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            cursor: crosshair;
+            border: 1px solid #ddd;
+        }
+
+        .node {
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px rgba(244, 63, 94, 0.5);
+        }
+
+        .snapping-tolerance {
+            position: absolute;
+            border: 2px dashed #94a3b8;
+            border-radius: 50%;
+            pointer-events: none;
+            display: none;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Quiz Styles */
+        .quiz-container { background: #f1f5f9; padding: 2rem; border-radius: 16px; margin-top: 3rem; }
+        .option { background: white; padding: 1rem; border-radius: 8px; border: 2px solid #e2e8f0; cursor: pointer; margin-bottom: 0.75rem; transition: 0.2s; color: #1e293b; }
+        .option:hover { border-color: var(--primary); }
+        .option.correct { border-color: var(--success); background: #ecfdf5; }
+        .option.wrong { border-color: var(--primary); background: #fff1f2; }
+    </style>
+</head>
+<body>
+
+    <header class="hero-chapter">
+        <div class="container">
+            <span class="chapter-badge">Chapter 06</span>
+            <h1>Digitizing Vector Data</h1>
+            <p class="subtitle">The art of precision. Learn how to convert geographic features into clean, accurate, and topologically sound vector data.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav style="margin: 2rem 0;">
+            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
+        </nav>
+
+        <div class="layout-grid">
+            <div class="content">
+                <section class="card">
+                    <h2>🖋️ What is Digitizing?</h2>
+                    <p>Digitizing is the process of converting geographic data from a scanned map or satellite image into a digital vector format (points, lines, and polygons). While modern AI can automate some of this, <strong>manual heads-up digitizing</strong> remains a core skill for GIS analysts where high precision is required.</p>
+                    
+                    <div class="callout" style="background: #fff1f2; border-left: 5px solid #f43f5e; color: #881337; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                        <strong>⚠️ The Golden Rule:</strong> Trash in, trash out. If your digitizing is sloppy, every analysis you perform afterwards will be flawed. Precision starts here.
+                    </div>
+                </section>
+
+                <section class="digitizing-sandbox">
+                    <h3>🎯 The Snapping Challenge</h3>
+                    <p>In vector GIS, features must connect perfectly. <strong>Snapping</strong> automatically pulls your cursor to existing nodes. Try to click exactly on the center node below. The dashed circle shows your <em>Snapping Tolerance</em>.</p>
+                    
+                    <div class="canvas-container" id="canvas">
+                        <div class="snapping-tolerance" id="toleranceCircle"></div>
+                        <div class="node" style="top: 50%; left: 50%;" id="targetNode"></div>
+                        <div style="position: absolute; bottom: 1rem; left: 1rem; background: white; padding: 0.5rem; border-radius: 4px;font-size: 0.8rem; border: 1px solid #ddd;">
+                            Status: <span id="status">Ready...</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>📐 Common Digitizing Errors</h2>
+                    <p>Maintaining <strong>Topology</strong> (the rules of spatial relationships) is crucial. Watch out for these common mistakes:</p>
+                    <ul style="line-height: 2; margin-top: 1rem;">
+                        <li><strong>Overshoots:</strong> Lines that extend past their intended junction.</li>
+                        <li><strong>Undershoots:</strong> Lines that fail to reach their intended junction (gaps).</li>
+                        <li><strong>Sliver Polygons:</strong> Tiny, accidental polygons created by gaps or overlaps between two adjacent polygons.</li>
+                    </ul>
+                </section>
+
+                <section class="card">
+                    <h2>Summary of Big Ideas</h2>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Heads-up digitizing</strong> is the standard method for manually creating vector data.</li>
+                        <li><strong>Snapping</strong> is the critical tool for ensuring topology and connectivity.</li>
+                        <li><strong>Attribute entry</strong> happens alongside digitizing (e.g., naming the road you just traced).</li>
+                        <li><strong>Clean data</strong> is the foundation of all valid spatial analysis.</li>
+                    </ul>
+                </section>
+
+                <div class="quiz-container">
+                    <h2>Chapter 06 Checkpoint</h2>
+                    <div class="question">
+                        <p><strong>1. What tool should you ALWAYS use to ensure that two adjacent polygons share a perfect boundary?</strong></p>
+                        <div class="option" onclick="this.classList.add('correct')">Snapping (and Auto-Complete Polygon tools)</div>
+                        <div class="option" onclick="this.classList.add('wrong')">Eye-balling it at high zoom</div>
+                    </div>
+                    <div class="question">
+                        <p><strong>2. A "sliver polygon" is usually caused by:</strong></p>
+                        <div class="option" onclick="this.classList.add('correct')">Poor topology and lack of snapping between features.</div>
+                        <div class="option" onclick="this.classList.add('wrong')">Using the wrong map projection.</div>
+                    </div>
+                </div>
+
+                <section class="card" style="margin-top: 3rem;">
+                    <h2>📚 Glossary</h2>
+                    <dl>
+                        <dt><strong>Nodes:</strong></dt>
+                        <dd>The start and end points of a line feature.</dd>
+                        
+                        <dt><strong>Vertices:</strong></dt>
+                        <dd>The intermediate points that define the shape of a line or polygon.</dd>
+                        
+                        <dt><strong>Tolerance:</strong></dt>
+                        <dd>The distance within which the cursor will "snap" to a nearby feature.</dd>
+                    </dl>
+                </section>
+            </div>
+
+            <aside class="sidebar">
+                <div class="sidebar-box bio">
+                    <h3>Important Person</h3>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/John_Snow.jpg/220px-John_Snow.jpg" alt="John Snow" class="bio-img">
+                    <p><strong>John Snow (1813–1858)</strong></p>
+                    <p>Though he worked long before digital GIS, Dr. John Snow is a hero of spatial precision. During the 1854 cholera outbreak in London, he precisely mapped the location of every death (points). This "manual digitizing" proved that the deaths were clustered around a specific water pump—saving thousands of lives.</p>
+                </div>
+
+                <div class="sidebar-box local">
+                    <h3>Local to Global</h3>
+                    <p><strong>The Permian Basin Lease Map</strong></p>
+                    <p>In West Texas, precision digitizing is a high-stakes game. Oil and gas companies must digitize lease boundaries with centimeter accuracy. An error of just a few inches could mean millions of dollars in royalty disputes if a well is drilled on the wrong side of a "digitized" line.</p>
+                    <p>Globally, precise digitizing is the backbone of Cadastral (land registry) systems that underpin the world economy.</p>
+                </div>
+            </aside>
+        </div>
+
+        <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+          <a href="chapter-05-georeferencing.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 05: Georeferencing</a>
+          <a href="chapter-07-database-management.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 07: Databases &rarr;</a>
+        </div>
+    </main>
+
+    <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const tol = document.getElementById('toleranceCircle');
+        const status = document.getElementById('status');
+        const toleranceSize = 40;
+
+        tol.style.width = (toleranceSize * 2) + 'px';
+        tol.style.height = (toleranceSize * 2) + 'px';
+
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            tol.style.display = 'block';
+            tol.style.left = x + 'px';
+            tol.style.top = y + 'px';
+
+            const tx = rect.width / 2;
+            const ty = rect.height / 2;
+            const dist = Math.sqrt(Math.pow(x - tx, 2) + Math.pow(y - ty, 2));
+
+            if (dist < toleranceSize) {
+                tol.style.borderColor = '#10b981';
+                tol.style.background = 'rgba(16, 185, 129, 0.1)';
+            } else {
+                tol.style.borderColor = '#94a3b8';
+                tol.style.background = 'transparent';
+            }
+        });
+
+        canvas.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const tx = rect.width / 2;
+            const ty = rect.height / 2;
+            const dist = Math.sqrt(Math.pow(x - tx, 2) + Math.pow(y - ty, 2));
+
+            if (dist < toleranceSize) {
+                status.textContent = "✅ Successfully Snapped!";
+                status.style.color = "#059669";
+            } else {
+                status.textContent = "❌ Topology Error: Missed Node";
+                status.style.color = "#e11d48";
+            }
+        });
+    </script>
+</body>
+</html>

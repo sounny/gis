@@ -1,721 +1,292 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chapter 05: Georeferencing & Digitizing | GIS Digital Textbook</title>
-    <meta
-      name="description"
-      content="This chapter covers georeferencing scanned maps with control points, visualizing residuals, and exporting world files. Includes an interactive Leaflet-based Georeferencer overlay tool."
-    />
-    <meta
-      name="keywords"
-      content="Georeferencing, Digitizing, Control Points, Residuals, World Files, Leaflet, GIS"
-    />
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      integrity="sha256-sA+4j6j8gLPNP6G2S8QxSNaben7nuPhYu95lg0v+DX4="
-      crossorigin=""
-    />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 05: Georeferencing | GIS Digital Textbook</title>
+    <meta name="description" content="Learn how to give life to paper maps. Master control points, RMS errors, and the process of georeferencing historical imagery into a modern GIS coordinate system.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-      :root {
-        --bg: #070c14;
-        --card: rgba(255, 255, 255, 0.04);
-        --accent: #4dd0e1;
-        --accent-2: #90caf9;
-        --text: #e8f1ff;
-      }
+        :root {
+            --primary: #0891b2;
+            --secondary: #64748b;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --bg: #f8fafc;
+        }
 
-      body {
-        background: radial-gradient(circle at 20% 20%, rgba(77, 208, 225, 0.1), transparent 40%),
-          radial-gradient(circle at 80% 0%, rgba(144, 202, 249, 0.12), transparent 45%),
-          linear-gradient(135deg, #050910 0%, #0c1626 40%, #0f1b2d 100%);
-        color: var(--text);
-      }
+        .hero-chapter {
+            background: linear-gradient(135deg, #0e7490 0%, #0891b2 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
 
-      .hero {
-        position: relative;
-        padding: 4rem 1.5rem 3rem;
-        overflow: hidden;
-      }
+        .hero-chapter::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
 
-      .hero::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(circle at 20% 30%, rgba(144, 202, 249, 0.2), transparent 50%),
-          radial-gradient(circle at 80% 40%, rgba(77, 208, 225, 0.2), transparent 45%);
-        pointer-events: none;
-      }
+        .chapter-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
 
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        position: relative;
-        z-index: 1;
-      }
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
 
-      .badge {
-        display: inline-block;
-        padding: 0.45rem 1.25rem;
-        border-radius: 999px;
-        background: linear-gradient(135deg, #4dd0e1, #90caf9);
-        color: #041018;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        box-shadow: 0 10px 40px rgba(77, 208, 225, 0.35);
-      }
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
 
-      h1 {
-        font-size: clamp(2.2rem, 4vw, 3.6rem);
-        margin: 1rem 0 0.5rem;
-        line-height: 1.1;
-      }
+        @media (max-width: 1100px) {
+            .layout-grid { grid-template-columns: 1fr; }
+        }
 
-      .subtitle {
-        color: rgba(232, 241, 255, 0.8);
-        font-size: 1.1rem;
-        max-width: 760px;
-        line-height: 1.6;
-      }
+        .sidebar-box {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary);
+        }
+        .sidebar-box.bio { border-top-color: var(--accent); }
 
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 1.25rem;
-        margin-top: 2rem;
-      }
+        .sidebar-box h3 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .bio-img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
 
-      .card {
-        background: var(--card);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 18px;
-        padding: 1.25rem;
-        backdrop-filter: blur(6px);
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
-      }
+        .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        
+        /* Interactive Georeferencer Overlay Simple Sim */
+        .georef-sim {
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            text-align: center;
+        }
 
-      .card h3 {
-        margin-top: 0;
-        margin-bottom: 0.5rem;
-      }
+        .preview-box {
+            width: 100%;
+            height: 300px;
+            background: #334155;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            margin: 1.5rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-      .pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-        background: rgba(255, 255, 255, 0.06);
-        padding: 0.3rem 0.75rem;
-        border-radius: 999px;
-        font-size: 0.9rem;
-        color: #b6c8e6;
-      }
+        .scanned-map {
+            width: 200px;
+            height: 200px;
+            background: #fef3c7;
+            border: 2px solid #b45309;
+            color: #b45309;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            cursor: move;
+            position: absolute;
+            opacity: 0.8;
+            transition: transform 0.1s;
+        }
 
-      /* Interactive layout */
-      .tool-wrap {
-        margin-top: 2rem;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.07);
-        border-radius: 20px;
-        padding: 1.5rem;
-      }
+        .basemap-viz {
+            width: 100%;
+            height: 100%;
+            opacity: 0.3;
+            background-image: radial-gradient(#64748b 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
 
-      .tool-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        gap: 1rem;
-      }
+        .control-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
 
-      .panel {
-        background: rgba(7, 12, 20, 0.6);
-        border: 1px solid rgba(255, 255, 255, 0.06);
-        border-radius: 16px;
-        padding: 1rem;
-      }
-
-      .upload {
-        border: 1px dashed rgba(255, 255, 255, 0.3);
-        border-radius: 14px;
-        padding: 1rem;
-        text-align: center;
-        cursor: pointer;
-      }
-
-      canvas#imageCanvas {
-        width: 100%;
-        height: auto;
-        background: #0d111a;
-        border: 1px solid rgba(255, 255, 255, 0.07);
-        border-radius: 10px;
-      }
-
-      #map {
-        width: 100%;
-        height: 460px;
-        border-radius: 12px;
-        overflow: hidden;
-      }
-
-      .cp-list {
-        max-height: 200px;
-        overflow: auto;
-        padding: 0.5rem;
-        border-radius: 10px;
-        background: rgba(255, 255, 255, 0.03);
-      }
-
-      .cp-item {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.35rem 0.5rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        font-size: 0.92rem;
-      }
-
-      .cp-item:last-child {
-        border-bottom: none;
-      }
-
-      .controls {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        margin-top: 0.5rem;
-      }
-
-      button {
-        background: linear-gradient(135deg, #4dd0e1, #42a5f5);
-        color: #041018;
-        border: none;
-        border-radius: 10px;
-        padding: 0.6rem 0.95rem;
-        font-weight: 700;
-        cursor: pointer;
-        box-shadow: 0 6px 20px rgba(66, 165, 245, 0.35);
-      }
-
-      button.secondary {
-        background: rgba(255, 255, 255, 0.08);
-        color: #dce7ff;
-        box-shadow: none;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-      }
-
-      .stat {
-        display: flex;
-        justify-content: space-between;
-        padding: 0.35rem 0;
-        color: #c8d8f4;
-      }
-
-      .hint {
-        color: #9ab6da;
-        font-size: 0.95rem;
-        margin-top: 0.4rem;
-      }
+        /* Quiz Styles */
+        .quiz-container { background: #f1f5f9; padding: 2rem; border-radius: 16px; margin-top: 3rem; }
+        .option { background: white; padding: 1rem; border-radius: 8px; border: 2px solid #e2e8f0; cursor: pointer; margin-bottom: 0.75rem; transition: 0.2s; color: #1e293b; }
+        .option:hover { border-color: var(--primary); }
+        .option.correct { border-color: var(--success); background: #ecfdf5; }
+        .option.wrong { border-color: #ef4444; background: #fff1f2; }
     </style>
-  </head>
-  <body>
-    <div class="hero">
-      <div class="container">
-        <span class="badge">Chapter 05 · Georeferencing & Digitizing</span>
-        <h1>Georeferencer Overlay — Control Points to World Files</h1>
-        <p class="subtitle">
-          Upload a scanned map or airphoto, place ground control points, inspect residuals, and export a world file plus GCP GeoJSON.
-          Affine transform with RMS feedback keeps your warp honest.
-        </p>
-        <div class="grid">
-          <div class="card">
-            <h3>Learning Outcomes</h3>
-            <ul>
-              <li>Place 8–12 well-spread control points and validate with check points.</li>
-              <li>Compare affine vs. polynomial fits (start with affine for stability).</li>
-              <li>Export a world file and GCP report for ArcGIS Pro/QGIS/Earth Engine.</li>
-            </ul>
-          </div>
-          <div class="card">
-            <h3>Quick Workflow</h3>
-            <ul>
-              <li>Upload raster → click image to add source points.</li>
-              <li>Click map to set target coordinates (basemap toggle included).</li>
-              <li>Watch RMS meter; adjust points until pass.</li>
-              <li>Download world file + GeoJSON + report.</li>
-            </ul>
-            <div class="pill">Best practice: separate control vs. check points.</div>
-          </div>
+</head>
+<body>
+
+    <header class="hero-chapter">
+        <div class="container">
+            <span class="chapter-badge">Chapter 05</span>
+            <h1>Georeferencing</h1>
+            <p class="subtitle">Assigning coordinates to images. Learn how to transform scanned paper maps and historical aerial photos into accurate spatial data.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav style="margin: 2rem 0;">
+            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
+        </nav>
+
+        <div class="layout-grid">
+            <div class="content">
+                <section class="card">
+                    <h2>What is Georeferencing?</h2>
+                    <p>Georeferencing is the process of defining the internal coordinate system of a digital map or aerial photo so it can be associated with a real-world coordinate system. Effectively, you are "nailing" a flat image onto the curved surface of the Earth.</p>
+                    
+                    <div class="callout" style="background: #ecfdf5; border-left: 5px solid #10b981; color: #065f46; display: flex; gap: 1rem; align-items: start; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                        <div><strong>🔑 Key Goal:</strong> To take data that doesn't "know" where it is and give it a spatial context so it can be used alongside other GIS layers.</div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>Ground Control Points (GCPs)</h2>
+                    <p>To georeference an image, we use <strong>Ground Control Points</strong>. These are locations on the scanned map that can be accurately identified on a modern, georeferenced base map (like street intersections or building corners).</p>
+                    
+                    <ul style="line-height: 2; margin-top: 1rem;">
+                        <li><strong>1 Point:</strong> Can move the map (Translation).</li>
+                        <li><strong>2 Points:</strong> Can move and rotate the map.</li>
+                        <li><strong>3+ Points:</strong> Can scale, warp, and skew the map (Affine Transformation).</li>
+                    </ul>
+                </section>
+
+                <section class="georef-sim">
+                    <h3>Simulated Alignment</h3>
+                    <p>Use the sliders to manually align this "Scanned Map" (Yellow) with the "Base Map" (Grid).</p>
+                    
+                    <div class="preview-box">
+                        <div class="basemap-viz"></div>
+                        <div class="scanned-map" id="targetMap">📜 Scanned Data</div>
+                    </div>
+
+                    <div class="control-panel">
+                        <div>
+                            <label>X Position</label>
+                            <input type="range" min="-100" max="100" value="0" id="posX" style="width:100%;">
+                        </div>
+                        <div>
+                            <label>Rotation</label>
+                            <input type="range" min="0" max="360" value="0" id="rot" style="width:100%;">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>Measuring Error: RMS</h2>
+                    <p>No georeferenced map is perfectly aligned. We measure the "goodness of fit" using <strong>Root Mean Square (RMS) Error</strong>. This value represents the average distance between where you placed a point and where the mathematical model says it should be.</p>
+                    
+                    <div class="callout" style="background: #fffbeb; border-left: 5px solid #f59e0b; color: #92400e; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                        <strong>Pro Tip:</strong> High RMS error? Check your points! A single "mis-clicked" point can ruin the whole transformation. Professionals often look for the <em>Residual</em> of each point to find the culprits.
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>Summary of Big Ideas</h2>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Georeferencing</strong> links historical or non-spatial images to Earth's coordinates.</li>
+                        <li><strong>GCPs</strong> are the link between the unknown (raster) and the known (basemap).</li>
+                        <li><strong>Transformation Models</strong> (1st, 2nd, 3rd Order) determine how the image is warped.</li>
+                        <li><strong>World Files</strong> (.tfw, .jgw) store the coordinates and scaling data for georeferenced images.</li>
+                    </ul>
+                </section>
+
+                <div class="quiz-container">
+                    <h2>Chapter 05 Checkpoint</h2>
+                    <div class="question">
+                        <p><strong>1. What is the minimum number of Ground Control Points (GCPs) required for an Affine (1st Order) transformation?</strong></p>
+                        <div class="option" onclick="this.classList.add('wrong')">1</div>
+                        <div class="option" onclick="this.classList.add('correct')">3</div>
+                    </div>
+                    <div class="question">
+                        <p><strong>2. If your RMS error is very high, what is the most likely cause?</strong></p>
+                        <div class="option" onclick="this.classList.add('correct')">One or more GCPs were placed inaccurately.</div>
+                        <div class="option" onclick="this.classList.add('wrong')">You used too many points.</div>
+                    </div>
+                </div>
+
+                <section class="card" style="margin-top: 3rem;">
+                    <h2>Glossary</h2>
+                    <dl>
+                        <dt><strong>Residual:</strong></dt>
+                        <dd>The distance between the actual location of a GCP and its estimated location after transformation.</dd>
+                        
+                        <dt><strong>Orthorectification:</strong></dt>
+                        <dd>A process that removes the effects of image tilt and terrain relief from aerial photos.</dd>
+                        
+                        <dt><strong>World File:</strong></dt>
+                        <dd>A small text file used by GIS software to read the georeferencing info of a raster image.</dd>
+                    </dl>
+                </section>
+            </div>
+
+            <aside class="sidebar">
+                <div class="sidebar-box bio">
+                    <h3>Important Person</h3>
+                    <img src="https://www.usgs.gov/sites/default/files/styles/side_image/public/images/john_snow.jpg" alt="Historical Cartography" class="bio-img">
+                    <p><strong>The Early Aligners</strong></p>
+                    <p>While modern georeferencing is digital, the desire to overlay maps dates back centuries. Early cartographers would literally use transparent paper and sunlight to align "overlays" of different city plans—a precursor to the mathematical georeferencing tools we use today in software like QGIS or ArcGIS.</p>
+                </div>
+
+                <div class="sidebar-box local">
+                    <h3>Local to Global</h3>
+                    <p><strong>Retro-mapping Austin</strong></p>
+                    <p>The University of Texas at Austin provides an <em>Historical Map Collection</em> containing prints from the 1800s. By georeferencing these maps over modern satellite imagery of the "Drag" (Guadalupe St), researchers can track how buildings and drainage patterns have changed over 150 years.</p>
+                    <p>This process is essential for environmental impact studies and historical preservation.</p>
+                </div>
+            </aside>
         </div>
 
-        <div class="card" style="margin-top: 2rem;">
-            <h3>Geocoding: Turning Text into Maps</h3>
-            <p>
-                Geocoding is the process of converting addresses (like "1600 Pennsylvania Ave") into geographic coordinates (Latitude/Longitude).
-                While Georeferencing fixes <em>images</em> to the earth, Geocoding fixes <em>text</em>.
-            </p>
-            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; margin: 1rem 0;">
-                <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" src="https://www.youtube.com/embed/QgYz7rpjgLw" title="Geocoding in ArcGIS Pro" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-            <p>
-                This video shows how to geocode an Excel spreadsheet of cities to a feature class in ArcGIS Pro.
-                <br><br>
-                <strong>Note on Credits:</strong> To geocode a table of addresses using the ArcGIS World Geocoding Service, an ArcGIS Online for Organizations subscription is required. 
-                The service operates under a <strong>credit-based usage model</strong> that charges you based on the number of records you process. Always check your credit balance before running a large batch!
-            </p>
+        <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+          <a href="chapter-04-gps.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 04: GNSS</a>
+          <a href="chapter-06-digitizing.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 06: Digitizing &rarr;</a>
         </div>
+    </main>
 
-        <div class="tool-wrap">
-          <div class="tool-grid">
-            <div class="panel">
-              <h3>1) Upload Raster & Pick GCPs</h3>
-              <label class="upload" for="rasterInput">
-                <strong>Drag & drop</strong> or click to choose an image (TIFF/PNG/JPG).
-              </label>
-              <input id="rasterInput" type="file" accept="image/*" hidden />
-              <div class="controls" style="margin-top: 0.75rem;">
-                <button id="loadSample" class="secondary">Load sample raster</button>
-              </div>
-              <canvas id="imageCanvas" width="800" height="600"></canvas>
-              <p class="hint">Click the image to drop a source control point. Next, click the map to pair it with ground truth.</p>
-              <div class="controls">
-                <button id="resetPoints" class="secondary">Reset points</button>
-              </div>
-              <div class="cp-list" id="cpList"></div>
-            </div>
-
-            <div class="panel">
-              <h3>2) Map Targets & Residuals</h3>
-              <div id="map"></div>
-              <div class="controls">
-                <button id="presetHouston" class="secondary">Center: Houston</button>
-                <button id="presetNYC" class="secondary">Center: NYC</button>
-                <button id="downloadWorld">Download World File</button>
-                <button id="downloadGeojson" class="secondary">GCPs GeoJSON</button>
-                <button id="downloadReport" class="secondary">Report</button>
-              </div>
-              <div class="stat">
-                <span>RMS Error</span><strong id="rmsValue">—</strong>
-              </div>
-              <div class="stat">
-                <span>Max Residual</span><strong id="maxResidual">—</strong>
-              </div>
-              <p class="hint" id="statusHint">Upload a raster to begin.</p>
-            </div>
-          </div>
+    <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
         </div>
-      </div>
-    </div>
+    </footer>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-o9N1j7kGStG3/b8sI1eG2s3x4xt1Ekks9RgtwF3L0XI=" crossorigin=""></script>
-    <script src="https://cdn.jsdelivr.net/npm/proj4@2.9.0/dist/proj4.js"></script>
     <script>
-      const state = {
-        image: null,
-        width: 800,
-        height: 600,
-        cps: [],
-        pendingId: null,
-        transform: null,
-        fileName: null,
-      };
+        const target = document.getElementById('targetMap');
+        const posX = document.getElementById('posX');
+        const rot = document.getElementById('rot');
 
-      const canvas = document.getElementById('imageCanvas');
-      const ctx = canvas.getContext('2d');
-      const rasterInput = document.getElementById('rasterInput');
-      const cpList = document.getElementById('cpList');
-      const rmsValue = document.getElementById('rmsValue');
-      const maxResidual = document.getElementById('maxResidual');
-      const statusHint = document.getElementById('statusHint');
-
-      // Map setup
-      const baseStreets = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 22,
-        attribution: '© OpenStreetMap',
-      });
-      const baseSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{x}/{y}', {
-        maxZoom: 22,
-        attribution: '© Esri',
-      });
-      const map = L.map('map', {
-        center: [29.76, -95.36],
-        zoom: 4,
-        layers: [baseStreets],
-        worldCopyJump: true,
-      });
-      L.control.layers({ Streets: baseStreets, Satellite: baseSat }).addTo(map);
-
-      let overlayGroup = L.layerGroup().addTo(map);
-
-      // Helpers
-      function uid() {
-        return Math.random().toString(36).slice(2, 8);
-      }
-
-      function clearCanvas() {
-        ctx.fillStyle = '#0d111a';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.strokeStyle = 'rgba(255,255,255,0.08)';
-        ctx.strokeRect(0, 0, canvas.width, canvas.height);
-      }
-
-      function drawPoints() {
-        clearCanvas();
-        if (!state.image) return;
-        ctx.drawImage(state.image, 0, 0, state.width, state.height);
-        ctx.fillStyle = '#4dd0e1';
-        ctx.strokeStyle = '#041018';
-        ctx.lineWidth = 2;
-        state.cps.forEach((cp) => {
-          ctx.beginPath();
-          ctx.arc(cp.img.x, cp.img.y, 6, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.stroke();
-          ctx.fillStyle = '#e8f1ff';
-          ctx.font = '12px Inter, sans-serif';
-          ctx.fillText(cp.id, cp.img.x + 8, cp.img.y - 8);
-          ctx.fillStyle = '#4dd0e1';
-        });
-      }
-
-      function renderCpList() {
-        cpList.innerHTML = '';
-        state.cps.forEach((cp) => {
-          const div = document.createElement('div');
-          div.className = 'cp-item';
-          const info = document.createElement('div');
-          info.innerHTML = `<strong>${cp.id}</strong> · img (${cp.img.x.toFixed(1)}, ${cp.img.y.toFixed(1)}) ${
-            cp.map ? `→ map (${cp.map.lat.toFixed(5)}, ${cp.map.lng.toFixed(5)})` : '→ map (pending)'
-          } ${cp.residual ? ` · err ${cp.residual.toFixed(2)} m` : ''}`;
-          div.appendChild(info);
-          const btn = document.createElement('button');
-          btn.textContent = 'Delete';
-          btn.className = 'secondary';
-          btn.onclick = () => {
-            state.cps = state.cps.filter((p) => p.id !== cp.id);
-            state.pendingId = null;
-            updateAll();
-          };
-          div.appendChild(btn);
-          cpList.appendChild(div);
-        });
-      }
-
-      function solveAffine(points) {
-        // points: [{img:{x,y}, map:{lat,lng}}]
-        const n = points.length;
-        if (n < 3) return null;
-        const A = [0, 0, 0, 0, 0, 0, 0, 0, 0]; // 3x3
-        const bx = [0, 0, 0];
-        const by = [0, 0, 0];
-        points.forEach((p) => {
-          const x = p.img.x;
-          const y = p.img.y;
-          const lng = p.map.lng;
-          const lat = p.map.lat;
-          A[0] += x * x; // a11
-          A[1] += x * y; // a12
-          A[2] += x; // a13
-          A[4] += y * y; // a22
-          A[5] += y; // a23
-          A[8] += 1; // a33
-          bx[0] += x * lng;
-          bx[1] += y * lng;
-          bx[2] += lng;
-          by[0] += x * lat;
-          by[1] += y * lat;
-          by[2] += lat;
-        });
-        A[3] = A[1];
-        A[6] = A[2];
-        A[7] = A[5];
-        // invert 3x3
-        const det =
-          A[0] * (A[4] * A[8] - A[5] * A[7]) -
-          A[1] * (A[3] * A[8] - A[5] * A[6]) +
-          A[2] * (A[3] * A[7] - A[4] * A[6]);
-        if (Math.abs(det) < 1e-12) return null;
-        const inv = [
-          (A[4] * A[8] - A[5] * A[7]) / det,
-          (A[2] * A[7] - A[1] * A[8]) / det,
-          (A[1] * A[5] - A[2] * A[4]) / det,
-          (A[5] * A[6] - A[3] * A[8]) / det,
-          (A[0] * A[8] - A[2] * A[6]) / det,
-          (A[2] * A[3] - A[0] * A[5]) / det,
-          (A[3] * A[7] - A[4] * A[6]) / det,
-          (A[1] * A[6] - A[0] * A[7]) / det,
-          (A[0] * A[4] - A[1] * A[3]) / det,
-        ];
-        const m = (v) => [inv[0] * v[0] + inv[1] * v[1] + inv[2] * v[2], inv[3] * v[0] + inv[4] * v[1] + inv[5] * v[2], inv[6] * v[0] + inv[7] * v[1] + inv[8] * v[2]];
-        const [a, b, c] = m(bx);
-        const [d, e, f] = m(by);
-        return { a, b, c, d, e, f };
-      }
-
-      function applyTransform(t, x, y) {
-        return { lng: t.a * x + t.b * y + t.c, lat: t.d * x + t.e * y + t.f };
-      }
-
-      function updateTransformAndResiduals() {
-        const ready = state.cps.filter((p) => p.map);
-        if (ready.length < 3) {
-          state.transform = null;
-          rmsValue.textContent = '—';
-          maxResidual.textContent = '—';
-          statusHint.textContent = 'Add at least 3 paired control points.';
-          overlayGroup.clearLayers();
-          return;
+        function update() {
+            target.style.transform = `translate(${posX.value}px, 0) rotate(${rot.value}deg)`;
         }
-        const t = solveAffine(ready);
-        state.transform = t;
-        overlayGroup.clearLayers();
-        if (!t) {
-          statusHint.textContent = 'Transform unstable. Adjust point spread (avoid collinear points).';
-          return;
-        }
-        let sumSq = 0;
-        let maxErr = 0;
-        ready.forEach((cp) => {
-          const pred = applyTransform(t, cp.img.x, cp.img.y);
-          const err = map.distance([cp.map.lat, cp.map.lng], [pred.lat, pred.lng]);
-          cp.residual = err;
-          sumSq += err * err;
-          maxErr = Math.max(maxErr, err);
-          const actual = L.circleMarker([cp.map.lat, cp.map.lng], { radius: 6, color: '#4dd0e1', weight: 2, fillColor: '#4dd0e1', fillOpacity: 0.6 }).addTo(overlayGroup);
-          actual.bindTooltip(`CP ${cp.id} · ${err.toFixed(2)} m`, { permanent: false });
-          const predicted = L.circleMarker([pred.lat, pred.lng], { radius: 4, color: '#ef5350', weight: 2, fillColor: '#ef5350', fillOpacity: 0.4 }).addTo(overlayGroup);
-          L.polyline(
-            [
-              [pred.lat, pred.lng],
-              [cp.map.lat, cp.map.lng],
-            ],
-            { color: '#ffffff', opacity: 0.5, weight: 1 }
-          ).addTo(overlayGroup);
-        });
-        const rms = Math.sqrt(sumSq / ready.length);
-        rmsValue.textContent = `${rms.toFixed(2)} m`;
-        maxResidual.textContent = `${maxErr.toFixed(2)} m`;
-        statusHint.textContent = rms <= 3 ? 'RMS within typical target (<= 3 m). Add check points to confirm.' : 'RMS high — review GCP spread and accuracy.';
 
-        // Footprint preview
-        const corners = [
-          applyTransform(t, 0, 0),
-          applyTransform(t, state.width, 0),
-          applyTransform(t, state.width, state.height),
-          applyTransform(t, 0, state.height),
-        ];
-        L.polygon(
-          corners.map((c) => [c.lat, c.lng]),
-          { color: '#90caf9', weight: 2, fillOpacity: 0.05, dashArray: '6 4' }
-        ).addTo(overlayGroup);
-        renderCpList();
-      }
-
-      function updateAll() {
-        drawPoints();
-        renderCpList();
-        updateTransformAndResiduals();
-      }
-
-      canvas.addEventListener('click', (e) => {
-        if (!state.image) return;
-        const rect = canvas.getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width) * canvas.width;
-        const y = ((e.clientY - rect.top) / rect.height) * canvas.height;
-        const id = uid();
-        state.cps.push({ id, img: { x, y }, map: null, residual: null });
-        state.pendingId = id;
-        statusHint.textContent = `CP ${id} added on image. Click map to set ground coordinate.`;
-        updateAll();
-      });
-
-      map.on('click', (e) => {
-        if (!state.pendingId) {
-          statusHint.textContent = 'Click the image first to add a source point, then click map to pair.';
-          return;
-        }
-        const cp = state.cps.find((p) => p.id === state.pendingId);
-        if (!cp) return;
-        cp.map = { lat: e.latlng.lat, lng: e.latlng.lng };
-        state.pendingId = null;
-        statusHint.textContent = 'Point paired. Add more control points (aim for 8–12).';
-        updateAll();
-      });
-
-      rasterInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const img = new Image();
-        img.onload = () => {
-          state.image = img;
-          state.width = img.width;
-          state.height = img.height;
-          canvas.width = state.width;
-          canvas.height = state.height;
-          state.cps = [];
-          state.pendingId = null;
-          state.fileName = file.name;
-          updateAll();
-          statusHint.textContent = 'Image loaded. Click on the image to add GCPs, then click the map to pair.';
-        };
-        const reader = new FileReader();
-        reader.onload = () => {
-          img.src = reader.result;
-        };
-        reader.readAsDataURL(file);
-      });
-
-      document.querySelector('.upload').addEventListener('click', () => rasterInput.click());
-
-      document.getElementById('resetPoints').addEventListener('click', () => {
-        state.cps = [];
-        state.pendingId = null;
-        overlayGroup.clearLayers();
-        updateAll();
-        statusHint.textContent = 'Points cleared. Add new GCPs.';
-      });
-
-      function download(name, content) {
-        const blob = new Blob([content], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = name;
-        a.click();
-        URL.revokeObjectURL(url);
-      }
-
-      function loadSampleRaster() {
-        const off = document.createElement('canvas');
-        off.width = 900;
-        off.height = 600;
-        const c = off.getContext('2d');
-        const grd = c.createLinearGradient(0, 0, off.width, off.height);
-        grd.addColorStop(0, '#0b1a2f');
-        grd.addColorStop(1, '#1e3a5f');
-        c.fillStyle = grd;
-        c.fillRect(0, 0, off.width, off.height);
-        c.strokeStyle = 'rgba(255,255,255,0.1)';
-        for (let x = 0; x <= off.width; x += 100) {
-          c.beginPath();
-          c.moveTo(x + 0.5, 0);
-          c.lineTo(x + 0.5, off.height);
-          c.stroke();
-        }
-        for (let y = 0; y <= off.height; y += 100) {
-          c.beginPath();
-          c.moveTo(0, y + 0.5);
-          c.lineTo(off.width, y + 0.5);
-          c.stroke();
-        }
-        c.fillStyle = '#4dd0e1';
-        c.font = '32px Inter, sans-serif';
-        c.fillText('Sample Raster (Grid)', 24, 48);
-        // Landmarks
-        const pts = [
-          { x: 180, y: 160, label: 'A' },
-          { x: 700, y: 140, label: 'B' },
-          { x: 220, y: 460, label: 'C' },
-          { x: 640, y: 420, label: 'D' },
-        ];
-        pts.forEach((p) => {
-          c.beginPath();
-          c.fillStyle = '#ef5350';
-          c.arc(p.x, p.y, 10, 0, Math.PI * 2);
-          c.fill();
-          c.fillStyle = '#ffffff';
-          c.font = '18px Inter, sans-serif';
-          c.fillText(p.label, p.x - 6, p.y - 14);
-        });
-
-        const dataUrl = off.toDataURL('image/png');
-        const img = new Image();
-        img.onload = () => {
-          state.image = img;
-          state.width = img.width;
-          state.height = img.height;
-          canvas.width = state.width;
-          canvas.height = state.height;
-          state.cps = [];
-          state.pendingId = null;
-          state.fileName = 'sample_raster.png';
-          updateAll();
-          statusHint.textContent = 'Sample raster loaded. Drop GCPs on the image, then map them to the basemap.';
-        };
-        img.src = dataUrl;
-      }
-
-      document.getElementById('downloadGeojson').addEventListener('click', () => {
-        if (!state.cps.length) return alert('Add control points first.');
-        const fc = {
-          type: 'FeatureCollection',
-          features: state.cps
-            .filter((cp) => cp.map)
-            .map((cp) => ({
-              type: 'Feature',
-              properties: {
-                id: cp.id,
-                img_x: cp.img.x,
-                img_y: cp.img.y,
-                residual_m: cp.residual || null,
-              },
-              geometry: { type: 'Point', coordinates: [cp.map.lng, cp.map.lat] },
-            })),
-        };
-        download((state.fileName || 'gcp') + '-gcp.geojson', JSON.stringify(fc, null, 2));
-      });
-
-      document.getElementById('downloadReport').addEventListener('click', () => {
-        if (!state.cps.length) return alert('Add control points first.');
-        const ready = state.cps.filter((p) => p.map);
-        const rmsText = rmsValue.textContent;
-        const maxText = maxResidual.textContent;
-        const lines = [];
-        lines.push(`# Georeferencing Report`);
-        lines.push(`Raster: ${state.fileName || 'unknown'}`);
-        lines.push(`Control points: ${ready.length}`);
-        lines.push(`RMS: ${rmsText}`);
-        lines.push(`Max residual: ${maxText}`);
-        lines.push('');
-        lines.push('| ID | Img (x,y) | Map (lat, lng) | Residual (m) |');
-        lines.push('| --- | --- | --- | --- |');
-        ready.forEach((cp) => {
-          lines.push(
-            `| ${cp.id} | ${cp.img.x.toFixed(2)}, ${cp.img.y.toFixed(2)} | ${cp.map.lat.toFixed(6)}, ${cp.map.lng.toFixed(6)} | ${cp.residual ? cp.residual.toFixed(2) : '—'} |`
-          );
-        });
-        download((state.fileName || 'gcp') + '-report.md', lines.join('\n'));
-      });
-
-      document.getElementById('downloadWorld').addEventListener('click', () => {
-        if (!state.transform) return alert('Need at least 3 paired points to compute transform.');
-        const t = state.transform;
-        const lines = [t.a, t.d, t.b, t.e, t.c, t.f].map((n) => n.toPrecision(12));
-        download((state.fileName || 'raster') + '.tfw', lines.join('\n'));
-      });
-
-      document.getElementById('presetHouston').addEventListener('click', () => {
-        map.setView([29.7604, -95.3698], 13);
-        statusHint.textContent = 'Centered on Houston. Use downtown intersections as checkpoints.';
-      });
-
-      document.getElementById('presetNYC').addEventListener('click', () => {
-        map.setView([40.7128, -74.006], 13);
-        statusHint.textContent = 'Centered on NYC. Use Manhattan avenues/parks for control points.';
-      });
-
-      document.getElementById('loadSample').addEventListener('click', loadSampleRaster);
-
-      clearCanvas();
-      statusHint.textContent = 'Upload a raster to begin.';
+        posX.addEventListener('input', update);
+        rot.addEventListener('input', update);
     </script>
-  </body>
+</body>
 </html>

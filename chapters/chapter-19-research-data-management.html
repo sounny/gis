@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 19: Research Data Management | GIS Digital Textbook</title>
+    <meta name="description" content="Master the art of GIS data management. Learn how to architect professional research projects, handle metadata, and ensure your spatial analysis is reproducible.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #475569;
+            --secondary: #64748b;
+            --accent: #3b82f6;
+            --success: #10b981;
+            --bg: #f8fafc;
+        }
+
+        .hero-chapter {
+            background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-chapter::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .chapter-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 1100px) {
+            .layout-grid { grid-template-columns: 1fr; }
+        }
+
+        .sidebar-box {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary);
+        }
+        .sidebar-box.local { border-top-color: var(--accent); }
+
+        .sidebar-box h3 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .bio-img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
+
+        .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        
+        /* Architect Sim */
+        .architect-sim {
+            background: #f1f5f9;
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) { .architect-sim { grid-template-columns: 1fr; } }
+
+        .file-pile { background: #fff; padding: 1rem; border-radius: 8px; min-height: 200px; }
+        .folder-structure { display: flex; flex-direction: column; gap: 0.5rem; }
+        .folder { background: #e2e8f0; padding: 1rem; border-radius: 8px; border: 2px dashed #94a3b8; min-height: 60px; }
+
+        /* Quiz Styles */
+        .quiz-container { background: #f1f5f9; padding: 2rem; border-radius: 16px; margin-top: 3rem; }
+        .option { background: white; padding: 1rem; border-radius: 8px; border: 2px solid #e2e8f0; cursor: pointer; margin-bottom: 0.75rem; transition: 0.2s; color: #1e293b; }
+        .option:hover { border-color: var(--primary); }
+        .option.correct { border-color: var(--success); background: #ecfdf5; }
+        .option.wrong { border-color: #ef4444; background: #fff1f2; }
+    </style>
+</head>
+<body>
+
+    <header class="hero-chapter">
+        <div class="container">
+            <span class="chapter-badge">Chapter 19</span>
+            <h1>Research Data Management</h1>
+            <p class="subtitle">Architecture for science. Learn how to structure your GIS projects to ensure that your analysis is reproducible, authoritative, and built to last.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav style="margin: 2rem 0;">
+            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
+        </nav>
+
+        <div class="layout-grid">
+            <div class="content">
+                <section class="card">
+                    <h2>🔬 GIS is Research</h2>
+                    <p>Professional GIS analysts spend up to 80% of their time on data management. If your folder structure is a mess, your analysis will likely be a mess too. <strong>Research Data Management (RDM)</strong> is the practice of architecting your files and metadata to survive for the long term.</p>
+                </section>
+
+                <section class="card">
+                    <h3>📂 The Standard Project Structure</h3>
+                    <p>A professional GIS project should move from left to right: from Raw Data to the Final Product.</p>
+                    <ul style="line-height: 2; margin-top: 1rem;">
+                        <li><strong>01_Original_Data:</strong> Read-only downloads. Never edit these!</li>
+                        <li><strong>02_Scratch:</strong> Temporary files like clippings or buffer results.</li>
+                        <li><strong>03_Analysis:</strong> Your Geodatabases and processing models.</li>
+                        <li><strong>04_Final_Map:</strong> Only the authoritative maps for the client.</li>
+                    </ul>
+                </section>
+
+                <section class="card">
+                    <h2>Summary of Big Ideas</h2>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Metadata:</strong> Data about data. It explains the 5 Ws: Who, What, When, Where, Why.</li>
+                        <li><strong>File Naming Conventions:</strong> Avoid spaces and generic names like "final_v2.shp". Use dates and snake_case (e.g., 2026_05_12_austin_flood_zone.gdb).</li>
+                        <li><strong>Data Provenance:</strong> The ability to trace a piece of data back to its original source and lineage.</li>
+                        <li><strong>Longevity:</strong> Using standard formats like GeoPackage (.gpkg) ensures your data can be read in 20 years.</li>
+                    </ul>
+                </section>
+
+                <div class="quiz-container">
+                    <h2>Chapter 19 Checkpoint</h2>
+                    <div class="question">
+                        <p><strong>1. Why should the "Original Data" folder be kept separate from the analysis?</strong></p>
+                        <div class="option" onclick="this.classList.add('correct')">To ensure the raw sources remain clean and can be re-accessed if a mistake is made.</div>
+                        <div class="option" onclick="this.classList.add('wrong')">To save space on the computer.</div>
+                    </div>
+                    <div class="question">
+                        <p><strong>2. In a professional GIS report, the section explaining who created the data and when is called:</strong></p>
+                        <div class="option" onclick="this.classList.add('wrong')">Annotation</div>
+                        <div class="option" onclick="this.classList.add('correct')">Metadata</div>
+                    </div>
+                </div>
+
+                <section class="card" style="margin-top: 3rem;">
+                    <h2>📚 Glossary</h2>
+                    <dl>
+                        <dt><strong>RDM:</strong></dt>
+                        <dd>Research Data Management—the organization and curation of data from creation to archive.</dd>
+                        
+                        <dt><strong>Snake Case:</strong></dt>
+                        <dd>A naming style using underscores instead of spaces (e.g., this_is_snake_case).</dd>
+                        
+                        <dt><strong>Lineage:</strong></dt>
+                        <dd>The history of geoprocessing steps applied to a dataset to reach its current state.</dd>
+                    </dl>
+                </section>
+            </div>
+
+            <aside class="sidebar">
+                <div class="sidebar-box bio">
+                    <h3>Important Person</h3>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Ruth_Duerr.jpg/220px-Ruth_Duerr.jpg" alt="Ruth Duerr" class="bio-img">
+                    <p><strong>Dr. Ruth Duerr</strong></p>
+                    <p>A Senior Research Scientist at the University of Colorado Boulder, Dr. Duerr is a world leader in "Data Provenance." She has spent decades ensuring that the petabytes of satellite data collected by NASA and other agencies are properly managed and archived so that researchers today can compare current climate trends with the data collected in the 1970s.</p>
+                </div>
+
+                <div class="sidebar-box local">
+                    <h3>Local to Global</h3>
+                    <p><strong>The Texas Data Repository (TDR)</strong></p>
+                    <p>Researchers at UT Austin, Texas A&M, and other leading Texas universities use the <strong>Texas Data Repository</strong> to host their GIS research data. By using this service, they assign a DOI (Digital Object Identifier) to their maps, making them permanently citeable and accessible to researchers worldwide. This local Texas infrastructure ensures that Texan science has a global impact.</p>
+                </div>
+            </aside>
+        </div>
+
+        <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+          <a href="chapter-18-gis-ethics-ai.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 18: Ethics & AI</a>
+          <a href="chapter-20-research-in-gis.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 20: Research in GIS &rarr;</a>
+        </div>
+    </main>
+
+    <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

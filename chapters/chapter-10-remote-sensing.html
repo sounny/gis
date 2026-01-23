@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 10: Foundations of Remote Sensing | GIS Digital Textbook</title>
+    <meta name="description" content="Explore the foundations of Earth Observation. Learn about satellite platforms, sensor resolutions, and how we monitor global change from space.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #f59e0b;
+            --secondary: #64748b;
+            --accent: #ef4444;
+            --success: #10b981;
+            --bg: #f8fafc;
+        }
+
+        .hero-chapter {
+            background: linear-gradient(135deg, #78350f 0%, #f59e0b 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-chapter::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(circle at 15% 15%, rgba(255,255,255,0.1) 0%, transparent 50%);
+        }
+
+        .chapter-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 1100px) {
+            .layout-grid { grid-template-columns: 1fr; }
+        }
+
+        .sidebar-box {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary);
+        }
+        .sidebar-box.local { border-top-color: var(--success); }
+
+        .sidebar-box h3 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .bio-img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
+
+        .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        
+        /* Platform Table */
+        .platform-table { width: 100%; border-collapse: collapse; margin-top: 2rem; }
+        .platform-table th, .platform-table td { padding: 1rem; text-align: left; border-bottom: 1px solid #eee; }
+        .platform-table th { background: #f8fafc; color: var(--secondary); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+        /* Quiz Styles */
+        .quiz-container { background: #fef3c7; padding: 2rem; border-radius: 16px; margin-top: 3rem; }
+        .option { background: white; padding: 1rem; border-radius: 8px; border: 2px solid #e2e8f0; cursor: pointer; margin-bottom: 0.75rem; transition: 0.2s; color: #1e293b; }
+        .option:hover { border-color: var(--primary); }
+        .option.correct { border-color: var(--success); background: #ecfdf5; }
+        .option.wrong { border-color: var(--primary); background: #fff1f2; }
+    </style>
+</head>
+<body>
+
+    <header class="hero-chapter">
+        <div class="container">
+            <span class="chapter-badge">Chapter 10</span>
+            <h1>Foundations of Remote Sensing</h1>
+            <p class="subtitle">Observing the Earth from above. Learn about satellite platforms, orbits, and the four types of resolution that define every sensor.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav style="margin: 2rem 0;">
+            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
+        </nav>
+
+        <div class="layout-grid">
+            <div class="content">
+                <section class="card">
+                    <h2>🛰️ What is Remote Sensing?</h2>
+                    <p>Remote sensing is the process of gathering information about Earth from a distance, typically using satellites, aircraft, or drones. Instead of physically measuring a tree or a river, we measure the electromagnetic energy it reflects or emits.</p>
+                    
+                    <div class="callout" style="background: #fef3c7; border-left: 5px solid #f59e0b; color: #92400e; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                        <strong>Key Concept:</strong> Remote sensing provides a synoptic (broad) view of the Earth, allowing us to monitor global patterns like climate change and deforestation that are invisible from the ground.
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>🔍 The Four Resolutions</h2>
+                    <p>To evaluate any satellite sensor, we must look at its four types of resolution:</p>
+                    <ul style="line-height: 2;">
+                        <li><strong>Spatial Resolution:</strong> The size of the smallest object visible (e.g., 30m vs 1m pixels).</li>
+                        <li><strong>Spectral Resolution:</strong> The number and width of spectral bands the sensor captures.</li>
+                        <li><strong>Temporal Resolution:</strong> How often the satellite revisits the same spot (e.g., every 16 days).</li>
+                        <li><strong>Radiometric Resolution:</strong> The sensitivity of the sensor to small differences in energy (often measured in "bits").</li>
+                    </ul>
+                </section>
+
+                <section class="card">
+                    <h2>Major Satellite Programs</h2>
+                    <table class="platform-table">
+                        <thead>
+                            <tr><th>Program</th><th>Spatial Res</th><th>Revisit Time</th><th>Application</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>Landsat 8/9</strong></td><td>30m</td><td>16 Days</td><td>Agriculture / History</td></tr>
+                            <tr><td><strong>Sentinel-2</strong></td><td>10m</td><td>5 Days</td><td>Vegetation health</td></tr>
+                            <tr><td><strong>MODIS</strong></td><td>250m-1km</td><td>Daily</td><td>Global climate</td></tr>
+                            <tr><td><strong>WorldView-3</strong></td><td>0.3m</td><td>On-demand</td><td>Military / Commercial</td></tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="card">
+                    <h2>Summary of Big Ideas</h2>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Active Sensors</strong> (like LiDAR) provide their own energy source; <strong>Passive Sensors</strong> (like Landsat) rely on the Sun.</li>
+                        <li><strong>Sun-Synchronous Orbits</strong> ensure the satellite passes over at the same time each day for consistent lighting.</li>
+                        <li><strong>Composite Imagery</strong> combines multiple bands to reveal features (e.g., False Color Infrared).</li>
+                    </ul>
+                </section>
+
+                <div class="quiz-container">
+                    <h2>Chapter 10 Checkpoint</h2>
+                    <div class="question">
+                        <p><strong>1. A satellite that takes a new image of Austin every 16 days is said to have a 16-day:</strong></p>
+                        <div class="option" onclick="this.classList.add('correct')">Temporal Resolution</div>
+                        <div class="option" onclick="this.classList.add('wrong')">Spatial Resolution</div>
+                    </div>
+                    <div class="question">
+                        <p><strong>2. Which satellite program has the longest continuous record of Earth's surface (starting in 1972)?</strong></p>
+                        <div class="option" onclick="this.classList.add('wrong')">Sentinel</div>
+                        <div class="option" onclick="this.classList.add('correct')">Landsat</div>
+                    </div>
+                </div>
+
+                <div class="section-glossary">
+                    <h2>📚 Chapter Glossary</h2>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">Revisit Time (Temporal Resolution)</span>
+                            <span class="glossary-def">The time elapsed between two successive observations of the same ground area by a satellite (e.g., 16 days for Landsat).</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Swath Width</span>
+                            <span class="glossary-def">The width of the ground area imaged by a satellite sensor during a single pass. Wider swaths usually mean lower spatial resolution but faster global coverage.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Nadir</span>
+                            <span class="glossary-def">The point on the ground directly vertically beneath the satellite. This is the point of least distortion in an image.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Sun-Synchronous Orbit</span>
+                            <span class="glossary-def">An orbital path that ensures the satellite passes over any given point on the Earth's surface at the same local solar time.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="sidebar">
+                <!-- Important Person Component -->
+                <div class="box-bio">
+                    <img src="https://landsat.gsfc.nasa.gov/wp-content/uploads/2016/08/Virginia_Norwood_MSS.jpg" alt="Virginia Norwood">
+                    <div>
+                        <h3>Virginia T. Norwood</h3>
+                        <span class="bio-dates">(1927–2023)</span>
+                        <p>Known as the "Mother of Landsat," Norwood was an aerospace engineer who designed the <strong>Multispectral Scanner (MSS)</strong> for the first Landsat satellite in 1972. Her design proved that multiple spectral bands could be used to identify crops from space, launching the era of digital Earth observation.</p>
+                    </div>
+                </div>
+
+                <!-- Local to Global Component -->
+                <div class="sidebar-local-global">
+                    <h3>🇨🇱 Texas Connection</h3>
+                    <p>
+                        <strong>Monitoring the 2011 Drought:</strong> In 2011, Texas experienced its driest year on record. Remote sensing scientists used the <strong>Vegetation Health Index (VHI)</strong>—derived from satellite data—to map the severity of the drought across the state.
+                    </p>
+                    <p>
+                        This same technology is used globally by the <strong>Famine Early Warning Systems Network (FEWS NET)</strong> to predict food insecurity in East Africa months before a famine occurs.
+                    </p>
+                    <a href="https://waterdatafortexas.org/drought" target="_blank" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem; width:100%; text-align:center;">View Texas Drought Monitor</a>
+                </div>
+            </aside>
+        </div>
+
+        <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+            <a href="chapter-09b-band-combiner.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 09b</a>
+            <a href="chapter-11-image-classification.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Image Classification →</a>
+        </div>
+
+    </main>
+
+    <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

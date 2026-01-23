@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 16: Mobile GIS & Real-Time Data | GIS Digital Textbook</title>
+    <meta name="description" content="Take GIS into the field. Learn how to transform smartphones into precision data collection tools and how real-time GPS sensors are changing the world.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+    <style>
+        :root {
+            --primary: #10b981;
+            --secondary: #64748b;
+            --accent: #3b82f6;
+            --success: #10b981;
+            --bg: #f8fafc;
+        }
+
+        .hero-chapter {
+            background: linear-gradient(135deg, #164e33 0%, #10b981 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-chapter::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(circle at 15% 15%, rgba(255,255,255,0.1) 0%, transparent 40%);
+        }
+
+        .chapter-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 1100px) {
+            .layout-grid { grid-template-columns: 1fr; }
+        }
+
+        .sidebar-box {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary);
+        }
+        .sidebar-box.local { border-top-color: var(--accent); }
+
+        .sidebar-box h3 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .bio-img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
+
+        .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        
+        /* Collector Simulator */
+        .collector-sim {
+            background: #111827;
+            border-radius: 20px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            height: 500px;
+            margin: 2rem 0;
+            border: 8px solid #374151;
+        }
+
+        @media (max-width: 900px) { .collector-sim { grid-template-columns: 1fr; height: auto; } }
+
+        .phone-form { background: #f8fafc; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+        .form-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: #64748b; }
+        .form-input { width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 8px; }
+
+        .map-pane { background: #e2e8f0; position: relative; }
+        #collector-map { height: 100%; width: 100%; }
+
+        /* Quiz Styles */
+        .quiz-container { background: #f1f5f9; padding: 2rem; border-radius: 16px; margin-top: 3rem; }
+        .option { background: white; padding: 1rem; border-radius: 8px; border: 2px solid #e2e8f0; cursor: pointer; margin-bottom: 0.75rem; transition: 0.2s; color: #1e293b; }
+        .option:hover { border-color: var(--primary); }
+        .option.correct { border-color: var(--success); background: #ecfdf5; }
+        .option.wrong { border-color: #ef4444; background: #fff1f2; }
+    </style>
+</head>
+<body>
+
+    <header class="hero-chapter">
+        <div class="container">
+            <span class="chapter-badge">Chapter 16</span>
+            <h1>Mobile GIS & Field Data</h1>
+            <p class="subtitle">Taking GIS into the wild. Learn how smartphones and high-precision GPS sensors allow us to collect and sync data from anywhere on the planet in real-time.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav style="margin: 2rem 0;">
+            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
+        </nav>
+
+        <div class="layout-grid">
+            <div class="content">
+                <section class="card">
+                    <h2>📱 The Digital Clipboard</h2>
+                    <p>In the past, field data was collected on paper and typed in manually. Today, tools like <strong>ArcGIS Field Maps</strong> and <strong>Survey123</strong> allow us to digitize data directly onto a live map, including photos, videos, and GPS coordinates.</p>
+                </section>
+
+                <section class="collector-sim">
+                    <div class="phone-form">
+                        <div style="font-weight: 800; font-size: 1rem; margin-bottom: 1rem; border-bottom: 2px solid #eee; padding-bottom: 0.5rem;">Field Inventory</div>
+                        
+                        <label class="form-label">Feature Type</label>
+                        <select class="form-input" id="type-input">
+                            <option>Traffic Light</option>
+                            <option>Fire Hydrant</option>
+                            <option>Utility Pole</option>
+                        </select>
+                        
+                        <label class="form-label">Condition</label>
+                        <select class="form-input" id="cond-input">
+                            <option>Excellent</option>
+                            <option>Requires Maintenance</option>
+                            <option>Urgent Repair</option>
+                        </select>
+
+                        <button style="margin-top: auto; padding: 1rem; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer;" onclick="collectPoint()">Sync to Server</button>
+                    </div>
+                    <div class="map-pane">
+                        <div id="collector-map"></div>
+                        <div style="position: absolute; top: 10px; right: 10px; z-index: 1000; background: white; padding: 5px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">GPS: 29.65 N, 82.32 W</div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>Summary of Big Ideas</h2>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Real-Time Sync:</strong> Data collected in the field appears on the office dashboard instantly.</li>
+                        <li><strong>Offline Maps:</strong> Modern apps allow workers to download maps to their device for use in remote areas without cell service.</li>
+                        <li><strong>Attribute Validation:</strong> Survey forms use "logic" to prevent errors (e.g., preventing a user from entering a negative value for tree height).</li>
+                        <li><strong>Crowdsourcing:</strong> Mobile GIS enables regular citizens to report issues like potholes or water leaks to the city.</li>
+                    </ul>
+                </section>
+
+                <div class="quiz-container">
+                    <h2>Chapter 16 Checkpoint</h2>
+                    <div class="question">
+                        <p><strong>1. Which of the following allows field workers to collect data without an internet connection?</strong></p>
+                        <div class="option" onclick="this.classList.add('wrong')">Live Satellite Link</div>
+                        <div class="option" onclick="this.classList.add('correct')">Offline Map Areas (Syncing)</div>
+                    </div>
+                    <div class="question">
+                        <p><strong>2. In a mobile survey app, a "logic jump" is used to:</strong></p>
+                        <div class="option" onclick="this.classList.add('correct')">Show or hide questions based on previous answers.</div>
+                        <div class="option" onclick="this.classList.add('wrong')">Automatically calibrate the GPS sensor.</div>
+                    </div>
+                </div>
+
+                <section class="card" style="margin-top: 3rem;">
+                    <h2>📚 Glossary</h2>
+                    <dl>
+                        <dt><strong>GNSS:</strong></dt>
+                        <dd>Global Navigation Satellite System—the general term for satellite-based location services like GPS.</dd>
+                        
+                        <dt><strong>Feature Service:</strong></dt>
+                        <dd>A web-hosted data layer that allows for multi-user editing in the field.</dd>
+                        
+                        <dt><strong>Telemetry:</strong></dt>
+                        <dd>The automatic measurement and transmission of data from remote sources (e.g., water sensors).</dd>
+                    </dl>
+                </section>
+            </div>
+
+            <aside class="sidebar">
+                <div class="sidebar-box bio">
+                    <h3>Important Person</h3>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Monica_Turner.jpg/220px-Monica_Turner.jpg" alt="Monica Turner" class="bio-img">
+                    <p><strong>Dr. Monica Turner</strong></p>
+                    <p>A Vilas Research Professor at the University of Wisconsin-Madison, Dr. Turner is a pioneer in landscape ecology. Her long-term studies of the recovery of Yellowstone National Park after the 1988 fires were among the first to integrate field data collection with advanced GIS modeling, proving how important "real-time" observation is for understanding environmental change.</p>
+                </div>
+
+                <div class="sidebar-box local">
+                    <h3>Local to Global</h3>
+                    <p><strong>Austin's FloodPro Dashboard</strong></p>
+                    <p>In Austin, flooding happens fast. The City uses a mobile-ready GIS dashboard called <strong>FloodPro</strong>. During a storm, residents can use their phones to see real-time water levels from hundreds of creek sensors across the city. This data is synced instantly, allowing emergency responders to close low-water crossings before casualties occur.</p>
+                    <p>Your smartphone becomes a life-saving tool during an Austin flash flood.</p>
+                </div>
+            </aside>
+        </div>
+
+        <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+          <a href="chapter-15-spatial-modeling.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 15: Spatial Modeling</a>
+          <a href="chapter-17-storytelling.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 17: Storytelling &rarr;</a>
+        </div>
+    </main>
+
+    <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <script>
+        const map = L.map('collector-map').setView([29.6516, -82.3248], 15);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        function collectPoint() {
+            const type = document.getElementById('type-input').value;
+            const center = map.getCenter();
+            L.circleMarker(center, { color: '#10b981', radius: 8 }).addTo(map).bindPopup(type).openPopup();
+            alert("Data synced successfully!");
+        }
+    </script>
+</body>
+</html>

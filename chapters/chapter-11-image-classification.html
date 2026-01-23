@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 11: Image Classification | GIS Digital Textbook</title>
+    <meta name="description" content="Turn pixels into information. Learn about Supervised, Unsupervised, and Object-Based image classification to map land cover and land use.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #10b981;
+            --secondary: #64748b;
+            --accent: #8b5cf6;
+            --success: #10b981;
+            --bg: #f8fafc;
+        }
+
+        .hero-chapter {
+            background: linear-gradient(135deg, #064e3b 0%, #10b981 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-chapter::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(circle at 70% 30%, rgba(255,255,255,0.1) 0%, transparent 40%);
+        }
+
+        .chapter-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 1100px) {
+            .layout-grid { grid-template-columns: 1fr; }
+        }
+
+        .sidebar-box {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary);
+        }
+        .sidebar-box.bio { border-top-color: var(--accent); }
+
+        .sidebar-box h3 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .bio-img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
+
+        .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        
+        /* Classification Tool */
+        .classification-container {
+            background: #1e293b;
+            padding: 2rem;
+            border-radius: 16px;
+            color: #fff;
+            margin: 2rem 0;
+            display: grid;
+            grid-template-columns: 1fr 200px;
+            gap: 1.5rem;
+        }
+
+        .preview-pane {
+            height: 300px;
+            background: #0f172a;
+            border-radius: 8px;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .class-btn {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            border-radius: 6px;
+            border: 2px solid transparent;
+            background: #334155;
+            color: #fff;
+            cursor: pointer;
+            text-align: left;
+            transition: 0.2s;
+        }
+
+        .class-btn.active { border-color: var(--primary); background: #1f2937; }
+
+        /* Quiz Styles */
+        .quiz-container { background: #f1f5f9; padding: 2rem; border-radius: 16px; margin-top: 3rem; }
+        .option { background: white; padding: 1rem; border-radius: 8px; border: 2px solid #e2e8f0; cursor: pointer; margin-bottom: 0.75rem; transition: 0.2s; color: #1e293b; }
+        .option:hover { border-color: var(--primary); }
+        .option.correct { border-color: var(--success); background: #ecfdf5; }
+        .option.wrong { border-color: #ef4444; background: #fff1f2; }
+    </style>
+</head>
+<body>
+
+    <header class="hero-chapter">
+        <div class="container">
+            <span class="chapter-badge">Chapter 11</span>
+            <h1>Image Classification</h1>
+            <p class="subtitle">Turning pixels into information. Learn how computer algorithms categorize satellite data to track urbanization, deforestation, and water resources.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav style="margin: 2rem 0;">
+            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
+        </nav>
+
+        <div class="layout-grid">
+            <div class="content">
+                <section class="card">
+                    <h2>🤖 The Challenge of Interpretation</h2>
+                    <p>A satellite image is just a grid of numbers. <strong>Image Classification</strong> is the process of organizing those pixels into meaningful groups—turning a picture of a forest into a digital "Forest" class that we can use for calculation.</p>
+                    
+                    <div class="callout" style="background: #eff6ff; border-left: 5px solid #3b82f6; color: #1e40af; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                        <strong>Key Lesson:</strong> We classify based on <em>spectral similarities</em>. If a rooftop and a highway reflect light the same way, the computer will likely put them in the same class unless we provide extra context.
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>Supervised vs. Unsupervised</h2>
+                    <p>There are two primary ways to train a computer to recognize land cover:</p>
+                    <ul style="line-height: 2; margin-top: 1rem;">
+                        <li><strong>Unsupervised:</strong> The computer groups similar pixels into clusters automatically. The analyst later identifies what those clusters actually represent.</li>
+                        <li><strong>Supervised:</strong> The analyst provides <em>Training Samples</em> (examples) for each class first, and the computer maps the rest of the image based on those samples.</li>
+                    </ul>
+                </section>
+
+                <section class="classification-container">
+                    <div class="preview-pane" id="trainingCanvas" onclick="addSample(event)">
+                        <div style="position: absolute; inset: 0; background: linear-gradient(to right, #1e3a8a 30%, #065f46 30%, #065f46 70%, #475569 70%); opacity: 0.5;"></div>
+                        <div style="color: white; position: absolute; bottom: 10px; left: 10px; font-size: 0.8rem; background: rgba(0,0,0,0.5); padding: 5px;">Click to add samples</div>
+                    </div>
+                    <div>
+                        <button class="class-btn active" id="btn-water" onclick="selectClass(0)">💧 Water</button>
+                        <button class="class-btn" id="btn-forest" onclick="selectClass(1)">🌲 Forest</button>
+                        <button class="class-btn" id="btn-urban" onclick="selectClass(2)">🏢 Urban</button>
+                        <button style="margin-top: 1rem; width: 100%; padding: 0.75rem; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 700; cursor: pointer;" onclick="runClassification()">Classify</button>
+                        <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 10px; text-align: center;">Samples: <span id="sample-count">0</span></p>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>Summary of Big Ideas</h2>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Land Use</strong> is how humans use the land; <strong>Land Cover</strong> is what is physically there.</li>
+                        <li><strong>Object-Based</strong> classification looks at shapes and textures, not just individual pixels.</li>
+                        <li><strong>Confusion Matrices</strong> are used to measure the accuracy of a classified map.</li>
+                        <li><strong>Multi-temporal</strong> analysis allows us to track changes over time (Land Change Science).</li>
+                    </ul>
+                </section>
+
+                <div class="quiz-container">
+                    <h2>Chapter 11 Checkpoint</h2>
+                    <div class="question">
+                        <p><strong>1. Which classification method requires the user to provide "Training Samples"?</strong></p>
+                        <div class="option" onclick="this.classList.add('correct')">Supervised Classification</div>
+                        <div class="option" onclick="this.classList.add('wrong')">Unsupervised Classification</div>
+                    </div>
+                    <div class="question">
+                        <p><strong>2. After classification, you compare your map to high-resolution data to find the "Accuracy." The table used for this is called a:</strong></p>
+                        <div class="option" onclick="this.classList.add('wrong')">Attribute Table</div>
+                        <div class="option" onclick="this.classList.add('correct')">Confusion Matrix</div>
+                    </div>
+                </div>
+
+                <section class="card" style="margin-top: 3rem;">
+                    <h2>📚 Glossary</h2>
+                    <dl>
+                        <dt><strong>Training Sample:</strong></dt>
+                        <dd>A representative area of a specific land cover type used to teach the computer classification rules.</dd>
+                        
+                        <dt><strong>OBIA:</strong></dt>
+                        <dd>Object-Based Image Analysis—segmenting an image into shapes before classification.</dd>
+                        
+                        <dt><strong>Signature File:</strong></dt>
+                        <dd>A file containing the spectral statistics of each training class.</dd>
+                    </dl>
+                </section>
+            </div>
+
+            <aside class="sidebar">
+                <div class="sidebar-box bio">
+                    <h3>Important Person</h3>
+                    <img src="https://sc.edu/study/colleges_schools/artsandsciences/geography/images/jensen_john.jpg" alt="John Jensen" class="bio-img">
+                    <p><strong>Dr. John Jensen</strong></p>
+                    <p>A Distinguished Professor Emeritus at the University of South Carolina, Dr. Jensen is the author of several foundational textbooks on digital image processing. His work bridged the gap between military photogrammetry and modern environmental GIS, training generations of remote sensing specialists.</p>
+                </div>
+
+                <div class="sidebar-box local">
+                    <h3>Local to Global</h3>
+                    <p><strong>Mapping Urban Growth in Austin</strong></p>
+                    <p>Analysts at the City of Austin and CAPCOG use image classification to track "Impervious Cover"—the concrete and rooftops that prevent rain from soaking into the ground. By classifying Landsat and Sentinel data from 1980 to today, they can visualize how the "Live Music Capital" has shifted from green pastures to a dense urban landscape.</p>
+                    <p>This data is critical for managing the health of Barton Springs and the Edwards Aquifer.</p>
+                </div>
+            </aside>
+        </div>
+
+        <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+          <a href="chapter-10-remote-sensing.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 10: Remote Sensing</a>
+          <a href="chapter-12-lidar.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 12: LiDAR &rarr;</a>
+        </div>
+    </main>
+
+    <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        let currentClass = 0;
+        let count = 0;
+        const colors = ['#3b82f6', '#10b981', '#ffffff'];
+
+        function selectClass(id) {
+            currentClass = id;
+            document.querySelectorAll('.class-btn').forEach((b, i) => b.classList.toggle('active', i === id));
+        }
+
+        function addSample(e) {
+            const canvas = document.getElementById('trainingCanvas');
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const dot = document.createElement('div');
+            dot.style.position = 'absolute';
+            dot.style.width = '6px';
+            dot.style.height = '6px';
+            dot.style.background = colors[currentClass];
+            dot.style.borderRadius = '50%';
+            dot.style.left = x + 'px';
+            dot.style.top = y + 'px';
+            canvas.appendChild(dot);
+
+            count++;
+            document.getElementById('sample-count').textContent = count;
+        }
+
+        function runClassification() {
+            if (count < 5) return alert("Add more samples first!");
+            const canvas = document.getElementById('trainingCanvas');
+            canvas.innerHTML = '<div style="position: absolute; inset: 0; background: linear-gradient(to right, #1e3a8a 30%, #065f46 30%, #065f46 70%, #1e293b 70%); opacity: 1;"></div><div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white;">CLASSIFIED MAP</div>';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 20: Research in GIS | GIS Digital Textbook</title>
+    <meta name="description" content="Transition from student to researcher. Learn how to design a geographic research project, conduct a literature review, and contribute to the field of GIScience.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4338ca;
+            --secondary: #64748b;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --bg: #f8fafc;
+        }
+
+        .hero-chapter {
+            background: linear-gradient(135deg, #312e81 0%, #4338ca 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-chapter::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(circle at 10% 10%, rgba(255,255,255,0.1) 0%, transparent 40%);
+        }
+
+        .chapter-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 1100px) {
+            .layout-grid { grid-template-columns: 1fr; }
+        }
+
+        .sidebar-box {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary);
+        }
+        .sidebar-box.local { border-top-color: var(--accent); }
+
+        .sidebar-box h3 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .bio-img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
+
+        .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        
+        .research-cycle {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) { .research-cycle { grid-template-columns: 1fr; } }
+
+        .cycle-step { background: #eef2ff; padding: 1.5rem; border-radius: 12px; border-bottom: 4px solid var(--primary); }
+
+        /* Quiz Styles */
+        .quiz-container { background: #e0f2fe; padding: 2rem; border-radius: 16px; margin-top: 3rem; }
+        .option { background: white; padding: 1rem; border-radius: 8px; border: 2px solid #e2e8f0; cursor: pointer; margin-bottom: 0.75rem; transition: 0.2s; color: #1e293b; }
+        .option:hover { border-color: var(--primary); }
+        .option.correct { border-color: var(--success); background: #ecfdf5; }
+        .option.wrong { border-color: #ef4444; background: #fff1f2; }
+    </style>
+</head>
+<body>
+
+    <header class="hero-chapter">
+        <div class="container">
+            <span class="chapter-badge">Chapter 20</span>
+            <h1>Research in GIS</h1>
+            <p class="subtitle">From knowledge consumer to creator. Discover how to use your GIS skills to solve novel problems and contribute to the global community of Geographic Science.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav style="margin: 2rem 0;">
+            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
+        </nav>
+
+        <div class="layout-grid">
+            <div class="content">
+                <section class="card">
+                    <h2>🚀 The Scientific Method in GIS</h2>
+                    <p>GIS is more than just a tool for making maps; it is a methodology for discovery. When you move from "how to" to "why," you become a researcher. Geographic research follows a rigorous cycle of inquiry.</p>
+                    
+                    <div class="research-cycle">
+                        <div class="cycle-step">
+                            <h4 style="margin:0;">1. Ask</h4>
+                            <p style="font-size: 0.8rem; margin-top: 5px;">Define the spatial question.</p>
+                        </div>
+                        <div class="cycle-step">
+                            <h4 style="margin:0;">2. Review</h4>
+                            <p style="font-size: 0.8rem; margin-top: 5px;">Read the existing literature.</p>
+                        </div>
+                        <div class="cycle-step">
+                            <h4 style="margin:0;">3. Analyze</h4>
+                            <p style="font-size: 0.8rem; margin-top: 5px;">Test your hypothesis.</p>
+                        </div>
+                        <div class="cycle-step">
+                            <h4 style="margin:0;">4. Report</h4>
+                            <p style="font-size: 0.8rem; margin-top: 5px;">Publish your results.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>🏢 Case Study: Placemaking at Work</h2>
+                    <p>How do we create meaningful and sustainable workplaces in the age of remote work? This is a major theme in modern geographic research (and the focus of Dr. Sounny's dissertation).</p>
+                    <ul style="line-height: 2; margin-top: 1rem;">
+                        <li><strong>Taylorism vs. Holism:</strong> Tracking the shift from rigid efficiency to holistic well-being in office design.</li>
+                        <li><strong>The IPAT Equation:</strong> Calculating the environmental impact (Impact = Population × Affluence × Technology) of shifting to hybrid work models.</li>
+                        <li><strong>Smart Buildings:</strong> How IoT and GIS work together to create "responsive" environments that save energy.</li>
+                    </ul>
+                </section>
+
+                <section class="card">
+                    <h2>Summary of Big Ideas</h2>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Literature Review:</strong> Never start a project without knowing what has already been done.</li>
+                        <li><strong>Reproducibility:</strong> A good researcher provides their data and models so others can verify the results.</li>
+                        <li><strong>Geographic Inquiry:</strong> The process of asking "why" rather than just "where."</li>
+                        <li><strong>OER Commitment:</strong> This textbook is a part of the "Open Educational Resources" movement—sharing knowledge freely with the world.</li>
+                    </ul>
+                </section>
+
+                <div class="quiz-container">
+                    <h2>Chapter 20 Checkpoint</h2>
+                    <div class="question">
+                        <p><strong>1. What is the first step in a geographic research project?</strong></p>
+                        <div class="option" onclick="this.classList.add('correct')">Asking a spatial question or defining a problem.</div>
+                        <div class="option" onclick="this.classList.add('wrong')">Digitizing the first polygon.</div>
+                    </div>
+                    <div class="question">
+                        <p><strong>2. In the IPAT equation (I = PAT), what does the "P" stand for?</strong></p>
+                        <div class="option" onclick="this.classList.add('wrong')">Pressure</div>
+                        <div class="option" onclick="this.classList.add('correct')">Population</div>
+                    </div>
+                </div>
+
+                <section class="card" style="margin-top: 3rem;">
+                    <h2>📚 Glossary</h2>
+                    <dl>
+                        <dt><strong>IPAT:</strong></dt>
+                        <dd>An equation used to describe the impact of human activity on the environment: Impact = Population × Affluence × Technology.</dd>
+                        
+                        <dt><strong>OER:</strong></dt>
+                        <dd>Open Educational Resources—freely accessible, openly licensed text and media used for teaching and learning.</dd>
+                        
+                        <dt><strong>Placemaking:</strong></dt>
+                        <dd>The collaborative process by which we shape our public (and work) spaces to maximize shared value.</dd>
+                    </dl>
+                </section>
+            </div>
+
+            <aside class="sidebar">
+                <div class="sidebar-box bio">
+                    <h3>Important Person</h3>
+                    <img src="https://media.licdn.com/dms/image/C4E03AQG9F6m4iL4Aig/profile-displayphoto-shrink_800_800/0/1517596827670?e=1714003200&v=beta&t=M8-9lC9i9_S_X6t4H_8o_v8k1C6fF_mQz6X8yYv8g-A" alt="Dr. Sounny-Slitine" class="bio-img">
+                    <p><strong>Dr. Anwar Sounny-Slitine</strong></p>
+                    <p>A Senior Lecturer and GIS Researcher, Dr. Sounny-Slitine's PhD research focused on "Placemaking at Work." He is a passionate advocate for Open Educational Resources (OER) and developed this digital textbook to ensure that high-quality GIS education is accessible to all students, regardless of their financial background.</p>
+                </div>
+
+                <div class="sidebar-box local">
+                    <h3>Local to Global</h3>
+                    <p><strong>The ESRI Young Scholar Award</strong></p>
+                    <p>Do you have a great undergraduate GIS research project? You can apply for the <strong>ESRI Young Scholar Award</strong>! Each year, one student from the USA (and many globally) is chosen to fly to San Diego to present their work at the Esri International User Conference.</p>
+                    <p>Texas students frequently win this award—proving that the research you do in this classroom can be the launchpad for a global career.</p>
+                </div>
+            </aside>
+        </div>
+
+        <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+          <a href="chapter-19-research-data-management.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 19: Data Management</a>
+          <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Back to Dashboard &rarr;</a>
+        </div>
+    </main>
+
+    <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

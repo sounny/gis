@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 09: Spectral Analysis | GIS Digital Textbook</title>
+    <meta name="description" content="Explore the science of light and satellite imagery. Learn how different surfaces reflect energy across the electromagnetic spectrum.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --secondary: #64748b;
+            --accent: #f43f5e;
+            --success: #10b981;
+            --bg: #f8fafc;
+        }
+
+        .hero-chapter {
+            background: linear-gradient(135deg, #4c1d95 0%, #8b5cf6 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-chapter::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .chapter-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 1100px) {
+            .layout-grid { grid-template-columns: 1fr; }
+        }
+
+        .sidebar-box {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary);
+        }
+        .sidebar-box.local { border-top-color: var(--success); }
+
+        .sidebar-box h3 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .bio-img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
+
+        .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        
+        /* Spectral Explorer */
+        .spectrum-analyzer {
+            background: #fff;
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            margin: 2rem 0;
+        }
+
+        .spectrum-gradient {
+            height: 60px;
+            background: linear-gradient(to right, #4b0082, #0000ff, #00ff00, #ffff00, #ff7f00, #ff0000, #8b0000 70%, #4a148c 100%);
+            border-radius: 8px;
+            margin: 2rem 0;
+            position: relative;
+            cursor: pointer;
+            border: 2px solid #e2e8f0;
+        }
+
+        .selector-box {
+            position: absolute;
+            top: -10px;
+            width: 4px;
+            height: 80px;
+            background: var(--primary);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .response-graph {
+            height: 200px;
+            margin-top: 2rem;
+            background: #f1f5f9;
+            border-radius: 8px;
+            display: flex;
+            align-items: flex-end;
+            padding: 0 20px;
+            gap: 2px;
+        }
+
+        .graph-bar {
+            flex: 1;
+            background: var(--primary);
+            transition: height 0.5s ease;
+            opacity: 0.7;
+        }
+
+        .object-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .object-card {
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .object-card.active {
+            border-color: var(--primary);
+            background: #f5f3ff;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.1);
+        }
+
+        /* Quiz Styles */
+        .quiz-container { background: #f1f5f9; padding: 2rem; border-radius: 16px; margin-top: 3rem; }
+        .option { background: white; padding: 1rem; border-radius: 8px; border: 2px solid #e2e8f0; cursor: pointer; margin-bottom: 0.75rem; transition: 0.2s; color: #1e293b; }
+        .option:hover { border-color: var(--primary); }
+        .option.correct { border-color: var(--success); background: #ecfdf5; }
+        .option.wrong { border-color: #ef4444; background: #fff1f2; }
+    </style>
+</head>
+<body>
+
+    <header class="hero-chapter">
+        <div class="container">
+            <span class="chapter-badge">Chapter 09</span>
+            <h1>Spectral Analysis</h1>
+            <p class="subtitle">Seeing beyond the visible. Learn how satellites capture unique "fingerprints" of Earth's surfaces across the electromagnetic spectrum.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav style="margin: 2rem 0;">
+            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
+        </nav>
+
+        <div class="layout-grid">
+            <div class="content">
+                <section class="card">
+                    <h2>🌈 The Science of Reflectance</h2>
+                    <p>Every object on Earth's surface reflects, absorbs, and transmits light differently depending on its physical properties. By measuring these unique <strong>spectral signatures</strong>, remote sensing can distinguish between healthy vegetation, dry soil, and urban concrete—even when they look identical to our eyes.</p>
+                </section>
+
+                <section class="spectrum-analyzer">
+                    <h3>🔬 Interactive: Spectral Explorer</h3>
+                    <p>Select an object and slide across the spectrum to see how its reflectance changes across different bands.</p>
+                    
+                    <div class="object-grid">
+                        <div class="object-card active" onclick="selectObject('veg', this)">🌿 Vegetation</div>
+                        <div class="object-card" onclick="selectObject('water', this)">💧 Water</div>
+                        <div class="object-card" onclick="selectObject('soil', this)">🏜️ Soil</div>
+                        <div class="object-card" onclick="selectObject('urban', this)">🏢 Urban</div>
+                    </div>
+
+                    <div class="spectrum-gradient" id="spectrum" onclick="moveSelector(event)">
+                        <div class="selector-box" id="selector" style="left: 20%;"></div>
+                    </div>
+                    
+                    <div class="response-graph" id="graph"></div>
+
+                    <div style="margin-top: 1.5rem; padding: 1rem; background: #f8fafc; border-radius: 8px; border-left: 4px solid var(--primary);" id="info">
+                        <strong>Insight:</strong> Select an object to begin.
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>Summary of Big Ideas</h2>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Spectral Signatures</strong> are the unique patterns of reflectance for different materials.</li>
+                        <li><strong>Bands</strong> represent specific ranges of the electromagnetic spectrum (e.g., Red, Near-Infrared).</li>
+                        <li><strong>NDVI</strong> is a common index used to measure vegetation health by comparing Red and NIR reflectance.</li>
+                        <li><strong>Atmospheric Scattering</strong> (like Rayleigh scattering) affects the clarity of satellite imagery.</li>
+                    </ul>
+                </section>
+
+                <div class="quiz-container">
+                    <h2>Chapter 09 Checkpoint</h2>
+                    <div class="question">
+                        <p><strong>1. Why does healthy vegetation look so bright in Near-Infrared (NIR) imagery?</strong></p>
+                        <div class="option" onclick="this.classList.add('correct')">Because the cellular structure of healthy leaves reflects NIR light very strongly.</div>
+                        <div class="option" onclick="this.classList.add('wrong')">Because NIR light is absorbed by chlorophyll for photosynthesis.</div>
+                    </div>
+                    <div class="question">
+                        <p><strong>2. Which surface type generally acts as an "absorber," reflecting very little NIR or SWIR light?</strong></p>
+                        <div class="option" onclick="this.classList.add('wrong')">Dry Soil</div>
+                        <div class="option" onclick="this.classList.add('correct')">Clear Water</div>
+                    </div>
+                </div>
+
+                <section class="card" style="margin-top: 3rem;">
+                    <h2>📚 Glossary</h2>
+                    <dl>
+                        <dt><strong>Electromagnetic Spectrum:</strong></dt>
+                        <dd>The range of all types of EM radiation, from radio waves to gamma rays.</dd>
+                        
+                        <dt><strong>Spectral Band:</strong></dt>
+                        <dd>A specific interval of the electromagnetic spectrum used by an imaging sensor.</dd>
+                        
+                        <dt><strong>NDVI:</strong></dt>
+                        <dd>Normalized Difference Vegetation Index—a measure of plant health using Red and NIR light.</dd>
+                    </dl>
+                </section>
+
+                <!-- Merged Band Combiner Section -->
+                <section class="card" style="margin-top: 3rem; border-top: 4px solid var(--accent);">
+                    <h2>🎨 Applied Spectral Analysis: The Band Combiner</h2>
+                    <p>Satellites capture data in separate "channels" or bands. By choosing which band represents Red, Green, and Blue on our screens, we can reveal hidden features of the Earth (like the "Active Composite" below).</p>
+                    
+                    <div class="combiner-container">
+                        <div class="preview-pane" id="previewPane">
+                            <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1000" id="img-true" class="preview-image" style="opacity: 1;" alt="True Color">
+                            <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=1000" id="img-false" class="preview-image" style="opacity: 0; filter: sepia(1) saturate(5) hue-rotate(-50deg);" alt="False Color IR">
+                            <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&q=80&w=1000" id="img-swir" class="preview-image" style="opacity: 0; filter: contrast(1.2) brightness(0.8) hue-rotate(180deg);" alt="SWIR Composite">
+                        </div>
+
+                        <div class="controls-pane">
+                            <div class="channel-slot">
+                                <label>🔴 Red Channel</label>
+                                <select class="band-select" id="redBand" onchange="updateComposite()">
+                                    <option value="B4">Band 4 (Visible Red)</option>
+                                    <option value="B5">Band 5 (Near-Infrared)</option>
+                                    <option value="B6">Band 6 (SWIR 1)</option>
+                                </select>
+                            </div>
+                            <div class="channel-slot">
+                                <label>🟢 Green Channel</label>
+                                <select class="band-select" id="greenBand" onchange="updateComposite()">
+                                    <option value="B3">Band 3 (Visible Green)</option>
+                                    <option value="B4">Band 4 (Visible Red)</option>
+                                    <option value="B5">Band 5 (Near-Infrared)</option>
+                                </select>
+                            </div>
+                            <div class="channel-slot">
+                                <label>🔵 Blue Channel</label>
+                                <select class="band-select" id="blueBand" onchange="updateComposite()">
+                                    <option value="B2">Band 2 (Visible Blue)</option>
+                                    <option value="B3">Band 3 (Visible Green)</option>
+                                    <option value="B4">Band 4 (Visible Red)</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label style="font-weight: 700; font-size: 0.8rem;">Common Combinations:</label>
+                                <div class="preset-grid">
+                                    <button class="btn-preset" onclick="setPreset('4,3,2')">True Color (4,3,2)</button>
+                                    <button class="btn-preset" onclick="setPreset('5,4,3')">Color Infrared (5,4,3)</button>
+                                    <button class="btn-preset" onclick="setPreset('6,5,4')">Agriculture (6,5,4)</button>
+                                    <button class="btn-preset" onclick="setPreset('7,6,4')">Urban (7,6,4)</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="composite-info" id="compositeDesc">
+                        <strong>Active Composite: True Color (4,3,2)</strong><br>
+                        This combination uses the visible bands. It looks like what the human eye would see from space.
+                    </div>
+                </section>
+
+                <style>
+                    /* Band Combiner Styles */
+                    .combiner-container { background: #fff; padding: 1.5rem; border-radius: 12px; border: 1px solid #e2e8f0; display: grid; grid-template-columns: 1fr 300px; gap: 1.5rem; margin-top: 1rem; }
+                    .preview-pane { background: #f1f5f9; border-radius: 8px; height: 300px; position: relative; overflow: hidden; border: 2px dashed #cbd5e1; }
+                    .preview-image { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.5s ease; position: absolute; top: 0; left: 0; }
+                    .controls-pane { display: flex; flex-direction: column; gap: 1rem; }
+                    .channel-slot { padding: 0.75rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; }
+                    .channel-slot label { display: block; margin-bottom: 0.25rem; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; }
+                    .band-select { width: 100%; padding: 0.5rem; border-radius: 4px; border: 1px solid #cbd5e1; }
+                    .preset-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.5rem; }
+                    .btn-preset { padding: 0.5rem; font-size: 0.75rem; background: #e2e8f0; border: none; border-radius: 4px; cursor: pointer; transition: all 0.2s; }
+                    .btn-preset:hover { background: var(--primary); color: white; }
+                    .composite-info { margin-top: 1rem; padding: 1rem; background: #ecfdf5; border-radius: 8px; border-left: 4px solid #10b981; }
+                    @media (max-width: 900px) { .combiner-container { grid-template-columns: 1fr; } }
+                </style>
+
+                <script>
+                    // Band Combiner Logic
+                    function updateComposite() {
+                        const r = document.getElementById('redBand').value;
+                        const g = document.getElementById('greenBand').value;
+                        const b = document.getElementById('blueBand').value;
+                        const desc = document.getElementById('compositeDesc');
+                        const images = document.querySelectorAll('.preview-image');
+                        images.forEach(img => img.style.opacity = 0);
+
+                        if (r === 'B4' && g === 'B3' && b === 'B2') {
+                            document.getElementById('img-true').style.opacity = 1;
+                            desc.innerHTML = "<strong>Active Composite: True Color (4,3,2)</strong><br>Standard visible light. Good for general orientation.";
+                        } else if (r === 'B5' && g === 'B4' && b === 'B3') {
+                            document.getElementById('img-false').style.opacity = 1;
+                            desc.innerHTML = "<strong>Active Composite: Color Infrared (5,4,3)</strong><br>Vegetation is bright RED. Excellent for vegetation monitoring.";
+                        } else if (r === 'B6' && g === 'B5' && b === 'B4') {
+                            document.getElementById('img-swir').style.opacity = 1;
+                            desc.innerHTML = "<strong>Active Composite: Agriculture (6,5,4)</strong><br>Uses Shortwave Infrared. Good for crop types and moisture.";
+                        } else {
+                            document.getElementById('img-true').style.opacity = 0.3;
+                            document.getElementById('img-false').style.opacity = 0.3;
+                            desc.innerHTML = "<strong>Custom Combination</strong><br>Experimenting with bands highlights different spectral properties.";
+                        }
+                    }
+
+                    function setPreset(triple) {
+                        const [r, g, b] = triple.split(',');
+                        document.getElementById('redBand').value = 'B' + r;
+                        document.getElementById('greenBand').value = 'B' + g;
+                        document.getElementById('blueBand').value = 'B' + b;
+                        updateComposite();
+                    }
+                </script>
+            </div>
+            </div>
+
+            <aside class="sidebar">
+                <div class="sidebar-box bio">
+                    <h3>Important Person</h3>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/John_William_Strutt.jpg/220px-John_William_Strutt.jpg" alt="Lord Rayleigh" class="bio-img">
+                    <p><strong>Lord Rayleigh (1842–1919)</strong></p>
+                    <p>A Nobel Prize-winning physicist known for explaining why the sky is blue. <strong>Rayleigh Scattering</strong> occurs when light particles are much smaller than the wavelength of the light. In remote sensing, this scattering makes blue light difficult to use for sharp imaging through the atmosphere.</p>
+                </div>
+
+                <div class="sidebar-box local">
+                    <h3>Local to Global</h3>
+                    <p><strong>Algae Blooms in the Gulf</strong></p>
+                    <p>Coastal Texas frequently faces "Red Tides" and other algae blooms. Using spectral analysis of satellite sensors (like MODIS), scientists can detect the unique spectral signature of chlorophyll-a in the Gulf of Mexico. This allows for early warnings to protect fisheries and tourism along the coast.</p>
+                    <p>By monitoring these colors from space, we can react to environmental changes in real-time.</p>
+                </div>
+            </aside>
+        </div>
+
+        <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+            <a href="chapter-08-vgi-neogeography.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 08</a>
+            <a href="chapter-09b-band-combiner.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Band Combiner →</a>
+        </div>
+    </main>
+
+    <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const data = {
+            veg: [10, 15, 20, 15, 10, 80, 85, 90, 40, 20, 10],
+            water: [50, 40, 30, 20, 10, 5, 2, 1, 0, 0, 0],
+            soil: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55],
+            urban: [60, 60, 60, 60, 60, 65, 70, 75, 80, 85, 90]
+        };
+
+        const canvas = document.getElementById('graph');
+        const selector = document.getElementById('selector');
+        const info = document.getElementById('info');
+        let currentObject = 'veg';
+
+        function initGraph() {
+            canvas.innerHTML = '';
+            for(let i=0; i<50; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'graph-bar';
+                canvas.appendChild(bar);
+            }
+            updateGraph();
+        }
+
+        function selectObject(obj, el) {
+            currentObject = obj;
+            document.querySelectorAll('.object-card').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            updateGraph();
+            updateInfo(parseInt(selector.style.left) || 20);
+        }
+
+        function moveSelector(e) {
+            const rect = document.getElementById('spectrum').getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const pct = (x / rect.width) * 100;
+            selector.style.left = pct + '%';
+            updateInfo(pct);
+        }
+
+        function updateGraph() {
+            const bars = document.querySelectorAll('.graph-bar');
+            const values = data[currentObject];
+            bars.forEach((bar, i) => {
+                const idx = Math.floor((i / bars.length) * (values.length - 1));
+                const nextIdx = Math.min(idx + 1, values.length - 1);
+                const weight = (i / bars.length * (values.length - 1)) % 1;
+                const val = values[idx] * (1 - weight) + values[nextIdx] * weight;
+                bar.style.height = val + '%';
+            });
+        }
+
+        function updateInfo(pct) {
+            let text = "";
+            if (currentObject === 'veg') {
+                if (pct < 40) text = "Visible Range: Chlorophyll absorbs Red/Blue for energy.";
+                else if (pct < 80) text = "NIR Range: Healthy plants reflect NIR light strongly. This makes them 'glow' in false-color imagery.";
+                else text = "Thermal/SWIR: Moisture in the plant affects these longer wavelengths.";
+            } else if (currentObject === 'water') {
+                text = "Water reflects some blue light (it looks blue) but absorbs NIR almost completely.";
+            } else if (currentObject === 'soil') {
+                text = "Soil has a steady, rising signature; as wavelength increases, so does reflectance.";
+            } else {
+                text = "Urban surfaces like concrete are relatively bright and flat across most of the spectrum.";
+            }
+            info.innerHTML = `<strong>Insight:</strong> ${text}`;
+        }
+
+        initGraph();
+    </script>
+</body>
+</html>

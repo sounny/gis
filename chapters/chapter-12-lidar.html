@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 12: LiDAR & 3D Analysis | GIS Digital Textbook</title>
+    <meta name="description" content="Explore the 3D world with LiDAR. Learn about point clouds, multi-return principles, and how to create Digital Elevation Models (DEMs).">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --secondary: #64748b;
+            --accent: #3b82f6;
+            --success: #10b981;
+            --bg: #f8fafc;
+        }
+
+        .hero-chapter {
+            background: linear-gradient(135deg, #4c1d95 0%, #3b82f6 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-chapter::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(circle at 10% 80%, rgba(255,255,255,0.1) 0%, transparent 40%);
+        }
+
+        .chapter-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 1100px) {
+            .layout-grid { grid-template-columns: 1fr; }
+        }
+
+        .sidebar-box {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary);
+        }
+        .sidebar-box.local { border-top-color: var(--success); }
+
+        .sidebar-box h3 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .bio-img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
+
+        .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        
+        /* Pulse Sim */
+        .pulse-sim {
+            background: #1e293b;
+            color: #fff;
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        #pulse-canvas {
+            width: 100%;
+            height: 200px;
+            background: #0f172a;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #334155;
+        }
+
+        .laser {
+            width: 2px;
+            height: 20px;
+            background: #f43f5e;
+            box-shadow: 0 0 10px #f43f5e;
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transition: top 1s linear;
+        }
+
+        /* Quiz Styles */
+        .quiz-container { background: #f1f5f9; padding: 2rem; border-radius: 16px; margin-top: 3rem; }
+        .option { background: white; padding: 1rem; border-radius: 8px; border: 2px solid #e2e8f0; cursor: pointer; margin-bottom: 0.75rem; transition: 0.2s; color: #1e293b; }
+        .option:hover { border-color: var(--primary); }
+        .option.correct { border-color: var(--success); background: #ecfdf5; }
+        .option.wrong { border-color: #ef4444; background: #fff1f2; }
+    </style>
+</head>
+<body>
+
+    <header class="hero-chapter">
+        <div class="container">
+            <span class="chapter-badge">Chapter 12</span>
+            <h1>LiDAR & 3D Analysis</h1>
+            <p class="subtitle">Seeing with light. Discover how LiDAR technology "digitally deforests" the planet to reveal hidden archaeology, flood risks, and forest structure.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav style="margin: 2rem 0;">
+            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
+        </nav>
+
+        <div class="layout-grid">
+            <div class="content">
+                <section class="card">
+                    <h2>🦇 What is LiDAR?</h2>
+                    <p><strong>LiDAR</strong> (Light Detection and Ranging) is an active remote sensing technology that uses laser pulses to measure distances. By firing thousands of laser pulses per second and measuring the time it takes for them to return, we can create a 3D <strong>Point Cloud</strong> of the Earth's surface.</p>
+                    
+                    <div class="callout" style="background: #f5f3ff; border-left: 5px solid #8b5cf6; color: #4c1d95; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                        <strong>The Superpower:</strong> Unlike traditional satellite imagery, LiDAR can "penetrate" vegetation. By filtering for the "last return," we can create a map of the bare ground beneath a dense forest canopy.
+                    </div>
+                </section>
+
+                <section class="pulse-sim">
+                    <h3>⚡ Pulse Interaction</h3>
+                    <p>Fire a laser pulse and watch for the returns (Echoes).</p>
+                    <div id="pulse-canvas">
+                        <div class="laser" id="laser"></div>
+                        <div style="position: absolute; bottom: 60px; left: 40%; width: 20%; height: 40px; background: #059669; border-radius: 50% 50% 0 0; opacity: 0.6;">🌲</div>
+                        <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: #64748b;"></div>
+                    </div>
+                    <button style="margin-top: 1.5rem; padding: 0.75rem 2rem; background: #f43f5e; color: white; border: none; border-radius: 6px; font-weight: 700; cursor: pointer;" onclick="fireLaser()">Fire Laser</button>
+                    <div style="margin-top: 1rem; color: #94a3b8; font-size: 0.8rem;" id="pulse-status">Waiting for pulse...</div>
+                </section>
+
+                <section class="card">
+                    <h2>🏔️ DEM, DSM, and CHM</h2>
+                    <p>LiDAR allows us to generate different 3D surface models by filtering the point cloud:</p>
+                    <ul style="line-height: 2; margin-top: 1rem;">
+                        <li><strong>DEM (Digital Elevation Model):</strong> The bare earth surface (ground only).</li>
+                        <li><strong>DSM (Digital Surface Model):</strong> The top-most surface (tree tops, roofs).</li>
+                        <li><strong>CHM (Canopy Height Model):</strong> The height of features (DSM - DEM).</li>
+                    </ul>
+                </section>
+
+                <section class="card">
+                    <h2>Summary of Big Ideas</h2>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Point Clouds</strong> are the raw, unorganized results of a LiDAR scan.</li>
+                        <li><strong>Active Sensors</strong> (LiDAR) work day or night because they provide their own light.</li>
+                        <li><strong>Ground Filtering</strong> is the process of removing trees and buildings to reveal the terrain.</li>
+                        <li><strong>Z-Values</strong> provide the crucial third dimension (altitude) in GIS.</li>
+                    </ul>
+                </section>
+
+                <div class="quiz-container">
+                    <h2>Chapter 12 Checkpoint</h2>
+                    <div class="question">
+                        <p><strong>1. Which model would you use to measure the height of a specific building?</strong></p>
+                        <div class="option" onclick="this.classList.add('correct')">CHM (Canopy Height Model)</div>
+                        <div class="option" onclick="this.classList.add('wrong')">DEM (Digital Elevation Model)</div>
+                    </div>
+                    <div class="question">
+                        <p><strong>2. How does LiDAR "see" the ground through a forest?</strong></p>
+                        <div class="option" onclick="this.classList.add('wrong')">The laser passes directly through the leaves.</div>
+                        <div class="option" onclick="this.classList.add('correct')">Some pulses pass through small gaps between the leaves.</div>
+                    </div>
+                </div>
+
+                <section class="card" style="margin-top: 3rem;">
+                    <h2>📚 Glossary</h2>
+                    <dl>
+                        <dt><strong>Point Cloud:</strong></dt>
+                        <dd>A collection of individual points in 3D space captured by LiDAR.</dd>
+                        
+                        <dt><strong>Return:</strong></dt>
+                        <dd>An individual reflection of a laser pulse (1st, 2nd, 3rd, or Last).</dd>
+                        
+                        <dt><strong>Intensity:</strong></dt>
+                        <dd>The strength of the laser pulse reflection, which reveals surface characteristics.</dd>
+                    </dl>
+                </section>
+            </div>
+
+            <aside class="sidebar">
+                <div class="sidebar-box bio">
+                    <h3>Important Person</h3>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Dr._Sarah_Parcak.jpg/220px-Dr._Sarah_Parcak.jpg" alt="Sarah Parcak" class="bio-img">
+                    <p><strong>Dr. Sarah Parcak</strong></p>
+                    <p>A Distinguished Professor and "Space Archaeologist," Dr. Parcak uses LiDAR and satellite imagery to discover buried temples, pyramids, and entire cities. Her work has proven that we have only discovered about 1% of the archaeology buried on Earth, with the other 99% waiting to be found via remote sensing.</p>
+                </div>
+
+                <div class="sidebar-box local">
+                    <h3>Local to Global</h3>
+                    <p><strong>The TNRIS High-Res Program</strong></p>
+                    <p>Texas is a leader in open-access data through the <strong>Texas Natural Resources Information System (TNRIS)</strong>. Their StratMap program has collected high-resolution LiDAR for the entire state. This data is used daily by Texas engineers to design safer drainage systems and by FEMA to map new flood zones along the coast.</p>
+                    <p>This massive dataset is free for all Texans to download and use!</p>
+                </div>
+            </aside>
+        </div>
+
+        <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+          <a href="chapter-11-image-classification.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 11: Classification</a>
+          <a href="chapter-13-raster-analysis.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 13: Raster Analysis &rarr;</a>
+        </div>
+    </main>
+
+    <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function fireLaser() {
+            const laser = document.getElementById('laser');
+            const status = document.getElementById('pulse-status');
+            laser.style.top = '-30px';
+            
+            setTimeout(() => {
+                laser.style.top = '140px'; // Hit tree
+                status.textContent = "1st Return Received (Canopy Top)";
+                
+                setTimeout(() => {
+                    laser.style.top = '198px'; // Hit ground
+                    status.textContent = "Last Return Received (Bare Earth)";
+                }, 400);
+            }, 100);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 15: Spatial Modeling | GIS Digital Textbook</title>
+    <meta name="description" content="Learn to automate your GIS workflows. Master ModelBuilder, Python scripting (ArcPy), and how to chain geoprocessing tools together to solve complex geographic problems.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --secondary: #64748b;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --bg: #f8fafc;
+        }
+
+        .hero-chapter {
+            background: linear-gradient(135deg, #4c1d95 0%, #8b5cf6 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-chapter::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .chapter-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 1100px) {
+            .layout-grid { grid-template-columns: 1fr; }
+        }
+
+        .sidebar-box {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary);
+        }
+        .sidebar-box.local { border-top-color: var(--accent); }
+
+        .sidebar-box h3 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .bio-img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
+
+        .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        
+        /* ModelBuilder Sandbox */
+        .modelbuilder-sandbox {
+            background: #f1f5f9;
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .canvas {
+            height: 300px;
+            background: white;
+            border-radius: 12px;
+            position: relative;
+            border: 2px dashed #cbd5e1;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .node {
+            padding: 1rem;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: #fff;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .data-node { background: #3b82f6; border-radius: 999px; width: 120px; text-align: center; }
+        .tool-node { background: #f59e0b; border-radius: 6px; width: 100px; text-align: center; height: 40px; display: flex; align-items: center; justify-content: center; color: #000; }
+
+        /* Quiz Styles */
+        .quiz-container { background: #f5f3ff; padding: 2rem; border-radius: 16px; margin-top: 3rem; }
+        .option { background: white; padding: 1rem; border-radius: 8px; border: 2px solid #e2e8f0; cursor: pointer; margin-bottom: 0.75rem; transition: 0.2s; color: #1e293b; }
+        .option:hover { border-color: var(--primary); }
+        .option.correct { border-color: var(--success); background: #ecfdf5; }
+        .option.wrong { border-color: var(--primary); background: #fff1f2; }
+    </style>
+</head>
+<body>
+
+    <header class="hero-chapter">
+        <div class="container">
+            <span class="chapter-badge">Chapter 15</span>
+            <h1>Spatial Modeling</h1>
+            <p class="subtitle">Workflow automation. Learn how to chain geoprocessing tools together using ModelBuilder and Python to solve complex, real-world spatial problems.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav style="margin: 2rem 0;">
+            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
+        </nav>
+
+        <div class="layout-grid">
+            <div class="content">
+                <section class="card">
+                    <h2>🏗️ What is a Spatial Model?</h2>
+                    <p>In GIS, a model is a simplified representation of a real-world process. <strong>Spatial Modeling</strong> involves chaining geoprocessing tools (like Buffering, Intersecting, and Reclassifying) to automate workflows and perform complex analyses.</p>
+                    
+                    <div class="callout" style="background: #f5f3ff; border-left: 5px solid #8b5cf6; color: #4c1d95; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                        <strong>Automation & Reproducibility:</strong> Modeling allows you to run the same analysis on 100 different datasets with a single click, ensuring that your methodology is consistent and documented.
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>📦 ModelBuilder: Visual Programming</h2>
+                    <p>ArcGIS Pro's <strong>ModelBuilder</strong> is a visual programming language where you drag data (Blue Ellipses) and tools (Yellow Rectangles) onto a canvas to create a "Geoprocessing Chain."</p>
+                </section>
+
+                <section class="modelbuilder-sandbox">
+                    <h3>🛠️ Concept: A Geoprocessing Chain</h3>
+                    <div class="canvas">
+                        <div class="node data-node">Input Roads</div>
+                        <div style="font-size: 1.5rem; color: #64748b;">&rarr;</div>
+                        <div class="node tool-node">Buffer Tool</div>
+                        <div style="font-size: 1.5rem; color: #64748b;">&rarr;</div>
+                        <div class="node data-node">Road Buffer</div>
+                    </div>
+                    <p style="color: #64748b; font-size: 0.8rem;">Data (Input) flows through a Tool to create new Data (Output).</p>
+                </section>
+
+                <section class="card">
+                    <h2>Summary of Big Ideas</h2>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Recursive Processing:</strong> Models can handle loops and iterations (e.g., process all files in a folder).</li>
+                        <li><strong>Parameters:</strong> Variables that allow the user to change inputs without rebuilding the model (e.g., changing the buffer distance).</li>
+                        <li><strong>Documentation:</strong> A model serves as a visual record of how a map was created.</li>
+                    </ul>
+                </section>
+
+                <div class="quiz-container">
+                    <h2>Chapter 15 Checkpoint</h2>
+                    <div class="question">
+                        <p><strong>1. In ModelBuilder, what does a Blue Ellipse represent?</strong></p>
+                        <div class="option" onclick="this.classList.add('correct')">Data (Input or Output)</div>
+                        <div class="option" onclick="this.classList.add('wrong')">A Geoprocessing Tool</div>
+                    </div>
+                    <div class="question">
+                        <p><strong>2. Why is spatial modeling important for scientific research?</strong></p>
+                        <div class="option" onclick="this.classList.add('wrong')">It makes the maps look more colorful.</div>
+                        <div class="option" onclick="this.classList.add('correct')">It ensures the analysis can be reproduced by other researchers.</div>
+                    </div>
+                </div>
+
+                <section class="card" style="margin-top: 3rem;">
+                    <h2>📚 Glossary</h2>
+                    <dl>
+                        <dt><strong>Geoprocessing:</strong></dt>
+                        <dd>The operation of manipulating spatial data to create new information.</dd>
+                        
+                        <dt><strong>ArcPy:</strong></dt>
+                        <dd>A Python site package used to perform geographic data analysis and automation.</dd>
+                        
+                        <dt><strong>Parameter:</strong></dt>
+                        <dd>An input value (like a distance or file path) that can be changed by the user when running a model.</dd>
+                    </dl>
+                </section>
+            </div>
+
+            <aside class="sidebar">
+                <div class="sidebar-box bio">
+                    <h3>Important Person</h3>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Jack_Dangermond.jpg/220px-Jack_Dangermond.jpg" alt="Jack Dangermond" class="bio-img">
+                    <p><strong>Dr. Jack Dangermond</strong></p>
+                    <p>The founder and president of Esri (Environmental Systems Research Institute). Dangermond pioneered the commercial GIS industry and led the development of tools like **ModelBuilder**, which democratized spatial modeling by allowing non-programmers to create complex automated workflows.</p>
+                </div>
+
+                <div class="sidebar-box local">
+                    <h3>Local to Global</h3>
+                    <p><strong>Modeling Coastal Erosion on Padre Island</strong></p>
+                    <p>University researchers in Texas use spatial models to simulate how hurricanes will reshape Padre Island over the next 50 years. By chaining tools that calculate sediment transport, beach slope, and storm surge levels, they can model thousands of "What If?" scenarios to help prepare coastal communities for a changing climate.</p>
+                </div>
+            </aside>
+        </div>
+
+        <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+          <a href="chapter-14-vector-analysis.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 14: Vector Analysis</a>
+          <a href="chapter-16-mobile-gis.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 16: Mobile GIS &rarr;</a>
+        </div>
+    </main>
+
+    <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

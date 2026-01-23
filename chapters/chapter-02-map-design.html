@@ -4,76 +4,298 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chapter 02: Map Elements & Design | GIS Digital Textbook</title>
-    <meta name="description" content="Fundamentals of Cartography: TALL (Title, Author, Legend, Locals/Scale) and visual hierarchy.">
+    <meta name="description" content="Master the art of cartography. Learn about map elements, visual hierarchy, thematic mapping, and the Rule of 5-7.">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #64748b;
+            --accent: #ec4899;
+            --success: #10b981;
+            --danger: #ef4444;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+        }
+
+        .hero-chapter {
+            background: linear-gradient(135deg, #312e81 0%, #4f46e5 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-chapter::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(236, 72, 153, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(79, 70, 229, 0.2) 0%, transparent 40%);
+        }
+
+        .chapter-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; position: relative; z-index: 1; }
+        .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; position: relative; z-index: 1; }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 1100px) {
+            .layout-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Sidebar Elements */
+        .sidebar-box {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary);
+        }
+
+        .sidebar-box.bio { border-top-color: var(--accent); }
+        .sidebar-box.local { border-top-color: var(--success); }
+
+        .sidebar-box h3 { margin-top: 0; font-size: 1.1rem; color: var(--text); border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        
+        .bio-img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
+
+        /* Thematic Map Simulator */
+        .color-explorer {
+            background: #f1f5f9;
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+        }
+
+        .swatch-grid {
+            display: flex;
+            gap: 10px;
+            margin: 1.5rem 0;
+        }
+
+        .swatch {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* Quiz Styles */
+        .quiz-container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-top: 3rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .option {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 0.5rem;
+        }
+        .option:hover { border-color: var(--primary); }
+        .option.correct { border-color: var(--success); background: #ecfdf5; color: #065f46; }
+        .option.wrong { border-color: var(--danger); background: #fef2f2; color: #991b1b; }
+
+        /* General UI */
+        .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border: 1px solid #f1f5f9; }
+        .callout { padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem; display: flex; gap: 1rem; align-items: start; }
+        .callout.info { background: #eff6ff; color: #1e40af; border-left: 5px solid #3b82f6; }
+        .callout.warning { background: #fffbeb; color: #92400e; border-left: 5px solid #f59e0b; }
+
+        pre { background: #1e293b; color: #f8fafc; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+    </style>
 </head>
 <body>
 
-    <header class="hero">
+    <header class="hero-chapter">
         <div class="container">
-            <nav style="margin-bottom: 1rem;">
-                <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Chapters</a>
-            </nav>
-            <h1>Chapter 02: Map Elements & Design</h1>
-            <p>A map is not just data—it is a communication tool. Good design ensures your message is received clearly and accurately.</p>
+            <span class="chapter-badge">Chapter 02</span>
+            <h1>Map Elements & Design</h1>
+            <p class="subtitle">A map is not just a picture—it is a sophisticated communication channel. Learn how to design maps that are clear, accurate, and ethical.</p>
         </div>
     </header>
 
     <main class="container">
-        <section class="card">
-            <h2>The T.O.L.S. Principle</h2>
-            <p>Every professional map should contain five key elements to be considered complete. Remember the acronym <strong>T.O.L.S.</strong> (sometimes taught as TALLS):</p>
-            
-            <ul style="margin-top: 1.5rem; font-size: 1.1rem; line-height: 1.8;">
-                <li><strong>T - Title:</strong> Descriptive and concise. distinct from the subtitle.</li>
-                <li><strong>O - Orientation:</strong> A north arrow or graticule to show direction.</li>
-                <li><strong>L - Legend:</strong> Defines symbols and colors used on the map.</li>
-                <li><strong>S - Scale:</strong> A scale bar or representative fraction (1:24,000).</li>
-                <li><strong>S - Source:</strong> Credits for the data providers (e.g., "Source: US Census Bureau").</li>
-            </ul>
-        </section>
+        <nav style="margin: 2rem 0;">
+            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
+        </nav>
 
-        <section class="card">
-            <h2>Thematic Mapping & Census Data</h2>
-            <p>
-                One of the most common types of maps you will create is a <strong>Choropleth Map</strong> (from Greek <em>choros</em> = region, <em>plethos</em> = multitude). 
-                These maps use color gradients to represent data values within defined geographic areas, such as counties or census tracts.
-            </p>
-            
-            <div class="video-container">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/cfvd8Q6VoQg" title="Choropleth Mapping with Census Data" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="layout-grid">
+            <div class="content">
+                <section class="card">
+                    <h2>📢 The Cartographic Communication Channel</h2>
+                    <p>Cartography is the process of <strong>encoding</strong> geographic reality into an abstract graphic language. The user's job is to <strong>decode</strong> those symbols to build their own mental model of the world.</p>
+                    
+                    <div class="video-container" style="margin: 2rem 0; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; box-shadow: var(--shadow-lg);">
+                        <iframe 
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
+                            src="https://www.youtube.com/embed/8K0fRogYpK4" 
+                            title="The Cartographic Communication Channel" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+
+                    <div class="callout info">
+                        <strong>The Goal:</strong> Minimal "noise" between the sender (Cartographer) and receiver (Map User). If the user misinterprets your legend, the communication has failed.
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>The Essential T.O.L.S. (TALLS)</h2>
+                    <p>Every professional map should contain these five key elements. Without them, a map is just an illustration.</p>
+                    <ul style="line-height: 2;">
+                        <li><strong>T - Title:</strong> Clear, concise, and tells the "What, Where, and When."</li>
+                        <li><strong>O - Orientation:</strong> A north arrow or graticule (especially for large scales).</li>
+                        <li><strong>L - Legend:</strong> The key that unlocks the meaning of every color and symbol.</li>
+                        <li><strong>S - Scale:</strong> A way to measure distance (Scale Bar is best for digital).</li>
+                        <li><strong>S - Source:</strong> Where did the data come from? (e.g., "Source: NOAA").</li>
+                    </ul>
+                </section>
+
+                <section class="card">
+                    <h2>The Psychology of Color</h2>
+                    <p>Color is one of the most powerful tools in a cartographer's belt, but it must be used with precision. We categorize color use into three main types of palettes:</p>
+                    
+                    <div class="color-explorer">
+                        <h3>Sequential (Low to High)</h3>
+                        <p>Used for quantitative data that goes in one direction (e.g., Income, Population).</p>
+                        <div class="swatch-grid">
+                            <div class="swatch" style="background:#f7fbff"></div>
+                            <div class="swatch" style="background:#c6dbef"></div>
+                            <div class="swatch" style="background:#6baed6"></div>
+                            <div class="swatch" style="background:#2171b5"></div>
+                            <div class="swatch" style="background:#08306b"></div>
+                        </div>
+
+                        <h3>Diverging (Opposite Ends)</h3>
+                        <p>Used for data with a meaningful midpoint (e.g., Above/Below Average, Temperature).</p>
+                        <div class="swatch-grid">
+                            <div class="swatch" style="background:#ca0020"></div>
+                            <div class="swatch" style="background:#f4a582"></div>
+                            <div class="swatch" style="background:#f7f7f7"></div>
+                            <div class="swatch" style="background:#92c5de"></div>
+                            <div class="swatch" style="background:#0571b0"></div>
+                        </div>
+
+                        <h3>Qualitative (Categories)</h3>
+                        <p>Used for categorical data with no order (e.g., Soil Types, Land Use).</p>
+                        <div class="swatch-grid">
+                            <div class="swatch" style="background:#a6cee3"></div>
+                            <div class="swatch" style="background:#1f78b4"></div>
+                            <div class="swatch" style="background:#b2df8a"></div>
+                            <div class="swatch" style="background:#33a02c"></div>
+                            <div class="swatch" style="background:#fb9a99"></div>
+                        </div>
+                    </div>
+
+                    <div class="callout warning">
+                        <strong>The Rule of 5-7:</strong> The human mind struggles to distinguish more than 7 color classes at once. Aim for 5-7 categories in your legends.
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>Summary of Big Ideas</h2>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Visual Hierarchy</strong> guides the user's eye to the most important data.</li>
+                        <li><strong>TALLS</strong> elements provide the necessary context for map interpretation.</li>
+                        <li><strong>Choropleth</strong> maps must be normalized to avoid misleading population-concentration artifacts.</li>
+                        <li><strong>Generalization</strong> is the necessary simplification of geography for specific scales.</li>
+                    </ul>
+                </section>
+
+                <div class="quiz-container">
+                    <h2>Chapter 02 Checkpoint</h2>
+                    <div class="question">
+                        <p><strong>1. Which color scheme would you use to map "Percent Unemployment by County"?</strong></p>
+                        <div class="option" onclick="this.classList.add('correct')">Sequential (Light to Dark)</div>
+                        <div class="option" onclick="this.classList.add('wrong')">Qualitative (Various Colors)</div>
+                    </div>
+                    <div class="question">
+                        <p><strong>2. What does "TALLS" stand for in map design?</strong></p>
+                        <div class="option" onclick="this.classList.add('wrong')">Time, Area, Legend, Land, Scale</div>
+                        <div class="option" onclick="this.classList.add('correct')">Title, Author (Source), Legend, Locals (Orientation), Scale</div>
+                    </div>
+                </div>
+
+                <section class="card" style="margin-top: 3rem;">
+                    <h2>Glossary</h2>
+                    <dl>
+                        <dt><strong>Cartography:</strong></dt>
+                        <dd>The science and art of making maps.</dd>
+                        
+                        <dt><strong>Choropleth Map:</strong></dt>
+                        <dd>A thematic map where areas are shaded in proportion to a statistical variable.</dd>
+                        
+                        <dt><strong>Visual Hierarchy:</strong></dt>
+                        <dd>The order in which the eye perceives elements on a map based on their prominence.</dd>
+                    </dl>
+                </section>
             </div>
 
-            <p>
-                <strong>Pro Tip:</strong> When mapping socio-economic data like population or income, always normazlize your data (e.g., map "Population Density" rather than "Total Population") to avoid just mapping map area.
-            </p>
-        </section>
+            <aside class="sidebar">
+                <div class="sidebar-box bio">
+                    <h3>Important Person</h3>
+                    <img src="https://static01.nyt.com/images/2020/07/26/obituaries/14Brewer-01/14Brewer-01-mediumSquareAt3X.jpg" alt="Cynthia Brewer" class="bio-img">
+                    <p><strong>Dr. Cynthia Brewer</strong></p>
+                    <p>A Professor of Geography at Penn State University, Dr. Brewer is the creator of <strong>ColorBrewer</strong>—the definitive tool for map color design. Her research on color theory and accessibility has significantly improved the quality and readability of thematic maps globally.</p>
+                </div>
 
-        <section class="card">
-            <h2>Visual Hierarchy</h2>
-            <p>
-                Visual hierarchy is the arrangement of elements in a way that implies importance. The most important information (the subject of the map) should be the most prominent.
-            </p>
-            <div class="callout warning">
-                <strong>Common Mistake:</strong> Do not let the base map overpower your data! If you are mapping schools, the schools should be bright and bold, while the street background should be muted or gray.
-            </div>
-            
-            <h3>Figure-Ground Relationship</h3>
-            <p>
-                Good contrast helps the eye distinguish the "figure" (your subject) from the "ground" (the background). Use color, brightness, and size to achieve this separation.
-            </p>
-        </section>
-        
-        <div class="next-steps" style="margin-top: 3rem; text-align: center;">
-            <a href="chapter-03-projections.html" class="btn">Next: Chapter 03 - Geodesy & Projections →</a>
+                <div class="sidebar-box local">
+                    <h3>Local to Global</h3>
+                    <p><strong>The Texas GLO Archive</strong></p>
+                    <p>The Texas General Land Office maintains some of the state's oldest and most historically significant maps. From hand-drawn Spanish land grants to modern digital oil and gas maps, the GLO archives show how map elements like <em>Source</em> and <em>Title</em> have evolved over centuries.</p>
+                    <p>Checking these records is crucial for modern property law and resource management.</p>
+                </div>
+            </aside>
+        </div>
+
+        <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+          <a href="chapter-01-spatial-data.html" style="text-decoration: none; color: var(--secondary);">
+            &larr; Chapter 01: Spatial Data
+          </a>
+          <a href="chapter-03-projections.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">
+            Chapter 03: Projections &rarr;
+          </a>
         </div>
     </main>
 
-    <footer>
+    <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">
-            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine.</p>
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
         </div>
     </footer>
-
 </body>
 </html>

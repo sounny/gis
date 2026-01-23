@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 08: VGI & NeoGeography | GIS Digital Textbook</title>
+    <meta name="description" content="Explore the democratization of mapping. Learn about Volunteered Geographic Information (VGI), the 'Wikipedia of Maps' (OSM), and how citizen science is changing geography.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #10b981;
+            --secondary: #64748b;
+            --accent: #3b82f6;
+            --success: #10b981;
+            --bg: #f8fafc;
+        }
+
+        .hero-chapter {
+            background: linear-gradient(135deg, #065f46 0%, #10b981 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-chapter::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 40%);
+        }
+
+        .chapter-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 1100px) {
+            .layout-grid { grid-template-columns: 1fr; }
+        }
+
+        .sidebar-box {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary);
+        }
+        .sidebar-box.local { border-top-color: var(--accent); }
+
+        .sidebar-box h3 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .bio-img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
+
+        .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        
+        /* Crowdmap Simulator */
+        .crowdmap-sim {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        #crowd-canvas {
+            width: 100%;
+            height: 300px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            border: 2px dashed #cbd5e1;
+        }
+
+        .user-point {
+            width: 10px;
+            height: 10px;
+            background: var(--primary);
+            border-radius: 50%;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        /* Quiz Styles */
+        .quiz-container { background: #f1f5f9; padding: 2rem; border-radius: 16px; margin-top: 3rem; }
+        .option { background: white; padding: 1rem; border-radius: 8px; border: 2px solid #e2e8f0; cursor: pointer; margin-bottom: 0.75rem; transition: 0.2s; color: #1e293b; }
+        .option:hover { border-color: var(--primary); }
+        .option.correct { border-color: var(--success); background: #ecfdf5; }
+        .option.wrong { border-color: #ef4444; background: #fff1f2; }
+    </style>
+</head>
+<body>
+
+    <header class="hero-chapter">
+        <div class="container">
+            <span class="chapter-badge">Chapter 08</span>
+            <h1>VGI & NeoGeography</h1>
+            <p class="subtitle">The power of the crowd. Learn how volunteered geographic information and open-source mapping are revolutionizing the GIS industry.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav style="margin: 2rem 0;">
+            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
+        </nav>
+
+        <div class="layout-grid">
+            <div class="content">
+                <section class="card">
+                    <h2>👥 What is VGI?</h2>
+                    <p><strong>Volunteered Geographic Information (VGI)</strong> is the harnessing of tools to create, assemble, and disseminate geographic data provided voluntarily by individuals. Instead of relying solely on professional surveyors, we now have millions of "citizens as sensors."</p>
+                    
+                    <div class="callout" style="background: #ecfdf5; border-left: 5px solid #10b981; color: #065f46; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                        <strong>The "Wikification" of GIS:</strong> Just as Wikipedia democratized knowledge, VGI has democratized map-making.
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>🌐 OpenStreetMap (OSM)</h2>
+                    <p>OpenStreetMap is the greatest example of VGI. It is a free, editable map of the whole world being built by volunteers. In humanitarian crises, OSM often provides more up-to-date information than any official government source.</p>
+                    
+                    <div class="video-container" style="margin: 2rem 0; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; box-shadow: var(--shadow-lg);">
+                        <iframe 
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
+                            src="https://www.youtube.com/embed/6iBygIDLzps" 
+                            title="What is OpenStreetMap?" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </section>
+
+                <section class="crowdmap-sim">
+                    <h3>🔬 Try it: Crowdsourced Mapping</h3>
+                    <p>Click anywhere on the panel below to "volunteer" a location point. Notice how individual points start to reveal a pattern (the "Wisdom of the Crowd").</p>
+                    <div id="crowd-canvas" onclick="addPoint(event)"></div>
+                    <div style="margin-top: 1rem; color: #64748b;">Points Contributed: <span id="count">0</span></div>
+                </section>
+
+                <section class="card">
+                    <h2>Summary of Big Ideas</h2>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Citizens as Sensors:</strong> Every smartphone user is a potential map contributor.</li>
+                        <li><strong>Open Data</strong> fuels innovation and provides critical info in data-poor regions.</li>
+                        <li><strong>NeoGeography</strong> is the use of mapping tools by non-experts for personal/social activities.</li>
+                        <li><strong>Data Quality</strong> in VGI is managed through "crowd-review" and automated checks.</li>
+                    </ul>
+                </section>
+
+                <div class="quiz-container">
+                    <h2>Chapter 08 Checkpoint</h2>
+                    <div class="question">
+                        <p><strong>1. Which of the following is considered the "Wikipedia of Maps"?</strong></p>
+                        <div class="option" onclick="this.classList.add('wrong')">Google Maps</div>
+                        <div class="option" onclick="this.classList.add('correct')">OpenStreetMap (OSM)</div>
+                    </div>
+                    <div class="question">
+                        <p><strong>2. What is a potential challenge of using VGI data?</strong></p>
+                        <div class="option" onclick="this.classList.add('correct')">Variable data quality and lack of formal metadata.</div>
+                        <div class="option" onclick="this.classList.add('wrong')">It is too expensive to access.</div>
+                    </div>
+                </div>
+
+                <section class="card" style="margin-top: 3rem;">
+                    <h2>📚 Glossary</h2>
+                    <dl>
+                        <dt><strong>Citizen Science:</strong></dt>
+                        <dd>The collection and analysis of data relating to the natural world by members of the general public.</dd>
+                        
+                        <dt><strong>Crowdsourcing:</strong></dt>
+                        <dd>Obtaining information or input into a task by enlisting the services of a large number of people.</dd>
+                        
+                        <dt><strong>Geotagging:</strong></dt>
+                        <dd>The process of adding geographical identification metadata to various media such as photos or videos.</dd>
+                    </dl>
+                </section>
+            </div>
+
+            <aside class="sidebar">
+                <div class="sidebar-box bio">
+                    <h3>Important Person</h3>
+                    <img src="https://www.geog.ucsb.edu/sites/default/files/styles/profile_image/public/images/people/michael_goodchild.jpg" alt="Michael Goodchild" class="bio-img">
+                    <p><strong>Dr. Michael Goodchild</strong></p>
+                    <p>A Professor Emeritus at UC Santa Barbara, Goodchild is one of the world's leading GIS scientists. In 2007, he coined the term <strong>"Volunteered Geographic Information" (VGI)</strong>, predicting that the future of mapping would lie in the hands of the public rather than just professional organizations.</p>
+                </div>
+
+                <div class="sidebar-box local">
+                    <h3>Local to Global</h3>
+                    <p><strong>iNaturalist: Born in Texas</strong></p>
+                    <p>One of the world's most successful VGI platforms, <strong>iNaturalist</strong>, has deep roots in Texas (partnered with Texas Parks and Wildlife). Thousands of Texans use it to "volunteer" observations of biodiversity, which helps scientists track climate change and species migration in real-time.</p>
+                    <p>By mapping your backyard, you are contributing to a global scientific database.</p>
+                </div>
+            </aside>
+        </div>
+
+        <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+          <a href="chapter-07-database-management.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 07: Databases</a>
+          <a href="chapter-09-spectral-analysis.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 09: Spectral Analysis &rarr;</a>
+        </div>
+    </main>
+
+    <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        let count = 0;
+        function addPoint(e) {
+            const canvas = document.getElementById('crowd-canvas');
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const point = document.createElement('div');
+            point.className = 'user-point';
+            point.style.left = x + 'px';
+            point.style.top = y + 'px';
+            canvas.appendChild(point);
+
+            count++;
+            document.getElementById('count').textContent = count;
+        }
+    </script>
+</body>
+</html>

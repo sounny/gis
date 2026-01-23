@@ -3,604 +3,310 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 03: Geodesy, Projections & Coordinate Systems | GIS & RS Textbook</title>
-    <meta name="description" content="Understanding how we represent the curved Earth on flat maps. Explore projections, datums, and coordinate systems through interactive simulations.">
+    <title>Chapter 03: Geodesy & Projections | GIS Digital Textbook</title>
+    <meta name="description" content="Explore the science of measuring Earth and the art of map projections. Learn about datums, coordinate systems, and the 'Orange Peel' problem.">
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        .projection-demo {
-            background: #fff;
-            padding: 2.5rem;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-            margin: 3rem 0;
+        :root {
+            --primary: #6366f1;
+            --secondary: #64748b;
+            --accent: #f43f5e;
+            --success: #10b981;
+            --bg: #f8fafc;
         }
 
-        .projection-selector {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .projection-btn {
-            padding: 1rem 1.5rem;
-            border: 2px solid #e2e8f0;
-            border-radius: var(--radius-md);
-            background: #f8fafc;
-            cursor: pointer;
+        .hero-chapter {
+            background: linear-gradient(135deg, #1e1b4b 0%, #6366f1 100%);
+            padding: 5rem 2rem;
             text-align: center;
-            transition: all 0.2s ease;
-            font-weight: 600;
-        }
-
-        .projection-btn:hover {
-            border-color: var(--primary);
-            background: #f0f9ff;
-        }
-
-        .projection-btn.active {
-            background: var(--primary);
             color: white;
-            border-color: var(--primary);
-        }
-
-        .projection-btn .emoji {
-            font-size: 1.5rem;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        #map-container {
-            height: 400px;
-            border-radius: var(--radius-md);
+            position: relative;
             overflow: hidden;
-            border: 2px solid #e2e8f0;
+        }
+
+        .hero-chapter::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(circle at 50% 120%, rgba(255,255,255,0.1) 0%, transparent 60%);
+        }
+
+        .chapter-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
             margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.3);
         }
 
-        .distortion-legend {
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+
+        .layout-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            margin-top: 1.5rem;
-            padding: 1.5rem;
-            background: #f8fafc;
-            border-radius: var(--radius-md);
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            margin-top: 3rem;
         }
 
-        .distortion-item {
-            text-align: center;
+        @media (max-width: 1100px) {
+            .layout-grid { grid-template-columns: 1fr; }
         }
 
-        .distortion-item .indicator {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin: 0 auto 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 0.8rem;
-        }
-
-        .distortion-item.area .indicator {
-            background: #dbeafe;
-            color: #1d4ed8;
-        }
-
-        .distortion-item.shape .indicator {
-            background: #fce7f3;
-            color: #be185d;
-        }
-
-        .distortion-item.distance .indicator {
-            background: #d1fae5;
-            color: #047857;
-        }
-
-        .distortion-item.direction .indicator {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .size-comparison {
-            background: #fff;
+        /* Interactive Tools */
+        .tool-panel {
+            background: white;
             padding: 2.5rem;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-            margin: 3rem 0;
-        }
-
-        .country-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 1.5rem;
+            border-radius: 16px;
             margin: 2rem 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            border: 1px solid #f1f5f9;
         }
 
-        .country-card {
-            padding: 1.5rem;
-            border: 2px solid #e2e8f0;
-            border-radius: var(--radius-md);
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .country-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-2px);
-        }
-
-        .country-card.selected {
-            border-color: var(--primary);
-            background: #f0f9ff;
-        }
-
-        .country-card .flag {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .size-bar {
-            height: 60px;
-            background: var(--bg-main);
-            border-radius: var(--radius-sm);
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            margin: 1.5rem 0;
-        }
-
-        .size-fill {
-            height: 100%;
-            background: linear-gradient(to right, var(--primary), var(--primary-dark));
-            transition: width 0.5s ease;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            padding-right: 1rem;
-            color: white;
-            font-weight: 700;
-            min-width: 80px;
-        }
-
-        .info-panel {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            background: var(--callout-info-bg);
-            border-radius: var(--radius-md);
-            border-left: 5px solid var(--callout-info-border);
-        }
-
-        .case-study {
-            background: linear-gradient(135deg, #fdf4ff 0%, #f5f3ff 100%);
-            padding: 2rem;
-            border-radius: var(--radius-md);
-            margin: 2rem 0;
-            border-left: 5px solid #8b5cf6;
-        }
-
-        .case-study h4 {
-            color: #6d28d9;
-            margin-bottom: 1rem;
-        }
-
-        .reading-box {
-            background: #f0fdf4;
-            padding: 1.5rem;
-            border-radius: var(--radius-md);
-            border-left: 5px solid #22c55e;
-            margin: 2rem 0;
-        }
-
-        .reading-box h4 {
-            color: #15803d;
-            margin-bottom: 0.5rem;
-        }
-
-        .reading-box ul {
-            margin: 1rem 0 0 1.5rem;
-        }
-
-        .reading-box li {
-            margin-bottom: 0.5rem;
-        .key-concept {
-            display: grid;
-            grid-template-columns: 60px 1fr;
-            gap: 1.5rem;
-            padding: 1.5rem;
-            background: #fff;
-            border-radius: var(--radius-md);
+        #chartdiv {
+            width: 100%;
+            height: 500px;
             border: 1px solid #e2e8f0;
+            border-radius: 12px;
             margin: 1.5rem 0;
+            background: #edf7fa;
         }
 
-        .concept-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            border-radius: var(--radius-sm);
+        .tools-controls {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-
-        .lab-section {
-            background: #fffbeb;
-            padding: 2rem;
-            border-radius: var(--radius-md);
-            border: 2px dashed #f59e0b;
-            margin: 3rem 0;
-        }
-
-        .lab-section h3 {
-            color: #92400e;
-            display: flex;
-            align-items: center;
             gap: 0.5rem;
+            justify-content: center;
+            align-items: center;
         }
+
+        .tools-controls select {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            font-size: 1rem;
+        }
+
+        /* Sidebar Elements */
+        .sidebar-box {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary);
+        }
+        .sidebar-box.bio { border-top-color: var(--accent); }
+
+        .sidebar-box h3 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .bio-img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
+
+        /* General UI */
+        .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .callout { padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem; display: flex; gap: 1rem; align-items: start; background: #eff6ff; border-left: 5px solid #3b82f6; }
+
+        /* Quiz Styles */
+        .quiz-container { background: #f1f5f9; padding: 2rem; border-radius: 16px; margin-top: 3rem; }
+        .option { background: white; padding: 1rem; border-radius: 8px; border: 2px solid #e2e8f0; cursor: pointer; margin-bottom: 0.75rem; transition: 0.2s; }
+        .option:hover { border-color: var(--primary); }
+        .option.correct { border-color: var(--success); background: #ecfdf5; }
+        .option.wrong { border-color: var(--accent); background: #fff1f2; }
     </style>
 </head>
 <body>
 
-    <header class="hero">
+    <header class="hero-chapter">
         <div class="container">
-            <nav style="margin-bottom: 1rem;">
-                <a href="../index-dev.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">← Back to Chapters</a>
-            </nav>
-            <h1>Chapter 03: Geodesy, Projections & Coordinate Systems</h1>
-            <p>Transforming the curved Earth to flat maps — and the trade-offs that come with it.</p>
+            <span class="chapter-badge">Chapter 03</span>
+            <h1>Geodesy & Projections</h1>
+            <p class="subtitle">Flattening a curved Earth is a mathematical impossibility. Learn why every map is a compromise and how to choose the right one for your work.</p>
         </div>
     </header>
 
     <main class="container">
-        
-        <!-- Introduction -->
-        <section class="card">
-            <h2>🌍 The Fundamental Challenge</h2>
-            <p>The Earth is approximately spherical — yet every map you've ever used is flat. This seemingly simple transformation introduces <strong>distortions</strong> that affect how we perceive area, shape, distance, and direction.</p>
-            <p style="margin-top: 1rem;">In this module, you'll learn how <strong>geodesy</strong> (the science of measuring Earth) and <strong>map projections</strong> work together to solve this ancient problem — and why every projection is a compromise.</p>
-        </section>
+        <nav style="margin: 2rem 0;">
+            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
+        </nav>
 
-        <!-- Key Concepts Grid -->
-        <h2>📐 Core Concepts</h2>
-        
-        <div class="key-concept">
-            <div class="concept-icon">🌐</div>
-            <div>
-                <h4>Geodesy</h4>
-                <p>The science of accurately measuring and representing the Earth's shape, gravitational field, and rotation. Modern geodesy relies on satellites, GPS, and precise mathematical models.</p>
+        <div class="layout-grid">
+            <div class="content">
+                <section class="card">
+                    <h2>🌍 The Fundamental Geodetic Challenge</h2>
+                    <p>The Earth is not a perfect sphere; it's an <strong>oblate spheroid</strong> (bulging at the equator) with a bumpy, <strong>geoid</strong> surface. To map it, we must first model it using a <strong>Datum</strong>.</p>
+                    
+                    <div class="video-container" style="margin: 2rem 0; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; box-shadow: var(--shadow-lg);">
+                        <iframe 
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
+                            src="https://www.youtube.com/embed/LN_tCKdl9cE" 
+                            title="Introduction to Map Projections" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+
+                    <div class="callout">
+                        <strong>The "Orange Peel" Problem:</strong> Try peeling an orange and flattening the skin. You'll find it impossible without tearing it or stretching the surface. Every map projection does exactly this to our planet.
+                    </div>
+                </section>
+
+                <section class="tool-panel">
+                    <h2>Interactive Projection Explorer</h2>
+                    <p>Toggle between different mathematical projections to see how the shapes and sizes of continents change. Watch <strong>Greenland</strong> closely — it's the classic victim of map distortion!</p>
+                    
+                    <div class="tools-controls">
+                        <input id="selector-prev" type="button" value="&larr;" onclick="setIndex(-1);" disabled="disabled" />
+                        <select id="selector" onchange="setProjection(this.options[this.selectedIndex].value);">
+                            <option value="geoMercator">Mercator (Navigation)</option>
+                            <option value="geoRobinson">Robinson (Compromise)</option>
+                            <option value="geoMollweide">Mollweide (Equal Area)</option>
+                            <option value="geoOrthographic">Orthographic (Globe View)</option>
+                            <option value="geoNaturalEarth1">Natural Earth</option>
+                            <option value="geoAzimuthalEqualArea">Azimuthal Equal Area</option>
+                            <option value="geoEquirectangular">Equirectangular (Plate Carrée)</option>
+                        </select>
+                        <input id="selector-next" type="button" value="&rarr;" onclick="setIndex(1);" />
+                    </div>
+
+                    <div id="chartdiv"></div>
+                </section>
+
+                <section class="card">
+                    <h2>The "Big Four" Distortions</h2>
+                    <p>When you flatten the Earth, you must sacrifice one or more of these properties. A projection can be:</p>
+                    <ul style="line-height: 2;">
+                        <li><strong>Conformal:</strong> Preserves <strong>Shapes</strong> (essential for local surveying).</li>
+                        <li><strong>Equivalent:</strong> Preserves <strong>Area</strong> (essential for thematic maps of population).</li>
+                        <li><strong>Equidistant:</strong> Preserves <strong>Distance</strong> (measured from one or two points).</li>
+                        <li><strong>Azimuthal:</strong> Preserves <strong>Direction</strong> (important for flight paths).</li>
+                    </ul>
+                </section>
+
+                <section class="card">
+                    <h2>Summary of Big Ideas</h2>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Geodesy</strong> is the science of measuring Earth's shape.</li>
+                        <li>A <strong>Datum</strong> (like WGS84) is a mathematical reference for coordinates.</li>
+                        <li><strong>Coordinate Systems</strong> can be Geographic (lat/long) or Projected (meters/feet).</li>
+                        <li>The <strong>Mercator</strong> projection is perfect for sailing but terrible for comparing country sizes.</li>
+                    </ul>
+                </section>
+
+                <div class="quiz-container">
+                    <h2>Chapter 03 Checkpoint</h2>
+                    <div class="question">
+                        <p><strong>1. Which projection is the "standard" used by most web maps (Google Maps, Leaflet)?</strong></p>
+                        <div class="option" onclick="this.classList.add('correct')">Web Mercator</div>
+                        <div class="option" onclick="this.classList.add('wrong')">Robinson</div>
+                    </div>
+                    <div class="question">
+                        <p><strong>2. If you are making a map of "Total Forest Cover" where comparing sizes is crucial, which type of projection should you use?</strong></p>
+                        <div class="option" onclick="this.classList.add('wrong')">Conformal</div>
+                        <div class="option" onclick="this.classList.add('correct')">Equal Area (Equivalent)</div>
+                    </div>
+                </div>
+
+                <section class="card" style="margin-top: 3rem;">
+                    <h2>📚 Glossary</h2>
+                    <dl>
+                        <dt><strong>Geoid:</strong></dt>
+                        <dd>The shape the ocean surface would take under the influence of gravity and Earth's rotation alone.</dd>
+                        
+                        <dt><strong>Standard Parallel:</strong></dt>
+                        <dd>The line of latitude where the projection surface touches the globe; distortion is zero here.</dd>
+                        
+                        <dt><strong>Rhumb Line:</strong></dt>
+                        <dd>A line on a map with a constant compass bearing (straight on Mercator).</dd>
+                    </dl>
+                </section>
             </div>
+
+            <aside class="sidebar">
+                <div class="sidebar-box bio">
+                    <h3>Important Person</h3>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Gerardus_Mercator.jpg/220px-Gerardus_Mercator.jpg" alt="Mercator" class="bio-img">
+                    <p><strong>Gerardus Mercator (1512–1594)</strong></p>
+                    <p>Flemish cartographer and geographer. In 1569, he introduced the Mercator projection, which became the standard for nautical navigation because it preserved constant bearings (rhumb lines). While controversial today for its area distortion, it remains the foundation of web mapping.</p>
+                </div>
+
+                <div class="sidebar-box local">
+                    <h3>Local to Global</h3>
+                    <p><strong>The Texas State Plane System</strong></p>
+                    <p>Texas is massive. To minimize distortion for local surveying, the state is divided into <strong>5 zones</strong> (North, North Central, Central, South Central, South) within the State Plane Coordinate System (SPCS). Each zone uses a customized projection centered on that area.</p>
+                    <p>Surveyors in Austin use the <strong>Texas Central Zone</strong> (FIPS 4203) for maximum precision!</p>
+                </div>
+            </aside>
         </div>
 
-        <div class="key-concept">
-            <div class="concept-icon">📍</div>
-            <div>
-                <h4>Datum</h4>
-                <p>A mathematical model of the Earth used as a reference for coordinates. Common datums include <strong>WGS84</strong> (used by GPS), <strong>NAD83</strong> (North America), and <strong>NAVD88</strong> (vertical datum).</p>
-            </div>
+        <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+          <a href="chapter-02-map-design.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 02: Map Design</a>
+          <a href="chapter-04-gps.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 04: GNSS & Positioning &rarr;</a>
         </div>
+    </main>
 
-        <div class="key-concept">
-            <div class="concept-icon">🗺️</div>
-            <div>
-                <h4>Map Projection</h4>
-                <p>A systematic transformation of the Earth's 3D surface onto a 2D plane. Every projection preserves some properties (area, shape, distance, direction) while distorting others.</p>
-            </div>
+    <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
         </div>
+    </footer>
 
-        <div class="key-concept">
-            <div class="concept-icon">📏</div>
-            <div>
-                <h4>Coordinate System</h4>
-                <p><strong>Geographic</strong> coordinates use latitude/longitude on a sphere. <strong>Projected</strong> coordinates (like UTM or State Plane) use X/Y on a flat surface with units in meters or feet.</p>
-            </div>
-        </div>
+    <!-- amCharts & D3 Resources -->
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/map.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/geodata/worldLow.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="https://d3js.org/d3-array.v1.min.js"></script>
+    <script src="https://d3js.org/d3-geo.v1.min.js"></script>
+    <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
 
-        <!-- Interactive: Projection Explorer -->
-        <h2>🔬 Interactive: Projection Distortion Explorer</h2>
-        <p>Compare how different projection families distort the Earth. Each projection preserves certain properties while sacrificing others.</p>
-
-        <style>
-            .tools {
-                text-align: center;
-                margin-bottom: 1rem;
-            }
-
-            .tools select, .tools input {
-                font-size: 1.1em;
-                padding: 0.5em 1em;
-                border: 1px solid #cbd5e1;
-                border-radius: 6px;
-                background: #f8fafc;
-                cursor: pointer;
-            }
-
-            .tools select:hover, .tools input:hover {
-                border-color: var(--primary);
-            }
-
-            #chartdiv {
-                width: 100%;
-                height: 500px;
-                border: 2px solid #e2e8f0;
-                border-radius: 12px;
-                overflow: hidden;
-                background: #edf7fa;
-            }
-        </style>
-
-        <!-- Resources -->
-        <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-        <script src="https://cdn.amcharts.com/lib/5/map.js"></script>
-        <script src="https://cdn.amcharts.com/lib/5/geodata/worldLow.js"></script>
-        <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
-        <script src="https://d3js.org/d3-array.v1.min.js"></script>
-        <script src="https://d3js.org/d3-geo.v1.min.js"></script>
-        <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
-
-        <div class="projection-demo" style="background: transparent; box-shadow: none; padding: 0;">
-            <div class="tools">
-                <input id="selector-prev" type="button" value="&lt;" onclick="setIndex(-1);" disabled="disabled" />
-                <select id="selector" onchange="setProjection(this.options[this.selectedIndex].value);">
-                    <option value="geoAiry">d3.geoAiry()</option>
-                    <option value="geoAitoff">d3.geoAitoff()</option>
-                    <option value="geoArmadillo">d3.geoArmadillo()</option>
-                    <option value="geoAugust">d3.geoAugust()</option>
-                    <option value="geoAzimuthalEqualArea">d3.geoAzimuthalEqualArea()</option>
-                    <option value="geoAzimuthalEquidistant">d3.geoAzimuthalEquidistant()</option>
-                    <option value="geoBaker">d3.geoBaker()</option>
-                    <option value="geoBerghaus">d3.geoBerghaus()</option>
-                    <option value="geoBertin1953">d3.geoBertin1953()</option>
-                    <option value="geoBoggs">d3.geoBoggs()</option>
-                    <option value="geoBonne">d3.geoBonne()</option>
-                    <option value="geoBottomley">d3.geoBottomley()</option>
-                    <option value="geoBromley">d3.geoBromley()</option>
-                    <option value="geoChamberlinAfrica">d3.geoChamberlinAfrica()</option>
-                    <option value="geoCollignon">d3.geoCollignon()</option>
-                    <option value="geoConicConformal">d3.geoConicConformal()</option>
-                    <option value="geoConicEqualArea">d3.geoConicEqualArea()</option>
-                    <option value="geoConicEquidistant">d3.geoConicEquidistant()</option>
-                    <option value="geoCraig">d3.geoCraig()</option>
-                    <option value="geoCraster">d3.geoCraster()</option>
-                    <option value="geoCylindricalEqualArea">d3.geoCylindricalEqualArea()</option>
-                    <option value="geoCylindricalStereographic">d3.geoCylindricalStereographic()</option>
-                    <option value="geoEckert1">d3.geoEckert1()</option>
-                    <option value="geoEckert2">d3.geoEckert2()</option>
-                    <option value="geoEckert3">d3.geoEckert3()</option>
-                    <option value="geoEckert4">d3.geoEckert4()</option>
-                    <option value="geoEckert5">d3.geoEckert5()</option>
-                    <option value="geoEckert6">d3.geoEckert6()</option>
-                    <option value="geoEisenlohr">d3.geoEisenlohr()</option>
-                    <option value="geoEquirectangular">d3.geoEquirectangular()</option>
-                    <option value="geoFahey">d3.geoFahey()</option>
-                    <option value="geoFoucaut">d3.geoFoucaut()</option>
-                    <option value="geoFoucautSinusoidal">d3.geoFoucautSinusoidal()</option>
-                    <option value="geoGingery">d3.geoGingery()</option>
-                    <option value="geoGinzburg4">d3.geoGinzburg4()</option>
-                    <option value="geoGinzburg5">d3.geoGinzburg5()</option>
-                    <option value="geoGinzburg6">d3.geoGinzburg6()</option>
-                    <option value="geoGinzburg8">d3.geoGinzburg8()</option>
-                    <option value="geoGinzburg9">d3.geoGinzburg9()</option>
-                    <option value="geoGnomonic">d3.geoGnomonic()</option>
-                    <option value="geoGringorten">d3.geoGringorten()</option>
-                    <option value="geoGuyou">d3.geoGuyou()</option>
-                    <option value="geoHammer">d3.geoHammer()</option>
-                    <option value="geoHammerRetroazimuthal">d3.geoHammerRetroazimuthal()</option>
-                    <option value="geoHealpix">d3.geoHealpix()</option>
-                    <option value="geoHill">d3.geoHill()</option>
-                    <option value="geoHomolosine">d3.geoHomolosine()</option>
-                    <option value="geoHufnagel">d3.geoHufnagel()</option>
-                    <option value="geoHyperelliptical">d3.geoHyperelliptical()</option>
-                    <option value="geoKavrayskiy7">d3.geoKavrayskiy7()</option>
-                    <option value="geoLagrange">d3.geoLagrange()</option>
-                    <option value="geoLarrivee">d3.geoLarrivee()</option>
-                    <option value="geoLaskowski">d3.geoLaskowski()</option>
-                    <option value="geoLittrow">d3.geoLittrow()</option>
-                    <option value="geoLoximuthal">d3.geoLoximuthal()</option>
-                    <option value="geoMercator">d3.geoMercator()</option>
-                    <option value="geoMiller">d3.geoMiller()</option>
-                    <option value="geoModifiedStereographicAlaska">d3.geoModifiedStereographicAlaska()</option>
-                    <option value="geoModifiedStereographicGs48">d3.geoModifiedStereographicGs48()</option>
-                    <option value="geoModifiedStereographicGs50">d3.geoModifiedStereographicGs50()</option>
-                    <option value="geoModifiedStereographicMiller">d3.geoModifiedStereographicMiller()</option>
-                    <option value="geoModifiedStereographicLee">d3.geoModifiedStereographicLee()</option>
-                    <option value="geoMollweide">d3.geoMollweide()</option>
-                    <option value="geoMtFlatPolarParabolic">d3.geoMtFlatPolarParabolic()</option>
-                    <option value="geoMtFlatPolarQuartic">d3.geoMtFlatPolarQuartic()</option>
-                    <option value="geoMtFlatPolarSinusoidal">d3.geoMtFlatPolarSinusoidal()</option>
-                    <option value="geoNaturalEarth1">d3.geoNaturalEarth1()</option>
-                    <option value="geoNaturalEarth2">d3.geoNaturalEarth2()</option>
-                    <option value="geoNellHammer">d3.geoNellHammer()</option>
-                    <option value="geoNicolosi">d3.geoNicolosi()</option>
-                    <option value="geoOrthographic">d3.geoOrthographic()</option>
-                    <option value="geoPatterson">d3.geoPatterson()</option>
-                    <option value="geoPolyconic">d3.geoPolyconic()</option>
-                    <option value="geoRectangularPolyconic">d3.geoRectangularPolyconic()</option>
-                    <option value="geoRobinson">d3.geoRobinson()</option>
-                    <option value="geoSatellite">d3.geoSatellite()</option>
-                    <option value="geoSinusoidal">d3.geoSinusoidal()</option>
-                    <option value="geoSinuMollweide">d3.geoSinuMollweide()</option>
-                    <option value="geoStereographic">d3.geoStereographic()</option>
-                    <option value="geoTimes">d3.geoTimes()</option>
-                    <option value="geoTransverseMercator">d3.geoTransverseMercator()</option>
-                    <option value="geoTwoPointAzimuthalUsa">d3.geoTwoPointAzimuthalUsa()</option>
-                    <option value="geoTwoPointEquidistantUsa">d3.geoTwoPointEquidistantUsa()</option>
-                    <option value="geoVanDerGrinten">d3.geoVanDerGrinten()</option>
-                    <option value="geoVanDerGrinten2">d3.geoVanDerGrinten2()</option>
-                    <option value="geoVanDerGrinten3">d3.geoVanDerGrinten3()</option>
-                    <option value="geoVanDerGrinten4">d3.geoVanDerGrinten4()</option>
-                    <option value="geoWagner">d3.geoWagner()</option>
-                    <option value="geoWagner4">d3.geoWagner4()</option>
-                    <option value="geoWagner6">d3.geoWagner6()</option>
-                    <option value="geoWagner7">d3.geoWagner7()</option>
-                    <option value="geoWiechel">d3.geoWiechel()</option>
-                    <option value="geoWinkel3">d3.geoWinkel3()</option>
-                    <option value="geoInterruptedHomolosine">d3.geoInterruptedHomolosine()</option>
-                    <option value="geoInterruptedSinusoidal">d3.geoInterruptedSinusoidal()</option>
-                    <option value="geoInterruptedBoggs">d3.geoInterruptedBoggs()</option>
-                    <option value="geoInterruptedSinuMollweide">d3.geoInterruptedSinuMollweide()</option>
-                    <option value="geoInterruptedMollweide">d3.geoInterruptedMollweide()</option>
-                    <option value="geoInterruptedMollweideHemispheres">d3.geoInterruptedMollweideHemispheres()</option>
-                    <option value="geoPolyhedralButterfly">d3.geoPolyhedralButterfly()</option>
-                    <option value="geoPolyhedralCollignon">d3.geoPolyhedralCollignon()</option>
-                    <option value="geoPolyhedralWaterman">d3.geoPolyhedralWaterman()</option>
-                    <option value="geoGringortenQuincuncial">d3.geoGringortenQuincuncial()</option>
-                    <option value="geoPeirceQuincuncial">d3.geoPeirceQuincuncial()</option>
-                </select>
-                <input id="selector-next" type="button" value="&gt;" onclick="setIndex(1);" />
-            </div>
-            <div id="chartdiv"></div>
-            <p style="text-align: right; font-size: 0.8em; color: #666; margin-top: 5px;">
-                Visualization powered by <a href="https://www.amcharts.com/" target="_blank">amCharts</a> & D3
-            </p>
-        </div>
-
-        <script>
-            // AmCharts Projection Explorer
-            // Code adapted from https://www.amcharts.com/demos/map-using-d3-projections/
-            
-            let chart;
-
-            am5.ready(function() {
-
-            // Create root and chart
-            var root = am5.Root.new("chartdiv"); 
-            chart = root.container.children.push(
-              am5map.MapChart.new(root, {
-                panX: "rotateX",
+    <script>
+        var root, chart;
+        am5.ready(function() {
+            root = am5.Root.new("chartdiv");
+            root.setThemes([ am5themes_Animated.new(root) ]);
+            chart = root.container.children.push( am5map.MapChart.new(root, {
+                panX: "translateX",
                 panY: "translateY",
-                projection: am5map.geoNaturalEarth1()
-              })
-            );
+                projection: am5map.geoMercator()
+            }));
 
-            // Set themes
-            root.setThemes([
-              am5themes_Animated.new(root)
-            ]);
+            var polygonSeries = chart.series.push( am5map.MapPolygonSeries.new(root, {
+                geoJSON: am5geodata_worldLow,
+                fill: am5.color(0x6366f1),
+                stroke: am5.color(0xffffff)
+            }));
 
-            // Create polygon series
-            var polygonSeries = chart.series.push(
-              am5map.MapPolygonSeries.new(root, {
-                geoJSON: am5geodata_worldLow
-              })
-            );
+            var graticuleSeries = chart.series.insertIndex(0, am5map.GraticuleSeries.new(root, {}));
+            graticuleSeries.mapLines.template.setAll({ stroke: am5.color(0x000000), strokeOpacity: 0.1 });
 
-            // Add Graticule
-            var graticuleSeries = chart.series.insertIndex(
-              0, am5map.GraticuleSeries.new(root, {})
-            );
-
-            graticuleSeries.mapLines.template.setAll({
-              stroke: am5.color(0x000000),
-              strokeOpacity: 0.1
-            });
-
-            // Add background (Ocean)
-            var backgroundSeries = chart.series.unshift(
-              am5map.MapPolygonSeries.new(root, {})
-            );
-
-            backgroundSeries.mapPolygons.template.setAll({
-              fill: am5.color(0xedf7fa),
-              stroke: am5.color(0xedf7fa),
-            });
-
-            backgroundSeries.data.push({
-              geometry: am5map.getGeoRectangle(90, 180, -90, -180)
-            });
-            
-            // Set initial projection
             setProjection("geoMercator");
-            document.getElementById("selector").value = "geoMercator";
+        });
 
-            }); // end am5.ready()
+        window.setProjection = function(name) {
+            if(chart) { chart.set("projection", d3[name].call(this)); chart.goHome(); }
+            setButtonState();
+        }
 
-            // Global functions for HTML controls
-            window.setProjection = function(name) {
-              if(chart) {
-                  chart.set("projection", d3[name].call(this));
-              }
-              setButtonState();
+        window.setIndex = function(offset) {
+            var s = document.getElementById("selector");
+            var i = s.selectedIndex + offset;
+            if (i >= 0 && i < s.options.length) {
+                s.selectedIndex = i;
+                setProjection(s.options[i].value);
             }
+        }
 
-            window.setIndex = function(offset) {
-              var selector = document.getElementById("selector");
-              var index = selector.selectedIndex + offset;
-              if (index < 0) {
-                index = 0;
-              }
-              if (index > (selector.options.length - 1)) {
-                index = selector.options.length - 1;
-              }
-              selector.selectedIndex = index;
-              setProjection(selector.options[index].value);
-            }
-
-            window.setButtonState = function() {
-              var selector = document.getElementById("selector");
-              var index = selector.selectedIndex;
-              if (index == 0) {
-                document.getElementById("selector-prev").disabled = "disabled";
-                document.getElementById("selector-next").disabled = "";
-              }
-              else if (index >= (selector.options.length - 1)) {
-                document.getElementById("selector-prev").disabled = "";
-                document.getElementById("selector-next").disabled = "disabled";
-              }
-              else {
-                document.getElementById("selector-prev").disabled = "";
-                document.getElementById("selector-next").disabled = "";
-              }
-            }
-
-            // -- COUNTRY SIZE COMPARISON (Logic remains same) --
-            const countries = {
-                greenland: { name: "Greenland", area: 2.166, flag: "🇬🇱" },
-                africa: { name: "Africa", area: 30.37, flag: "🌍" },
-                alaska: { name: "Alaska", area: 1.717, flag: "🏔️" },
-                texas: { name: "Texas", area: 0.696, flag: "⛤" },
-                russia: { name: "Russia", area: 17.1, flag: "🇷🇺" },
-                brazil: { name: "Brazil", area: 8.516, flag: "🇧🇷" }
-            };
-
-            let selectedCountry = 'greenland';
-            const referenceCountry = 'africa';
-
-            window.selectCountry = function(country, card) {
-                selectedCountry = country;
-                document.querySelectorAll('.country-card').forEach(c => c.classList.remove('selected'));
-                card.classList.add('selected');
-                updateComparison();
-            }
-
-            function updateComparison() {
-                const sel = countries[selectedCountry];
-                const ref = countries[referenceCountry];
-                
-                const percentage = Math.round((sel.area / ref.area) * 100);
-                const displayPct = Math.min(percentage, 100);
-                
-                document.getElementById('comparison-title').textContent = `${sel.name} vs. ${ref.name}`;
-                document.getElementById('size-fill').style.width = displayPct + '%';
-                document.getElementById('size-fill').textContent = percentage + '%';
-
-                let compText = '';
-                if (sel.name === 'Greenland') {
-                    compText = `${sel.name}'s <strong>true area</strong> is only about ${percentage}% of ${ref.name}'s size — yet on a Mercator map, they appear roughly equal. ${ref.name} could fit the US, China, India, and most of Europe inside it!`;
-                } else if (sel.name === 'Alaska') {
-                    compText = `${sel.name}'s true area is ${percentage}% of ${ref.name}. Alaska is about 2.5 times larger than Texas, though Mercator makes it look even bigger.`;
-                } else if (sel.name === 'Russia') {
-                    compText = `${sel.name} is ${percentage}% of ${ref.name}'s size. Despite looking enormous on Mercator maps, Russia is actually smaller than ${ref.name} by about 13 million km².`;
-                } else {
-                    compText = `${sel.name}'s true area is approximately ${percentage}% of ${ref.name}'s ${ref.area.toFixed(1)} million km².`;
-                }
-                document.getElementById('comparison-text').innerHTML = compText;
-            }
-        </script>
+        function setButtonState() {
+            var s = document.getElementById("selector");
+            document.getElementById("selector-prev").disabled = (s.selectedIndex == 0);
+            document.getElementById("selector-next").disabled = (s.selectedIndex == s.options.length - 1);
+        }
+    </script>
 </body>
 </html>

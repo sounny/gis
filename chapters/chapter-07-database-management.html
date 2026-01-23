@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 07: Database Management | GIS Digital Textbook</title>
+    <meta name="description" content="Discover the power of spatial databases. Learn about relational models, SQL queries, table joins, and how databases power complex GIS analysis.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #64748b;
+            --accent: #7c3aed;
+            --success: #10b981;
+            --bg: #f8fafc;
+        }
+
+        .hero-chapter {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-chapter::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
+        }
+
+        .chapter-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 1100px) {
+            .layout-grid { grid-template-columns: 1fr; }
+        }
+
+        .sidebar-box {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary);
+        }
+        .sidebar-box.bio { border-top-color: var(--accent); }
+
+        .sidebar-box h3 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .bio-img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
+
+        .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        
+        /* SQL Sandbox */
+        .sql-sandbox {
+            background: #1e293b;
+            color: #f1f5f9;
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .console-label { color: #94a3b8; font-size: 0.8rem; margin-bottom: 0.5rem; }
+        .sql-input-row { display: flex; gap: 1rem; }
+        .sql-input { flex: 1; background: #0f172a; border: 1px solid #334155; color: #38bdf8; padding: 0.75rem; border-radius: 6px; font-size: 1rem; }
+        .btn-sql { background: #38bdf8; color: #0f172a; border: none; padding: 0 1.5rem; border-radius: 6px; font-weight: 700; cursor: pointer; }
+
+        .table-results { width: 100%; border-collapse: collapse; margin-top: 1.5rem; background: #0f172a; border-radius: 8px; overflow: hidden; }
+        .table-results th, .table-results td { padding: 0.75rem; text-align: left; border: 1px solid #334155; font-size: 0.85rem; }
+        .table-results th { background: #334155; color: #fff; }
+
+        /* Quiz Styles */
+        .quiz-container { background: #f1f5f9; padding: 2rem; border-radius: 16px; margin-top: 3rem; }
+        .option { background: white; padding: 1rem; border-radius: 8px; border: 2px solid #e2e8f0; cursor: pointer; margin-bottom: 0.75rem; transition: 0.2s; color: #1e293b; }
+        .option:hover { border-color: var(--primary); }
+        .option.correct { border-color: var(--success); background: #ecfdf5; }
+        .option.wrong { border-color: #ef4444; background: #fff1f2; }
+    </style>
+</head>
+<body>
+
+    <header class="hero-chapter">
+        <div class="container">
+            <span class="chapter-badge">Chapter 07</span>
+            <h1>Database Management</h1>
+            <p class="subtitle">The engine of GIS. Learn how to organize spatial information, perform complex queries, and link tables together through joins.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav style="margin: 2rem 0;">
+            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
+        </nav>
+
+        <div class="layout-grid">
+            <div class="content">
+                <section class="card">
+                    <h2>📊 The Relational Model</h2>
+                    <p>In a GIS, geometry is only half the story. The <strong>Attribute Table</strong> contains the actual information about those features. These tables are organized using a <strong>Relational Database Management System (RDBMS)</strong>.</p>
+                    
+                    <div class="callout" style="background: #eff6ff; border-left: 5px solid #3b82f6; color: #1e40af; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                        <strong>🔑 The Primary Key:</strong> Every row in a GIS table must have a unique identifier (often called an FID or OBJECTID). This allows the software to link a geometric shape on the map to a specific row in the database.
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>🛠️ Table Joins: Linking Information</h2>
+                    <p>One of the most powerful tasks in GIS is a <strong>Join</strong>. By matching a common field (the "foreign key") in two different tables, we can temporarily append information from a standalone table to our spatial features.</p>
+                    <p><em>Example: Joining 2024 Census Data (table) to County Boundaries (spatial layer) using the "FIPS Code" as the link.</em></p>
+                </section>
+
+                <section class="sql-sandbox">
+                    <div class="console-label">-- SPATIAL DATABASE CONSOLE --</div>
+                    <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 1rem;">Available Table: `Cities` (City, State, Population)</p>
+                    <div class="sql-input-row">
+                        <input type="text" class="sql-input" id="queryInput" value="SELECT * FROM Cities WHERE Population > 1000000">
+                        <button class="btn-sql" onclick="runQuery()">GO</button>
+                    </div>
+                    
+                    <table class="table-results" id="queryTable">
+                        <thead>
+                            <tr><th>City</th><th>State</th><th>Population</th></tr>
+                        </thead>
+                        <tbody>
+                            <!-- Results here -->
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="card">
+                    <h2>Summary of Big Ideas</h2>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Attribute Tables</strong> store the "what" for every "where."</li>
+                        <li><strong>Primary Keys</strong> ensure every feature is unique and reachable.</li>
+                        <li><strong>Table Joins</strong> allow external data to be visualized spatially.</li>
+                        <li><strong>SQL</strong> is the universal language for querying geographic databases.</li>
+                    </ul>
+                </section>
+
+                <div class="quiz-container">
+                    <h2>Chapter 07 Checkpoint</h2>
+                    <div class="question">
+                        <p><strong>1. To successfully join an Excel spreadsheet to a Shapefile, both must contain:</strong></p>
+                        <div class="option" onclick="this.classList.add('correct')">A common field with identical values (e.g., ID numbers).</div>
+                        <div class="option" onclick="this.classList.add('wrong')">The exact same number of columns.</div>
+                    </div>
+                    <div class="question">
+                        <p><strong>2. In SQL, what command is used to filter records based on a specific condition?</strong></p>
+                        <div class="option" onclick="this.classList.add('wrong')">SELECT</div>
+                        <div class="option" onclick="this.classList.add('correct')">WHERE</div>
+                    </div>
+                </div>
+
+                <section class="card" style="margin-top: 3rem;">
+                    <h2>📚 Glossary</h2>
+                    <dl>
+                        <dt><strong>Schema:</strong></dt>
+                        <dd>The structure or design of a database (fields, types, relationships).</dd>
+                        
+                        <dt><strong>RDBMS:</strong></dt>
+                        <dd>Relational Database Management System (e.g., PostgreSQL, SQL Server).</dd>
+                        
+                        <dt><strong>FIPS Code:</strong></dt>
+                        <dd>Federal Information Processing Standard—unique codes used to identify geographic areas in the US.</dd>
+                    </dl>
+                </section>
+            </div>
+
+            <aside class="sidebar">
+                <div class="sidebar-box bio">
+                    <h3>Important Person</h3>
+                    <img src="https://upload.wikimedia.org/wikipedia/en/5/50/Edgar_F_Codd.jpg" alt="Edgar Codd" class="bio-img">
+                    <p><strong>Edgar F. Codd (1923–2003)</strong></p>
+                    <p>A British computer scientist at IBM who invented the <strong>Relational Model</strong> for database management. His work in the 1970s revolutionized how data is stored and retrieved, directly leading to the development of SQL and the relational databases that power modern GIS.</p>
+                </div>
+
+                <div class="sidebar-box local">
+                    <h3>Local to Global</h3>
+                    <p><strong>The Texas RRC Well Database</strong></p>
+                    <p>The Texas Railroad Commission (RRC) manages one of the largest spatial databases in the world. Every oil and gas well in Texas is assigned a unique <strong>API Number</strong>. By using this primary key, engineers can join production reports, depth logs, and ownership records to a shared coordinate on a map.</p>
+                    <p>This integration is what makes Texas a global leader in energy data management.</p>
+                </div>
+            </aside>
+        </div>
+
+        <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+          <a href="chapter-06-digitizing.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 06: Digitizing</a>
+          <a href="chapter-08-vgi-neogeography.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 08: VGI &rarr;</a>
+        </div>
+    </main>
+
+    <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const cities = [
+            { name: "Houston", state: "Texas", pop: 2300000 },
+            { name: "Dallas", state: "Texas", pop: 1300000 },
+            { name: "Austin", state: "Texas", pop: 960000 },
+            { name: "San Antonio", state: "Texas", pop: 1400000 },
+            { name: "New York", state: "New York", pop: 8800000 },
+            { name: "Los Angeles", state: "California", pop: 3900000 }
+        ];
+
+        function runQuery() {
+            const query = document.getElementById('queryInput').value.toUpperCase();
+            const tbody = document.querySelector('#queryTable tbody');
+            tbody.innerHTML = '';
+
+            let results = cities;
+            if (query.includes('WHERE POPULATION > 1000000')) {
+                results = cities.filter(c => c.pop > 1000000);
+            } else if (query.includes("WHERE STATE = 'TEXAS'") || query.includes("WHERE STATE='TEXAS'")) {
+                results = cities.filter(c => c.state === "Texas");
+            }
+
+            results.forEach(c => {
+                tbody.innerHTML += `<tr><td>${c.name}</td><td>${c.state}</td><td>${c.pop.toLocaleString()}</td></tr>`;
+            });
+        }
+        runQuery();
+    </script>
+</body>
+</html>

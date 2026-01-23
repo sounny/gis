@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 14: Vector Spatial Analysis | GIS Digital Textbook</title>
+    <meta name="description" content="Master the toolkit of vector analysis. Learn about buffers, overlays (intersect/union), and how proximity analysis solves complex spatial problems.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #10b981;
+            --secondary: #64748b;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --bg: #f8fafc;
+        }
+
+        .hero-chapter {
+            background: linear-gradient(135deg, #065f46 0%, #10b981 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-chapter::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(circle at 10% 20%, rgba(255,255,255,0.1) 0%, transparent 40%);
+        }
+
+        .chapter-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 1100px) {
+            .layout-grid { grid-template-columns: 1fr; }
+        }
+
+        .sidebar-box {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary);
+        }
+        .sidebar-box.local { border-top-color: var(--accent); }
+
+        .sidebar-box h3 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .bio-img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
+
+        .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        
+        /* Overlay Viz */
+        .overlay-viz {
+            height: 300px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .shape {
+            width: 150px;
+            height: 150px;
+            position: absolute;
+            transition: 0.5s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            mix-blend-mode: multiply;
+        }
+
+        #circleA { border-radius: 50%; background: rgba(59, 130, 246, 0.6); left: 30%; }
+        #squareB { background: rgba(239, 68, 68, 0.6); right: 30%; }
+
+        /* Quiz Styles */
+        .quiz-container { background: #f1f5f9; padding: 2rem; border-radius: 16px; margin-top: 3rem; }
+        .option { background: white; padding: 1rem; border-radius: 8px; border: 2px solid #e2e8f0; cursor: pointer; margin-bottom: 0.75rem; transition: 0.2s; color: #1e293b; }
+        .option:hover { border-color: var(--primary); }
+        .option.correct { border-color: var(--success); background: #ecfdf5; }
+        .option.wrong { border-color: #ef4444; background: #fff1f2; }
+    </style>
+</head>
+<body>
+
+    <header class="hero-chapter">
+        <div class="container">
+            <span class="chapter-badge">Chapter 14</span>
+            <h1>Vector Spatial Analysis</h1>
+            <p class="subtitle">Geometric intelligence. Learn how to combine layers through overlays and simulate proximity using buffers to reveal hidden geographic patterns.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav style="margin: 2rem 0;">
+            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
+        </nav>
+
+        <div class="layout-grid">
+            <div class="content">
+                <section class="card">
+                    <h2>📐 The Vector Toolkit</h2>
+                    <p>Unlike raster analysis which works with pixels, <strong>Vector Analysis</strong> works with discrete objects: points, lines, and polygons. By analyzing the geometric relationships between these objects, we can answer questions like: <em>"Which houses are in the flood zone?"</em> or <em>"How many customers live within 10 miles of my store?"</em></p>
+                </section>
+
+                <section class="card">
+                    <h3>⚡ Proximity Analysis: Buffering</h3>
+                    <p>Buffering creates a new polygon at a specified distance around an existing feature. It is used to define "impact zones," "safety buffers," or "service areas."</p>
+                    
+                    <div class="callout" style="background: #ecfdf5; border-left: 5px solid #10b981; color: #064e3b; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                        <strong>Example:</strong> A 100-meter buffer around a river defines a "riparian protection zone" where new building permits are prohibited.
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h3>🧪 Overlay Operations</h3>
+                    <p>Vector overlay is often described as "cookie-cutting" with maps. When we overlay two layers, we create new geometry and combine their attribute tables into one.</p>
+                    
+                    <div class="overlay-viz">
+                        <div class="shape" id="circleA">Input A</div>
+                        <div class="shape" id="squareB">Input B</div>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-top: 1rem; justify-content: center;">
+                        <button onclick="intersect()" style="padding: 0.5rem 1rem; cursor: pointer;">Intersect (AND)</button>
+                        <button onclick="union()" style="padding: 0.5rem 1rem; cursor: pointer;">Union (OR)</button>
+                        <button onclick="reset()" style="padding: 0.5rem 1rem; cursor: pointer;">Reset</button>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>Summary of Big Ideas</h2>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Buffering</strong> creates zones of influence around features.</li>
+                        <li><strong>Clip</strong> extracts data based on a boundary (doesn't combine tables).</li>
+                        <li><strong>Intersect</strong> keeps only common areas and combines all data tables.</li>
+                        <li><strong>Union</strong> keeps all features from both layers and combines tables.</li>
+                    </ul>
+                </section>
+
+                <div class="quiz-container">
+                    <h2>Chapter 14 Checkpoint</h2>
+                    <div class="question">
+                        <p><strong>1. To find the area where Forest (Layer A) and Private Land (Layer B) meet, you should use:</strong></p>
+                        <div class="option" onclick="this.classList.add('correct')">Intersect</div>
+                        <div class="option" onclick="this.classList.add('wrong')">Clip</div>
+                    </div>
+                    <div class="question">
+                        <p><strong>2. What is the First Law of Geography (according to Waldo Tobler)?</strong></p>
+                        <div class="option" onclick="this.classList.add('wrong')">The shortest distance between two points is a line.</div>
+                        <div class="option" onclick="this.classList.add('correct')">Near things are more related than distant things.</div>
+                    </div>
+                </div>
+
+                <section class="card" style="margin-top: 3rem;">
+                    <h2>📚 Glossary</h2>
+                    <dl>
+                        <dt><strong>Geometric Overlay:</strong></dt>
+                        <dd>The process of superimposing two or more vector datasets to create a new output.</dd>
+                        
+                        <dt><strong>MAUP:</strong></dt>
+                        <dd>Modifiable Areal Unit Problem—how the choice of boundaries affects statistical results.</dd>
+                        
+                        <dt><strong>Sliver Polygon:</strong></dt>
+                        <dd>A tiny, unwanted polygon created when two slightly different boundaries are overlaid.</dd>
+                    </dl>
+                </section>
+            </div>
+
+            <aside class="sidebar">
+                <div class="sidebar-box bio">
+                    <h3>Important Person</h3>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Waldo_Tobler.jpg/220px-Waldo_Tobler.jpg" alt="Waldo Tobler" class="bio-img">
+                    <p><strong>Dr. Waldo Tobler (1930–2018)</strong></p>
+                    <p>Tobler was a geographer and cartographer who famously formulated the <strong>First Law of Geography</strong> in 1970. This law is the foundation for almost all spatial analysis: "Everything is related to everything else, but near things are more related than distant things." This principle is why GIS uses techniques like buffering and distance-decay functions.</p>
+                </div>
+
+                <div class="sidebar-box local">
+                    <h3>Local to Global</h3>
+                    <p><strong>Gerrymandering in Texas</strong></p>
+                    <p>Vector analysis is at the heart of one of Texas's most controversial topics: **Redistricting**. By overlaying voting precinct data (attribute tables) with proposed district boundaries (vector polygons), analysts can calculate the likely outcome of an election before a single vote is cast.</p>
+                    <p>Techniques like "packing" and "cracking" are essentially advanced vector overlay and proximity exercises used for political advantage.</p>
+                </div>
+            </aside>
+        </div>
+
+        <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+          <a href="chapter-13-raster-analysis.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 13: Raster Analysis</a>
+          <a href="chapter-15-spatial-modeling.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 15: Spatial Modeling &rarr;</a>
+        </div>
+    </main>
+
+    <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const a = document.getElementById('circleA');
+        const b = document.getElementById('squareB');
+
+        function intersect() {
+            a.style.left = '40%';
+            b.style.right = '40%';
+            a.style.opacity = '0.4';
+            b.style.opacity = '0.4';
+        }
+
+        function union() {
+            a.style.left = '25%';
+            b.style.right = '25%';
+            a.style.opacity = '0.8';
+            b.style.opacity = '0.8';
+        }
+
+        function reset() {
+            a.style.left = '30%';
+            b.style.right = '30%';
+            a.style.opacity = '0.6';
+            b.style.opacity = '0.6';
+        }
+    </script>
+</body>
+</html>
