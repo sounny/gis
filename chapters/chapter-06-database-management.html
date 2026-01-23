@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chapter 06: Research Data Management | GIS Digital Textbook</title>
+    <meta
+      name="description"
+      content="Learn how to structure GIS research projects. Mastering data management, file naming, and metadata to turn chaos into reproducible science."
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Chapter-specific styles */
+      .hero-chapter {
+        background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+        padding: 4rem 2rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-chapter::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        /* Folder pattern */
+        background-image: 
+          linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+        background-size: 40px 40px;
+      }
+
+      .chapter-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 15px rgba(127, 140, 141, 0.4);
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-chapter h1 {
+        position: relative;
+        z-index: 1;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #ffffff 0%, #bdc3c7 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      }
+
+      /* Project Architect Tool */
+      .architect-tool {
+        background: #fdfdfd;
+        border-radius: 12px;
+        border: 1px solid #ddd;
+        margin: 2rem 0;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        height: 600px;
+      }
+      
+      @media (max-width: 800px) {
+        .architect-tool {
+          grid-template-columns: 1fr;
+          height: auto;
+        }
+      }
+
+      .messy-desk, .clean-desk {
+        padding: 1.5rem;
+        overflow-y: auto;
+      }
+
+      .messy-desk {
+        background: #fff0f0;
+        border-right: 1px solid #ddd;
+      }
+      
+      .clean-desk {
+        background: #f0f9ff;
+      }
+
+      .file-item {
+        background: white;
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        cursor: grab;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: monospace;
+        font-size: 0.9rem;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      }
+      
+      .file-item:active {
+        cursor: grabbing;
+        transform: rotate(2deg);
+      }
+
+      .folder-drop {
+        border: 2px dashed #3498db;
+        background: rgba(52, 152, 219, 0.1);
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        min-height: 100px;
+        transition: all 0.2s;
+      }
+
+      .folder-drop.drag-over {
+        background: rgba(52, 152, 219, 0.3);
+        transform: scale(1.02);
+      }
+      
+      .folder-title {
+        font-weight: bold;
+        color: #2980b9;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .check-btn {
+        width: 100%;
+        padding: 1rem;
+        background: #2ecc71;
+        color: white;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 1rem;
+        border-radius: 6px;
+      }
+      
+      /* Data Hierarchy Viz */
+      .hierarchy-viz {
+        display:flex; 
+        justify-content:center; 
+        align-items:center; 
+        gap:2rem; 
+        margin: 2rem 0;
+        flex-wrap: wrap;
+      }
+      
+      .step-circle {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: white;
+        border: 4px solid #34495e;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 1rem;
+        font-weight: bold;
+        position: relative;
+        z-index: 2;
+      }
+      
+      .connector {
+        flex: 1;
+        height: 4px;
+        background: #34495e;
+        min-width: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero-chapter">
+      <div class="container">
+        <span class="chapter-badge">Chapter 06</span>
+        <h1>Research Data Management</h1>
+        <p class="subtitle">
+          Good science requires good data management. Learn to architect your GIS projects for reproducibility, 
+          longevity, and clarity.
+        </p>
+      </div>
+    </header>
+
+    <main class="container">
+      <nav style="margin: 2rem 0;">
+        <a href="../index.html" style="color: var(--accent);">← Back to Textbook</a>
+      </nav>
+
+      <section class="card">
+        <h2>🔬 GIS as Research</h2>
+        <p>
+          A GIS project is not just a pretty map; it is a research study. Whether you are analyzing urban heat islands or 
+          tracking wildlife migration, you are following the scientific method.
+        </p>
+        <p>
+          Professional GIS analysts spend 70% of their time on <strong>Data Management</strong> and only 30% on analysis/mapping. 
+          If your data is messy, your science is suspect.
+        </p>
+
+        <div class="hierarchy-viz">
+          <div class="step-circle">
+            <span style="font-size:1.5rem">❓</span>
+            <div>Questions</div>
+          </div>
+          <div class="connector"></div>
+          <div class="step-circle" style="border-color: #e74c3c;">
+            <span style="font-size:1.5rem">📂</span>
+            <div>Data Design</div>
+          </div>
+          <div class="connector"></div>
+          <div class="step-circle">
+            <span style="font-size:1.5rem">🛠️</span>
+            <div>Analysis</div>
+          </div>
+          <div class="connector"></div>
+          <div class="step-circle">
+            <span style="font-size:1.5rem">📢</span>
+            <div>Result</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>🗂️ Interactive: Project Architect</h2>
+        <p>
+          <strong>Scenario:</strong> You inherited a messy USB drive ("The Messy Desk") from a former student. 
+          Your job is to organize it into a professional Research Structure ("The Clean Desk").
+        </p>
+        <p>
+          <strong>Rules:</strong>
+          <br>1. <strong>Originals:</strong> Never edit raw data. Keep it safe.
+          <br>2. <strong>Scratch:</strong> Temporary files go here.
+          <br>3. <strong>Final:</strong> Only the authoritative outputs go here.
+        </p>
+
+        <div class="architect-tool">
+          <div class="messy-desk" id="sourceContainer" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <h3>The Messy Desk</h3>
+            <p style="color:#666; font-size:0.85rem; margin-bottom:1rem;">Drag these files to the right folders.</p>
+            
+            <div class="file-item" draggable="true" ondragstart="drag(event)" id="f1" data-type="raw">DOWNLOAD_2024.zip</div>
+            <div class="file-item" draggable="true" ondragstart="drag(event)" id="f2" data-type="junk">Project1_final_FINAL_v2.shp</div>
+            <div class="file-item" draggable="true" ondragstart="drag(event)" id="f3" data-type="final">Map_Oct2025.pdf</div>
+            <div class="file-item" draggable="true" ondragstart="drag(event)" id="f4" data-type="raw">Census_Tracts.csv</div>
+            <div class="file-item" draggable="true" ondragstart="drag(event)" id="f5" data-type="scratch">clip_temp_123.tif</div>
+            <div class="file-item" draggable="true" ondragstart="drag(event)" id="f6" data-type="junk">doc1.docx</div>
+          </div>
+
+          <div class="clean-desk">
+            <h3>Standard Project Structure</h3>
+            
+            <div class="folder-drop" id="folder-raw" ondrop="drop(event)" ondragover="allowDrop(event)">
+              <div class="folder-title">📁 01_Original_Data</div>
+              <small>Read-only. Getting the data freshly downloaded.</small>
+            </div>
+
+            <div class="folder-drop" id="folder-scratch" ondrop="drop(event)" ondragover="allowDrop(event)">
+              <div class="folder-title">📁 02_Analysis / Scratch</div>
+              <small>Intermediate files (clips, buffers, temp joins).</small>
+            </div>
+
+            <div class="folder-drop" id="folder-final" ondrop="drop(event)" ondragover="allowDrop(event)">
+              <div class="folder-title">📁 03_Final_Outputs</div>
+              <small>The polished product to share with the world.</small>
+            </div>
+
+            <div class="folder-drop" id="folder-trash" ondrop="drop(event)" ondragover="allowDrop(event)" style="border-color:#e74c3c; background:rgba(231,76,60,0.1);">
+              <div class="folder-title">🗑️ Trash</div>
+              <small>Confusing or duplicate files (e.g. "final_FINAL_v2").</small>
+            </div>
+
+            <button class="check-btn" onclick="checkOrganization()">Check My Logic</button>
+            <div id="feedback" style="margin-top:1rem; font-weight:bold; text-align:center;"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>📝 The Importance of Metadata</h2>
+        <p>
+          <strong>Metadata</strong> is "data about data." It answers the 5 Ws:
+        </p>
+        <ul>
+          <li><strong>Who</strong> created it?</li>
+          <li><strong>When</strong> was it collected?</li>
+          <li><strong>Where</strong> does it cover?</li>
+          <li><strong>Why</strong> was it created?</li>
+          <li><strong>How</strong> can it be used? (Legal constraint)</li>
+        </ul>
+        <div class="callout info">
+          <strong>Researcher Tip:</strong> Write metadata for yourself. You think you will remember what "Column_X" means in 6 months? 
+          You won't. Document it now.
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>🚫 Common Pitfalls in GIS Projects</h2>
+        <ol>
+          <li><strong>The "One Folder" Disaster:</strong> Dumping 5,000 files into a single directory.</li>
+          <li><strong>Space in Filenames:</strong> Computers hate spaces. Use underscores (`My_Shapefile.shp`).</li>
+          <li><strong>The "Shapefile" Trap:</strong> Relying on fragility of .shp (3-7 files). Use Geodatabases (.gdb) or GeoPackages (.gpkg) for robust research data.</li>
+        </ol>
+      </section>
+
+      <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 3rem;">
+        <a href="chapter-05-georeferencing.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 05</a>
+        <a href="chapter-08-remote-sensing.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Remote Sensing →</a>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem; opacity: 0.7;">
+          GIS Digital Textbook | Open Educational Resource
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      function allowDrop(ev) {
+        ev.preventDefault();
+        if (ev.target.classList.contains('folder-drop')) {
+          ev.target.classList.add('drag-over');
+        }
+      }
+      
+      // Cleanup drag style on leave
+      document.addEventListener('dragleave', (ev) => {
+        if (ev.target.classList.contains('folder-drop')) {
+          ev.target.classList.remove('drag-over');
+        }
+      });
+
+      function drag(ev) {
+        ev.dataTransfer.setData("id", ev.target.id);
+        ev.dataTransfer.setData("type", ev.target.dataset.type);
+      }
+
+      function drop(ev) {
+        ev.preventDefault();
+        ev.target.classList.remove('drag-over');
+        
+        const fileId = ev.dataTransfer.getData("id");
+        const file = document.getElementById(fileId);
+        
+        // Find the drop target (handle dropping ON a child element)
+        let target = ev.target;
+        while (!target.classList.contains('folder-drop') && !target.classList.contains('messy-desk')) {
+          target = target.parentElement;
+          if (!target) return;
+        }
+
+        target.appendChild(file);
+      }
+
+      function checkOrganization() {
+        const raw = document.getElementById('folder-raw').querySelectorAll('.file-item');
+        const scratch = document.getElementById('folder-scratch').querySelectorAll('.file-item');
+        const final = document.getElementById('folder-final').querySelectorAll('.file-item');
+        const trash = document.getElementById('folder-trash').querySelectorAll('.file-item');
+        
+        let score = 0;
+        let errors = [];
+
+        // Logic check
+        raw.forEach(f => f.dataset.type === 'raw' ? score++ : errors.push(`${f.innerText} doesn't belong in Originals.`));
+        scratch.forEach(f => f.dataset.type === 'scratch' ? score++ : errors.push(`${f.innerText} isn't a scratch file.`));
+        final.forEach(f => f.dataset.type === 'final' ? score++ : errors.push(`${f.innerText} isn't a clean final output.`));
+        trash.forEach(f => f.dataset.type === 'junk' ? score++ : errors.push(`${f.innerText} might be important!`));
+
+        const feedback = document.getElementById('feedback');
+        
+        if (errors.length === 0 && (raw.length + scratch.length + final.length + trash.length) === 6) {
+          feedback.textContent = "🎉 Perfect! You have organized the project correctly.";
+          feedback.style.color = "#27ae60";
+        } else {
+          feedback.innerHTML = "Ops! <br>" + errors.join("<br>");
+          feedback.style.color = "#c0392b";
+        }
+      }
+    </script>
+  </body>
+</html>

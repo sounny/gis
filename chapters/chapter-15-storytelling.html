@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chapter 15: Storytelling with Maps | GIS Digital Textbook</title>
+    <meta
+      name="description"
+      content="This chapter explores the art of narrative cartography. Learn how to use Story Maps, scrollytelling, and visual design to communicate complex spatial data effectively."
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,700;1,300&display=swap" rel="stylesheet">
+    <style>
+      /* Chapter-specific styles */
+      .hero-chapter {
+        background: url('https://images.unsplash.com/photo-1519791883288-dc8bd696e667?q=80&w=2070&auto=format&fit=crop');
+        background-size: cover;
+        background-position: center;
+        padding: 6rem 2rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        color: white;
+      }
+
+      .hero-chapter::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.6);
+      }
+
+      .chapter-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #e91e63, #c2185b);
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-chapter h1 {
+        position: relative;
+        z-index: 1;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        margin-bottom: 1rem;
+        font-family: 'Merriweather', serif;
+        text-shadow: 0 4px 10px rgba(0,0,0,0.8);
+      }
+
+      .scrolly-container {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 0; 
+        margin: 4rem 0;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        overflow: hidden;
+        height: 600px;
+      }
+
+      @media (max-width: 900px) {
+        .scrolly-container {
+          display: flex;
+          flex-direction: column-reverse; /* Map on top logic via flex */
+          height: auto;
+        }
+        .scrolly-map {
+          height: 300px;
+        }
+      }
+
+      .scrolly-text {
+        height: 100%;
+        overflow-y: auto;
+        padding: 2rem;
+        background: #fff;
+        font-family: 'Merriweather', serif;
+        line-height: 1.8;
+        color: #2c3e50;
+      }
+
+      .scrolly-section {
+        min-height: 500px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        opacity: 0.3;
+        transition: opacity 0.5s;
+        border-left: 4px solid transparent;
+        padding-left: 1rem;
+      }
+
+      .scrolly-section.active {
+        opacity: 1;
+        border-left-color: #e91e63;
+      }
+
+      .scrolly-map {
+        background: #eee;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .map-slide {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        transition: opacity 1s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+        font-size: 2rem;
+        font-weight: bold;
+        background-color: #333; /* Fallback */
+      }
+      
+      .map-slide.active {
+        opacity: 1;
+      }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+
+      .bad-map-card {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: transform 0.2s;
+        text-align: center;
+      }
+
+      .bad-map-card:hover {
+        transform: translateY(-5px);
+       }
+       
+      .bad-map-viz {
+        height: 180px;
+        background: #f8d7da;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        color: #c0392b;
+      }
+
+      .bad-map-desc {
+        padding: 1rem;
+      }
+      
+      .bad-map-title {
+        color: #c0392b;
+        font-weight: bold;
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+
+    </style>
+  </head>
+  <body>
+    <header class="hero-chapter">
+      <div class="container">
+        <span class="chapter-badge">Chapter 15</span>
+        <h1>Storytelling with Maps</h1>
+        <p class="subtitle" style="position: relative; z-index: 1;">
+          Data alone is boring. Stories are memorable. Learn how to weave data into compelling narratives.
+        </p>
+      </div>
+    </header>
+
+    <main class="container">
+      <nav style="margin: 2rem 0;">
+        <a href="../index.html" style="color: var(--accent);">← Back to Textbook</a>
+      </nav>
+
+      <section class="card">
+        <h2>🗺️ Narrative Cartography</h2>
+        <p>
+          Throughout this course, you've learned to analyze data. Now, you must learn to <strong>communicate</strong> it. 
+          A "Story Map" combines interactive maps with multimedia content—text, photos, video, and audio—to tell a story about the world.
+        </p>
+        <p>
+          This format has revolutionized how we consume geographic information, moving from static PDFs to immersive "Scrollytelling" experiences.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>📜 Interactive Demo: The Scrollytelling format</h2>
+        <p>
+          Scroll through the text on the left. Watch how the map on the right responds to your narrative. This is the power of 
+          <strong>driving the user's attention</strong>.
+        </p>
+
+        <div class="scrolly-container">
+          <div class="scrolly-text" id="scrollText">
+            <div class="scrolly-section active" data-slide="1">
+              <h3>1. The Hook</h3>
+              <p>
+                Every good story needs a beginning. In GIS, this is your "Overview Map." You establish context. 
+                Where are we? Why should the reader care?
+                <br><br>
+                <em>"It was a dark and stormy night in the Florida Keys..."</em>
+              </p>
+            </div>
+            <div class="scrolly-section" data-slide="2">
+              <h3>2. The Conflict</h3>
+              <p>
+                Zoom in to the problem. Show the data that reveals the tension. Maybe it's rising sea levels, 
+                or a gap in service delivery.
+                <br><br>
+                Notice how the map successfully directed your eye to the specific island in question? You didn't have to search for it.
+              </p>
+            </div>
+            <div class="scrolly-section" data-slide="3">
+              <h3>3. The Resolution</h3>
+              <p>
+                Present the analysis. This is where your colorful Choropleth or Heat Map shines. 
+                Show the solution or the future projection.
+                <br><br>
+                A Story Map isn't just a data dump; it guides the user to a conclusion.
+              </p>
+            </div>
+          </div>
+          
+          <div class="scrolly-map">
+            <div class="map-slide active" id="slide1" style="background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1932&auto=format&fit=crop');">
+              <span style="background:rgba(0,0,0,0.5); padding:1rem;">Context</span>
+            </div>
+            <div class="map-slide" id="slide2" style="background-image: url('https://images.unsplash.com/photo-1544983058-2950eb2629ac?q=80&w=1740&auto=format&fit=crop');">
+              <span style="background:rgba(0,0,0,0.5); padding:1rem;">The Problem</span>
+            </div>
+            <div class="map-slide" id="slide3" style="background-image: url('https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?q=80&w=1931&auto=format&fit=crop');">
+              <span style="background:rgba(0,0,0,0.5); padding:1rem;">The Solution</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>🚫 The "Bad Maps" Gallery</h2>
+        <p>
+          Just because you <em>can</em> map it, doesn't mean you <em>should</em>. Here are common storytelling mistakes 
+          from Dr. Sounny's "Bad Maps" lecture.
+        </p>
+        
+        <div class="gallery-grid">
+          <div class="bad-map-card">
+            <div class="bad-map-viz">🌈</div>
+            <div class="bad-map-desc">
+              <span class="bad-map-title">The Rainbow Bomb</span>
+              <p>Using 50 different bright colors for 50 US States. It creates visual chaos and implies meaning where there is none. Use a muted palette!</p>
+            </div>
+          </div>
+
+          <div class="bad-map-card">
+            <div class="bad-map-viz">📊</div>
+            <div class="bad-map-desc">
+              <span class="bad-map-title">Map Junk</span>
+              <p>Filling every inch of white space with north arrows, massive logos, and clip art. Less is more. Let the data breathe.</p>
+            </div>
+          </div>
+
+          <div class="bad-map-card">
+            <div class="bad-map-viz">🤔</div>
+            <div class="bad-map-desc">
+              <span class="bad-map-title">The "Where's Waldo?"</span>
+              <p>Making the reader hunt for the subject. If your map is about "Hospitals", mapping "Roads" in bright red and hospitals in pale grey fails the story.</p>
+            </div>
+          </div>
+          
+          <div class="bad-map-card">
+            <div class="bad-map-viz">📈</div>
+            <div class="bad-map-desc">
+              <span class="bad-map-title">Normalization Fail</span>
+              <p>Mapping raw population counts instead of rates. This usually just results in a map of "Where People Live" rather than your actual topic.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>🏆 The Student "Slam"</h2>
+        <p>
+          In this course, we celebrate your victories with "Slams"—showcases of the best student work. 
+          When you create your final Story Map, you aren't just doing homework; you are creating a portfolio piece 
+          that could be featured in future Slams!
+        </p>
+        <p>
+          <strong>Check out previous winners:</strong>
+        </p>
+        <ul>
+          <li><em>"The linguistic landscape of Study Abroad"</em> by Sarah M.</li>
+          <li><em>"Quantifying the 'Cool' Factor of Urban Roofs"</em> by James T.</li>
+          <li><em>"Following John Snow: A modern recreation"</em> by Team Alpha</li>
+        </ul>
+      </section>
+
+      <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 3rem;">
+        <a href="chapter-13-mobile-gis.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 13</a>
+        <a href="chapter-15-ethics.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #e91e63; color: white;">Next: Ethics & AI →</a>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem; opacity: 0.7;">
+          GIS Digital Textbook | Open Educational Resource
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Simple Intersection Observer setup for Scrollytelling
+      const sections = document.querySelectorAll('.scrolly-section');
+      const slides = document.querySelectorAll('.map-slide');
+      const scrollContainer = document.querySelector('.scrolly-text');
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Highlight text
+            sections.forEach(s => s.classList.remove('active'));
+            entry.target.classList.add('active');
+
+            // Switch map
+            const slideId = entry.target.dataset.slide;
+            slides.forEach(s => s.classList.remove('active'));
+            document.getElementById('slide' + slideId).classList.add('active');
+          }
+        });
+      }, {
+        root: scrollContainer,
+        threshold: 0.6 // Trigger when 60% of section is visible
+      });
+
+      sections.forEach(section => {
+        observer.observe(section);
+      });
+    </script>
+  </body>
+</html>

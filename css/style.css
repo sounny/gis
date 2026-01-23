@@ -131,14 +131,14 @@ h1, h2, h3, h4 {
 }
 
 /* Progress/Navigation Grid */
-.module-grid {
+.chapter-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1.5rem;
     margin-top: 2rem;
 }
 
-.module-item {
+.chapter-item {
     background: white;
     padding: 1.5rem;
     border-radius: var(--radius-md);
@@ -148,13 +148,13 @@ h1, h2, h3, h4 {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.module-item:hover {
+.chapter-item:hover {
     background: var(--primary);
     color: white;
     transform: scale(1.02);
 }
 
-.module-number {
+.chapter-number {
     display: block;
     font-size: 0.875rem;
     font-weight: 700;
@@ -163,11 +163,11 @@ h1, h2, h3, h4 {
     color: var(--primary);
 }
 
-.module-item:hover .module-number {
+.chapter-item:hover .chapter-number {
     color: rgba(255,255,255,0.8);
 }
 
-.module-title {
+.chapter-title {
     font-weight: 600;
     font-size: 1.1rem;
 }

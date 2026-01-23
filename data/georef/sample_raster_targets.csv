@@ -1,0 +1,9 @@
+id,kind,img_x,img_y,lat,lng,notes
+TL,control,0,0,29.8000,-95.4500,Top-left corner label
+TR,control,900,0,29.8000,-95.3000,Top-right corner label
+BL,control,0,600,29.7000,-95.4500,Bottom-left corner label
+BR,control,900,600,29.7000,-95.3000,Bottom-right corner label
+A,checkpoint,180,160,29.7733,-95.4200,Interior checkpoint
+B,checkpoint,700,140,29.7767,-95.3333,Interior checkpoint
+C,checkpoint,220,460,29.7233,-95.4133,Interior checkpoint
+D,checkpoint,640,420,29.7300,-95.3433,Interior checkpoint

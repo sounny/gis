@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chapter 13: Spatial Modeling | GIS Digital Textbook</title>
+    <meta
+      name="description"
+      content="Learn to automate GIS workflows using ModelBuilder and Python. Understand the principles of Spatial Modeling and Process Models."
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+      /* Chapter-specific styles */
+      .hero-chapter {
+        background: linear-gradient(135deg, #8e44ad 0%, #34495e 100%);
+        padding: 4rem 2rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-chapter::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: 
+          radial-gradient(circle, rgba(255,255,255,0.1) 2px, transparent 2px);
+        background-size: 40px 40px;
+        opacity: 0.5;
+      }
+
+      .chapter-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 15px rgba(155, 89, 182, 0.4);
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-chapter h1 {
+        position: relative;
+        z-index: 1;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #ffffff 0%, #d2b4de 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      }
+
+      /* Model Builder Tool */
+      .model-tool {
+        background: #f4f6f8;
+        border-radius: 12px;
+        border: 1px solid #ddd;
+        height: 600px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        margin: 2rem 0;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      }
+
+      .flowchart-canvas {
+        flex: 1;
+        background-image: radial-gradient(#ccc 1px, transparent 1px);
+        background-size: 20px 20px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .node {
+        position: absolute;
+        padding: 1rem;
+        border-radius: 8px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        cursor: grab;
+        user-select: none;
+        width: 140px;
+        height: 60px;
+        text-align: center;
+        font-size: 0.9rem;
+        border: 2px solid transparent;
+        transition: transform 0.1s;
+      }
+
+      .node:active {
+        cursor: grabbing;
+        transform: scale(1.05);
+      }
+
+      /* ArcGIS Colors */
+      .node-data { background: #3498db; color: white; border-color: #2980b9; border-radius: 30px; } /* Blue Ellipse */
+      .node-tool { background: #f1c40f; color: #333; border-color: #f39c12; border-radius: 4px; } /* Yellow Rect */
+      
+      .connection-line {
+        position: absolute;
+        height: 2px;
+        background: #999;
+        transform-origin: 0 0;
+        z-index: 0;
+      }
+
+      .sidebar-tools {
+        background: #fff;
+        padding: 1rem;
+        display: flex;
+        gap: 1rem;
+        border-bottom: 1px solid #eee;
+        align-items: center;
+      }
+
+      .drag-item {
+        padding: 0.5rem 1rem;
+        background: #eee;
+        border-radius: 4px;
+        cursor: grab;
+        font-size: 0.85rem;
+        font-weight: bold;
+      }
+
+      .code-block {
+        background: #1e1e1e;
+        color: #dcdcdc;
+        font-family: 'Fira Code', monospace;
+        padding: 1.5rem;
+        border-radius: 8px;
+        overflow-x: auto;
+        line-height: 1.6;
+        font-size: 0.9rem;
+        margin: 2rem 0;
+        border-left: 4px solid #3498db;
+      }
+
+      .keyword { color: #569cd6; } /* blue */
+      .string { color: #ce9178; } /* orange */
+      .comment { color: #6a9955; } /* green */
+      .function { color: #dcdcaa; } /* yellow */
+
+      .model-types {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin: 2rem 0;
+      }
+
+      .type-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      }
+      
+      .type-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        color: #8e44ad;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero-chapter">
+      <div class="container">
+        <span class="chapter-badge">Chapter 13</span>
+        <h1>Spatial Modeling</h1>
+        <p class="subtitle">
+          Moving from single steps to automated workflows. How to chain tools together to solve complex problems.
+        </p>
+      </div>
+    </header>
+
+    <main class="container">
+      <nav style="margin: 2rem 0;">
+        <a href="../index.html" style="color: var(--accent);">← Back to Textbook</a>
+      </nav>
+
+      <section class="card">
+        <h2>🏗️ What is a Spatial Model?</h2>
+        <p>
+          In GIS, a "Model" isn't a miniature building; it's a simplified representation of reality used to simulate a process.
+          Almost every map you make involves a workflow: 
+          <br><em>Input Data → Geoprocessing Tool 1 → Tool 2 → Final Map</em>.
+        </p>
+        <p>
+          Formalizing this workflow into a <strong>Spatial Model</strong> allows us to:
+        </p>
+        <ul>
+          <li><strong>Automate</strong> repetitive tasks (e.g., clipping 50 layers).</li>
+          <li><strong>Document</strong> our methodology (reproducibility).</li>
+          <li><strong>Experiment</strong> with "What if?" scenarios by changing parameters.</li>
+        </ul>
+      </section>
+
+      <div class="model-types">
+        <div class="type-card">
+          <div class="type-header">
+            <span style="font-size: 2rem;">🗺️</span>
+            <h3>Representation Models</h3>
+          </div>
+          <p>
+            Models that describe <em>what exists</em>. They represent the landscape at a point in time. 
+            <br><em>Example: A Land Cover Map is a model of the real world.</em>
+          </p>
+        </div>
+        <div class="type-card">
+          <div class="type-header">
+            <span style="font-size: 2rem;">⚙️</span>
+            <h3>Process Models</h3>
+          </div>
+          <p>
+            Models that describe <em>what happens</em>. They simulate a process or interaction.
+            <br><em>Example: A Suitability Analysis (combining layers to find a site) or a Hydrology Model (simulating water flow).</em>
+          </p>
+        </div>
+      </div>
+
+      <section class="card">
+        <h2>🧩 Interactive ModelBuilder</h2>
+        <p>
+          In ArcGIS Pro, <strong>ModelBuilder</strong> is a visual programming language. You drag "Data" (Blue Ovals) 
+          and "Tools" (Yellow Rectangles) onto a canvas and connect them.
+        </p>
+        <p>
+          Try it below! Arrange the nodes to visualize a common workflow: <strong>Buffer a Road, then Clip it to the County boundary.</strong>
+        </p>
+
+        <div class="model-tool">
+          <div class="sidebar-tools">
+            <strong>Toolbox:</strong>
+            <div class="drag-item node-data" draggable="true" ondragstart="drag(event)" data-type="data">Input Roads</div>
+            <div class="drag-item node-tool" draggable="true" ondragstart="drag(event)" data-type="tool">Buffer Tool</div>
+            <div class="drag-item node-data" draggable="true" ondragstart="drag(event)" data-type="data">Result Polygon</div>
+            <small style="margin-left:auto; color:#888;">Drag items to canvas</small>
+          </div>
+          
+          <div class="flowchart-canvas" id="canvas" ondrop="drop(event)" ondragover="allowDrop(event)">
+             <!-- Pre-placed demo nodes -->
+             <div class="node node-data" id="n1" style="top: 100px; left: 50px;">Input Roads</div>
+             <div class="connection-line" style="top:130px; left:190px; width:40px; transform:rotate(0deg);"></div>
+             <div class="node node-tool" id="n2" style="top: 100px; left: 230px;">Buffer</div>
+             <div class="connection-line" style="top:130px; left:370px; width:40px; transform:rotate(0deg);"></div>
+             <div class="node node-data" id="n3" style="top: 100px; left: 410px;">Buffered Roads</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>🐍 Intro to Python (ArcPy)</h2>
+        <p>
+          Every ModelBuilder model can be exported as a Python script. Python is the standard scripting language for GIS.
+          Writing code gives you even more power, allowing for loops, complex logic ("if this then that"), and batch processing.
+        </p>
+        
+        <p>Here is what the "Buffer" workflow looks like in <strong>ArcPy</strong> code:</p>
+
+        <div class="code-block">
+<span class="keyword">import</span> arcpy
+
+<span class="comment"># Set environments</span>
+arcpy.env.workspace = <span class="string">"C:/GIS/Project_Data.gdb"</span>
+
+<span class="comment"># Define variables</span>
+input_roads = <span class="string">"Major_Highways"</span>
+output_buffer = <span class="string">"Roads_Buffer_100m"</span>
+
+<span class="comment"># Run the Buffer tool</span>
+<span class="function">print</span>(<span class="string">"Buffering roads..."</span>)
+arcpy.analysis.Buffer(
+    in_features=input_roads, 
+    out_feature_class=output_buffer, 
+    buffer_distance_or_field=<span class="string">"100 Meters"</span>
+)
+
+<span class="function">print</span>(<span class="string">"Done!"</span>)
+        </div>
+        
+        <div class="callout warning">
+          <strong>Don't Panic!</strong> You don't need to memorize this syntax. Most GIS professionals use the 
+          "Copy Python Command" feature in ArcGIS Pro to generate the code snippet for them.
+        </div>
+      </section>
+
+      <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 3rem;">
+        <a href="chapter-12-vector-analysis.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 12</a>
+        <a href="chapter-14-mobile-gis.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #8e44ad; color: white;">Next: Mobile GIS →</a>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem; opacity: 0.7;">
+          GIS Digital Textbook | Open Educational Resource
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Simple Drag and Drop Logic for ModelBuilder
+      function allowDrop(ev) {
+        ev.preventDefault();
+      }
+
+      function drag(ev) {
+        ev.dataTransfer.setData("type", ev.target.dataset.type);
+        ev.dataTransfer.setData("text", ev.target.innerText);
+      }
+
+      function drop(ev) {
+        ev.preventDefault();
+        const type = ev.dataTransfer.getData("type");
+        const text = ev.dataTransfer.getData("text");
+        
+        // Get drop coordinates relative to container
+        const rect = document.getElementById('canvas').getBoundingClientRect();
+        const x = ev.clientX - rect.left - 70; // Center offset
+        const y = ev.clientY - rect.top - 30;
+
+        const node = document.createElement('div');
+        node.className = 'node ' + (type === 'data' ? 'node-data' : 'node-tool');
+        node.innerText = text;
+        node.style.top = y + 'px';
+        node.style.left = x + 'px';
+        
+        // Add random slight rotation for "organic" feel
+        const rot = (Math.random() * 4) - 2;
+        node.style.transform = `rotate(${rot}deg)`;
+        
+        // Make draggable on canvas (simplified - would need complex logic for reconnections)
+        node.style.cursor = 'grab';
+
+        document.getElementById('canvas').appendChild(node);
+      }
+    </script>
+  </body>
+</html>

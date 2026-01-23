@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chapter 8: Foundations of Remote Sensing | GIS Digital Textbook</title>
+    <meta
+      name="description"
+      content="This chapter explores the science of remote sensing, from the electromagnetic spectrum to satellite imagery analysis. Learn how we monitor Earth's changing environment from space."
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Chapter-specific styles */
+      .hero-chapter {
+        background: linear-gradient(135deg, #2c3e50 0%, #000000 100%);
+        padding: 4rem 2rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-chapter::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('https://eoimages.gsfc.nasa.gov/images/imagerecords/148000/148450/marble_2021_lrg.jpg');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.4;
+        filter: contrast(1.2) brightness(0.8);
+      }
+
+      .chapter-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #e67e22, #d35400);
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 15px rgba(230, 126, 34, 0.4);
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-chapter h1 {
+        position: relative;
+        z-index: 1;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #ffffff 0%, #f1c40f 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      }
+
+      .hero-chapter .subtitle {
+        position: relative;
+        z-index: 1;
+        font-size: 1.25rem;
+        color: rgba(255, 255, 255, 0.9);
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.6;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+      }
+
+      /* Spectrum Slider Tool */
+      .spectrum-tool {
+        background: #1a1a1a;
+        color: white;
+        border-radius: 16px;
+        padding: 2rem;
+        margin: 2rem 0;
+        border: 1px solid #333;
+      }
+
+      .spectrum-viz {
+        height: 120px;
+        background: linear-gradient(90deg, 
+          #8e44ad 0%, /* Gamma/X-ray */
+          #2980b9 10%, /* UV */
+          #8e44ad 15%, /* Visible (Blue) */
+          #2ecc71 18%, /* Visible (Green) */
+          #e74c3c 21%, /* Visible (Red) */
+          #c0392b 25%, /* Infrared */
+          #d35400 40%, /* Thermal */
+          #f39c12 60%, /* Microwave */
+          #bdc3c7 100% /* Radio */
+        );
+        border-radius: 8px;
+        position: relative;
+        margin: 2rem 0;
+        cursor: pointer;
+      }
+      
+      .spectrum-viz::after {
+        content: "Visible Light";
+        position: absolute;
+        top: -25px;
+        left: 18%;
+        transform: translateX(-50%);
+        font-size: 0.8rem;
+        color: #fff;
+      }
+
+      .spectrum-marker {
+        position: absolute;
+        top: -10px;
+        bottom: -10px;
+        width: 4px;
+        background: #fff;
+        border-radius: 2px;
+        box-shadow: 0 0 10px rgba(255,255,255,0.8);
+        transition: left 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+      }
+
+      .band-info {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        padding-top: 1rem;
+      }
+
+      @media (max-width: 768px) {
+        .band-info {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .band-detail h3 {
+        color: #f1c40f;
+        margin-bottom: 0.5rem;
+        font-size: 1.5rem;
+      }
+
+      .application-tag {
+        display: inline-block;
+        background: rgba(255,255,255,0.1);
+        padding: 0.25rem 0.75rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      /* Image Comparisons */
+      .comparison-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+
+      .comparison-item {
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+      }
+
+      .comparison-item:hover {
+        transform: translateY(-5px);
+      }
+
+      .comparison-item img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+      }
+
+      .comparison-label {
+        padding: 1rem;
+        text-align: center;
+        font-weight: 600;
+        color: #2c3e50;
+        border-top: 1px solid #eee;
+      }
+
+      /* Spectral Signature Graph (Simulated) */
+      .signature-graph {
+        width: 100%;
+        height: 300px;
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        position: relative;
+        margin: 2rem 0;
+        padding: 2rem 2rem 3rem 4rem; 
+        box-sizing: border-box;
+      }
+      
+      .y-axis-label {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%) rotate(-90deg);
+        font-size: 0.9rem;
+        color: #666;
+        text-align: center;
+      }
+
+      .x-axis-label {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.9rem;
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero-chapter">
+      <div class="container">
+        <span class="chapter-badge">Chapter 8</span>
+        <h1>Foundations of Remote Sensing</h1>
+        <p class="subtitle">
+          "The best way to understand the health of our planet is to look at it from a distance."
+        </p>
+      </div>
+    </header>
+
+    <main class="container">
+      <nav style="margin: 2rem 0;">
+        <a href="../index.html" style="color: var(--accent);">← Back to Textbook</a>
+      </nav>
+
+      <section class="card">
+        <h2>🛰️ What is Remote Sensing?</h2>
+        <p>
+          Remote sensing is the art and science of obtaining information about an object, area, or phenomenon 
+          through the analysis of data acquired by a device that is not in contact with the object, area, 
+          or phenomenon under investigation. 
+        </p>
+        <p>
+          Think of your own eyes—they are remote sensors! You gather information about the world around you 
+          (color, size, distance) without physically touching everything. In GIS, we extend this capability using 
+          sensors mounted on drones, airplanes, and satellites to monitor the Earth.
+        </p>
+        
+        <div class="callout info">
+          <strong>Key Concept:</strong> Remote sensing allows us to see beyond the visible. By measuring 
+          energy across the electromagnetic spectrum, we can detect plant health, soil moisture, heat islands, 
+          and more.
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>🌈 The Electromagnetic Spectrum</h2>
+        <p>
+          Everything reflects, absorbs, or transmits energy differently. This is the fundamental principle of 
+          remote sensing. We measure electromagnetic radiation (EMR)—energy that travels in waves.
+        </p>
+
+        <div class="spectrum-tool">
+          <div style="text-align: center; margin-bottom: 1rem;">
+            <h3>Interactive Spectrum Explorer</h3>
+            <p style="color: #aaa; font-size: 0.9rem;">Click on the spectrum bar to explore different bands used in remote sensing.</p>
+          </div>
+          
+          <div class="spectrum-viz" id="spectrumViz">
+            <div class="spectrum-marker" id="spectrumMarker" style="left: 18%;"></div>
+          </div>
+
+          <div class="band-info">
+            <div class="band-detail">
+              <h3 id="bandName">Visible Light</h3>
+              <p id="bandDesc" style="line-height: 1.6; color: #ddd;">
+                The tiny portion of the spectrum our eyes can see (0.4 - 0.7 µm). 
+                Blue, Green, and Red light are the primary colors used to create "True Color" images 
+                that look like normal photographs.
+              </p>
+            </div>
+            <div>
+              <h4 style="color: #f1c40f; margin-bottom: 0.5rem;">Applications:</h4>
+              <div id="bandTags">
+                <span class="application-tag">True Color Imagery</span>
+                <span class="application-tag">Urban Planning</span>
+                <span class="application-tag">Feature Identification</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>🌿 Spectral Signatures & Vegetation</h2>
+        <p>
+          One of the most powerful applications of remote sensing is vegetation analysis. Healthy plants 
+          have a unique <strong>spectral signature</strong>:
+        </p>
+        <ul>
+          <li><strong>Absorb Red Light:</strong> Chlorophyll absorbs red light for photosynthesis.</li>
+          <li><strong>Reflect Near-Infrared (NIR):</strong> The spongy mesophyll cell structure strongly reflects NIR energy—much more than visible green light!</li>
+        </ul>
+        
+        <p>
+          This is why healthy vegetation looks bright red in "False Color Infrared" images, where NIR energy is mapped to the red display channel.
+        </p>
+
+        <div class="comparison-container">
+          <div class="comparison-item">
+            <img src="https://landsat.visibleearth.nasa.gov/view.php?id=1285" alt="True Color" style="background: #ccc; min-height: 250px; display: flex; align-items: center; justify-content: center; color: #555;">
+            <!-- Placeholder for real image: True Color Landsat -->
+             <div style="height: 250px; background: url('https://upload.wikimedia.org/wikipedia/commons/2/23/Color_infrared_film_hasselblad_500el.jpg'); background-size: cover; background-position: center;"></div>
+             <div class="comparison-label">True Color (RGB)</div>
+          </div>
+          <div class="comparison-item">
+            <!-- Placeholder for real image: False Color NIR -->
+             <div style="height: 250px; background: url('https://upload.wikimedia.org/wikipedia/commons/e/e0/Color_infrared_film_hasselblad_500el_false_color.jpg'); background-size: cover; background-position: center;"></div>
+            <div class="comparison-label">False Color Infrared (NIR-R-G)</div>
+          </div>
+        </div>
+
+        <h3>The Normalized Difference Vegetation Index (NDVI)</h3>
+        <p>
+          We can mathematically quantify plant health using the <strong>NDVI</strong> formula, widely used in agriculture and forestry:
+        </p>
+        
+        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; text-align: center; font-family: monospace; font-size: 1.25rem; margin: 1.5rem 0; border: 1px solid #e9ecef;">
+          NDVI = (NIR - Red) / (NIR + Red)
+        </div>
+
+        <p>
+          Values range from <strong>-1.0 to +1.0</strong>:
+          <br>• > 0.5: Dense, healthy vegetation
+          <br>• 0.2 to 0.5: Sparse vegetation (shrubs, grassland)
+          <br>• < 0.1: Barren rock, sand, or snow
+          <br>• Negative values: Water bodies
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>🛰️ Platforms and Sensors</h2>
+        <p>
+          Remote sensing data comes from many sources. In this course, we will focus on free, open-access satellite data.
+        </p>
+
+        <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0;">
+          <thead>
+            <tr style="background: #2c3e50; color: white;">
+              <th style="padding: 1rem; text-align: left;">Program</th>
+              <th style="padding: 1rem; text-align: left;">Resolution</th>
+              <th style="padding: 1rem; text-align: left;">Revisit Time</th>
+              <th style="padding: 1rem; text-align: left;">Best For...</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #eee;">
+              <td style="padding: 1rem;"><strong>Landsat 8/9</strong> (USA)</td>
+              <td style="padding: 1rem;">30 meters</td>
+              <td style="padding: 1rem;">16 days</td>
+              <td style="padding: 1rem;">Long-term environmental monitoring (since 1972!)</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #eee;">
+              <td style="padding: 1rem;"><strong>Sentinel-2</strong> (EU)</td>
+              <td style="padding: 1rem;">10 meters</td>
+              <td style="padding: 1rem;">5 days</td>
+              <td style="padding: 1rem;">High-resolution vegetation and land cover analysis</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #eee;">
+              <td style="padding: 1rem;"><strong>MODIS</strong> (USA)</td>
+              <td style="padding: 1rem;">250m - 1km</td>
+              <td style="padding: 1rem;">Daily</td>
+              <td style="padding: 1rem;">Global climate, fires, and ocean temperature</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h2>🌍 Case Study: Land Change Science</h2>
+        
+        <div class="callout warning">
+          <strong>The Tragedy of the Commons</strong><br>
+          Remote sensing plays a crucial role in monitoring shared resources. As discussed in Dr. Sounny's lectures, 
+          when environmental resources are shared (air, water, forests), individuals acting in self-interest can deplete them.
+          Satellite imagery provides the global, unbiased "eye in the sky" needed to monitor deforestation, urban sprawl, 
+          and habitat loss objectively.
+        </div>
+
+        <p>
+          <strong>Land Change Science (LCS)</strong> is an interdisciplinary field that seeks to understand the human and 
+          biophysical dynamics of land-use/land-cover change (LULCC). As GIS analysts, we don't just make maps; 
+          we analyze <em>change over time</em>.
+        </p>
+      </section>
+
+      <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 3rem;">
+        <a href="chapter-07-remote-sensing-foundations.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 7</a>
+        <a href="chapter-09-image-classification.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #e67e22; color: white;">Next: Image Classification →</a>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem; opacity: 0.7;">
+          GIS Digital Textbook | Open Educational Resource
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Spectrum Tool Logic
+      const spectrumViz = document.getElementById('spectrumViz');
+      const spectrumMarker = document.getElementById('spectrumMarker');
+      const bandName = document.getElementById('bandName');
+      const bandDesc = document.getElementById('bandDesc');
+      const bandTags = document.getElementById('bandTags');
+
+      const bands = [
+        {
+          name: "Ultraviolet (UV)",
+          range: [0, 15],
+          desc: "High energy wavelengths mostly blocked by the ozone layer. Some minerals and oil spills fluoresce in UV light.",
+          tags: ["Mineralogy", "Oil Spills"]
+        },
+        {
+          name: "Visible Light (RGB)",
+          range: [15, 22],
+          desc: "The tiny portion of the spectrum our eyes can see (0.4 - 0.7 µm). Used for true-color imagery and general mapping.",
+          tags: ["True Color", "Urban Planning", "Visual Inspection"]
+        },
+        {
+          name: "Near-Infrared (NIR)",
+          range: [22, 35],
+          desc: "Just beyond visible red. Healthy vegetation reflects NIR very strongly. Essential for monitoring plant health.",
+          tags: ["Vegetation Health", "Crop Monitoring", "NDVI"]
+        },
+        {
+          name: "Shortwave Infrared (SWIR)",
+          range: [35, 50],
+          desc: "Sensitive to moisture content in soil and vegetation. Also useful for penetrating thin clouds and smoke.",
+          tags: ["Soil Moisture", "Fire Mapping", "Geology"]
+        },
+        {
+          name: "Thermal Infrared",
+          range: [50, 70],
+          desc: "Measures emitted heat rather than reflected light. Used to map land surface temperature and urban heat islands.",
+          tags: ["Heat Islands", "Volcanoes", "Ocean Temp"]
+        },
+        {
+          name: "Microwave / Radar",
+          range: [70, 100],
+          desc: "Very long wavelengths that can penetrate clouds, fog, and rain. Active sensors (Radar) use this band.",
+          tags: ["All-Weather Imaging", "Elevation (DEM)", "Soil Structure"]
+        }
+      ];
+
+      spectrumViz.addEventListener('click', (e) => {
+        const rect = spectrumViz.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const width = rect.width;
+        const pct = (x / width) * 100;
+
+        spectrumMarker.style.left = pct + '%';
+
+        // Find matching band
+        const band = bands.find(b => pct >= b.range[0] && pct <= b.range[1]);
+
+        if (band) {
+          bandName.textContent = band.name;
+          bandDesc.textContent = band.desc;
+          
+          bandTags.innerHTML = '';
+          band.tags.forEach(tag => {
+            const span = document.createElement('span');
+            span.className = 'application-tag';
+            span.textContent = tag;
+            bandTags.appendChild(span);
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

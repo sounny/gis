@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chapter 4: GPS & Positioning | GIS Digital Textbook</title>
+    <meta
+      name="description"
+      content="Learn about the Global Positioning System (GPS), satellite navigation, positioning accuracy, and error sources. Includes an interactive GPS accuracy visualizer."
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Chapter-specific styles */
+      .hero-chapter {
+        background: linear-gradient(135deg, #0a1628 0%, #1a237e 50%, #283593 100%);
+        padding: 4rem 2rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-chapter::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 30% 40%, rgba(33, 150, 243, 0.15) 0%, transparent 50%),
+                    radial-gradient(circle at 70% 60%, rgba(76, 175, 80, 0.1) 0%, transparent 40%);
+      }
+
+      /* Animated satellites */
+      .satellite {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        opacity: 0.6;
+      }
+
+      .satellite::before {
+        content: "🛰️";
+        font-size: 1.5rem;
+      }
+
+      .satellite-1 {
+        top: 20%;
+        left: 15%;
+        animation: orbit1 20s linear infinite;
+      }
+
+      .satellite-2 {
+        top: 30%;
+        right: 20%;
+        animation: orbit2 25s linear infinite;
+      }
+
+      .satellite-3 {
+        bottom: 25%;
+        left: 25%;
+        animation: orbit3 18s linear infinite;
+      }
+
+      @keyframes orbit1 {
+        0% { transform: translate(0, 0) rotate(0deg); }
+        50% { transform: translate(50px, 30px) rotate(180deg); }
+        100% { transform: translate(0, 0) rotate(360deg); }
+      }
+
+      @keyframes orbit2 {
+        0% { transform: translate(0, 0) rotate(0deg); }
+        50% { transform: translate(-40px, 20px) rotate(180deg); }
+        100% { transform: translate(0, 0) rotate(360deg); }
+      }
+
+      @keyframes orbit3 {
+        0% { transform: translate(0, 0) rotate(0deg); }
+        50% { transform: translate(30px, -25px) rotate(180deg); }
+        100% { transform: translate(0, 0) rotate(360deg); }
+      }
+
+      .hero-chapter .container {
+        position: relative;
+        z-index: 1;
+      }
+
+      .chapter-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #2196f3, #03a9f4);
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 15px rgba(33, 150, 243, 0.4);
+      }
+
+      .hero-chapter h1 {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #ffffff 0%, #90caf9 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero-chapter .subtitle {
+        font-size: 1.25rem;
+        color: rgba(255, 255, 255, 0.8);
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.7;
+      }
+
+      /* GPS Visualizer Tool */
+      .gps-visualizer {
+        background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%);
+        border-radius: 20px;
+        padding: 2rem;
+        margin: 2rem 0;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .visualizer-header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .visualizer-header h3 {
+        color: #fff;
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .visualizer-header p {
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .visualizer-content {
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        gap: 2rem;
+      }
+
+      @media (max-width: 900px) {
+        .visualizer-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .gps-canvas-container {
+        position: relative;
+        background: #0a0a0a;
+        border-radius: 16px;
+        overflow: hidden;
+        aspect-ratio: 1;
+        max-width: 500px;
+        margin: 0 auto;
+      }
+
+      #gpsCanvas {
+        width: 100%;
+        height: 100%;
+        cursor: crosshair;
+      }
+
+      .visualizer-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .control-group {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 1.25rem;
+      }
+
+      .control-group label {
+        display: block;
+        color: #90caf9;
+        font-weight: 600;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.75rem;
+      }
+
+      .control-group input[type="range"] {
+        width: 100%;
+        height: 6px;
+        -webkit-appearance: none;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+        outline: none;
+      }
+
+      .control-group input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 18px;
+        height: 18px;
+        background: linear-gradient(135deg, #2196f3, #03a9f4);
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(33, 150, 243, 0.5);
+      }
+
+      .control-value {
+        text-align: center;
+        color: #fff;
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-top: 0.5rem;
+      }
+
+      .accuracy-indicator {
+        text-align: center;
+        padding: 1rem;
+        border-radius: 12px;
+        margin-top: 1rem;
+      }
+
+      .accuracy-indicator.excellent {
+        background: rgba(76, 175, 80, 0.2);
+        border: 1px solid rgba(76, 175, 80, 0.5);
+        color: #81c784;
+      }
+
+      .accuracy-indicator.good {
+        background: rgba(255, 193, 7, 0.2);
+        border: 1px solid rgba(255, 193, 7, 0.5);
+        color: #ffd54f;
+      }
+
+      .accuracy-indicator.poor {
+        background: rgba(244, 67, 54, 0.2);
+        border: 1px solid rgba(244, 67, 54, 0.5);
+        color: #e57373;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+        margin-top: 1rem;
+      }
+
+      .stat-item {
+        background: rgba(255, 255, 255, 0.03);
+        padding: 0.75rem;
+        border-radius: 8px;
+        text-align: center;
+      }
+
+      .stat-label {
+        font-size: 0.7rem;
+        color: rgba(255, 255, 255, 0.5);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .stat-value {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #fff;
+        margin-top: 0.25rem;
+      }
+
+      /* Component cards */
+      .component-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+
+      .component-card {
+        background: linear-gradient(135deg, rgba(33, 150, 243, 0.1) 0%, rgba(33, 150, 243, 0.05) 100%);
+        border: 1px solid rgba(33, 150, 243, 0.3);
+        border-radius: 16px;
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+      }
+
+      .component-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(33, 150, 243, 0.6);
+        box-shadow: 0 15px 40px rgba(33, 150, 243, 0.2);
+      }
+
+      .component-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .component-card h3 {
+        color: #90caf9;
+        margin-bottom: 0.75rem;
+      }
+
+      .component-card p {
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.6;
+      }
+
+      /* GNSS comparison table */
+      .gnss-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.5rem 0;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .gnss-table th {
+        background: linear-gradient(135deg, rgba(33, 150, 243, 0.3) 0%, rgba(33, 150, 243, 0.1) 100%);
+        padding: 1rem;
+        text-align: left;
+        font-weight: 600;
+        color: #90caf9;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .gnss-table td {
+        padding: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      .gnss-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .gnss-table tr:hover td {
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .flag-icon {
+        font-size: 1.25rem;
+        margin-right: 0.5rem;
+      }
+
+      /* Error sources */
+      .error-list {
+        list-style: none;
+        padding: 0;
+        margin: 1.5rem 0;
+      }
+
+      .error-item {
+        display: flex;
+        gap: 1rem;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 12px;
+        margin-bottom: 0.75rem;
+        border-left: 3px solid;
+        transition: all 0.3s ease;
+      }
+
+      .error-item:hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .error-item.atmospheric {
+        border-color: #ff9800;
+      }
+
+      .error-item.multipath {
+        border-color: #f44336;
+      }
+
+      .error-item.clock {
+        border-color: #9c27b0;
+      }
+
+      .error-item.ephemeris {
+        border-color: #00bcd4;
+      }
+
+      .error-icon {
+        font-size: 1.5rem;
+        flex-shrink: 0;
+      }
+
+      .error-content h4 {
+        color: #fff;
+        margin-bottom: 0.25rem;
+      }
+
+      .error-content p {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin: 0;
+      }
+
+      /* Navigation buttons */
+      .chapter-nav {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        margin: 3rem 0 2rem;
+        flex-wrap: wrap;
+      }
+
+      .chapter-nav a {
+        flex: 1;
+        min-width: 200px;
+        padding: 1.25rem 1.5rem;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        text-decoration: none;
+        color: #fff;
+        transition: all 0.3s ease;
+      }
+
+      .chapter-nav a:hover {
+        border-color: var(--accent);
+        transform: translateY(-3px);
+      }
+
+      .chapter-nav a.prev {
+        text-align: left;
+      }
+
+      .chapter-nav a.next {
+        text-align: right;
+      }
+
+      .nav-label {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.5);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .nav-title {
+        font-weight: 600;
+        margin-top: 0.25rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero-chapter">
+      <div class="satellite satellite-1"></div>
+      <div class="satellite satellite-2"></div>
+      <div class="satellite satellite-3"></div>
+      <div class="container">
+        <span class="chapter-badge">Chapter 4</span>
+        <h1>GPS & Positioning</h1>
+        <p class="subtitle">
+          Understanding the Global Positioning System—the satellite constellation that enables 
+          precise geolocation anywhere on Earth.
+        </p>
+      </div>
+    </header>
+
+    <main class="container">
+      <nav style="margin: 2rem 0;">
+        <a href="../index.html" style="color: var(--accent);">← Back to Textbook</a>
+      </nav>
+
+      <section class="card">
+        <h2>🎯 Learning Objectives</h2>
+        <p>By the end of this chapter, you will be able to:</p>
+        <ul>
+          <li>List the major components of GPS (Space, Control, User segments)</li>
+          <li>Explain the working principle of satellite-based positioning</li>
+          <li>Outline characteristics of GPS signals (L1, L2 frequencies)</li>
+          <li>Identify sources of GPS measurement errors</li>
+          <li>Describe technologies to minimize positioning errors (DGPS, RTK)</li>
+          <li>Identify good and bad satellite constellations for GPS measurements</li>
+          <li>Compare GPS with other GNSS systems (GLONASS, Galileo, BeiDou)</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>📡 What is GPS?</h2>
+        <p>
+          The <strong>Global Positioning System (GPS)</strong> is a satellite-based radio navigation 
+          system owned by the United States government and operated by the United States Space Force. 
+          It is one of the <strong>Global Navigation Satellite Systems (GNSS)</strong> that provides 
+          geolocation and time information to a GPS receiver anywhere on or near the Earth.
+        </p>
+
+        <div class="callout info">
+          <strong>Key Requirement:</strong> GPS requires an unobstructed line of sight to four or 
+          more GPS satellites. Obstacles such as mountains and buildings can block the relatively 
+          weak GPS signals.
+        </div>
+
+        <p>
+          GPS doesn't require the user to transmit data and operates independently of any telephonic 
+          or internet reception. However, these technologies can enhance the usefulness of GPS 
+          positioning information. The United States government created the system, maintains it, 
+          and makes it <strong>freely accessible</strong> to anyone with a GPS receiver.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>🏗️ Major Components of GPS</h2>
+        <p>GPS consists of three major segments working together to provide accurate positioning:</p>
+
+        <div class="component-grid">
+          <div class="component-card">
+            <div class="component-icon">🛰️</div>
+            <h3>Space Segment</h3>
+            <p>
+              A constellation of <strong>31 satellites</strong> arranged in six equally-spaced 
+              orbital planes. Each plane holds four "slots" for baseline satellites, ensuring 
+              5-8 satellites are visible from any point on Earth at any time.
+            </p>
+            <p style="margin-top: 0.75rem; font-size: 0.9rem;">
+              <strong>Altitude:</strong> ~20,200 km (12,550 miles)<br>
+              <strong>Orbital period:</strong> ~12 hours<br>
+              <strong>Speed:</strong> ~7,000 mph
+            </p>
+          </div>
+
+          <div class="component-card">
+            <div class="component-icon">🏢</div>
+            <h3>Control Segment</h3>
+            <p>
+              A global network of ground facilities that track and monitor GPS satellites. 
+              Comprises one <strong>Master Control Station</strong>, five <strong>Monitor Stations</strong>, 
+              and <strong>Ground Antennas</strong> that upload corrections to satellites daily.
+            </p>
+            <p style="margin-top: 0.75rem; font-size: 0.9rem;">
+              <strong>Function:</strong> Track satellites, calculate position changes, 
+              transmit orbital corrections to ensure accuracy.
+            </p>
+          </div>
+
+          <div class="component-card">
+            <div class="component-icon">📱</div>
+            <h3>User Segment</h3>
+            <p>
+              GPS receivers that people use to receive satellite signals and calculate position 
+              using <strong>trilateration</strong>—measuring the distance to each satellite by 
+              the time it takes to receive a transmitted signal.
+            </p>
+            <p style="margin-top: 0.75rem; font-size: 0.9rem;">
+              <strong>Types:</strong> Handheld, Marine, Automotive, 
+              Smartphone, Survey-grade receivers
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Interactive GPS Visualizer -->
+      <section class="gps-visualizer">
+        <div class="visualizer-header">
+          <h3>🎯 Interactive GPS Accuracy Visualizer</h3>
+          <p>See how different factors affect GPS positioning accuracy</p>
+        </div>
+
+        <div class="visualizer-content">
+          <div class="gps-canvas-container">
+            <canvas id="gpsCanvas" width="500" height="500"></canvas>
+          </div>
+
+          <div class="visualizer-controls">
+            <div class="control-group">
+              <label>Number of Satellites</label>
+              <input type="range" id="satelliteCount" min="3" max="12" value="6">
+              <div class="control-value"><span id="satCountValue">6</span> satellites</div>
+            </div>
+
+            <div class="control-group">
+              <label>Atmospheric Interference</label>
+              <input type="range" id="atmosphericError" min="0" max="100" value="30">
+              <div class="control-value"><span id="atmoValue">30</span>%</div>
+            </div>
+
+            <div class="control-group">
+              <label>Multipath Effect</label>
+              <input type="range" id="multipathError" min="0" max="100" value="20">
+              <div class="control-value"><span id="multipathValue">20</span>%</div>
+            </div>
+
+            <div class="control-group">
+              <label>DOP (Dilution of Precision)</label>
+              <input type="range" id="dopValue" min="1" max="10" value="2" step="0.5">
+              <div class="control-value"><span id="dopDisplay">2.0</span></div>
+            </div>
+
+            <div class="accuracy-indicator excellent" id="accuracyIndicator">
+              <div style="font-weight: 700;">Excellent Accuracy</div>
+              <div>±2.5 meters</div>
+            </div>
+
+            <div class="stats-grid">
+              <div class="stat-item">
+                <div class="stat-label">Horizontal</div>
+                <div class="stat-value" id="hAccuracy">±1.8m</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Vertical</div>
+                <div class="stat-value" id="vAccuracy">±3.2m</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">HDOP</div>
+                <div class="stat-value" id="hdopValue">1.2</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Readings</div>
+                <div class="stat-value" id="readingsCount">0</div>
+              </div>
+            </div>
+
+            <button onclick="resetVisualization()" style="
+              width: 100%;
+              padding: 0.75rem;
+              background: linear-gradient(135deg, #2196f3, #03a9f4);
+              border: none;
+              border-radius: 8px;
+              color: white;
+              font-weight: 600;
+              cursor: pointer;
+              margin-top: 1rem;
+              transition: all 0.3s ease;
+            ">Reset Visualization</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>📶 GPS Signals and Accuracy</h2>
+        <p>
+          GPS satellites broadcast signals on specific frequency bands. Understanding these signals 
+          helps explain how accuracy varies and how it can be improved.
+        </p>
+
+        <h3>Signal Components</h3>
+        <p>The GPS signal is composed of three parts:</p>
+        <ul>
+          <li><strong>Carrier Wave:</strong> Legacy GPS signals operate on L1 (1575.42 MHz) and L2 (1227.6 MHz) frequencies. These high frequencies ensure signals can penetrate clouds and atmospheric conditions.</li>
+          <li><strong>Pseudorandom Code (PRN):</strong> Unique codes for each satellite that act as their "signature," essential for distinguishing signals from different satellites.</li>
+          <li><strong>Navigation Message:</strong> Data including satellite ephemeris (precise orbital information), almanac data, and GPS date/time.</li>
+        </ul>
+
+        <h3>Accuracy Levels</h3>
+        <table class="gnss-table">
+          <thead>
+            <tr>
+              <th>Receiver Type</th>
+              <th>Typical Accuracy</th>
+              <th>Use Case</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Consumer GPS (Garmin, etc.)</td>
+              <td>~10 meters</td>
+              <td>Hiking, general navigation</td>
+            </tr>
+            <tr>
+              <td>Smartphone GPS</td>
+              <td>~4.9 meters (open sky)</td>
+              <td>Navigation, location services</td>
+            </tr>
+            <tr>
+              <td>Single-frequency (FAA quality)</td>
+              <td>≤1.82 meters (95%)</td>
+              <td>Aviation</td>
+            </tr>
+            <tr>
+              <td>Dual-frequency + DGPS</td>
+              <td>Centimeter-level</td>
+              <td>Surveying, precision agriculture</td>
+            </tr>
+            <tr>
+              <td>RTK (Real-Time Kinematic)</td>
+              <td>Millimeter-level</td>
+              <td>Geodetic surveys, construction</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h2>⚠️ Sources of GPS Measurement Errors</h2>
+        <p>Several factors can introduce errors in GPS measurements:</p>
+
+        <ul class="error-list">
+          <li class="error-item atmospheric">
+            <div class="error-icon">🌡️</div>
+            <div class="error-content">
+              <h4>Ionospheric & Tropospheric Delays</h4>
+              <p>Satellite signals slow down as they pass through the atmosphere. The ionosphere (charged particles) and troposphere (lower atmosphere) cause signal delays that vary with weather and solar activity.</p>
+            </div>
+          </li>
+
+          <li class="error-item multipath">
+            <div class="error-icon">🏢</div>
+            <div class="error-content">
+              <h4>Signal Multipath</h4>
+              <p>GPS signals reflect off buildings, terrain, or other surfaces before reaching the receiver, increasing travel time and causing position errors—especially common in urban "canyon" environments.</p>
+            </div>
+          </li>
+
+          <li class="error-item clock">
+            <div class="error-icon">⏰</div>
+            <div class="error-content">
+              <h4>Clock Errors</h4>
+              <p>GPS receivers use inexpensive crystal clocks rather than the atomic clocks on satellites. This timing mismatch can introduce measurement errors (solved by using 4+ satellites).</p>
+            </div>
+          </li>
+
+          <li class="error-item ephemeris">
+            <div class="error-icon">🛸</div>
+            <div class="error-content">
+              <h4>Ephemeris Errors</h4>
+              <p>Small errors in the satellite's orbital information affect the receiver's ability to calculate its position accurately. The Control Segment regularly updates ephemeris data to minimize this.</p>
+            </div>
+          </li>
+        </ul>
+
+        <div class="callout warning">
+          <strong>Dilution of Precision (DOP):</strong> When satellites are clustered together in the sky, 
+          accuracy decreases. The best accuracy comes from satellites spread across the sky—this 
+          geometric quality is measured as DOP. Lower DOP = better accuracy.
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>🌐 Global Navigation Satellite Systems (GNSS)</h2>
+        <p>
+          GPS is not the only satellite navigation system available. Several countries have developed 
+          their own systems, and modern receivers can use multiple constellations simultaneously for 
+          improved accuracy and reliability.
+        </p>
+
+        <table class="gnss-table">
+          <thead>
+            <tr>
+              <th>System</th>
+              <th>Country</th>
+              <th>Satellites</th>
+              <th>Coverage</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="flag-icon">🇺🇸</span> GPS</td>
+              <td>United States</td>
+              <td>31</td>
+              <td>Global</td>
+              <td>Fully Operational</td>
+            </tr>
+            <tr>
+              <td><span class="flag-icon">🇷🇺</span> GLONASS</td>
+              <td>Russia</td>
+              <td>24</td>
+              <td>Global</td>
+              <td>Fully Operational</td>
+            </tr>
+            <tr>
+              <td><span class="flag-icon">🇪🇺</span> Galileo</td>
+              <td>European Union</td>
+              <td>24</td>
+              <td>Global</td>
+              <td>Fully Operational</td>
+            </tr>
+            <tr>
+              <td><span class="flag-icon">🇨🇳</span> BeiDou</td>
+              <td>China</td>
+              <td>35</td>
+              <td>Global</td>
+              <td>Fully Operational</td>
+            </tr>
+            <tr>
+              <td><span class="flag-icon">🇯🇵</span> QZSS</td>
+              <td>Japan</td>
+              <td>4</td>
+              <td>Asia-Pacific</td>
+              <td>Operational</td>
+            </tr>
+            <tr>
+              <td><span class="flag-icon">🇮🇳</span> NavIC</td>
+              <td>India</td>
+              <td>7</td>
+              <td>Regional</td>
+              <td>Operational</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout success">
+          <strong>Best Practice:</strong> Using multiple GNSS constellations simultaneously 
+          increases satellite availability and provides redundancy, improving both accuracy 
+          and reliability—especially in challenging environments like urban areas or forests.
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>🔧 Differential Corrections</h2>
+        <p>
+          Differential correction techniques enhance the quality of GPS positioning by using a 
+          base station at a known location to calculate and transmit corrections to a roving receiver.
+        </p>
+
+        <h3>Types of Differential Correction</h3>
+        <div class="component-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+          <div class="component-card">
+            <h3>Post-Processed DGPS</h3>
+            <p>
+              Corrections applied after data collection using correction files from terrestrial 
+              reference stations. Can achieve higher accuracy than real-time methods and is 
+              commonly used in research and surveying.
+            </p>
+          </div>
+
+          <div class="component-card">
+            <h3>Real-Time DGPS</h3>
+            <p>
+              Corrections received in real-time from a base station or network of stations 
+              (like WAAS for aviation). Provides immediate corrections but may have slightly 
+              lower accuracy than post-processing.
+            </p>
+          </div>
+        </div>
+
+        <div class="callout info">
+          <strong>Historical Note:</strong> Selective Availability (SA) was a GPS feature that 
+          intentionally degraded civilian accuracy for security purposes. It was deactivated 
+          in May 2000, dramatically improving civilian GPS accuracy from ~100m to ~10m.
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>📖 Summary</h2>
+        <ul>
+          <li>GPS is a satellite-based navigation system with three segments: Space, Control, and User.</li>
+          <li>At least 4 satellites are needed to determine 3D position (latitude, longitude, altitude) and time.</li>
+          <li>GPS accuracy ranges from meters (consumer) to millimeters (survey-grade with RTK).</li>
+          <li>Error sources include atmospheric delays, multipath, clock errors, and poor satellite geometry (high DOP).</li>
+          <li>Multiple GNSS constellations (GPS, GLONASS, Galileo, BeiDou) can be used together for improved accuracy.</li>
+          <li>Differential GPS (DGPS) techniques can significantly enhance positioning accuracy.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>📚 Glossary</h2>
+        <dl>
+          <dt style="font-weight: 700; color: var(--accent); margin-top: 1rem;">Trilateration</dt>
+          <dd style="margin-left: 1.5rem; color: var(--text-secondary);">The process of determining position by measuring distances from multiple known points (satellites).</dd>
+
+          <dt style="font-weight: 700; color: var(--accent); margin-top: 1rem;">Ephemeris</dt>
+          <dd style="margin-left: 1.5rem; color: var(--text-secondary);">Precise orbital data for a satellite, used by receivers to calculate satellite positions.</dd>
+
+          <dt style="font-weight: 700; color: var(--accent); margin-top: 1rem;">DOP (Dilution of Precision)</dt>
+          <dd style="margin-left: 1.5rem; color: var(--text-secondary);">A measure of satellite geometry quality; lower values indicate better positioning accuracy.</dd>
+
+          <dt style="font-weight: 700; color: var(--accent); margin-top: 1rem;">DGPS (Differential GPS)</dt>
+          <dd style="margin-left: 1.5rem; color: var(--text-secondary);">A technique using ground-based reference stations to improve GPS accuracy.</dd>
+
+          <dt style="font-weight: 700; color: var(--accent); margin-top: 1rem;">RTK (Real-Time Kinematic)</dt>
+          <dd style="margin-left: 1.5rem; color: var(--text-secondary);">A high-precision positioning technique achieving centimeter to millimeter accuracy using carrier phase measurements.</dd>
+        </dl>
+      </section>
+
+      <div class="chapter-nav">
+        <a href="chapter-03-projections.html" class="prev">
+          <div class="nav-label">← Previous Chapter</div>
+          <div class="nav-title">Geodesy & Projections</div>
+        </a>
+        <a href="#" class="next">
+          <div class="nav-label">Next Chapter →</div>
+          <div class="nav-title">Georeferencing & Digitizing</div>
+        </a>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem; opacity: 0.7;">
+          GIS Digital Textbook | Open Educational Resource
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // GPS Accuracy Visualizer
+      const canvas = document.getElementById('gpsCanvas');
+      const ctx = canvas.getContext('2d');
+      
+      let points = [];
+      let truePosition = { x: 250, y: 250 };
+      let animationId;
+      let readingsCount = 0;
+
+      // Control elements
+      const satCountSlider = document.getElementById('satelliteCount');
+      const atmoSlider = document.getElementById('atmosphericError');
+      const multipathSlider = document.getElementById('multipathError');
+      const dopSlider = document.getElementById('dopValue');
+
+      // Display elements
+      const satCountValue = document.getElementById('satCountValue');
+      const atmoValue = document.getElementById('atmoValue');
+      const multipathValue = document.getElementById('multipathValue');
+      const dopDisplay = document.getElementById('dopDisplay');
+      const accuracyIndicator = document.getElementById('accuracyIndicator');
+      const hAccuracy = document.getElementById('hAccuracy');
+      const vAccuracy = document.getElementById('vAccuracy');
+      const hdopValue = document.getElementById('hdopValue');
+      const readingsCountEl = document.getElementById('readingsCount');
+
+      function calculateAccuracy() {
+        const satellites = parseInt(satCountSlider.value);
+        const atmo = parseInt(atmoSlider.value);
+        const multipath = parseInt(multipathSlider.value);
+        const dop = parseFloat(dopSlider.value);
+
+        // Base accuracy improves with more satellites
+        let baseAccuracy = 15 - (satellites * 0.8);
+        
+        // Apply error factors
+        baseAccuracy += (atmo / 100) * 8;
+        baseAccuracy += (multipath / 100) * 6;
+        baseAccuracy *= dop / 2;
+
+        return Math.max(0.5, baseAccuracy);
+      }
+
+      function updateDisplays() {
+        satCountValue.textContent = satCountSlider.value;
+        atmoValue.textContent = atmoSlider.value;
+        multipathValue.textContent = multipathSlider.value;
+        dopDisplay.textContent = parseFloat(dopSlider.value).toFixed(1);
+
+        const accuracy = calculateAccuracy();
+        const hAcc = accuracy * 0.7;
+        const vAcc = accuracy * 1.3;
+
+        hAccuracy.textContent = `±${hAcc.toFixed(1)}m`;
+        vAccuracy.textContent = `±${vAcc.toFixed(1)}m`;
+        hdopValue.textContent = (parseFloat(dopSlider.value) * 0.6).toFixed(1);
+        readingsCountEl.textContent = readingsCount;
+
+        // Update accuracy indicator
+        accuracyIndicator.className = 'accuracy-indicator';
+        if (accuracy <= 3) {
+          accuracyIndicator.classList.add('excellent');
+          accuracyIndicator.innerHTML = `<div style="font-weight: 700;">Excellent Accuracy</div><div>±${accuracy.toFixed(1)} meters</div>`;
+        } else if (accuracy <= 8) {
+          accuracyIndicator.classList.add('good');
+          accuracyIndicator.innerHTML = `<div style="font-weight: 700;">Good Accuracy</div><div>±${accuracy.toFixed(1)} meters</div>`;
+        } else {
+          accuracyIndicator.classList.add('poor');
+          accuracyIndicator.innerHTML = `<div style="font-weight: 700;">Poor Accuracy</div><div>±${accuracy.toFixed(1)} meters</div>`;
+        }
+      }
+
+      function drawVisualization() {
+        ctx.fillStyle = '#0a0a0a';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Draw grid
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+        ctx.lineWidth = 1;
+        for (let i = 0; i < canvas.width; i += 50) {
+          ctx.beginPath();
+          ctx.moveTo(i, 0);
+          ctx.lineTo(i, canvas.height);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(0, i);
+          ctx.lineTo(canvas.width, i);
+          ctx.stroke();
+        }
+
+        // Draw accuracy circles
+        const accuracy = calculateAccuracy();
+        const scale = 10; // pixels per meter
+        
+        // 95% confidence circle
+        ctx.strokeStyle = 'rgba(33, 150, 243, 0.3)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(truePosition.x, truePosition.y, accuracy * scale * 1.96, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // 68% confidence circle
+        ctx.strokeStyle = 'rgba(33, 150, 243, 0.5)';
+        ctx.beginPath();
+        ctx.arc(truePosition.x, truePosition.y, accuracy * scale, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Draw points (GPS readings)
+        points.forEach((point, index) => {
+          const alpha = 0.3 + (index / points.length) * 0.7;
+          ctx.fillStyle = `rgba(76, 175, 80, ${alpha})`;
+          ctx.beginPath();
+          ctx.arc(point.x, point.y, 4, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        // Draw true position
+        ctx.fillStyle = '#f44336';
+        ctx.beginPath();
+        ctx.arc(truePosition.x, truePosition.y, 8, 0, Math.PI * 2);
+        ctx.fill();
+        
+        ctx.fillStyle = '#fff';
+        ctx.beginPath();
+        ctx.arc(truePosition.x, truePosition.y, 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Labels
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+        ctx.font = '12px Inter, sans-serif';
+        ctx.fillText('True Position', truePosition.x + 15, truePosition.y - 10);
+        ctx.fillText(`68% CI: ±${accuracy.toFixed(1)}m`, truePosition.x + 15, truePosition.y + 5);
+        ctx.fillText(`95% CI: ±${(accuracy * 1.96).toFixed(1)}m`, truePosition.x + 15, truePosition.y + 20);
+      }
+
+      function addRandomPoint() {
+        const accuracy = calculateAccuracy();
+        const scale = 10;
+        
+        // Generate normally distributed random points
+        const u1 = Math.random();
+        const u2 = Math.random();
+        const z0 = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+        const z1 = Math.sqrt(-2 * Math.log(u1)) * Math.sin(2 * Math.PI * u2);
+
+        const newPoint = {
+          x: truePosition.x + z0 * accuracy * scale * 0.5,
+          y: truePosition.y + z1 * accuracy * scale * 0.5
+        };
+
+        points.push(newPoint);
+        readingsCount++;
+        
+        if (points.length > 100) {
+          points.shift();
+        }
+
+        updateDisplays();
+        drawVisualization();
+      }
+
+      function animate() {
+        addRandomPoint();
+        animationId = setTimeout(animate, 200);
+      }
+
+      function resetVisualization() {
+        points = [];
+        readingsCount = 0;
+        updateDisplays();
+        drawVisualization();
+      }
+
+      // Event listeners
+      [satCountSlider, atmoSlider, multipathSlider, dopSlider].forEach(slider => {
+        slider.addEventListener('input', () => {
+          updateDisplays();
+          drawVisualization();
+        });
+      });
+
+      // Initialize
+      updateDisplays();
+      drawVisualization();
+      animate();
+    </script>
+  </body>
+</html>

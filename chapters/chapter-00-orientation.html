@@ -1,0 +1,730 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chapter 0: Course Orientation | GIS Digital Textbook</title>
+    <meta
+      name="description"
+      content="Welcome to the wonderful world of Geographic Information Systems. This orientation chapter introduces the course structure, learning objectives, and your first steps into spatial thinking."
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Chapter-specific styles */
+      .hero-chapter {
+        background: linear-gradient(
+          135deg,
+          #1a1a2e 0%,
+          #16213e 50%,
+          #0f3460 100%
+        );
+        padding: 4rem 2rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-chapter::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%234a90a4' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        opacity: 0.5;
+      }
+
+      .hero-chapter .container {
+        position: relative;
+        z-index: 1;
+      }
+
+      .chapter-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #e94560, #ff6b6b);
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
+      }
+
+      .hero-chapter h1 {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #ffffff 0%, #a8d8ea 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero-chapter .subtitle {
+        font-size: 1.25rem;
+        color: rgba(255, 255, 255, 0.8);
+        max-width: 700px;
+        margin: 0 auto 2rem;
+        line-height: 1.7;
+      }
+
+      .objectives-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+
+      .objective-card {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.05) 0%,
+          rgba(255, 255, 255, 0.02) 100%
+        );
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+      }
+
+      .objective-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(74, 144, 164, 0.5);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .objective-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #4a90a4, #50c878);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .objective-card h3 {
+        color: #fff;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .objective-card p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+
+      .quote-block {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        border-left: 4px solid #e94560;
+        padding: 2rem;
+        margin: 2rem 0;
+        border-radius: 0 16px 16px 0;
+        text-align: center;
+      }
+
+      .quote-block blockquote {
+        font-size: 1.5rem;
+        font-style: italic;
+        color: #fff;
+        margin: 0;
+        line-height: 1.6;
+      }
+
+      .quote-block cite {
+        display: block;
+        margin-top: 1rem;
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 1rem;
+        font-style: normal;
+      }
+
+      .success-tips {
+        background: linear-gradient(
+          135deg,
+          rgba(80, 200, 120, 0.1) 0%,
+          rgba(80, 200, 120, 0.05) 100%
+        );
+        border: 1px solid rgba(80, 200, 120, 0.3);
+        border-radius: 16px;
+        padding: 2rem;
+        margin: 2rem 0;
+      }
+
+      .success-tips h3 {
+        color: #50c878;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .success-tips ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .success-tips li {
+        padding: 0.75rem 0;
+        padding-left: 2rem;
+        position: relative;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .success-tips li:last-child {
+        border-bottom: none;
+      }
+
+      .success-tips li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #50c878;
+        font-weight: bold;
+      }
+
+      .video-container {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+        border-radius: 16px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        margin: 2rem 0;
+      }
+
+      .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+
+      .module-preview {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin: 2rem 0;
+      }
+
+      .module-item {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 12px;
+        padding: 1.25rem;
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+
+      .module-item:hover {
+        border-color: var(--accent);
+        transform: translateY(-3px);
+      }
+
+      .module-number {
+        font-size: 2rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #4a90a4, #50c878);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .module-title {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        margin-top: 0.5rem;
+      }
+
+      .next-steps {
+        background: linear-gradient(135deg, #e94560 0%, #ff6b6b 100%);
+        border-radius: 16px;
+        padding: 2rem;
+        text-align: center;
+        margin: 3rem 0 2rem;
+      }
+
+      .next-steps h3 {
+        color: white;
+        margin-bottom: 1rem;
+      }
+
+      .next-steps p {
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 1.5rem;
+      }
+
+      .next-steps .btn {
+        background: white;
+        color: #e94560;
+        padding: 1rem 2rem;
+        border-radius: 30px;
+        font-weight: 700;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+      }
+
+      .next-steps .btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero-chapter">
+      <div class="container">
+        <span class="chapter-badge">Chapter 0</span>
+        <h1>Welcome to GIS</h1>
+        <p class="subtitle">
+          Your gateway to a world where geography meets technology, where data
+          becomes insight, and where you can make your mark on the map of
+          knowledge. This course emphasizes <strong>spatial thinking</strong>, the
+          ability to analyze and interpret geographic information to solve real-world
+          problems.
+        </p>
+      </div>
+    </header>
+
+    <main class="container">
+      <nav style="margin: 2rem 0">
+        <a href="../index.html" style="color: var(--accent)"
+          >← Back to Textbook</a
+        >
+      </nav>
+
+      <section class="card">
+        <h2>🌍 The Digital Age of Exploration</h2>
+        <p>
+          Welcome to the wonderful world of Geographic Information Systems!
+          Whether you're a seasoned explorer or just setting foot on this
+          terrain, there's no need to worry about the jargon. Even academics
+          continue to debate the exact meaning of the 'S' in GIS.
+        </p>
+
+        <p>
+          Our journey is divided into modules, each one a milestone on the path
+          to mastering GIS. Think of this course as a curated selection of
+          essential GIS concepts and techniques—a comprehensive survey that covers
+          everything from <strong>Spatial Analysis</strong> and
+          <strong>Cartography</strong> to
+          <strong>Remote Sensing</strong> and so much more.
+        </p>
+
+        <p>
+          Our labs are grounded in real-world scenarios, providing you with
+          practical experience and a taste of GIS's impact. The goal? To equip
+          you with a robust understanding of GIS that serves as a solid
+          foundation for future specialization.
+        </p>
+
+        <div class="quote-block">
+          <blockquote>
+            "We are in the Digital Age of Exploration... go out and discover
+            something new!"
+          </blockquote>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>🎯 Learning Objectives</h2>
+        <p>By the end of this course, you will be able to:</p>
+
+        <div class="objectives-grid">
+          <div class="objective-card">
+            <div class="objective-icon">🗺️</div>
+            <h3>Understand Spatial Data</h3>
+            <p>
+              Distinguish between vector and raster data models and know when to
+              use each.
+            </p>
+          </div>
+
+          <div class="objective-card">
+            <div class="objective-icon">🛰️</div>
+            <h3>Apply Remote Sensing</h3>
+            <p>
+              Analyze satellite imagery using spectral indices like NDVI for
+              environmental monitoring.
+            </p>
+          </div>
+
+          <div class="objective-card">
+            <div class="objective-icon">📊</div>
+            <h3>Perform Spatial Analysis</h3>
+            <p>
+              Use buffering, overlay, and interpolation to solve real-world
+              geographic problems.
+            </p>
+          </div>
+
+          <div class="objective-card">
+            <div class="objective-icon">🎨</div>
+            <h3>Create Professional Maps</h3>
+            <p>
+              Design cartographically sound maps that effectively communicate
+              spatial information.
+            </p>
+          </div>
+
+          <div class="objective-card">
+            <div class="objective-icon">📍</div>
+            <h3>Work with GPS</h3>
+            <p>
+              Understand positioning systems and apply coordinate
+              transformations.
+            </p>
+          </div>
+
+          <div class="objective-card">
+            <div class="objective-icon">💾</div>
+            <h3>Manage Geographic Data</h3>
+            <p>
+              Organize, query, and maintain spatial databases using
+              industry-standard tools.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>📚 Course Structure</h2>
+        <p>
+          This textbook is organized into five major parts, taking you from
+          foundational concepts to advanced applications:
+        </p>
+
+        <div class="module-preview">
+          <div class="module-item">
+            <div class="module-number">I</div>
+            <div class="module-title">Foundations of GIS & Spatial Data</div>
+          </div>
+          <div class="module-item">
+            <div class="module-number">II</div>
+            <div class="module-title">Data Creation & Management</div>
+          </div>
+          <div class="module-item">
+            <div class="module-number">III</div>
+            <div class="module-title">Remote Sensing & Earth Observation</div>
+          </div>
+          <div class="module-item">
+            <div class="module-number">IV</div>
+            <div class="module-title">Spatial Analysis & Modeling</div>
+          </div>
+          <div class="module-item">
+            <div class="module-number">V</div>
+            <div class="module-title">Applied GIS & Capstone</div>
+          </div>
+        </div>
+
+        <div class="callout info">
+          <strong>Dual-Platform Learning:</strong> This course uses both
+          <strong>ArcGIS Pro</strong> for industry-standard desktop GIS and
+          <strong>Google Earth Engine</strong> for cloud-based remote sensing
+          analysis.
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>🚀 Getting Started with GIS Software</h2>
+
+        <h3>ArcGIS Pro Setup</h3>
+        <p>
+          ArcGIS Pro is the industry-leading desktop GIS software from Esri.
+          You'll use this for most of your hands-on labs involving vector
+          analysis, cartography, and spatial modeling.
+        </p>
+
+        <div class="callout warning">
+          <strong>System Requirements:</strong> ArcGIS Pro requires Windows
+          10/11 (64-bit). Mac users can use a virtual machine, Boot Camp, or
+          access through cloud-based solutions.
+        </div>
+
+        <h3>Google Earth Engine</h3>
+        <p>
+          For remote sensing and large-scale imagery analysis, we'll use Google
+          Earth Engine—a cloud-based platform that provides access to petabytes
+          of satellite imagery and geospatial datasets.
+        </p>
+
+        <div class="callout success">
+          <strong>Free Access:</strong> Google Earth Engine is freely available
+          for research, education, and non-profit uses. Sign up at
+          <a href="https://earthengine.google.com/" target="_blank"
+            >earthengine.google.com</a
+          >.
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="success-tips">
+          <h3>💡 Tips for Success</h3>
+          <ul>
+            <li>
+              <strong>Schedule "class times" for yourself.</strong> It is
+              important to do the coursework on time each week. Understand the
+              policies for late work.
+            </li>
+            <li>
+              <strong>Read ALL of the material.</strong> There is a lot of
+              helpful information that can save you time and help you meet the
+              objectives.
+            </li>
+            <li>
+              <strong>Take full advantage of discussion boards.</strong> Ask for
+              help or clarification of the material if you need it.
+            </li>
+            <li>
+              <strong>Do not wait to ask questions!</strong> Waiting to ask a
+              question might cause you to miss a due date.
+            </li>
+            <li>
+              <strong>Do your work well before due dates.</strong> Sometimes
+              things happen. If your computer goes down, you'll need time to get
+              to another machine.
+            </li>
+            <li>
+              <strong>Back up your work.</strong> Use an external hard drive,
+              thumb drive, or cloud service like Google Drive or OneDrive.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>🔧 Technical Requirements</h2>
+
+        <table style="width: 100%; border-collapse: collapse; margin: 1rem 0">
+          <thead>
+            <tr style="background: rgba(255, 255, 255, 0.05)">
+              <th
+                scope="col"
+                style="
+                  text-align: left;
+                  padding: 1rem;
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                "
+              >
+                Requirement
+              </th>
+              <th
+                scope="col"
+                style="
+                  text-align: left;
+                  padding: 1rem;
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                "
+              >
+                Minimum
+              </th>
+              <th
+                scope="col"
+                style="
+                  text-align: left;
+                  padding: 1rem;
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                "
+              >
+                Recommended
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                style="
+                  padding: 1rem;
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                "
+              >
+                Operating System
+              </td>
+              <td
+                style="
+                  padding: 1rem;
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                "
+              >
+                Windows 10 (64-bit)
+              </td>
+              <td
+                style="
+                  padding: 1rem;
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                "
+              >
+                Windows 11 (64-bit)
+              </td>
+            </tr>
+            <tr>
+              <td
+                style="
+                  padding: 1rem;
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                "
+              >
+                RAM
+              </td>
+              <td
+                style="
+                  padding: 1rem;
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                "
+              >
+                8 GB
+              </td>
+              <td
+                style="
+                  padding: 1rem;
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                "
+              >
+                16 GB or more
+              </td>
+            </tr>
+            <tr>
+              <td
+                style="
+                  padding: 1rem;
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                "
+              >
+                Storage
+              </td>
+              <td
+                style="
+                  padding: 1rem;
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                "
+              >
+                10 GB free space
+              </td>
+              <td
+                style="
+                  padding: 1rem;
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                "
+              >
+                SSD with 50+ GB free
+              </td>
+            </tr>
+            <tr>
+              <td
+                style="
+                  padding: 1rem;
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                "
+              >
+                Graphics
+              </td>
+              <td
+                style="
+                  padding: 1rem;
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                "
+              >
+                DirectX 11 compatible
+              </td>
+              <td
+                style="
+                  padding: 1rem;
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                "
+              >
+                Dedicated GPU (4+ GB VRAM)
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 1rem">Internet</td>
+              <td style="padding: 1rem">Broadband connection</td>
+              <td style="padding: 1rem">High-speed for cloud processing</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h2>📖 Glossary Preview</h2>
+        <p>Here are some key terms you'll encounter throughout this course:</p>
+
+        <dl style="margin: 1.5rem 0">
+          <dt style="font-weight: 700; color: var(--accent); margin-top: 1rem">
+            GIS (Geographic Information System)
+          </dt>
+          <dd style="margin-left: 1.5rem; color: var(--text-secondary)">
+            A system designed to capture, store, manipulate, analyze, manage,
+            and present spatial or geographic data.
+          </dd>
+
+          <dt style="font-weight: 700; color: var(--accent); margin-top: 1rem">
+            Remote Sensing
+          </dt>
+          <dd style="margin-left: 1.5rem; color: var(--text-secondary)">
+            The acquisition of information about an object or phenomenon without
+            making physical contact, typically using satellite or aerial
+            sensors.
+          </dd>
+
+          <dt style="font-weight: 700; color: var(--accent); margin-top: 1rem">
+            Vector Data
+          </dt>
+          <dd style="margin-left: 1.5rem; color: var(--text-secondary)">
+            Geographic data represented as points, lines, and polygons with
+            associated attributes.
+          </dd>
+
+          <dt style="font-weight: 700; color: var(--accent); margin-top: 1rem">
+            Raster Data
+          </dt>
+          <dd style="margin-left: 1.5rem; color: var(--text-secondary)">
+            Geographic data represented as a grid of cells (pixels), commonly
+            used for imagery and continuous phenomena.
+          </dd>
+
+          <dt style="font-weight: 700; color: var(--accent); margin-top: 1rem">
+            Spatial Analysis
+          </dt>
+          <dd style="margin-left: 1.5rem; color: var(--text-secondary)">
+            The process of examining the locations, attributes, and
+            relationships of features in spatial data through techniques such as
+            overlay and proximity analysis.
+          </dd>
+        </dl>
+      </section>
+
+      <div class="next-steps">
+        <h3>Ready to Begin?</h3>
+        <p>Start your GIS journey with Chapter 1: What is Spatial Data?</p>
+        <a href="chapter-01-orientation.html" class="btn"
+          >Continue to Chapter 1 →</a
+        >
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem; opacity: 0.7">
+          GIS Digital Textbook | Open Educational Resource
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

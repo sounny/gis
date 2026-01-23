@@ -8,9 +8,8 @@ AGENTS.md
 
 # Local automation and tooling outputs
 # conductor/
+!conductor/
 
 # Development documentation (markdown files)
-# Ignore all md files except those in conductor
 *.md
 !conductor/**/*.md
-!conductor/*.md

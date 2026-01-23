@@ -9,7 +9,7 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Structure & Cleanup' (Protocol in workflow.md)
 
 ## Phase 2: Relative Pathing & Linking
-- [ ] Task: Update CSS References
+- [~] Task: Update CSS References
     - [ ] Audit `css/style.css` for absolute or broken URLs.
     - [ ] Update to relative paths.
 - [ ] Task: Update HTML Internal Links

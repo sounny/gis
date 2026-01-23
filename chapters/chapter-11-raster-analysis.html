@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chapter 11: Raster Analysis | GIS Digital Textbook</title>
+    <meta
+      name="description"
+      content="This chapter covers Map Algebra and Raster Analysis. Learn Local, Focal, Zonal, and Global operations with interactive tools."
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Chapter-specific styles */
+      .hero-chapter {
+        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        padding: 4rem 2rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-chapter::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        /* Pixel grid pattern */
+        background-image: 
+          linear-gradient(#ffffff10 1px, transparent 1px),
+          linear-gradient(90deg, #ffffff10 1px, transparent 1px);
+        background-size: 20px 20px;
+      }
+
+      .chapter-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #f39c12, #d35400);
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-chapter h1 {
+        position: relative;
+        z-index: 1;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #ffffff 0%, #ffecd2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      }
+
+      /* Map Algebra Tool */
+      .algebra-tool {
+        background: #1a1a1a;
+        color: white;
+        border-radius: 16px;
+        padding: 2rem;
+        margin: 2rem 0;
+        border: 1px solid #333;
+        font-family: monospace;
+      }
+
+      .grid-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin: 2rem 0;
+      }
+
+      .raster-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2px;
+        background: #333;
+        border: 2px solid #555;
+        padding: 2px;
+      }
+
+      .cell {
+        width: 50px;
+        height: 50px;
+        background: #444;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        font-weight: bold;
+        transition: background 0.3s;
+      }
+
+      .cell-input {
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        border: none;
+        color: white;
+        text-align: center;
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+      
+      .cell-input:focus {
+        background: #555;
+        outline: none;
+      }
+
+      .operator {
+        font-size: 2rem;
+        color: #f1c40f;
+        font-weight: bold;
+      }
+
+      .result-cell {
+        background: #2980b9;
+        color: white;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .op-btn {
+        padding: 0.5rem 1rem;
+        background: #555;
+        border: none;
+        color: white;
+        border-radius: 4px;
+        cursor: pointer;
+        font-family: monospace;
+        font-size: 1.1rem;
+      }
+
+      .op-btn.active {
+        background: #f1c40f;
+        color: #111;
+      }
+
+      /* Concept Cards */
+      .concept-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+
+      .concept-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        text-align: center;
+        border-top: 4px solid #e74c3c;
+      }
+      
+      .concept-icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        display: block;
+      }
+
+      .suitability-viz {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin: 2rem 0;
+      }
+      
+      .layer-stack {
+        position: relative;
+        height: 200px;
+        perspective: 1000px;
+        margin: 2rem auto;
+        width: 300px;
+      }
+      
+      .layer {
+        width: 200px;
+        height: 150px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%) rotateX(60deg) rotateZ(-20deg);
+        border: 2px solid #555;
+        background: rgba(255,255,255,0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+        transition: transform 0.5s;
+        font-weight: bold;
+        color: #333;
+      }
+      
+      .layer:nth-child(1) { top: 120px; background: rgba(46, 204, 113, 0.8); z-index: 3; } /* Result */
+      .layer:nth-child(2) { top: 60px; background: rgba(52, 152, 219, 0.4); z-index: 2; } /* Slope */
+      .layer:nth-child(3) { top: 0px; background: rgba(231, 76, 60, 0.4); z-index: 1; } /* Land Use */
+      
+      .layer-stack:hover .layer:nth-child(1) { transform: translateX(-50%) rotateX(60deg) rotateZ(-20deg) translateZ(40px); }
+      .layer-stack:hover .layer:nth-child(2) { transform: translateX(-50%) rotateX(60deg) rotateZ(-20deg) translateZ(0px); }
+      .layer-stack:hover .layer:nth-child(3) { transform: translateX(-50%) rotateX(60deg) rotateZ(-20deg) translateZ(-40px); }
+
+    </style>
+  </head>
+  <body>
+    <header class="hero-chapter">
+      <div class="container">
+        <span class="chapter-badge">Chapter 11</span>
+        <h1>Raster Analysis</h1>
+        <p class="subtitle">
+          Introduction to Map Algebra: Doing math with maps to answer complex spatial questions.
+        </p>
+      </div>
+    </header>
+
+    <main class="container">
+      <nav style="margin: 2rem 0;">
+        <a href="../index.html" style="color: var(--accent);">← Back to Textbook</a>
+      </nav>
+
+      <section class="card">
+        <h2>🧮 What is Map Algebra?</h2>
+        <p>
+          Raster analysis is fundamentally about mathematics. Because raster data is stored as a matrix of numbers (pixels), 
+          we can perform mathematical operations on them. This concept was formalized by Dana Tomlin as <strong>Map Algebra</strong>.
+        </p>
+        <p>
+          The core idea is simple:
+          <br><strong>Input Layer(s) + Operation = Output Layer</strong>
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>🛠️ Interactive Map Algebra Calculator</h2>
+        <p>
+          Experience <strong>Local Operations</strong> (cell-by-cell) firsthand. Edit the Input Grids and choose an operation 
+          to see how the Output Grid is calculated.
+        </p>
+
+        <div class="algebra-tool">
+          <div class="controls">
+            <button class="op-btn active" onclick="setOp('add')">Add (+)</button>
+            <button class="op-btn" onclick="setOp('sub')">Subtract (-)</button>
+            <button class="op-btn" onclick="setOp('avg')">Average</button>
+            <button class="op-btn" onclick="setOp('max')">Max</button>
+          </div>
+
+          <div class="grid-container">
+            <!-- Grid 1 -->
+            <div style="text-align: center;">
+              <div style="margin-bottom: 0.5rem; color: #aaa;">Input A</div>
+              <div class="raster-grid" id="grid1">
+                <!-- Cells generated by JS -->
+              </div>
+            </div>
+
+            <div class="operator" id="opSymbol">+</div>
+
+            <!-- Grid 2 -->
+             <div style="text-align: center;">
+              <div style="margin-bottom: 0.5rem; color: #aaa;">Input B</div>
+              <div class="raster-grid" id="grid2">
+                <!-- Cells generated by JS -->
+              </div>
+            </div>
+
+            <div class="operator">=</div>
+
+            <!-- Result Grid -->
+             <div style="text-align: center;">
+              <div style="margin-bottom: 0.5rem; color: #2ecc71;">Output</div>
+              <div class="raster-grid" id="gridResult">
+                <!-- Cells generated by JS -->
+              </div>
+            </div>
+          </div>
+          
+          <div style="text-align: center; color: #888; font-size: 0.9rem;">
+            <em>Tip: Click any number in Input grids to change it!</em>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>📐 The Four Types of Operations</h2>
+        <p>
+          Raster functions are categorized by the scope of pixels they consider when calculating the value for a single output cell.
+        </p>
+
+        <div class="concept-grid">
+          <div class="concept-card">
+            <span class="concept-icon">📍</span>
+            <h3>Local</h3>
+            <p><strong>Cell-by-Cell</strong></p>
+            <p style="font-size: 0.9rem; color: #666;">
+              The value depends ONLY on the cell at the same location in input layers.
+              <br><em>Ex: Map Algebra (A + B), Reclassification</em>
+            </p>
+          </div>
+          
+          <div class="concept-card">
+            <span class="concept-icon">🔍</span>
+            <h3>Focal</h3>
+            <p><strong>Neighborhood</strong></p>
+            <p style="font-size: 0.9rem; color: #666;">
+              The value depends on the cell plus its immediate neighbors (e.g., 3x3 window).
+              <br><em>Ex: Smoothing, Edge Detection, Slope</em>
+            </p>
+          </div>
+
+          <div class="concept-card">
+            <span class="concept-icon">🗺️</span>
+            <h3>Zonal</h3>
+            <p><strong>Region/Zone</strong></p>
+            <p style="font-size: 0.9rem; color: #666;">
+              The value depends on all cells that share the same "zone" value.
+              <br><em>Ex: Average Elevation per County, Zonal Statistics</em>
+            </p>
+          </div>
+
+          <div class="concept-card">
+            <span class="concept-icon">🌐</span>
+            <h3>Global</h3>
+            <p><strong>Whole Map</strong></p>
+            <p style="font-size: 0.9rem; color: #666;">
+              The value depends on potentially ALL cells in the raster.
+              <br><em>Ex: Euclidean Distance, Cost Path, Watersheds</em>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>🦁 Case Study: Habitat Suitability</h2>
+        <p>
+          The most common application of raster analysis is <strong>Suitability Modeling</strong> (or Site Selection). 
+          We define criteria for an ideal location (e.g., "Flat land" AND "Near Water" AND "Far from Roads") and combine layers 
+          to find the perfect spot.
+        </p>
+        
+        <div style="text-align: center;">
+          <div class="layer-stack">
+            <div class="layer">Final Suitability</div>
+            <div class="layer">Distance to Water</div>
+            <div class="layer">Slope (Flat)</div>
+          </div>
+          <p style="font-size: 0.9rem; color: #666;">Hover to visualize the "Overlay" concept.</p>
+        </div>
+
+        <h3>Binary vs. Weighted Overlay</h3>
+        <ul>
+          <li><strong>Binary (Boolean):</strong> 1 (Suitable) or 0 (Not Suitable). Like a hard filter.</li>
+          <li><strong>Weighted:</strong> Scale of 1-10. Slope matters 50%, Water matters 30%. Allows for "better" vs "worse" sites.</li>
+        </ul>
+      </section>
+
+      <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 3rem;">
+        <a href="chapter-10-lidar.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 10</a>
+        <a href="chapter-12-vector-analysis.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #e74c3c; color: white;">Next: Vector Analysis →</a>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem; opacity: 0.7;">
+          GIS Digital Textbook | Open Educational Resource
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Map Algebra Logic
+      const gridA = [10, 12, 15, 8, 9, 14, 5, 6, 8];
+      const gridB = [2, 1, 5, 2, 2, 6, 1, 0, 3];
+      const grid1El = document.getElementById('grid1');
+      const grid2El = document.getElementById('grid2');
+      const gridResEl = document.getElementById('gridResult');
+      let currentOp = 'add';
+
+      function renderGrids() {
+        grid1El.innerHTML = '';
+        grid2El.innerHTML = '';
+        gridResEl.innerHTML = '';
+
+        for(let i=0; i<9; i++) {
+          // Input A
+          const cellA = document.createElement('div');
+          cellA.className = 'cell';
+          const inputA = document.createElement('input');
+          inputA.className = 'cell-input';
+          inputA.value = gridA[i];
+          inputA.onchange = (e) => { gridA[i] = parseInt(e.target.value) || 0; calculate(); };
+          cellA.appendChild(inputA);
+          grid1El.appendChild(cellA);
+
+          // Input B
+          const cellB = document.createElement('div');
+          cellB.className = 'cell';
+          const inputB = document.createElement('input');
+          inputB.className = 'cell-input';
+          inputB.value = gridB[i];
+          inputB.onchange = (e) => { gridB[i] = parseInt(e.target.value) || 0; calculate(); };
+          cellB.appendChild(inputB);
+          grid2El.appendChild(cellB);
+        }
+        calculate();
+      }
+
+      function calculate() {
+        gridResEl.innerHTML = '';
+        for(let i=0; i<9; i++) {
+          const valA = gridA[i];
+          const valB = gridB[i];
+          let res = 0;
+
+          if (currentOp === 'add') res = valA + valB;
+          if (currentOp === 'sub') res = valA - valB;
+          if (currentOp === 'avg') res = Math.round((valA + valB) / 2);
+          if (currentOp === 'max') res = Math.max(valA, valB);
+
+          const cellRes = document.createElement('div');
+          cellRes.className = 'cell result-cell';
+          cellRes.textContent = res;
+          gridResEl.appendChild(cellRes);
+        }
+      }
+
+      function setOp(op) {
+        currentOp = op;
+        document.querySelectorAll('.op-btn').forEach(b => b.classList.remove('active'));
+        // Find the button clicked (simple way)
+        event.target.classList.add('active');
+
+        const symbols = { 'add': '+', 'sub': '-', 'avg': 'avg', 'max': 'max' };
+        document.getElementById('opSymbol').textContent = symbols[op];
+        calculate();
+      }
+
+      renderGrids();
+    </script>
+  </body>
+</html>
