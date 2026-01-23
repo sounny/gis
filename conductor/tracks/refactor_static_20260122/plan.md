@@ -1,8 +1,8 @@
 # Implementation Plan: Refactor Codebase for Static Deployment
 
 ## Phase 1: Structure & Cleanup
-- [ ] Task: Remove LMS Manifests
-    - [ ] Identify and delete `imsmanifest.xml`.
+- [x] Task: Remove LMS Manifests <!-- 462ecd7 -->
+    - [x] Identify and delete `imsmanifest.xml`.
 - [ ] Task: Standardize Asset Directories
     - [ ] Ensure `assets/img/` contains all textbook images.
     - [ ] Move any remaining media from `references/uf_canvas_extract/` to `assets/`.
