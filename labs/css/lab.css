@@ -1,0 +1,134 @@
+/* 
+   GIS Lab Manual Styles
+   Extends Core Styles with Tri-Platform Switching
+*/
+
+:root {
+    --arcgis-pro: #005e95;
+    --qgis: #589632;
+    --web-gis: #e17000;
+}
+
+/* Lab Header */
+.lab-header {
+    background: #1e293b;
+    color: white;
+    padding: 3rem 2rem;
+    border-radius: 0 0 20px 20px;
+    margin-bottom: 2rem;
+}
+
+.lab-badge {
+    display: inline-block;
+    padding: 0.25rem 1rem;
+    background: var(--primary);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+/* Platform Switcher Tabs */
+.platform-switcher {
+    display: flex;
+    gap: 0.5rem;
+    margin: 2rem 0;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 0;
+    position: sticky;
+    top: 0;
+    background: var(--bg-main);
+    z-index: 100;
+}
+
+.tab-btn {
+    padding: 1rem 2rem;
+    border: none;
+    background: #f1f5f9;
+    cursor: pointer;
+    font-weight: 700;
+    border-radius: 8px 8px 0 0;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #64748b;
+}
+
+.tab-btn:hover {
+    background: #e2e8f0;
+}
+
+/* Active States */
+.tab-btn[data-platform="arcgis"].active {
+    background: var(--arcgis-pro);
+    color: white;
+}
+
+.tab-btn[data-platform="qgis"].active {
+    background: var(--qgis);
+    color: white;
+}
+
+.tab-btn[data-platform="web"].active {
+    background: var(--web-gis);
+    color: white;
+}
+
+/* Instruction Panes */
+.instruction-pane {
+    display: none;
+    padding: 2rem;
+    background: white;
+    border-radius: 0 0 12px 12px;
+    box-shadow: var(--shadow-sm);
+    animation: fadeIn 0.3s ease;
+}
+
+.instruction-pane.active {
+    display: block;
+}
+
+/* Platform Specific Accents inside panes */
+[data-platform="arcgis"] .step-num { background: var(--arcgis-pro); color: white; }
+[data-platform="qgis"] .step-num { background: var(--qgis); color: white; }
+[data-platform="web"] .step-num { background: var(--web-gis); color: white; }
+
+.step {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-weight: bold;
+}
+
+.step-content {
+    flex: 1;
+}
+
+/* Key Data Download Box */
+.data-download-card {
+    background: #f8fafc;
+    border: 2px dashed #cbd5e1;
+    padding: 1.5rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 2rem 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
