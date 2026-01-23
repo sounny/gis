@@ -117,6 +117,98 @@
             <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
         </nav>
 
+
+        <section class="card learning-scaffold" aria-label="Learning scaffold">
+            <div class="scaffold-head">
+                <h2>At a Glance</h2>
+                <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapters 02, 10</span>
+                    <span class="scaffold-chip"><strong>Time:</strong> 25 min read + 35 min build</span>
+                    <span class="scaffold-chip"><strong>Deliverable:</strong> Story map outline</span>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Learning outcomes</h3>
+                    <ul>
+                        <li>Plan a geospatial narrative with a clear question and evidence.</li>
+                        <li>Choose visuals that match the message and uncertainty.</li>
+                        <li>Write a short methods-and-limits statement for credibility.</li>
+                    </ul>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Key terms</h3>
+                    <p>narrative, audience, evidence, annotation, uncertainty, citation</p>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Stop &amp; check</h3>
+                    <ol class="scaffold-qa">
+                        <li>
+                            <details>
+                                <summary>What is the difference between storytelling and decoration?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> Storytelling ties visuals to a claim supported by data and methods.</p>
+                                    <p><strong>Why:</strong> A map should answer a question, not only look good.</p>
+                                    <p><strong>Common misconception:</strong> More layers equals more insight; clarity and relevance matter.</p>
+                                </div>
+                            </details>
+                        </li>
+                        <li>
+                            <details>
+                                <summary>Why include limitations in a story map?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> To prevent over-interpretation and build trust.</p>
+                                    <p><strong>Why:</strong> Spatial data has uncertainty, dates, and classification errors.</p>
+                                    <p><strong>Common misconception:</strong> Limitations weaken the story; they strengthen credibility.</p>
+                                </div>
+                            </details>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Try it (5 minutes)</h3>
+                    <ol>
+                        <li>Write a one-sentence story question (e.g., Where did flooding expand?).</li>
+                        <li>List 2 datasets that could serve as evidence (one should be imagery-derived).</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Lab (Two Tracks)</h3>
+                    <p>Both tracks produce the same deliverable: a storyboard (6 panels) with titles, captions, and a cited figure list.</p>
+                    <div class="scaffold-two-track">
+                        <div class="scaffold-track">
+                            <h4>Desktop GIS Track (ArcGIS Pro / QGIS)</h4>
+                            <p>Create two maps (context + result) and draft the narrative captions and sources.</p>
+                        </div>
+                        <div class="scaffold-track">
+                            <h4>Remote Sensing Track (Google Earth Engine)</h4>
+                            <p>Export one imagery-derived figure (index/classification) and write captions that interpret it responsibly.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Common mistakes</h3>
+                    <ul>
+                        <li>Writing conclusions not supported by the map/analysis.</li>
+                        <li>Omitting dates and sources.</li>
+                        <li>Using misleading symbology or color ramps without explanation.</li>
+                    </ul>
+                    <p><strong>Further reading:</strong> https://www.ucgis.org/site/gis-t-body-of-knowledge</p>
+                </div>
+            </div>
+        </section>
+
+
         <div class="layout-grid">
             <div class="content">
                 <section class="card">
@@ -174,43 +266,88 @@
                     </div>
                 </div>
 
-                <section class="card" style="margin-top: 3rem;">
-                    <h2>📚 Glossary</h2>
-                    <dl>
-                        <dt><strong>Scrollytelling:</strong></dt>
-                        <dd>A web design technique where the map or visualization changes as the user scrolls through the text.</dd>
-                        
-                        <dt><strong>Pop-up:</strong></dt>
-                        <dd>An interactive window that appears when a user clicks a map feature, providing more detailed attribute data.</dd>
-                        
-                        <dt><strong>Narrative Arc:</strong></dt>
-                        <dd>The structural framework of a story, moving from introduction to climax and resolution.</dd>
-                    </dl>
-                </section>
+                <div class="section-glossary">
+                    <h2>📚 Chapter Glossary</h2>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">Story Map</span>
+                            <span class="glossary-def">A web-based application that combines interactive maps with multimedia content (text, photos, video, audio) to tell a story.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Scrollytelling</span>
+                            <span class="glossary-def">A user interface technique where scrolling down a web page triggers dynamic changes in the map or visualization, guiding the user's attention.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Thematic Map</span>
+                            <span class="glossary-def">A map designed to show a particular theme connected with a specific geographic area (e.g., population density, climate), as opposed to a general reference map.</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <aside class="sidebar">
-                <div class="sidebar-box bio">
-                    <h3>Important Person</h3>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Dawn_Wright_at_Google_2016.jpg/220px-Dawn_Wright_at_Google_2016.jpg" alt="Dawn Wright" class="bio-img">
-                    <p><strong>Dr. Dawn Wright</strong></p>
-                    <p>Known as "Deepsea Dawn," Wright is the Chief Scientist at Esri and a world-renowned ocean mapper. She has spent her career using GIS to explore the deepest parts of the ocean floor. She is a massive advocate for StoryMaps as a tool for "science communication," helping researchers translate complex data into stories the public can understand.</p>
+                <div class="box-bio">
+                    <img src="../assets/img/people/allen_carroll.png" alt="Allen Carroll">
+                    <div>
+                        <h3>Allen Carroll</h3>
+                        <p>A former Chief Cartographer at National Geographic, Carroll is the founder of the <strong>Esri StoryMaps</strong> team. He pioneered the concept of combining interactive maps with multimedia narrative, transforming GIS from a purely analytical tool into a mass media communication platform.</p>
+                    </div>
                 </div>
 
-                <div class="sidebar-box local">
-                    <h3>Local to Global</h3>
-                    <p><strong>TXST StoryMap Collection</strong></p>
-                    <p>Students at Texas State University (Dr. Sounny's alma mater) have created a legendary collection of StoryMaps documenting the history and ecology of the San Marcos River. By layering historical photos with maps of modern water quality, they tell a story of a river that is both a scientific treasure and a community lifeblood.</p>
-                    <p>This is "Local to Global" in action—using local Texas data to prove universal geographic truths.</p>
+                <div class="sidebar-local-global">
+                    <h3>🇨🇱 Texas Connection</h3>
+                    <p><strong>The Texas Slavery Project</strong></p>
+                    <p>A landmark digital humanities project from the University of Virginia and University of North Texas. It uses interactive maps to tell the story of the expansion of slavery in Texas from 1837 to 1860.</p>
+                    <p>By connecting census records to a dynamic timeline map, the project visualizes the human tragedy behind the data, proving that GIS can be a powerful tool for historical storytelling.</p>
+                    <a href="http://www.texasslaveryproject.org/" target="_blank" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem; width:100%; text-align:center;">View the Project</a>
                 </div>
             </aside>
         </div>
 
         <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
           <a href="chapter-16-mobile-gis.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 16: Mobile GIS</a>
-          <a href="chapter-18-gis-ethics-ai.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 18: Ethics & AI &rarr;</a>
+          <a href="chapter-18-gis-ethics.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 18: Ethics & AI &rarr;</a>
         </div>
-    </main>
+    
+
+        
+
+        
+
+        <section class="card bok-alignment" aria-label="Body of Knowledge alignment">
+            <h2>BoK Alignment</h2>
+            <p>
+                Topics in the UCGIS GIS&amp;T Body of Knowledge that support this chapter.
+            </p>
+            <ul class="bok-topic-list">
+                        <li class="bok-topic">
+            <span class="bok-code">CV-04-033</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10561" target="_blank" rel="noopener noreferrer">Narrative and Storytelling</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">CV-03</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10775" target="_blank" rel="noopener noreferrer">Map Design Fundamentals</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">CV-04</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10776" target="_blank" rel="noopener noreferrer">Map Design Techniques</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">CV-04-018</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10547" target="_blank" rel="noopener noreferrer">Representing Uncertainty</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">CV-01-026</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10554" target="_blank" rel="noopener noreferrer">Cartography and Power</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">BoK</span>
+            <a href="https://gistbok-ltb.ucgis.org/" target="_blank" rel="noopener noreferrer">UCGIS GIS&T Body of Knowledge (Living Textbook)</a>
+        </li>
+            </ul>
+        </section>
+
+</main>
 
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">

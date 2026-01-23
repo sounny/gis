@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab [NUM]: [TITLE] | GIS Lab Manual</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/lab.css">
+</head>
+<body>
+
+    <header class="lab-header">
+        <div class="container">
+            <nav style="margin-bottom: 1rem;">
+                <a href="index.html" style="color: var(--primary); text-decoration: none; font-weight: 600;">&larr; Back to Lab Manual</a>
+            </nav>
+            <span class="lab-badge">Lab [NUM]</span>
+            <h1>[LAB TITLE]</h1>
+            <p class="subtitle">[Brief 1-sentence mission statement for the lab]</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 1. Learning Objectives -->
+        <section class="card">
+            <h2>🎯 Learning Objectives</h2>
+            <ul>
+                <li>[Objective 1]</li>
+                <li>[Objective 2]</li>
+                <li>[Objective 3]</li>
+            </ul>
+        </section>
+
+        <!-- 2. Scenario & Data -->
+        <section class="card">
+            <h2>📂 Scenario & Requirements</h2>
+            <p>[Describe the real-world problem or research question]</p>
+            
+            <div class="data-download-card">
+                <div>
+                    <strong>Data Package:</strong> <code>[filename].zip</code>
+                    <p style="margin:0; font-size: 0.85rem; color: #64748b;">Contains Shapefiles, GeoJSON, and CSV</p>
+                </div>
+                <a href="#" class="btn btn-primary">Download Data</a>
+            </div>
+        </section>
+
+        <!-- 3. Instructions (The Switcher) -->
+        <h2>🛠️ Step-by-Step Instructions</h2>
+        <p>Select your preferred GIS platform to view instructions:</p>
+
+        <nav class="platform-switcher">
+            <button class="tab-btn active" data-platform="arcgis">
+                <span class="icon">🟦</span> ArcGIS Pro
+            </button>
+            <button class="tab-btn" data-platform="qgis">
+                <span class="icon">🟩 QGIS</span>
+            </button>
+            <button class="tab-btn" data-platform="web">
+                <span class="icon">🟧 Web GIS</span>
+            </button>
+        </nav>
+
+        <!-- ArcGIS Pro Pane -->
+        <div class="instruction-pane active" data-platform="arcgis">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Setting up the Project</h3>
+                    <p>Open ArcGIS Pro and create a new Map project. Extract your downloaded data to your project folder...</p>
+                </div>
+            </div>
+            <!-- Add more steps -->
+        </div>
+
+        <!-- QGIS Pane -->
+        <div class="instruction-pane" data-platform="qgis">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Importing Data</h3>
+                    <p>Open QGIS. Drag and drop the GeoJSON files into the layers panel...</p>
+                </div>
+            </div>
+            <!-- Add more steps -->
+        </div>
+
+        <!-- Web GIS Pane -->
+        <div class="instruction-pane" data-platform="web">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>ArcGIS Online Setup</h3>
+                    <p>Log in to your ArcGIS Public Account. Click 'Map' to open the classic Map Viewer...</p>
+                </div>
+            </div>
+            <!-- Add more steps -->
+        </div>
+
+        <!-- 4. Deliverables -->
+        <section class="card" style="margin-top: 4rem; border-top: 4px solid var(--accent);">
+            <h2>✅ Submission & Assessment</h2>
+            <p>To complete this lab, you must submit:</p>
+            <ul>
+                <li>[Deliverable 1: e.g. A screenshot of your final map]</li>
+                <li>[Deliverable 2: e.g. A CSV of your calculated statistics]</li>
+            </ul>
+            <div class="callout warning">
+                <strong>Quality Check:</strong> Ensure your map includes a Title, Legend, and North Arrow before exporting.
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine | GIS Lab Manual</p>
+        </div>
+    </footer>
+
+    <script src="js/lab-switcher.js"></script>
+</body>
+</html>

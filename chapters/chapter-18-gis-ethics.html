@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 18: GIS Ethics & Critical Geography | GIS Digital Textbook</title>
+    <meta name="description" content="Explore the moral dimensions of mapping. Learn about Critical GIS, locational privacy, data sovereignty, and the power dynamics inherent in geospatial technology.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #64748b;
+            --accent: #f43f5e;
+            --success: #10b981;
+            --bg: #f8fafc;
+        }
+
+        .hero-chapter {
+            background: linear-gradient(135deg, #312e81 0%, #6366f1 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-chapter::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        .chapter-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 1100px) {
+            .layout-grid { grid-template-columns: 1fr; }
+        }
+
+        .sidebar-box {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary);
+        }
+        .sidebar-box.local { border-top-color: var(--accent); }
+
+        .sidebar-box h3 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .bio-img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
+
+        .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        
+        /* Ethics Sim */
+        .ethics-sim {
+            background: #1e293b;
+            padding: 2.5rem;
+            border-radius: 20px;
+            color: #fff;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .scenario-box {
+            padding: 2rem;
+            border: 1px solid #334155;
+            background: #0f172a;
+            border-radius: 12px;
+            margin-top: 1rem;
+        }
+
+        .btn-choice {
+            padding: 1rem;
+            margin: 0.5rem;
+            background: #334155;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 250px;
+            transition: 0.2s;
+        }
+
+        .btn-choice:hover { background: var(--primary); }
+
+        /* Quiz Styles */
+        .quiz-container { background: #eef2ff; padding: 2rem; border-radius: 16px; margin-top: 3rem; }
+        .option { background: white; padding: 1rem; border-radius: 8px; border: 2px solid #e2e8f0; cursor: pointer; margin-bottom: 0.75rem; transition: 0.2s; color: #1e293b; }
+        .option:hover { border-color: var(--primary); }
+        .option.correct { border-color: var(--success); background: #ecfdf5; }
+        .option.wrong { border-color: #ef4444; background: #fff1f2; }
+    </style>
+</head>
+<body>
+
+    <header class="hero-chapter">
+        <div class="container">
+            <span class="chapter-badge">Chapter 18</span>
+            <h1>GIS Ethics & Critical Geography</h1>
+            <p class="subtitle">Responsibility in the age of big data. Explore how Critical GIS questions the power, privacy, and social impacts of mapping technologies.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav style="margin: 2rem 0;">
+            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
+        </nav>
+
+
+        <section class="card learning-scaffold" aria-label="Learning scaffold">
+            <div class="scaffold-head">
+                <h2>At a Glance</h2>
+                <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> None</span>
+                    <span class="scaffold-chip"><strong>Time:</strong> 25 min read + 20 min scenarios</span>
+                    <span class="scaffold-chip"><strong>Deliverable:</strong> Ethics checklist</span>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Learning outcomes</h3>
+                    <ul>
+                        <li>Identify ethical risks in common GIS workflows (privacy, surveillance).</li>
+                        <li>Explain the core tenets of Critical GIS and feminist geography.</li>
+                        <li>Apply a "Do No Harm" framework before sharing sensitive spatial data.</li>
+                    </ul>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Key terms</h3>
+                    <p>privacy, geoprivacy, critical GIS, data sovereignty, cartographic silence, redlining</p>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Stop &amp; check</h3>
+                    <ol class="scaffold-qa">
+                        <li>
+                            <details>
+                                <summary>Why can point maps reveal sensitive information even without names?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> Locations can re-identify people or sensitive sites.</p>
+                                    <p><strong>Why:</strong> Spatial data acts as a unique fingerprint (the "mosaic effect").</p>
+                                    <p><strong>Common misconception:</strong> Removing the "Name" column makes data anonymous.</p>
+                                </div>
+                            </details>
+                        </li>
+                        <li>
+                            <details>
+                                <summary>What is "Cartographic Silence"?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> The intentional or unintentional omission of features/people from a map.</p>
+                                    <p><strong>Why:</strong> What is left off the map is often as political as what is included (e.g., informal settlements).</p>
+                                    <p><strong>Common misconception:</strong> Maps are objective mirrors of reality; they are selective representations.</p>
+                                </div>
+                            </details>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Try it (5 minutes)</h3>
+                    <ol>
+                        <li>Take one map you made previously and list 2 ways it could mislead a reader.</li>
+                        <li>Write one fix (aggregation, caveat, better legend).</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Lab (Two Tracks)</h3>
+                    <p>Both tracks produce the same deliverable: an ethics review checklist completed for a chosen mapping scenario.</p>
+                    <div class="scaffold-two-track">
+                        <div class="scaffold-track">
+                            <h4>Desktop GIS Track (ArcGIS Pro / QGIS)</h4>
+                            <p>Pick a sensitive dataset (health, crime, endangered species) and draft a short share/not share decision with mitigation steps.</p>
+                        </div>
+                        <div class="scaffold-track">
+                            <h4>Remote Sensing Track (Google Earth Engine)</h4>
+                            <p>Critique a surveillance workflow. Write a reflection on the privacy implications of using high-res commercial imagery vs. open medium-res data.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Common mistakes</h3>
+                    <ul>
+                        <li>Publishing precise points for vulnerable populations.</li>
+                        <li>Ignoring the history of the data (who collected it and why?).</li>
+                        <li>Assuming "Open Data" means "Ethical to Use" without context.</li>
+                    </ul>
+                    <p><strong>Further reading:</strong> https://www.ucgis.org/site/gis-t-body-of-knowledge</p>
+                </div>
+            </div>
+        </section>
+
+
+        <div class="layout-grid">
+            <div class="content">
+                <section class="card">
+                    <h2>⚖️ The Power of the Map</h2>
+                    <p>Maps are not neutral documents. They are instruments of power. <strong>Critical GIS</strong> is a subfield of geography that questions the underlying assumptions, biases, and socio-political impacts of geospatial technology. Who gets to map? Who gets mapped? And who is left off the map entirely?</p>
+                </section>
+
+                <section class="ethics-sim">
+                    <h3>🛡️ Ethics Simulator</h3>
+                    <p style="color: #94a3b8;">What would you do? Choose the most ethical path.</p>
+                    <div class="scenario-box" id="scenario">
+                        <p><strong>Scenario:</strong> You are mapping disease clusters during an outbreak. The government wants you to publish a map showing the exact home addresses of the infected to "protect the public."</p>
+                        <div style="margin-top: 1.5rem;">
+                            <button class="btn-choice" onclick="ethicalChoice(false)">Map Exact Points</button>
+                            <button class="btn-choice" onclick="ethicalChoice(true)">Aggregate by ZIP Code</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>Locational Privacy & Surveillance</h2>
+                    <p>In the age of smartphones, we generate a digital exhaust of location data every day. <strong>Geoprivacy</strong> is the right of individuals to prevent the disclosure of their movements. GIS professionals have a duty to practice "Location Masking" (geomasking) when dealing with human subjects to prevent re-identification.</p>
+                </section>
+
+                <section class="card">
+                    <h2>Summary of Big Ideas</h2>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Locational Privacy:</strong> Mapping individuals without their consent can lead to stalking, harassment, or discrimination.</li>
+                        <li><strong>Weaponized GIS:</strong> Maps used for gerrymandering or redlining can reinforce systemic inequality.</li>
+                        <li><strong>Data Sovereignty:</strong> Indigenous communities serve as creating and owning their own spatial data, rather than being mapped by outsiders.</li>
+                        <li><strong>Open Data Ethics:</strong> Choosing when to share data (e.g., protecting endangered species) is a critical geospatial skill.</li>
+                    </ul>
+                </section>
+
+                <div class="quiz-container">
+                    <h2>Chapter 18 Checkpoint</h2>
+                    <div class="question">
+                        <p><strong>1. Why is "Location Masking" used in health GIS?</strong></p>
+                        <div class="option" onclick="this.classList.add('correct')">To protect the privacy of patients by slightly shifting their coordinates.</div>
+                        <div class="option" onclick="this.classList.add('wrong')">To make the map icons look more organized.</div>
+                    </div>
+                    <div class="question">
+                        <p><strong>2. What is "Critical GIS"?</strong></p>
+                        <div class="option" onclick="this.classList.add('wrong')">Using GIS for critical infrastructure only.</div>
+                        <div class="option" onclick="this.classList.add('correct')">Examining the social, political, and ethical implications of mapping.</div>
+                    </div>
+                </div>
+
+                <div class="section-glossary">
+                    <h2>📚 Chapter Glossary</h2>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">Critical GIS</span>
+                            <span class="glossary-def">An approach to GIS that examines the social, political, and ethical implications of mapping technologies and data practices.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Geoprivacy</span>
+                            <span class="glossary-def">The right of individuals to prevent the disclosure of the location of their personal activities.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Geomasking</span>
+                            <span class="glossary-def">A technique to protect privacy by displacing point data (random perturbation) while preserving the spatial distribution for analysis.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="sidebar">
+                <div class="box-bio">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/2/22/William_Bunge.jpg" alt="William Bunge">
+                    <div>
+                        <h3>William Bunge</h3>
+                        <span class="bio-dates">(1928–2013)</span>
+                        <p>A radical geographer who pioneered "Critical Geography." In the 1970s, he created the "Detroit Geographical Expedition," working with inner-city residents to map social injustice (like where children were hit by cars). He proved that maps could be tools for social revolution, not just military or government control.</p>
+                    </div>
+                </div>
+
+                <div class="sidebar-local-global">
+                    <h3>🇨🇱 Texas Connection</h3>
+                    <p><strong>Redlining in Austin</strong></p>
+                    <p>Maps have immense power to shape wealth. In 1935, Austin's master plan and subsequent HOLC "Redlining" maps funneled minority populations into East Austin while denying them home loans.</p>
+                    <p>Understanding these historic vector polygons is essential to understanding the "Inverse L" of segregation that still defines the city's racial and economic geography today. GIS can uncover these past injustices.</p>
+                </div>
+
+                <div class="sidebar-box" style="border-top: 4px solid #7e22ce;">
+                    <h3>✊ Equity in GIS</h3>
+                    <p><strong><a href="https://www.northstarofgis.org/" target="_blank" style="color:inherit;">NorthStar of GIS</a></strong> is a global movement uplifting Black geo-leadership, challenging systemic inequities, and advancing antiracist geospatial practices that honor the Black diaspora.</p>
+                </div>
+            </aside>
+        </div>
+
+        <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+          <a href="chapter-17-storytelling.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 17: Storytelling</a>
+          <a href="chapter-19-artificial-intelligence.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 19: Artificial Intelligence &rarr;</a>
+        </div>
+    
+
+        
+
+        
+
+        <section class="card bok-alignment" aria-label="Body of Knowledge alignment">
+            <h2>BoK Alignment</h2>
+            <p>
+                Topics in the UCGIS GIS&amp;T Body of Knowledge that support this chapter.
+            </p>
+            <ul class="bok-topic-list">
+                        <li class="bok-topic">
+            <span class="bok-code">GS-02-011</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10711" target="_blank" rel="noopener noreferrer">Professional and Practical Ethics of GIS&T</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">GS-03-014</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10714" target="_blank" rel="noopener noreferrer">GIS and Critical Ethics</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">GS-01-004</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10708" target="_blank" rel="noopener noreferrer">Location Privacy</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">GS-03-021</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10717" target="_blank" rel="noopener noreferrer">Balancing Data Access. Security, and Privacy</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">GS-01-027</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10723" target="_blank" rel="noopener noreferrer">GIS&T for Equity and Social Justice</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">CV-01-026</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10554" target="_blank" rel="noopener noreferrer">Cartography and Power</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">BoK</span>
+            <a href="https://gistbok-ltb.ucgis.org/" target="_blank" rel="noopener noreferrer">UCGIS GIS&T Body of Knowledge (Living Textbook)</a>
+        </li>
+            </ul>
+        </section>
+
+</main>
+
+    <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function ethicalChoice(isGood) {
+            const box = document.getElementById('scenario');
+            if (isGood) {
+                box.innerHTML = '<p style="color: #10b981; font-weight: 800;">✅ Ethical Choice!</p><p>By aggregating the data, you protected individual privacy while still providing the spatial information needed for public safety. You have earned the "Ethical Cartographer" badge.</p>';
+            } else {
+                box.innerHTML = '<p style="color: #f43f5e; font-weight: 800;">❌ Privacy Breach!</p><p>Mapping exact home addresses of patients violates HIPAA and other privacy laws. It can lead to harassment of families during a crisis. Try again.</p><button class="btn-choice" onclick="location.reload()">Reset Scenario</button>';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -136,6 +136,98 @@
             <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
         </nav>
 
+
+        <section class="card learning-scaffold" aria-label="Learning scaffold">
+            <div class="scaffold-head">
+                <h2>At a Glance</h2>
+                <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapters 09-10</span>
+                    <span class="scaffold-chip"><strong>Time:</strong> 30 min read + 35 min practice</span>
+                    <span class="scaffold-chip"><strong>Deliverable:</strong> Confusion matrix + short interpretation</span>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Learning outcomes</h3>
+                    <ul>
+                        <li>Explain the difference between training and validation data.</li>
+                        <li>Describe what a confusion matrix measures and how to read it.</li>
+                        <li>Identify one likely source of classification error and propose a fix.</li>
+                    </ul>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Key terms</h3>
+                    <p>training data, validation, classifier, features, confusion matrix, overfitting</p>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Stop &amp; check</h3>
+                    <ol class="scaffold-qa">
+                        <li>
+                            <details>
+                                <summary>Why should training and validation samples be separate?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> To test generalization honestly.</p>
+                                    <p><strong>Why:</strong> Re-using training data inflates accuracy and hides overfitting.</p>
+                                    <p><strong>Common misconception:</strong> More accuracy numbers means better; quality of evaluation matters.</p>
+                                </div>
+                            </details>
+                        </li>
+                        <li>
+                            <details>
+                                <summary>What does high confusion between two classes usually mean?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> Their spectral/feature signatures overlap in your data.</p>
+                                    <p><strong>Why:</strong> The model cannot separate them with the current features/training.</p>
+                                    <p><strong>Common misconception:</strong> The algorithm is bad; often the labels/features need improvement.</p>
+                                </div>
+                            </details>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Try it (5 minutes)</h3>
+                    <ol>
+                        <li>Name two classes that might be confused in your region (e.g., bare soil vs urban).</li>
+                        <li>List one extra feature you would add (SWIR, NDVI, texture, elevation).</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Lab (Two Tracks)</h3>
+                    <p>Both tracks produce the same deliverable: a classified map plus a brief accuracy assessment statement.</p>
+                    <div class="scaffold-two-track">
+                        <div class="scaffold-track">
+                            <h4>Desktop GIS Track (ArcGIS Pro / QGIS)</h4>
+                            <p>Create training polygons, run a supervised classification, and evaluate accuracy with a validation sample.</p>
+                        </div>
+                        <div class="scaffold-track">
+                            <h4>Remote Sensing Track (Google Earth Engine)</h4>
+                            <p>Train a classifier (e.g., RF), classify an image, and compute an error matrix. Interpret 2 key errors.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Common mistakes</h3>
+                    <ul>
+                        <li>Train/validation leakage (same polygons used for both).</li>
+                        <li>Class imbalance (too few samples for minority classes).</li>
+                        <li>Mixing seasons/dates so the same class looks different.</li>
+                    </ul>
+                    <p><strong>Further reading:</strong> https://gistbok-topics.ucgis.org/UCGIS</p>
+                </div>
+            </div>
+        </section>
+
+
         <div class="layout-grid">
             <div class="content">
                 <section class="card">
@@ -194,34 +286,41 @@
                     </div>
                 </div>
 
-                <section class="card" style="margin-top: 3rem;">
-                    <h2>📚 Glossary</h2>
-                    <dl>
-                        <dt><strong>Training Sample:</strong></dt>
-                        <dd>A representative area of a specific land cover type used to teach the computer classification rules.</dd>
-                        
-                        <dt><strong>OBIA:</strong></dt>
-                        <dd>Object-Based Image Analysis—segmenting an image into shapes before classification.</dd>
-                        
-                        <dt><strong>Signature File:</strong></dt>
-                        <dd>A file containing the spectral statistics of each training class.</dd>
-                    </dl>
-                </section>
+                <div class="section-glossary">
+                    <h2>📚 Chapter Glossary</h2>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">Training Sample</span>
+                            <span class="glossary-def">A polygon drawn by the analyst over a known land cover type (e.g., "Water") to teach the computer what that class "looks like" spectrally.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Confusion Matrix</span>
+                            <span class="glossary-def">A table used to assess the accuracy of a classification. It compares the "Classified" result against "Ground Truth" data.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Land Cover vs. Land Use</span>
+                            <span class="glossary-def">Land Cover is the physical material on the surface (e.g., Grass). Land Use is how humans utilize it (e.g., Golf Course).</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <aside class="sidebar">
-                <div class="sidebar-box bio">
-                    <h3>Important Person</h3>
-                    <img src="https://sc.edu/study/colleges_schools/artsandsciences/geography/images/jensen_john.jpg" alt="John Jensen" class="bio-img">
-                    <p><strong>Dr. John Jensen</strong></p>
-                    <p>A Distinguished Professor Emeritus at the University of South Carolina, Dr. Jensen is the author of several foundational textbooks on digital image processing. His work bridged the gap between military photogrammetry and modern environmental GIS, training generations of remote sensing specialists.</p>
+                <div class="box-bio">
+                    <img src="../assets/img/people/alexander_von_humboldt.jpg" alt="Alexander von Humboldt">
+                    <div>
+                        <h3>Alexander von Humboldt</h3>
+                        <span class="bio-dates">(1769–1859)</span>
+                        <p>The father of <strong>Phytogeography</strong> (plant geography). His "Naturgemalde" was one of the first infographics to map vegetation zones against altitude and climate. Modern image classification is essentially an automated version of Humboldt's work—correlating physical environments with the life that grows upon them.</p>
+                    </div>
                 </div>
 
-                <div class="sidebar-box local">
-                    <h3>Local to Global</h3>
-                    <p><strong>Mapping Urban Growth in Austin</strong></p>
-                    <p>Analysts at the City of Austin and CAPCOG use image classification to track "Impervious Cover"—the concrete and rooftops that prevent rain from soaking into the ground. By classifying Landsat and Sentinel data from 1980 to today, they can visualize how the "Live Music Capital" has shifted from green pastures to a dense urban landscape.</p>
-                    <p>This data is critical for managing the health of Barton Springs and the Edwards Aquifer.</p>
+                <div class="sidebar-local-global">
+                    <h3>🇨🇱 Texas Connection</h3>
+                    <p><strong>The Texas Ecosystems Map</strong></p>
+                    <p>Texas Parks & Wildlife (TPWD) maintains one of the most detailed classified rasters in the world: the <strong>Ecological Mapping Systems of Texas (EMST)</strong>. Using satellite imagery and thousands of ground samples, they have classified the state into hundreds of specific vegetation types.</p>
+                    <p>This data helps biologists protect endangered habitats like the Blackland Prairie, of which less than 1% remains.</p>
+                    <a href="https://tpwd.texas.gov/gis/data/downloads" target="_blank" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem; width:100%; text-align:center;">View the Map</a>
                 </div>
             </aside>
         </div>
@@ -230,7 +329,50 @@
           <a href="chapter-10-remote-sensing.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 10: Remote Sensing</a>
           <a href="chapter-12-lidar.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 12: LiDAR &rarr;</a>
         </div>
-    </main>
+    
+
+        
+
+        
+
+        <section class="card bok-alignment" aria-label="Body of Knowledge alignment">
+            <h2>BoK Alignment</h2>
+            <p>
+                Topics in the UCGIS GIS&amp;T Body of Knowledge that support this chapter.
+            </p>
+            <ul class="bok-topic-list">
+                        <li class="bok-topic">
+            <span class="bok-code">AM-02-009</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10461" target="_blank" rel="noopener noreferrer">Classification and Clustering</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DC-04-014</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10605" target="_blank" rel="noopener noreferrer">Feature Extraction from Satellite Imagery</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DC-03-016</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10606" target="_blank" rel="noopener noreferrer">Nature of Multispectral Image Data</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">AM-03-026</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10473" target="_blank" rel="noopener noreferrer">Spatial Sampling for Spatial Analysis</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DC-04-019</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10607" target="_blank" rel="noopener noreferrer">Ground Verification and Accuracy Assessment</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">AM-09-104</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10460" target="_blank" rel="noopener noreferrer">Thematic Accuracy Assessment</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">BoK</span>
+            <a href="https://gistbok-ltb.ucgis.org/" target="_blank" rel="noopener noreferrer">UCGIS GIS&T Body of Knowledge (Living Textbook)</a>
+        </li>
+            </ul>
+        </section>
+
+</main>
 
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">

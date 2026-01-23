@@ -130,6 +130,98 @@
             <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
         </nav>
 
+
+        <section class="card learning-scaffold" aria-label="Learning scaffold">
+            <div class="scaffold-head">
+                <h2>At a Glance</h2>
+                <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapters 10-11</span>
+                    <span class="scaffold-chip"><strong>Time:</strong> 25 min read + 30 min practice</span>
+                    <span class="scaffold-chip"><strong>Deliverable:</strong> DEM/DSM interpretation figure</span>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Learning outcomes</h3>
+                    <ul>
+                        <li>Explain what LiDAR measures and what a point cloud represents.</li>
+                        <li>Distinguish DEM, DSM, and derived height models.</li>
+                        <li>Interpret a 3D product for a practical question (buildings/vegetation/terrain).</li>
+                    </ul>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Key terms</h3>
+                    <p>LiDAR, point cloud, return, intensity, DEM, DSM, nDSM/CHM</p>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Stop &amp; check</h3>
+                    <ol class="scaffold-qa">
+                        <li>
+                            <details>
+                                <summary>Why can LiDAR measure ground under trees better than optical imagery?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> Some pulses penetrate canopy gaps and return from the ground.</p>
+                                    <p><strong>Why:</strong> Multiple returns capture vertical structure.</p>
+                                    <p><strong>Common misconception:</strong> LiDAR is a photo; it is active ranging.</p>
+                                </div>
+                            </details>
+                        </li>
+                        <li>
+                            <details>
+                                <summary>What does DSM minus DEM represent?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> Height above ground (a normalized surface).</p>
+                                    <p><strong>Why:</strong> Subtracting terrain removes elevation baseline.</p>
+                                    <p><strong>Common misconception:</strong> DEM and DSM are interchangeable; they measure different surfaces.</p>
+                                </div>
+                            </details>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Try it (5 minutes)</h3>
+                    <ol>
+                        <li>Look at one hill and one building in the examples. Predict which surface (DEM/DSM) will show each.</li>
+                        <li>Write one sentence describing why.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Lab (Two Tracks)</h3>
+                    <p>Both tracks produce the same deliverable: a figure comparing DEM vs DSM plus a short interpretation paragraph.</p>
+                    <div class="scaffold-two-track">
+                        <div class="scaffold-track">
+                            <h4>Desktop GIS Track (ArcGIS Pro / QGIS)</h4>
+                            <p>Load a LiDAR-derived DEM and DSM, compute a normalized height surface, and annotate one feature.</p>
+                        </div>
+                        <div class="scaffold-track">
+                            <h4>Remote Sensing Track (Google Earth Engine)</h4>
+                            <p>Load an elevation/DSM-like product (or provided sample) and compute a simple difference surface; interpret.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Common mistakes</h3>
+                    <ul>
+                        <li>Using the wrong surface for a question (terrain vs objects).</li>
+                        <li>Forgetting units/resolution and over-interpreting noise.</li>
+                        <li>Confusing canopy height (CHM) with building height unless explicitly derived.</li>
+                    </ul>
+                    <p><strong>Further reading:</strong> https://www.ucgis.org/site/gis-t-body-of-knowledge</p>
+                </div>
+            </div>
+        </section>
+
+
         <div class="layout-grid">
             <div class="content">
                 <section class="card">
@@ -187,34 +279,41 @@
                     </div>
                 </div>
 
-                <section class="card" style="margin-top: 3rem;">
-                    <h2>📚 Glossary</h2>
-                    <dl>
-                        <dt><strong>Point Cloud:</strong></dt>
-                        <dd>A collection of individual points in 3D space captured by LiDAR.</dd>
-                        
-                        <dt><strong>Return:</strong></dt>
-                        <dd>An individual reflection of a laser pulse (1st, 2nd, 3rd, or Last).</dd>
-                        
-                        <dt><strong>Intensity:</strong></dt>
-                        <dd>The strength of the laser pulse reflection, which reveals surface characteristics.</dd>
-                    </dl>
-                </section>
+                <div class="section-glossary">
+                    <h2>📚 Chapter Glossary</h2>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">Point Cloud</span>
+                            <span class="glossary-def">A set of data points in a 3D coordinate system (X, Y, Z), typically defined by X, Y, and Z coordinates, and often intended to represent the external surface of an object.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Return (Echo)</span>
+                            <span class="glossary-def">The reflection of the laser pulse back to the sensor. A single pulse can have multiple returns (e.g., hitting a leaf, then a branch, then the ground).</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Intensity</span>
+                            <span class="glossary-def">The strength of the return signal, which can be used to distinguish between different surface materials (e.g., asphalt vs. grass).</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <aside class="sidebar">
-                <div class="sidebar-box bio">
-                    <h3>Important Person</h3>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Dr._Sarah_Parcak.jpg/220px-Dr._Sarah_Parcak.jpg" alt="Sarah Parcak" class="bio-img">
-                    <p><strong>Dr. Sarah Parcak</strong></p>
-                    <p>A Distinguished Professor and "Space Archaeologist," Dr. Parcak uses LiDAR and satellite imagery to discover buried temples, pyramids, and entire cities. Her work has proven that we have only discovered about 1% of the archaeology buried on Earth, with the other 99% waiting to be found via remote sensing.</p>
+                <div class="box-bio">
+                    <img src="https://rapidlasso.de/wp-content/uploads/2019/05/martin_isenburg_square.jpg" alt="Martin Isenburg">
+                    <div>
+                        <h3>Martin Isenburg</h3>
+                        <span class="bio-dates">(1972–2021)</span>
+                        <p>A German computer scientist who revolutionized LiDAR processing. He created <strong>LAStools</strong>, the industry-standard software for compressing and processing massive point clouds. His "LASzip" compression format made it possible to share gigabytes of LiDAR data over the internet, democratizing access for everyone.</p>
+                    </div>
                 </div>
 
-                <div class="sidebar-box local">
-                    <h3>Local to Global</h3>
-                    <p><strong>The TNRIS High-Res Program</strong></p>
-                    <p>Texas is a leader in open-access data through the <strong>Texas Natural Resources Information System (TNRIS)</strong>. Their StratMap program has collected high-resolution LiDAR for the entire state. This data is used daily by Texas engineers to design safer drainage systems and by FEMA to map new flood zones along the coast.</p>
-                    <p>This massive dataset is free for all Texans to download and use!</p>
+                <div class="sidebar-local-global">
+                    <h3>🇨🇱 Texas Connection</h3>
+                    <p><strong>The StratMap LiDAR Program</strong></p>
+                    <p>The <strong>Texas Natural Resources Information System (TNRIS)</strong> has achieved a massive feat: near 100% LiDAR coverage of the state. Through the "StratMap" program, they coordinate flights to ensure that engineers, flood plain managers, and researchers have access to high-quality elevation data.</p>
+                    <p>This open data policy saves the state millions of dollars by preventing redundant data collection.</p>
+                    <a href="https://data.tnris.org/" target="_blank" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem; width:100%; text-align:center;">Download Texas LiDAR</a>
                 </div>
             </aside>
         </div>
@@ -223,7 +322,46 @@
           <a href="chapter-11-image-classification.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 11: Classification</a>
           <a href="chapter-13-raster-analysis.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 13: Raster Analysis &rarr;</a>
         </div>
-    </main>
+    
+
+        
+
+        
+
+        <section class="card bok-alignment" aria-label="Body of Knowledge alignment">
+            <h2>BoK Alignment</h2>
+            <p>
+                Topics in the UCGIS GIS&amp;T Body of Knowledge that support this chapter.
+            </p>
+            <ul class="bok-topic-list">
+                        <li class="bok-topic">
+            <span class="bok-code">DC-03-027</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10613" target="_blank" rel="noopener noreferrer">Light Detection and Ranging (LiDAR)</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">AM-04-099</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10838" target="_blank" rel="noopener noreferrer">LiDAR Point Cloud Analysis</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">AM-04-055</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10839" target="_blank" rel="noopener noreferrer">Digital Terrain Models and Terrain Metrics</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">AM-04-064</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10833" target="_blank" rel="noopener noreferrer">Modeling Surfaces</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DC-03-040</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10788" target="_blank" rel="noopener noreferrer">Airborne LiDAR Bathymetry</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">BoK</span>
+            <a href="https://gistbok-ltb.ucgis.org/" target="_blank" rel="noopener noreferrer">UCGIS GIS&T Body of Knowledge (Living Textbook)</a>
+        </li>
+            </ul>
+        </section>
+
+</main>
 
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">

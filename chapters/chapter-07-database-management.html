@@ -61,19 +61,6 @@
             .layout-grid { grid-template-columns: 1fr; }
         }
 
-        .sidebar-box {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            border-top: 4px solid var(--primary);
-        }
-        .sidebar-box.bio { border-top-color: var(--accent); }
-
-        .sidebar-box h3 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; }
-        .bio-img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
-
         .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
         
         /* SQL Sandbox */
@@ -96,7 +83,7 @@
         .table-results th { background: #334155; color: #fff; }
 
         /* Quiz Styles */
-        .quiz-container { background: #f1f5f9; padding: 2rem; border-radius: 16px; margin-top: 3rem; }
+        .quiz-container { background: #eff6ff; padding: 2rem; border-radius: 16px; margin-top: 3rem; }
         .option { background: white; padding: 1rem; border-radius: 8px; border: 2px solid #e2e8f0; cursor: pointer; margin-bottom: 0.75rem; transition: 0.2s; color: #1e293b; }
         .option:hover { border-color: var(--primary); }
         .option.correct { border-color: var(--success); background: #ecfdf5; }
@@ -109,7 +96,7 @@
         <div class="container">
             <span class="chapter-badge">Chapter 07</span>
             <h1>Database Management</h1>
-            <p class="subtitle">The engine of GIS. Learn how to organize spatial information, perform complex queries, and link tables together through joins.</p>
+            <p class="subtitle">The engine of GIS. Learn how to organize spatial information, perform complex queries, and link tables together through relational joins.</p>
         </div>
     </header>
 
@@ -118,10 +105,102 @@
             <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
         </nav>
 
+
+        <section class="card learning-scaffold" aria-label="Learning scaffold">
+            <div class="scaffold-head">
+                <h2>At a Glance</h2>
+                <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapter 06</span>
+                    <span class="scaffold-chip"><strong>Time:</strong> 25 min read + 30 min practice</span>
+                    <span class="scaffold-chip"><strong>Deliverable:</strong> Joined table + short interpretation</span>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Learning outcomes</h3>
+                    <ul>
+                        <li>Explain keys and relationships (one-to-many) in GIS tables.</li>
+                        <li>Perform a join and verify the result.</li>
+                        <li>Write one interpretation based on a query or summary.</li>
+                    </ul>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Key terms</h3>
+                    <p>primary key, foreign key, join, query, null, domain</p>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Stop &amp; check</h3>
+                    <ol class="scaffold-qa">
+                        <li>
+                            <details>
+                                <summary>What is the most common reason a join produces many nulls?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> The key fields do not match (type/format/values).</p>
+                                    <p><strong>Why:</strong> Joins require exact matches; '001' is not the same as '1'.</p>
+                                    <p><strong>Common misconception:</strong> The software is broken; usually the identifiers are inconsistent.</p>
+                                </div>
+                            </details>
+                        </li>
+                        <li>
+                            <details>
+                                <summary>Why store acquisition date and cloud percent for imagery scenes?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> To filter and reproduce your analysis.</p>
+                                    <p><strong>Why:</strong> Time and quality strongly affect RS results.</p>
+                                    <p><strong>Common misconception:</strong> A composite is one image; it is a documented set of choices.</p>
+                                </div>
+                            </details>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Try it (5 minutes)</h3>
+                    <ol>
+                        <li>Write one query you would use to filter out low-quality data.</li>
+                        <li>Explain what null means in one sentence.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Lab (Two Tracks)</h3>
+                    <p>Both tracks produce the same deliverable: a small table summary (counts/means) plus a 6-sentence interpretation.</p>
+                    <div class="scaffold-two-track">
+                        <div class="scaffold-track">
+                            <h4>Desktop GIS Track (ArcGIS Pro / QGIS)</h4>
+                            <p>Create a table, join it to a layer, and compute one summary (count/mean) by category.</p>
+                        </div>
+                        <div class="scaffold-track">
+                            <h4>Remote Sensing Track (Google Earth Engine)</h4>
+                            <p>Attach metadata properties to features (date/class) and compute a grouped summary using reducers. Explain the result.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Common mistakes</h3>
+                    <ul>
+                        <li>Joining on non-unique fields.</li>
+                        <li>Mixing numeric and text IDs.</li>
+                        <li>Not checking row counts before/after joins.</li>
+                    </ul>
+                    <p><strong>Further reading:</strong> https://gistbok-topics.ucgis.org/UCGIS</p>
+                </div>
+            </div>
+        </section>
+
+
         <div class="layout-grid">
             <div class="content">
                 <section class="card">
-                    <h2>📊 The Relational Model</h2>
+                    <h2>The Relational Model</h2>
                     <p>In a GIS, geometry is only half the story. The <strong>Attribute Table</strong> contains the actual information about those features. These tables are organized using a <strong>Relational Database Management System (RDBMS)</strong>.</p>
                     
                     <div class="callout" style="background: #eff6ff; border-left: 5px solid #3b82f6; color: #1e40af; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
@@ -130,9 +209,8 @@
                 </section>
 
                 <section class="card">
-                    <h2>🛠️ Table Joins: Linking Information</h2>
-                    <p>One of the most powerful tasks in GIS is a <strong>Join</strong>. By matching a common field (the "foreign key") in two different tables, we can temporarily append information from a standalone table to our spatial features.</p>
-                    <p><em>Example: Joining 2024 Census Data (table) to County Boundaries (spatial layer) using the "FIPS Code" as the link.</em></p>
+                    <h2>Table Joins: Linking Information</h2>
+                    <p>One of the most powerful tasks in GIS is a <strong>Join</strong>. By matching a common field (the "foreign key") in two different tables, we can temporarily append information from a standalone table to our spatial features. This is how we map things like Census data or health statistics.</p>
                 </section>
 
                 <section class="sql-sandbox">
@@ -153,21 +231,39 @@
                     </table>
                 </section>
 
+                <div class="activity-decision">
+                    <span class="activity-icon">💾</span>
+                    <h3>Regional Decision: The Hospital Database</h3>
+                    <p>
+                        You are designing a database for Alachua County health inspectors. You have three datasets: 1) Hospital Locations (Point Data), 2) Staff Directories (Excel), and 3) Patient Satisfaction Surveys (PDFs).
+                    </p>
+                    <p><strong>The Task:</strong> You need to create a map showing which hospitals have a "High" satisfaction rating but "Low" staff-to-patient ratios.</p>
+                    <p><strong>The Dilemma:</strong> The survey data is currently in a text-based PDF. Do you:</p>
+                    <ul style="margin-top:1rem;">
+                        <li><strong>A)</strong> Manually type the ratings into the Hospital Attribute table?</li>
+                        <li><strong>B)</strong> OCR the PDF, clean it into a CSV, and perform a <strong>Relational Join</strong> using the Hospital ID?</li>
+                        <li><strong>C)</strong> Just label the map manually in the cartographic view?</li>
+                    </ul>
+                    <div class="callout success" style="margin-top:1rem;">
+                        <strong>Expert Insight:</strong> Choose <strong>Option B</strong>. While it takes more effort to set up, it creates a <em>dynamic link</em>. If the survey data is updated next year, you simply swap the CSV, and your map updates automatically. This is "Data Normalization."
+                    </div>
+                </div>
+
                 <section class="card">
                     <h2>Summary of Big Ideas</h2>
                     <ul style="line-height: 1.8;">
                         <li><strong>Attribute Tables</strong> store the "what" for every "where."</li>
-                        <li><strong>Primary Keys</strong> ensure every feature is unique and reachable.</li>
-                        <li><strong>Table Joins</strong> allow external data to be visualized spatially.</li>
-                        <li><strong>SQL</strong> is the universal language for querying geographic databases.</li>
+                        <li><strong>Primary Keys</strong> ensure every feature is unique and provides a reliable anchor for joins.</li>
+                        <li><strong>Table Joins</strong> are temporary, dynamic links between spatial data and standalone tables.</li>
+                        <li><strong>SQL (Structured Query Language)</strong> is the universal standard for interacting with geographic databases.</li>
                     </ul>
                 </section>
 
                 <div class="quiz-container">
                     <h2>Chapter 07 Checkpoint</h2>
                     <div class="question">
-                        <p><strong>1. To successfully join an Excel spreadsheet to a Shapefile, both must contain:</strong></p>
-                        <div class="option" onclick="this.classList.add('correct')">A common field with identical values (e.g., ID numbers).</div>
+                        <p><strong>1. To successfully join an Excel spreadsheet to a spatial layer, both must contain:</strong></p>
+                        <div class="option" onclick="this.classList.add('correct')">A common field with identical values (e.g., FIPS codes).</div>
                         <div class="option" onclick="this.classList.add('wrong')">The exact same number of columns.</div>
                     </div>
                     <div class="question">
@@ -177,43 +273,95 @@
                     </div>
                 </div>
 
-                <section class="card" style="margin-top: 3rem;">
-                    <h2>📚 Glossary</h2>
-                    <dl>
-                        <dt><strong>Schema:</strong></dt>
-                        <dd>The structure or design of a database (fields, types, relationships).</dd>
-                        
-                        <dt><strong>RDBMS:</strong></dt>
-                        <dd>Relational Database Management System (e.g., PostgreSQL, SQL Server).</dd>
-                        
-                        <dt><strong>FIPS Code:</strong></dt>
-                        <dd>Federal Information Processing Standard—unique codes used to identify geographic areas in the US.</dd>
-                    </dl>
-                </section>
+                <div class="section-glossary">
+                    <h2>Chapter Glossary</h2>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">Schema:</span>
+                            <span class="glossary-def">The formal structure or design of a database, defining fields and types.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">RDBMS:</span>
+                            <span class="glossary-def">Relational Database Management System—software like PostgreSQL or SQL Server.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">FIPS Code:</span>
+                            <span class="glossary-def">Federal Information Processing Standard—the "Gold Standard" join key for US geographic data.</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <aside class="sidebar">
-                <div class="sidebar-box bio">
-                    <h3>Important Person</h3>
-                    <img src="https://upload.wikimedia.org/wikipedia/en/5/50/Edgar_F_Codd.jpg" alt="Edgar Codd" class="bio-img">
-                    <p><strong>Edgar F. Codd (1923–2003)</strong></p>
-                    <p>A British computer scientist at IBM who invented the <strong>Relational Model</strong> for database management. His work in the 1970s revolutionized how data is stored and retrieved, directly leading to the development of SQL and the relational databases that power modern GIS.</p>
+                <div class="box-bio">
+                    <img src="../assets/img/people/edgar_codd.jpg" alt="Edgar Codd">
+                    <div>
+                        <h3>Edgar F. Codd</h3>
+                        <span class="bio-dates">(1923–2003)</span>
+                        <p>A British computer scientist at IBM who invented the <strong>Relational Model</strong>. His work in the 1970s revolutionized how data is stored, directly leading to the development of SQL and the relational databases that power every modern GIS system.</p>
+                    </div>
                 </div>
 
-                <div class="sidebar-box local">
-                    <h3>Local to Global</h3>
-                    <p><strong>The Texas RRC Well Database</strong></p>
-                    <p>The Texas Railroad Commission (RRC) manages one of the largest spatial databases in the world. Every oil and gas well in Texas is assigned a unique <strong>API Number</strong>. By using this primary key, engineers can join production reports, depth logs, and ownership records to a shared coordinate on a map.</p>
-                    <p>This integration is what makes Texas a global leader in energy data management.</p>
+                <div class="sidebar-local-global">
+                    <h3>🇨🇱 Texas Connection</h3>
+                    <p>
+                        <strong>The Texas RRC Well Database:</strong> The Texas Railroad Commission (RRC) manages one of the largest spatial databases in the world. Every oil and gas well in Texas is assigned a unique <strong>API Number</strong>. 
+                    </p>
+                    <p>
+                        By using this primary key, engineers can join production reports, depth logs, and ownership records to a shared coordinate on a map. This integration is what makes Texas a global leader in energy data management.
+                    </p>
                 </div>
             </aside>
         </div>
 
         <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
-          <a href="chapter-06-digitizing.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 06: Digitizing</a>
-          <a href="chapter-08-vgi-neogeography.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 08: VGI &rarr;</a>
+            <a href="chapter-06-digitizing.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 06</a>
+            <a href="chapter-08-georeferencing.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Chapter 08: Georeferencing →</a>
         </div>
-    </main>
+    
+
+        
+
+        
+
+        <section class="card bok-alignment" aria-label="Body of Knowledge alignment">
+            <h2>BoK Alignment</h2>
+            <p>
+                Topics in the UCGIS GIS&amp;T Body of Knowledge that support this chapter.
+            </p>
+            <ul class="bok-topic-list">
+                        <li class="bok-topic">
+            <span class="bok-code">DM-01-001</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10622" target="_blank" rel="noopener noreferrer">Spatial Database Management Systems</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DM-01-004</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10797" target="_blank" rel="noopener noreferrer">Geodatabases</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">FC-06-012</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10700" target="_blank" rel="noopener noreferrer">Structured Query Language (SQL) and attribute queries</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DM-01-062</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10651" target="_blank" rel="noopener noreferrer">Database Administration</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DM-01-070</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10654" target="_blank" rel="noopener noreferrer">Problems of Large Spatial Databases</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DM-07-060</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10650" target="_blank" rel="noopener noreferrer">Spatial Data Infrastructures</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">BoK</span>
+            <a href="https://gistbok-ltb.ucgis.org/" target="_blank" rel="noopener noreferrer">UCGIS GIS&T Body of Knowledge (Living Textbook)</a>
+        </li>
+            </ul>
+        </section>
+
+</main>
 
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">

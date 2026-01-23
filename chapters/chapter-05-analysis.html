@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 05: Spatial Analysis | GIS Digital Textbook</title>
+    <meta name="description" content="Unlock the power of GIS analysis. Learn about overlay, buffering, map algebra, and network analysis.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --secondary: #64748b;
+            --accent: #f43f5e;
+            --success: #10b981;
+            --bg: #f8fafc;
+        }
+
+        .hero-chapter {
+            background: linear-gradient(135deg, #4c1d95 0%, #8b5cf6 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-chapter::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .chapter-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 1100px) {
+            .layout-grid { grid-template-columns: 1fr; }
+        }
+
+        .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .callout { padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem; display: flex; gap: 1rem; align-items: start; background: #f5f3ff; border-left: 5px solid var(--primary); color: #4c1d95; }
+        
+        /* Analysis Icons Grid */
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .analysis-item {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .analysis-item:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .analysis-icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+        
+        .sidebar-box {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="hero-chapter">
+        <div class="container">
+            <span class="chapter-badge">Chapter 05</span>
+            <h1>Spatial Analysis</h1>
+            <p class="subtitle">Data is just the raw material. Analysis is the refined product. Learn how to query, overlay, and model the world to answer "What if?"</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav style="margin: 2rem 0;">
+            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
+        </nav>
+
+        <section class="card learning-scaffold">
+            <div class="scaffold-head">
+                <h2>At a Glance</h2>
+                <div class="scaffold-meta">
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Ch 01-04</span>
+                    <span class="scaffold-chip"><strong>Time:</strong> 40 min read + Lab</span>
+                    <span class="scaffold-chip"><strong>Deliverable:</strong> Suitability Model</span>
+                </div>
+            </div>
+            <div class="scaffold-grid">
+                <div>
+                    <h3>Learning Outcomes</h3>
+                    <ul>
+                        <li>Perform attribute (SQL) and spatial queries.</li>
+                        <li>Execute vector overlay operations (Intersect, Union, Clip).</li>
+                        <li>Apply Raster Map Algebra for site suitability.</li>
+                        <li>Understand proximity tools like Buffering.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Key Terms</h3>
+                    <p>Buffer, Intersect, Union, SQL, Map Algebra, Euclidean Distance, Boolean Logic</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="layout-grid">
+            <div class="content">
+                <section class="card">
+                    <h2>The Analysis Workflow</h2>
+                    <p>Analysis usually falls into four categories. Before clicking a tool, identify which category your question belongs to:</p>
+                    <div class="analysis-grid">
+                        <div class="analysis-item">
+                            <span class="analysis-icon">🔍</span>
+                            <strong>Selection</strong>
+                            <p>Finding "Where is it?" (Query)</p>
+                        </div>
+                        <div class="analysis-item">
+                            <span class="analysis-icon">📏</span>
+                            <strong>Measurement</strong>
+                            <p>Calculating Distance, Area, & Stats</p>
+                        </div>
+                        <div class="analysis-item">
+                            <span class="analysis-icon">🥞</span>
+                            <strong>Overlay</strong>
+                            <p>Stacking layers to find intersections</p>
+                        </div>
+                        <div class="analysis-item">
+                            <span class="analysis-icon">🕸️</span>
+                            <strong>Connectivity</strong>
+                            <p>Networks and Surfaces</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>1. Selection & Query</h2>
+                    <p><strong>Attribute Query (SQL):</strong> Selecting features based on their data table. <br><em>Example:</em> <code>SELECT * FROM Cities WHERE Population > 1,000,000</code></p>
+                    <p><strong>Spatial Query:</strong> Selecting features based on location. <br><em>Example:</em> "Select all schools within 1 mile of a hazardous waste site."</p>
+                    <div class="callout">
+                        <strong>Boolean Logic:</strong> Queries often use AND, OR, and NOT. <br>
+                        - <strong>AND</strong> restricts results (must meet both criteria).<br>
+                        - <strong>OR</strong> expands results (can meet either criteria).
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>2. Vector Overlay Analysis</h2>
+                    <p>Overlay combines the geometry and attributes of two layers. It is the "cookie cutter" of GIS.</p>
+                    <div style="display: grid; gap: 1rem; grid-template-columns: repeat(3, 1fr); margin-top: 1rem;">
+                        <div style="text-align: center;">
+                            <div style="height: 100px; background: #e0e7ff; border: 2px solid #6366f1; border-radius: 8px; display: flex; align-items: center; justify-content: center;"><strong>Intersect</strong></div>
+                            <p style="font-size: 0.9rem; margin-top: 0.5rem;">AND (Common area only)</p>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="height: 100px; background: #e0e7ff; border: 2px solid #6366f1; border-radius: 8px; display: flex; align-items: center; justify-content: center;"><strong>Union</strong></div>
+                            <p style="font-size: 0.9rem; margin-top: 0.5rem;">OR (All areas combined)</p>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="height: 100px; background: #e0e7ff; border: 2px solid #6366f1; border-radius: 8px; display: flex; align-items: center; justify-content: center;"><strong>Clip</strong></div>
+                            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Cookie Cutter (Input cut by Boundary)</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>3. Raster Map Algebra</h2>
+                    <p>Raster analysis often treats layers like math variables. If you have two grids, you can add them, subtract them, or find the average. This is essential for <strong>Site Suitability Modeling</strong>.</p>
+                    
+                    <div style="margin-top: 1.5rem;">
+                        <img src="../assets/img/diagrams/raster_map_algebra_diagram.png" alt="Raster Map Algebra Diagram" style="width: 100%; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                        <p style="font-size: 0.8rem; color: var(--secondary); margin-top: 0.5rem; text-align: center;">Figure 5.4: Basic Map Algebra operations. Notice how 'Add' sums the value of each overlapping cell.</p>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>4. Neighborhoods & Proximity</h2>
+                    <h3>Buffering</h3>
+                    <p>Creating a zone of a specific distance around a feature. Useful for regulatory zones (e.g., "No drilling within 500ft of a house").</p>
+                    
+                    <h3>Interpolation</h3>
+                    <p>Predicting values between known points. We use this to turn weather station points into a continuous temperature map (Isolines).</p>
+                    
+                    <h3>Theissen Polygons</h3>
+                    <p>Mathematically defining the "catchment area" of a point. Any location inside a Theissen polygon is closer to that polygon's center point than any other point.</p>
+                </section>
+            </div>
+
+            <aside class="sidebar">
+                <div class="sidebar-box">
+                    <h3>Ian McHarg</h3>
+                    <p><strong>The Father of Ecological Planning</strong></p>
+                    <p>In his 1969 book <em>Design with Nature</em>, McHarg pioneered the "layer cake" method of suitability analysis using transparent acetate sheets. He would physically darken areas that were "unsuitable" for development (steep slopes, floodplains). By stacking the sheets, the optimal (lightest) areas revealed themselves. This is the manual ancestor of modern Map Algebra.</p>
+                </div>
+
+                <div class="sidebar-box">
+                    <h3>🇨🇱 Texas Connection</h3>
+                    <p><strong>Hurricane Harvey & Flood Analysis</strong></p>
+                    <p>During Hurricane Harvey (2017), spatial analysis was critical. Analysts used <strong>LIDAR</strong> (Raster) to model elevation and <strong>Network Analysis</strong> to route rescue boats through flooded streets. "What if" scenarios helped emergency managers decide where to stage supplies.</p>
+                </div>
+            </aside>
+        </div>
+
+        <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+          <a href="chapter-04-gps.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 04: GPS</a>
+          <a href="chapter-06-output.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 06: Output &rarr;</a>
+        </div>
+    
+
+        
+
+        
+
+        <section class="card bok-alignment" aria-label="Body of Knowledge alignment">
+            <h2>BoK Alignment</h2>
+            <p>
+                Topics in the UCGIS GIS&amp;T Body of Knowledge that support this chapter.
+            </p>
+            <ul class="bok-topic-list">
+                        <li class="bok-topic">
+            <span class="bok-code">AM-01-020</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10469" target="_blank" rel="noopener noreferrer">Geospatial Analysis and Model Building</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">AM-02-003</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10455" target="_blank" rel="noopener noreferrer">Buffers</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">AM-02-004</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10456" target="_blank" rel="noopener noreferrer">Overlay</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">AM-02-006</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10457" target="_blank" rel="noopener noreferrer">Grid Operations and Map Algebra</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">AM-05-076</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10844" target="_blank" rel="noopener noreferrer">Network Route & Tour Problems in Geographic Information Systems</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">GS-02-025</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10721" target="_blank" rel="noopener noreferrer">Spatial Decision Support</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">BoK</span>
+            <a href="https://gistbok-ltb.ucgis.org/" target="_blank" rel="noopener noreferrer">UCGIS GIS&T Body of Knowledge (Living Textbook)</a>
+        </li>
+            </ul>
+        </section>
+
+</main>
+
+    <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

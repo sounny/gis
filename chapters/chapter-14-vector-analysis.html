@@ -127,6 +127,98 @@
             <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
         </nav>
 
+
+        <section class="card learning-scaffold" aria-label="Learning scaffold">
+            <div class="scaffold-head">
+                <h2>At a Glance</h2>
+                <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapters 06, 13</span>
+                    <span class="scaffold-chip"><strong>Time:</strong> 30 min read + 30 min practice</span>
+                    <span class="scaffold-chip"><strong>Deliverable:</strong> Vector analysis result layer</span>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Learning outcomes</h3>
+                    <ul>
+                        <li>Choose the correct vector operation for a question (buffer, overlay, join).</li>
+                        <li>Explain how projection/units affect vector measurements.</li>
+                        <li>Validate results by checking counts, areas, and obvious edge cases.</li>
+                    </ul>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Key terms</h3>
+                    <p>buffer, dissolve, intersect, union, spatial join, slivers</p>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Stop &amp; check</h3>
+                    <ol class="scaffold-qa">
+                        <li>
+                            <details>
+                                <summary>Why can buffering in degrees produce nonsense results?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> Degrees are angular units and vary in ground distance by latitude.</p>
+                                    <p><strong>Why:</strong> Buffer distance needs linear units like meters.</p>
+                                    <p><strong>Common misconception:</strong> A buffer of 0.01 degrees is about the same everywhere.</p>
+                                </div>
+                            </details>
+                        </li>
+                        <li>
+                            <details>
+                                <summary>What are slivers after overlay and why do they matter?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> Tiny polygons created by boundary mismatch.</p>
+                                    <p><strong>Why:</strong> They inflate feature counts and can bias area summaries.</p>
+                                    <p><strong>Common misconception:</strong> They are harmless; they can dominate statistics when many exist.</p>
+                                </div>
+                            </details>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Try it (5 minutes)</h3>
+                    <ol>
+                        <li>Pick one question and name the operation: within 500m, overlaps, or closest.</li>
+                        <li>Write one sentence explaining your tool choice.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Lab (Two Tracks)</h3>
+                    <p>Both tracks produce the same deliverable: one derived vector layer plus a short QA checklist.</p>
+                    <div class="scaffold-two-track">
+                        <div class="scaffold-track">
+                            <h4>Desktop GIS Track (ArcGIS Pro / QGIS)</h4>
+                            <p>Run one buffer + one overlay (intersect) and report feature counts before/after.</p>
+                        </div>
+                        <div class="scaffold-track">
+                            <h4>Remote Sensing Track (Google Earth Engine)</h4>
+                            <p>Create buffers around points/lines (where applicable) and summarize an image statistic inside the buffer. Report results.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Common mistakes</h3>
+                    <ul>
+                        <li>Forgetting to dissolve buffers when you need a single influence zone.</li>
+                        <li>Interpreting overlay without checking attributes and geometry validity.</li>
+                        <li>Assuming spatial joins are reversible; direction matters.</li>
+                    </ul>
+                    <p><strong>Further reading:</strong> https://www.ucgis.org/site/gis-t-body-of-knowledge</p>
+                </div>
+            </div>
+        </section>
+
+
         <div class="layout-grid">
             <div class="content">
                 <section class="card">
@@ -182,33 +274,39 @@
                     </div>
                 </div>
 
-                <section class="card" style="margin-top: 3rem;">
-                    <h2>📚 Glossary</h2>
-                    <dl>
-                        <dt><strong>Geometric Overlay:</strong></dt>
-                        <dd>The process of superimposing two or more vector datasets to create a new output.</dd>
-                        
-                        <dt><strong>MAUP:</strong></dt>
-                        <dd>Modifiable Areal Unit Problem—how the choice of boundaries affects statistical results.</dd>
-                        
-                        <dt><strong>Sliver Polygon:</strong></dt>
-                        <dd>A tiny, unwanted polygon created when two slightly different boundaries are overlaid.</dd>
-                    </dl>
-                </section>
+                <div class="section-glossary">
+                    <h2>📚 Chapter Glossary</h2>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">Geometric Overlay</span>
+                            <span class="glossary-def">The process of superimposing two or more vector datasets to create a new output dataset that contains the geometry and attributes of the inputs (e.g., Intersect, Union).</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Buffer</span>
+                            <span class="glossary-def">A zone around a map feature measured in units of distance or time. A buffer is useful for proximity analysis (e.g., finding everything within 1 mile of a school).</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">MAUP</span>
+                            <span class="glossary-def">Modifiable Areal Unit Problem—a source of statistical bias that can significantly impact the results of spatial hypothesis tests when point-based measures are aggregated into districts.</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <aside class="sidebar">
-                <div class="sidebar-box bio">
-                    <h3>Important Person</h3>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Waldo_Tobler.jpg/220px-Waldo_Tobler.jpg" alt="Waldo Tobler" class="bio-img">
-                    <p><strong>Dr. Waldo Tobler (1930–2018)</strong></p>
-                    <p>Tobler was a geographer and cartographer who famously formulated the <strong>First Law of Geography</strong> in 1970. This law is the foundation for almost all spatial analysis: "Everything is related to everything else, but near things are more related than distant things." This principle is why GIS uses techniques like buffering and distance-decay functions.</p>
+                <div class="box-bio">
+                    <img src="../assets/img/people/stan_openshaw.png" alt="Stan Openshaw">
+                    <div>
+                        <h3>Stan Openshaw</h3>
+                        <span class="bio-dates">(1947–2003)</span>
+                        <p>A pioneer in quantitative geography, Openshaw is most famous for his work on the <strong>Modifiable Areal Unit Problem (MAUP)</strong>. He demonstrated that by simply changing the boundaries of districts, one could manipulate statistical results to show almost anything—a warning that every GIS analyst must heed. <a href="https://journals.sagepub.com/doi/10.1177/23998083221108684" target="_blank" style="color:var(--primary);text-decoration:none;">Read more about his legacy.</a></p>
+                    </div>
                 </div>
 
-                <div class="sidebar-box local">
-                    <h3>Local to Global</h3>
+                <div class="sidebar-local-global">
+                    <h3>🇨🇱 Texas Connection</h3>
                     <p><strong>Gerrymandering in Texas</strong></p>
-                    <p>Vector analysis is at the heart of one of Texas's most controversial topics: **Redistricting**. By overlaying voting precinct data (attribute tables) with proposed district boundaries (vector polygons), analysts can calculate the likely outcome of an election before a single vote is cast.</p>
+                    <p>Vector analysis is at the heart of one of Texas's most controversial topics: <strong>Redistricting</strong>. By overlaying voting precinct data (attribute tables) with proposed district boundaries (vector polygons), analysts can calculate the likely outcome of an election before a single vote is cast.</p>
                     <p>Techniques like "packing" and "cracking" are essentially advanced vector overlay and proximity exercises used for political advantage.</p>
                 </div>
             </aside>
@@ -218,7 +316,50 @@
           <a href="chapter-13-raster-analysis.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 13: Raster Analysis</a>
           <a href="chapter-15-spatial-modeling.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 15: Spatial Modeling &rarr;</a>
         </div>
-    </main>
+    
+
+        
+
+        
+
+        <section class="card bok-alignment" aria-label="Body of Knowledge alignment">
+            <h2>BoK Alignment</h2>
+            <p>
+                Topics in the UCGIS GIS&amp;T Body of Knowledge that support this chapter.
+            </p>
+            <ul class="bok-topic-list">
+                        <li class="bok-topic">
+            <span class="bok-code">DM-02-014</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10630" target="_blank" rel="noopener noreferrer">Classic vector data models</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">AM-02-003</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10455" target="_blank" rel="noopener noreferrer">Buffers</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">AM-02-004</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10456" target="_blank" rel="noopener noreferrer">Overlay</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DM-04-077</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10656" target="_blank" rel="noopener noreferrer">Spatial Joins</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">FC-05-042</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10696" target="_blank" rel="noopener noreferrer">Distance Operations</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DM-06-086</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10661" target="_blank" rel="noopener noreferrer">Vector-to-Raster and Raster-to-Vector Conversions</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">BoK</span>
+            <a href="https://gistbok-ltb.ucgis.org/" target="_blank" rel="noopener noreferrer">UCGIS GIS&T Body of Knowledge (Living Textbook)</a>
+        </li>
+            </ul>
+        </section>
+
+</main>
 
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">

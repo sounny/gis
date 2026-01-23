@@ -61,19 +61,6 @@
             .layout-grid { grid-template-columns: 1fr; }
         }
 
-        .sidebar-box {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            border-top: 4px solid var(--primary);
-        }
-        .sidebar-box.local { border-top-color: var(--success); }
-
-        .sidebar-box h3 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; }
-        .bio-img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
-
         .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
         
         /* Digitizing Sandbox */
@@ -116,7 +103,7 @@
         }
 
         /* Quiz Styles */
-        .quiz-container { background: #f1f5f9; padding: 2rem; border-radius: 16px; margin-top: 3rem; }
+        .quiz-container { background: #fff1f2; padding: 2rem; border-radius: 16px; margin-top: 3rem; }
         .option { background: white; padding: 1rem; border-radius: 8px; border: 2px solid #e2e8f0; cursor: pointer; margin-bottom: 0.75rem; transition: 0.2s; color: #1e293b; }
         .option:hover { border-color: var(--primary); }
         .option.correct { border-color: var(--success); background: #ecfdf5; }
@@ -138,10 +125,102 @@
             <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
         </nav>
 
+
+        <section class="card learning-scaffold" aria-label="Learning scaffold">
+            <div class="scaffold-head">
+                <h2>At a Glance</h2>
+                <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapters 01, 05</span>
+                    <span class="scaffold-chip"><strong>Time:</strong> 25 min read + 30 min practice</span>
+                    <span class="scaffold-chip"><strong>Deliverable:</strong> Digitized training polygons</span>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Learning outcomes</h3>
+                    <ul>
+                        <li>Digitize clean vector features with appropriate vertex density.</li>
+                        <li>Apply basic QA checks (snapping, no gaps/overlaps).</li>
+                        <li>Explain how digitizing choices affect analysis and classification.</li>
+                    </ul>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Key terms</h3>
+                    <p>digitizing, snapping, topology, vertex, attribute table, training data</p>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Stop &amp; check</h3>
+                    <ol class="scaffold-qa">
+                        <li>
+                            <details>
+                                <summary>Why is snapping important when digitizing adjacent polygons?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> It prevents gaps and overlaps.</p>
+                                    <p><strong>Why:</strong> Topological errors propagate into area totals and overlays.</p>
+                                    <p><strong>Common misconception:</strong> Tiny errors do not matter; they can create thousands of slivers in analysis.</p>
+                                </div>
+                            </details>
+                        </li>
+                        <li>
+                            <details>
+                                <summary>Why do digitized training labels affect classification results?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> The model learns whatever you label as truth.</p>
+                                    <p><strong>Why:</strong> Label bias and mixed pixels reduce separability and accuracy.</p>
+                                    <p><strong>Common misconception:</strong> More labels always helps; better labels and balance matters more.</p>
+                                </div>
+                            </details>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Try it (5 minutes)</h3>
+                    <ol>
+                        <li>Digitize one simple polygon and zoom in to inspect edges.</li>
+                        <li>List one place where you should avoid digitizing (ambiguous boundary).</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Lab (Two Tracks)</h3>
+                    <p>Both tracks produce the same deliverable: a small set of labeled polygons (3-5 classes) plus a short QA note.</p>
+                    <div class="scaffold-two-track">
+                        <div class="scaffold-track">
+                            <h4>Desktop GIS Track (ArcGIS Pro / QGIS)</h4>
+                            <p>Digitize training polygons on imagery, add class attribute, and run a topology/geometry check. Export GeoPackage/GeoJSON.</p>
+                        </div>
+                        <div class="scaffold-track">
+                            <h4>Remote Sensing Track (Google Earth Engine)</h4>
+                            <p>Create a FeatureCollection of training polygons (drawing tools) and export it. Write a QA note about class balance.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Common mistakes</h3>
+                    <ul>
+                        <li>Over-digitizing: too many vertices without adding accuracy.</li>
+                        <li>Labeling mixed pixels (boundaries) as pure classes.</li>
+                        <li>Forgetting to record class definitions (what counts as forest vs shrub?).</li>
+                    </ul>
+                    <p><strong>Further reading:</strong> https://www.ucgis.org/site/gis-t-body-of-knowledge</p>
+                </div>
+            </div>
+        </section>
+
+
         <div class="layout-grid">
             <div class="content">
                 <section class="card">
-                    <h2>🖋️ What is Digitizing?</h2>
+                    <h2>What is Digitizing?</h2>
                     <p>Digitizing is the process of converting geographic data from a scanned map or satellite image into a digital vector format (points, lines, and polygons). While modern AI can automate some of this, <strong>manual heads-up digitizing</strong> remains a core skill for GIS analysts where high precision is required.</p>
                     
                     <div class="callout" style="background: #fff1f2; border-left: 5px solid #f43f5e; color: #881337; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
@@ -150,7 +229,7 @@
                 </section>
 
                 <section class="digitizing-sandbox">
-                    <h3>🎯 The Snapping Challenge</h3>
+                    <h3>Interactive: The Snapping Challenge</h3>
                     <p>In vector GIS, features must connect perfectly. <strong>Snapping</strong> automatically pulls your cursor to existing nodes. Try to click exactly on the center node below. The dashed circle shows your <em>Snapping Tolerance</em>.</p>
                     
                     <div class="canvas-container" id="canvas">
@@ -163,8 +242,8 @@
                 </section>
 
                 <section class="card">
-                    <h2>📐 Common Digitizing Errors</h2>
-                    <p>Maintaining <strong>Topology</strong> (the rules of spatial relationships) is crucial. Watch out for these common mistakes:</p>
+                    <h2>Common Digitizing Errors</h2>
+                    <p>Maintaining <a href="#" class="term" data-tooltip="The rules governing the spatial relationships between features.">Topology</a> is crucial. Watch out for these common mistakes:</p>
                     <ul style="line-height: 2; margin-top: 1rem;">
                         <li><strong>Overshoots:</strong> Lines that extend past their intended junction.</li>
                         <li><strong>Undershoots:</strong> Lines that fail to reach their intended junction (gaps).</li>
@@ -172,13 +251,30 @@
                     </ul>
                 </section>
 
+                <div class="activity-decision">
+                    <span class="activity-icon">🏢</span>
+                    <h3>Regional Decision: Mapping the New Campus</h3>
+                    <p>
+                        Your university is building a new research wing. You have been handed a high-resolution drone image of the construction site. You need to digitize the new building's footprint.
+                    </p>
+                    <p><strong>The Dilemma:</strong> One corner of the building is partially obscured by a tree canopy. Do you:</p>
+                    <ul style="margin-top:1rem;">
+                        <li><strong>A)</strong> Guess the corner based on the visible roof lines?</li>
+                        <li><strong>B)</strong> Use the "Parallel" tool to infer the corner from the opposite wall?</li>
+                        <li><strong>C)</strong> Wait for the winter "leaf-off" imagery to be collected?</li>
+                    </ul>
+                    <div class="callout success" style="margin-top:1rem;">
+                        <strong>Expert Insight:</strong> Most professionals choose <strong>Option B</strong>. Using geometric constraints (orthogonality) is more accurate than guessing, and project deadlines rarely allow for waiting for a new sensor pass.
+                    </div>
+                </div>
+
                 <section class="card">
                     <h2>Summary of Big Ideas</h2>
                     <ul style="line-height: 1.8;">
-                        <li><strong>Heads-up digitizing</strong> is the standard method for manually creating vector data.</li>
-                        <li><strong>Snapping</strong> is the critical tool for ensuring topology and connectivity.</li>
-                        <li><strong>Attribute entry</strong> happens alongside digitizing (e.g., naming the road you just traced).</li>
-                        <li><strong>Clean data</strong> is the foundation of all valid spatial analysis.</li>
+                        <li><strong>Heads-up digitizing</strong> is the standard method for manually creating vector data directly over an image.</li>
+                        <li><strong>Snapping</strong> is the critical tool for ensuring topology and geometric connectivity.</li>
+                        <li><strong>Attribute entry</strong> happens alongside digitizing, ensuring the data is "rich" from the moment of creation.</li>
+                        <li><strong>Clean data</strong> is the foundation of all valid spatial analysis—errors here propagate through the entire workflow.</li>
                     </ul>
                 </section>
 
@@ -196,43 +292,92 @@
                     </div>
                 </div>
 
-                <section class="card" style="margin-top: 3rem;">
-                    <h2>📚 Glossary</h2>
-                    <dl>
-                        <dt><strong>Nodes:</strong></dt>
-                        <dd>The start and end points of a line feature.</dd>
-                        
-                        <dt><strong>Vertices:</strong></dt>
-                        <dd>The intermediate points that define the shape of a line or polygon.</dd>
-                        
-                        <dt><strong>Tolerance:</strong></dt>
-                        <dd>The distance within which the cursor will "snap" to a nearby feature.</dd>
-                    </dl>
-                </section>
+                <div class="section-glossary">
+                    <h2>Chapter Glossary</h2>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">Nodes:</span>
+                            <span class="glossary-def">The start and end points of a line feature; essential for topology.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Vertices:</span>
+                            <span class="glossary-def">The intermediate points that define the turns and shape of a line or polygon.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Snapping Tolerance:</span>
+                            <span class="glossary-def">The "gravity" radius within which the cursor will automatically connect to a nearby feature.</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <aside class="sidebar">
-                <div class="sidebar-box bio">
-                    <h3>Important Person</h3>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/John_Snow.jpg/220px-John_Snow.jpg" alt="John Snow" class="bio-img">
-                    <p><strong>John Snow (1813–1858)</strong></p>
-                    <p>Though he worked long before digital GIS, Dr. John Snow is a hero of spatial precision. During the 1854 cholera outbreak in London, he precisely mapped the location of every death (points). This "manual digitizing" proved that the deaths were clustered around a specific water pump—saving thousands of lives.</p>
+                <div class="box-bio">
+                    <img src="../assets/img/people/michael_goodchild.png" alt="Michael Goodchild">
+                    <div>
+                        <h3>Dr. Michael Goodchild</h3>
+                        <span class="bio-dates">(1944–Present)</span>
+                        <p>A Distinguished Professor Emeritus at <a href="https://www.geog.ucsb.edu/people/faculty/michael-goodchild" target="_blank" style="color:var(--primary);text-decoration:none;">UC Santa Barbara</a>, Goodchild is a giant in GIScience. He coined the term <strong>"Volunteered Geographic Information" (VGI)</strong>, but his earlier work on the accuracy of spatial databases and error modeling is fundamental to understanding why precise digitizing matters.</p>
+                    </div>
                 </div>
 
-                <div class="sidebar-box local">
-                    <h3>Local to Global</h3>
-                    <p><strong>The Permian Basin Lease Map</strong></p>
-                    <p>In West Texas, precision digitizing is a high-stakes game. Oil and gas companies must digitize lease boundaries with centimeter accuracy. An error of just a few inches could mean millions of dollars in royalty disputes if a well is drilled on the wrong side of a "digitized" line.</p>
-                    <p>Globally, precise digitizing is the backbone of Cadastral (land registry) systems that underpin the world economy.</p>
+                <div class="sidebar-local-global">
+                    <h3>🇨🇱 Texas Connection</h3>
+                    <p><strong>Texas 9-1-1 Addressing</strong></p>
+                    <p>In rural Texas, emergency responders rely on precise point data to find homes that may not be visible from the road. The <strong>Commission on State Emergency Communications (CSEC)</strong> works with local Councils of Government to manually digitize thousands of new address points every year.</p>
+                    <p>This "heads-up digitizing" of driveways and structures literally saves lives by ensuring ambulances go to the right location.</p>
                 </div>
             </aside>
         </div>
 
         <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
-          <a href="chapter-05-georeferencing.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 05: Georeferencing</a>
-          <a href="chapter-07-database-management.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 07: Databases &rarr;</a>
+            <a href="chapter-05-georeferencing.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 05</a>
+            <a href="chapter-07-database-management.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Database Management →</a>
         </div>
-    </main>
+    
+
+        
+
+        
+
+        <section class="card bok-alignment" aria-label="Body of Knowledge alignment">
+            <h2>BoK Alignment</h2>
+            <p>
+                Topics in the UCGIS GIS&amp;T Body of Knowledge that support this chapter.
+            </p>
+            <ul class="bok-topic-list">
+                        <li class="bok-topic">
+            <span class="bok-code">DM-02-014</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10630" target="_blank" rel="noopener noreferrer">Classic vector data models</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">CV-02-003</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10532" target="_blank" rel="noopener noreferrer">Vector Formats and Sources</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DC-04-014</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10605" target="_blank" rel="noopener noreferrer">Feature Extraction from Satellite Imagery</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DC-01-025</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10611" target="_blank" rel="noopener noreferrer">Changes in Geospatial Data Capture Over Time: Part 1, Technological Developments</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DM-06-086</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10661" target="_blank" rel="noopener noreferrer">Vector-to-Raster and Raster-to-Vector Conversions</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DC-06-009</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10602" target="_blank" rel="noopener noreferrer">Field Data Capture Technologies</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">BoK</span>
+            <a href="https://gistbok-ltb.ucgis.org/" target="_blank" rel="noopener noreferrer">UCGIS GIS&T Body of Knowledge (Living Textbook)</a>
+        </li>
+            </ul>
+        </section>
+
+</main>
 
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">

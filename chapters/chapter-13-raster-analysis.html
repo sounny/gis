@@ -143,6 +143,98 @@
             <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
         </nav>
 
+
+        <section class="card learning-scaffold" aria-label="Learning scaffold">
+            <div class="scaffold-head">
+                <h2>At a Glance</h2>
+                <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapters 01, 10</span>
+                    <span class="scaffold-chip"><strong>Time:</strong> 30 min read + 35 min practice</span>
+                    <span class="scaffold-chip"><strong>Deliverable:</strong> Raster workflow result map</span>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Learning outcomes</h3>
+                    <ul>
+                        <li>Apply basic map algebra operations to rasters.</li>
+                        <li>Explain how NoData and alignment affect results.</li>
+                        <li>Build a small raster workflow tied to an RS product (index, DEM).</li>
+                    </ul>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Key terms</h3>
+                    <p>map algebra, NoData, resampling, alignment, focal/zonal operations</p>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Stop &amp; check</h3>
+                    <ol class="scaffold-qa">
+                        <li>
+                            <details>
+                                <summary>Why do two rasters need matching alignment and cell size for map algebra?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> So each cell-to-cell operation compares the correct locations.</p>
+                                    <p><strong>Why:</strong> Misalignment mixes different ground locations and creates artifacts.</p>
+                                    <p><strong>Common misconception:</strong> Reprojection alone guarantees alignment; you often need a snap raster.</p>
+                                </div>
+                            </details>
+                        </li>
+                        <li>
+                            <details>
+                                <summary>What does NoData usually do in calculations?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> It propagates (many operations output NoData).</p>
+                                    <p><strong>Why:</strong> Undefined inputs lead to undefined results unless handled explicitly.</p>
+                                    <p><strong>Common misconception:</strong> NoData equals zero; it means missing/invalid.</p>
+                                </div>
+                            </details>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Try it (5 minutes)</h3>
+                    <ol>
+                        <li>Predict what happens if you add two rasters with different resolutions.</li>
+                        <li>Write one sentence: what choice does the software have to make?</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Lab (Two Tracks)</h3>
+                    <p>Both tracks produce the same deliverable: one raster analysis output plus a 6-sentence methods note.</p>
+                    <div class="scaffold-two-track">
+                        <div class="scaffold-track">
+                            <h4>Desktop GIS Track (ArcGIS Pro / QGIS)</h4>
+                            <p>Run a reclass or focal statistic on an index/DEM and produce a map with a legend.</p>
+                        </div>
+                        <div class="scaffold-track">
+                            <h4>Remote Sensing Track (Google Earth Engine)</h4>
+                            <p>Compute an index (e.g., NDVI) and apply a threshold or neighborhood operation. Export a figure.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Common mistakes</h3>
+                    <ul>
+                        <li>Mixing meters and degrees in distance-based rasters.</li>
+                        <li>Ignoring NoData masks and interpreting gaps as low values.</li>
+                        <li>Comparing rasters from different dates without stating it.</li>
+                    </ul>
+                    <p><strong>Further reading:</strong> https://gistbok-ltb.ucgis.org/</p>
+                </div>
+            </div>
+        </section>
+
+
         <div class="layout-grid">
             <div class="content">
                 <section class="card">
@@ -210,34 +302,39 @@
                     </div>
                 </div>
 
-                <section class="card" style="margin-top: 3rem;">
-                    <h2>📚 Glossary</h2>
-                    <dl>
-                        <dt><strong>Map Algebra:</strong></dt>
-                        <dd>A mathematical language for raster analysis where layers are treated as numbers.</dd>
-                        
-                        <dt><strong>Neighborhood:</strong></dt>
-                        <dd>The set of cells surrounding a focal cell (often a 3x3 or 5x5 moving window).</dd>
-                        
-                        <dt><strong>Mask:</strong></dt>
-                        <dd>A raster layer used to define areas of interest (AOI) where analysis should be performed.</dd>
-                    </dl>
-                </section>
+                <div class="section-glossary">
+                    <h2>📚 Chapter Glossary</h2>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">Map Algebra</span>
+                            <span class="glossary-def">A language that defines a set of operations for manipulating raster data to produce new raster data (e.g., Output = LayerA + LayerB).</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Focal Operation</span>
+                            <span class="glossary-def">An operation that calculates a value for each cell based on the values of its neighboring cells (e.g., Smoothing, Slope).</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Zonal Operation</span>
+                            <span class="glossary-def">An operation that computes a single value for every cell within a defined zone or region (e.g., Average Elevation per County).</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <aside class="sidebar">
-                <div class="sidebar-box bio">
-                    <h3>Important Person</h3>
-                    <img src="https://almanac.upenn.edu/uploads/images/tomlin-c-dana.jpg" alt="Dana Tomlin" class="bio-img">
-                    <p><strong>C. Dana Tomlin</strong></p>
-                    <p>A Professor at the University of Pennsylvania and Yale, Dana Tomlin is the pioneer who developed **Map Algebra**. In the 1980s, he created the GIS software "MAP" which introduced the local, focal, zonal, and global operations that are now standard in every GIS system on the planet.</p>
+                <div class="box-bio">
+                    <img src="../assets/img/people/dana_tomlin.png" alt="Dana Tomlin">
+                    <div>
+                        <h3>C. Dana Tomlin</h3>
+                        <p>A Professor at the University of Pennsylvania and Yale, Dana Tomlin is the pioneer who developed <strong>Map Algebra</strong>. In the 1980s, his dissertation (and later book) created the vocabulary of "Local, Focal, Zonal, and Global" functions that defines how we process raster data today.</p>
+                    </div>
                 </div>
 
-                <div class="sidebar-box local">
-                    <h3>Local to Global</h3>
-                    <p><strong>Flood Analysis in Houston</strong></p>
-                    <p>In the wake of Hurricane Harvey, Houston engineers used raster analysis to model how water flows across the city. By performing **Focal Flow Direction** and **Zonal Accumulation** on high-resolution LiDAR data, they can identify the exact "Cost Paths" where water will collect in neighborhoods along Buffalo Bayou.</p>
-                    <p>This "math on maps" is the foundation for the billion-dollar flood mitigation projects protecting the Texas coast.</p>
+                <div class="sidebar-local-global">
+                    <h3>🇨🇱 Texas Connection</h3>
+                    <p><strong>Storm Surge Modeling (SLOSH)</strong></p>
+                    <p>The National Hurricane Center runs the <strong>SLOSH</strong> model (Sea, Lake, and Overland Surges from Hurricanes) to predict flooding on the Texas coast. This is a complex raster simulation that uses "Focal" operations to model how water pushes across the terrain cells based on wind speed and pressure.</p>
+                    <p>Emergency managers use these raster outputs to determine which evacuation zones to activate.</p>
                 </div>
             </aside>
         </div>
@@ -246,7 +343,50 @@
           <a href="chapter-12-lidar.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 12: LiDAR</a>
           <a href="chapter-14-vector-analysis.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 14: Vector Analysis &rarr;</a>
         </div>
-    </main>
+    
+
+        
+
+        
+
+        <section class="card bok-alignment" aria-label="Body of Knowledge alignment">
+            <h2>BoK Alignment</h2>
+            <p>
+                Topics in the UCGIS GIS&amp;T Body of Knowledge that support this chapter.
+            </p>
+            <ul class="bok-topic-list">
+                        <li class="bok-topic">
+            <span class="bok-code">DM-02-007</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10625" target="_blank" rel="noopener noreferrer">The Raster Data Model</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DM-06-087</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10662" target="_blank" rel="noopener noreferrer">Raster resampling</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">AM-02-006</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10457" target="_blank" rel="noopener noreferrer">Grid Operations and Map Algebra</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">FC-05-042</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10696" target="_blank" rel="noopener noreferrer">Distance Operations</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">AM-04-055</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10839" target="_blank" rel="noopener noreferrer">Digital Terrain Models and Terrain Metrics</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">AM-04-064</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10833" target="_blank" rel="noopener noreferrer">Modeling Surfaces</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">BoK</span>
+            <a href="https://gistbok-ltb.ucgis.org/" target="_blank" rel="noopener noreferrer">UCGIS GIS&T Body of Knowledge (Living Textbook)</a>
+        </li>
+            </ul>
+        </section>
+
+</main>
 
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">

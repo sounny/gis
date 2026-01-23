@@ -135,10 +135,102 @@
             <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
         </nav>
 
+
+        <section class="card learning-scaffold" aria-label="Learning scaffold">
+            <div class="scaffold-head">
+                <h2>At a Glance</h2>
+                <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapters 13-14</span>
+                    <span class="scaffold-chip"><strong>Time:</strong> 30 min read + 40 min build</span>
+                    <span class="scaffold-chip"><strong>Deliverable:</strong> Model workflow diagram</span>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Learning outcomes</h3>
+                    <ul>
+                        <li>Explain what a spatial model is (workflow + assumptions).</li>
+                        <li>Identify inputs, parameters, and outputs for a modeling task.</li>
+                        <li>Document a model so someone else can reproduce it.</li>
+                    </ul>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Key terms</h3>
+                    <p>workflow, parameters, reproducibility, suitability model, validation</p>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Stop &amp; check</h3>
+                    <ol class="scaffold-qa">
+                        <li>
+                            <details>
+                                <summary>Why should model parameters be documented?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> Because they control outputs and enable reproducibility.</p>
+                                    <p><strong>Why:</strong> A model without parameters is not interpretable or repeatable.</p>
+                                    <p><strong>Common misconception:</strong> The software remembers; your reader or future self does not.</p>
+                                </div>
+                            </details>
+                        </li>
+                        <li>
+                            <details>
+                                <summary>What is one way to validate a model output?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> Compare to independent data or holdout samples.</p>
+                                    <p><strong>Why:</strong> Validation checks whether the model predicts known conditions.</p>
+                                    <p><strong>Common misconception:</strong> A nice-looking map implies correctness.</p>
+                                </div>
+                            </details>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Try it (5 minutes)</h3>
+                    <ol>
+                        <li>Write the 3 inputs you would use for a suitability model (any topic).</li>
+                        <li>Write one parameter choice you must justify (threshold, weights, distance).</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Lab (Two Tracks)</h3>
+                    <p>Both tracks produce the same deliverable: a workflow diagram plus a 1-page methods explanation.</p>
+                    <div class="scaffold-two-track">
+                        <div class="scaffold-track">
+                            <h4>Desktop GIS Track (ArcGIS Pro / QGIS)</h4>
+                            <p>Build a simple ModelBuilder/processing model and export the diagram. Include parameter values.</p>
+                        </div>
+                        <div class="scaffold-track">
+                            <h4>Remote Sensing Track (Google Earth Engine)</h4>
+                            <p>Write a small scripted workflow (filter, composite, index, threshold). Document parameters and export a figure.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Common mistakes</h3>
+                    <ul>
+                        <li>Hardcoding paths/dates so the model cannot be reused.</li>
+                        <li>Using weights without justification or sensitivity checks.</li>
+                        <li>Skipping validation entirely.</li>
+                    </ul>
+                    <p><strong>Further reading:</strong> https://gistbok-ltb.ucgis.org/</p>
+                </div>
+            </div>
+        </section>
+
+
         <div class="layout-grid">
             <div class="content">
                 <section class="card">
-                    <h2>🏗️ What is a Spatial Model?</h2>
+                    <h2> - ️ What is a Spatial Model?</h2>
                     <p>In GIS, a model is a simplified representation of a real-world process. <strong>Spatial Modeling</strong> involves chaining geoprocessing tools (like Buffering, Intersecting, and Reclassifying) to automate workflows and perform complex analyses.</p>
                     
                     <div class="callout" style="background: #f5f3ff; border-left: 5px solid #8b5cf6; color: #4c1d95; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
@@ -186,33 +278,40 @@
                     </div>
                 </div>
 
-                <section class="card" style="margin-top: 3rem;">
-                    <h2>📚 Glossary</h2>
-                    <dl>
-                        <dt><strong>Geoprocessing:</strong></dt>
-                        <dd>The operation of manipulating spatial data to create new information.</dd>
-                        
-                        <dt><strong>ArcPy:</strong></dt>
-                        <dd>A Python site package used to perform geographic data analysis and automation.</dd>
-                        
-                        <dt><strong>Parameter:</strong></dt>
-                        <dd>An input value (like a distance or file path) that can be changed by the user when running a model.</dd>
-                    </dl>
-                </section>
+                <div class="section-glossary">
+                    <h2>📚 Chapter Glossary</h2>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">Geoprocessing</span>
+                            <span class="glossary-def">A GIS operation used to manipulate spatial data. A typical geoprocessing operation takes an input dataset, performs an operation on that dataset, and returns the result as an output dataset.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">ModelBuilder</span>
+                            <span class="glossary-def">A visual programming language for building geoprocessing workflows.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Parameter</span>
+                            <span class="glossary-def">A variable in a model (like "Buffer Distance") that allows the user to input different values each time the model is run.</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <aside class="sidebar">
-                <div class="sidebar-box bio">
-                    <h3>Important Person</h3>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Jack_Dangermond.jpg/220px-Jack_Dangermond.jpg" alt="Jack Dangermond" class="bio-img">
-                    <p><strong>Dr. Jack Dangermond</strong></p>
-                    <p>The founder and president of Esri (Environmental Systems Research Institute). Dangermond pioneered the commercial GIS industry and led the development of tools like **ModelBuilder**, which democratized spatial modeling by allowing non-programmers to create complex automated workflows.</p>
+                <div class="box-bio">
+                    <img src="../assets/img/people/jack_dangermond.png" alt="Jack Dangermond">
+                    <div>
+                        <h3>Dr. Jack Dangermond</h3>
+                        <p>The founder and president of Esri (Environmental Systems Research Institute). Dangermond pioneered the commercial GIS industry and led the development of tools like <strong>ModelBuilder</strong>, which democratized spatial modeling by allowing non-programmers to create complex automated workflows. <a href="https://www.esri.com/about/newsroom/author/jack-dangermond" target="_blank" style="color:var(--primary);text-decoration:none;">Read his latest articles.</a></p>
+                    </div>
                 </div>
 
-                <div class="sidebar-box local">
-                    <h3>Local to Global</h3>
-                    <p><strong>Modeling Coastal Erosion on Padre Island</strong></p>
-                    <p>University researchers in Texas use spatial models to simulate how hurricanes will reshape Padre Island over the next 50 years. By chaining tools that calculate sediment transport, beach slope, and storm surge levels, they can model thousands of "What If?" scenarios to help prepare coastal communities for a changing climate.</p>
+                <div class="sidebar-local-global">
+                    <h3>🇨🇱 Texas Connection</h3>
+                    <p><strong>Modeling Texas Wildfires</strong></p>
+                    <p>The <strong>Texas A&M Forest Service</strong> runs one of the most advanced spatial models in the country: the Texas Wildfire Risk Assessment Portal (TxWRAP). By chaining rasters for fuel load, slope, and weather conditions, the model predicts fire behavior in real-time.</p>
+                    <p>This automated workflow runs daily, providing a "Fire Danger" index that local counties use to issue burn bans.</p>
+                    <a href="https://texaswildfirerisk.com/" target="_blank" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem; width:100%; text-align:center;">View TxWRAP</a>
                 </div>
             </aside>
         </div>
@@ -221,7 +320,50 @@
           <a href="chapter-14-vector-analysis.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 14: Vector Analysis</a>
           <a href="chapter-16-mobile-gis.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 16: Mobile GIS &rarr;</a>
         </div>
-    </main>
+    
+
+        
+
+        
+
+        <section class="card bok-alignment" aria-label="Body of Knowledge alignment">
+            <h2>BoK Alignment</h2>
+            <p>
+                Topics in the UCGIS GIS&amp;T Body of Knowledge that support this chapter.
+            </p>
+            <ul class="bok-topic-list">
+                        <li class="bok-topic">
+            <span class="bok-code">AM-01-020</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10469" target="_blank" rel="noopener noreferrer">Geospatial Analysis and Model Building</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">GS-02-025</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10721" target="_blank" rel="noopener noreferrer">Spatial Decision Support</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">PD-02-025</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10817" target="_blank" rel="noopener noreferrer">Verification & Validation of Applied GIS Research</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">AM-09-107</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10464" target="_blank" rel="noopener noreferrer">Spatial Data Uncertainty</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">AM-09-106</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10463" target="_blank" rel="noopener noreferrer">Error-based Uncertainty</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">AM-03-019</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10468" target="_blank" rel="noopener noreferrer">Exploratory Spatial Data Analysis (ESDA)</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">BoK</span>
+            <a href="https://gistbok-ltb.ucgis.org/" target="_blank" rel="noopener noreferrer">UCGIS GIS&T Body of Knowledge (Living Textbook)</a>
+        </li>
+            </ul>
+        </section>
+
+</main>
 
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">

@@ -121,6 +121,98 @@
             <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
         </nav>
 
+
+        <section class="card learning-scaffold" aria-label="Learning scaffold">
+            <div class="scaffold-head">
+                <h2>At a Glance</h2>
+                <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapters 04, 06</span>
+                    <span class="scaffold-chip"><strong>Time:</strong> 25 min read + 30 min practice</span>
+                    <span class="scaffold-chip"><strong>Deliverable:</strong> Field form + QA checklist</span>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Learning outcomes</h3>
+                    <ul>
+                        <li>Design a mobile data collection form that reduces errors.</li>
+                        <li>Explain how location accuracy and metadata affect analysis.</li>
+                        <li>Connect field data to remote sensing validation workflows.</li>
+                    </ul>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Key terms</h3>
+                    <p>offline, domains, validation rules, positional accuracy, privacy, metadata</p>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Stop &amp; check</h3>
+                    <ol class="scaffold-qa">
+                        <li>
+                            <details>
+                                <summary>Why use domains (restricted value lists) in a field form?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> To prevent typos and enforce consistency.</p>
+                                    <p><strong>Why:</strong> Consistent categories enable reliable summaries and training labels.</p>
+                                    <p><strong>Common misconception:</strong> Free text is more flexible; it often breaks analysis later.</p>
+                                </div>
+                            </details>
+                        </li>
+                        <li>
+                            <details>
+                                <summary>What metadata is critical for a field photo point?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> Date/time, accuracy estimate, and a clear class/label.</p>
+                                    <p><strong>Why:</strong> Validation requires knowing when/where and what the observation represents.</p>
+                                    <p><strong>Common misconception:</strong> A photo alone is enough; without metadata it is hard to trust and reuse.</p>
+                                </div>
+                            </details>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Try it (5 minutes)</h3>
+                    <ol>
+                        <li>Write 5 fields you would collect for a land cover validation point.</li>
+                        <li>Mark which fields should be required.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Lab (Two Tracks)</h3>
+                    <p>Both tracks produce the same deliverable: a form schema and a one-page QA plan for field collection.</p>
+                    <div class="scaffold-two-track">
+                        <div class="scaffold-track">
+                            <h4>Desktop GIS Track (ArcGIS Pro / QGIS)</h4>
+                            <p>Create a feature layer schema (fields + domains) and draft collection instructions for a team.</p>
+                        </div>
+                        <div class="scaffold-track">
+                            <h4>Remote Sensing Track (Google Earth Engine)</h4>
+                            <p>Design a validation sampling plan (how many points, where, what classes) that your field form would support.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Common mistakes</h3>
+                    <ul>
+                        <li>Not recording accuracy or confidence in the observation.</li>
+                        <li>Collecting points without privacy/safety considerations.</li>
+                        <li>Inconsistent class definitions across collectors.</li>
+                    </ul>
+                    <p><strong>Further reading:</strong> https://www.ucgis.org/site/gis-t-body-of-knowledge</p>
+                </div>
+            </div>
+        </section>
+
+
         <div class="layout-grid">
             <div class="content">
                 <section class="card">
@@ -178,34 +270,39 @@
                     </div>
                 </div>
 
-                <section class="card" style="margin-top: 3rem;">
-                    <h2>📚 Glossary</h2>
-                    <dl>
-                        <dt><strong>GNSS:</strong></dt>
-                        <dd>Global Navigation Satellite System—the general term for satellite-based location services like GPS.</dd>
-                        
-                        <dt><strong>Feature Service:</strong></dt>
-                        <dd>A web-hosted data layer that allows for multi-user editing in the field.</dd>
-                        
-                        <dt><strong>Telemetry:</strong></dt>
-                        <dd>The automatic measurement and transmission of data from remote sources (e.g., water sensors).</dd>
-                    </dl>
-                </section>
+                <div class="section-glossary">
+                    <h2>📚 Chapter Glossary</h2>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">Location-Based Services (LBS)</span>
+                            <span class="glossary-def">Software applications that use location data to control features (e.g., finding the nearest gas station).</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Feature Service</span>
+                            <span class="glossary-def">A data service that allows vector features to be queried, visualized, and edited over the web.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Offline Mode</span>
+                            <span class="glossary-def">A capability of mobile GIS apps to download map packages to the device storage, allowing data collection in areas with no cellular connectivity.</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <aside class="sidebar">
-                <div class="sidebar-box bio">
-                    <h3>Important Person</h3>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Monica_Turner.jpg/220px-Monica_Turner.jpg" alt="Monica Turner" class="bio-img">
-                    <p><strong>Dr. Monica Turner</strong></p>
-                    <p>A Vilas Research Professor at the University of Wisconsin-Madison, Dr. Turner is a pioneer in landscape ecology. Her long-term studies of the recovery of Yellowstone National Park after the 1988 fires were among the first to integrate field data collection with advanced GIS modeling, proving how important "real-time" observation is for understanding environmental change.</p>
+                <div class="box-bio">
+                    <img src="../assets/img/people/muki_haklay.png" alt="Muki Haklay">
+                    <div>
+                        <h3>Dr. Muki Haklay</h3>
+                        <p>A Professor of Geographic Information Science at UCL, Haklay is a pioneer in <strong>Citizen Science</strong> and Human-Computer Interaction (HCI) for GIS. His research focuses on how to design mobile interfaces that make it easy for non-experts to collect high-quality spatial data in the field.</p>
+                    </div>
                 </div>
 
-                <div class="sidebar-box local">
-                    <h3>Local to Global</h3>
-                    <p><strong>Austin's FloodPro Dashboard</strong></p>
-                    <p>In Austin, flooding happens fast. The City uses a mobile-ready GIS dashboard called <strong>FloodPro</strong>. During a storm, residents can use their phones to see real-time water levels from hundreds of creek sensors across the city. This data is synced instantly, allowing emergency responders to close low-water crossings before casualties occur.</p>
-                    <p>Your smartphone becomes a life-saving tool during an Austin flash flood.</p>
+                <div class="sidebar-local-global">
+                    <h3>🇨🇱 Texas Connection</h3>
+                    <p><strong>Field Maps in the Oil Patch</strong></p>
+                    <p>In the Permian Basin, the "clipboard" is dead. Pipeline inspectors now use <strong>ArcGIS Field Maps</strong> on ruggedized iPads to document leaks, maintenance needs, and asset conditions.</p>
+                    <p>This "Digital Twin" approach allows a manager in Houston to see the health of a pipeline in West Texas the instant the inspection is complete, drastically reducing reaction times for environmental safety.</p>
                 </div>
             </aside>
         </div>
@@ -214,7 +311,46 @@
           <a href="chapter-15-spatial-modeling.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 15: Spatial Modeling</a>
           <a href="chapter-17-storytelling.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 17: Storytelling &rarr;</a>
         </div>
-    </main>
+    
+
+        
+
+        
+
+        <section class="card bok-alignment" aria-label="Body of Knowledge alignment">
+            <h2>BoK Alignment</h2>
+            <p>
+                Topics in the UCGIS GIS&amp;T Body of Knowledge that support this chapter.
+            </p>
+            <ul class="bok-topic-list">
+                        <li class="bok-topic">
+            <span class="bok-code">CP-01-015</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10503" target="_blank" rel="noopener noreferrer">Mobile Devices</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DC-02-005</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10786" target="_blank" rel="noopener noreferrer">Mobile Applications and Technologies</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">CV-05-040</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10566" target="_blank" rel="noopener noreferrer">Mobile Maps and Responsive Design</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DC-06-009</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10602" target="_blank" rel="noopener noreferrer">Field Data Capture Technologies</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">GS-01-004</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10708" target="_blank" rel="noopener noreferrer">Location Privacy</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">BoK</span>
+            <a href="https://gistbok-ltb.ucgis.org/" target="_blank" rel="noopener noreferrer">UCGIS GIS&T Body of Knowledge (Living Textbook)</a>
+        </li>
+            </ul>
+        </section>
+
+</main>
 
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">

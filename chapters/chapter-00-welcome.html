@@ -255,124 +255,263 @@
         <a href="../index.html" style="color: var(--accent)">← Back to Textbook</a>
       </nav>
 
-      <section class="card">
-        <h2>What is GIS?</h2>
-        <p>Before we dive into the technical details, let's explore the fundamental question: What exactly is GIS? Is it just a tool for making maps, a rigorous science, or something more?</p>
-        <div class="video-container">
-          <iframe 
-            src="https://www.youtube.com/embed/XF9t-oQ1r0I" 
-            title="What is GIS? - The Tool, Science, and Art" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen>
-          </iframe>
-        </div>
-      </section>
-
-      <section class="card">
-        <h2>The GIS Learning Journey</h2>
-        <p>This textbook is designed as a progressive journey across six parts. Each module builds upon the previous one.</p>
-        
-        <div class="course-map">
-          <div class="course-map-item map-part-i">
-            <div class="map-step">I</div>
-            <div class="map-content">
-              <h4>Foundations</h4>
-              <p>Spatial thinking, map design, geodesy, and GNSS.</p>
-            </div>
-          </div>
-          <div class="course-map-item map-part-ii">
-            <div class="map-step">II</div>
-            <div class="map-content">
-              <h4>Data Creation</h4>
-              <p>Georeferencing, digitizing, and database management.</p>
-            </div>
-          </div>
-          <div class="course-map-item map-part-iii">
-            <div class="map-step">III</div>
-            <div class="map-content">
-              <h4>Remote Sensing</h4>
-              <p>Spectral analysis, imagery foundations, and LiDAR.</p>
-            </div>
-          </div>
-          <div class="course-map-item map-part-iv">
-            <div class="map-step">IV</div>
-            <div class="map-content">
-              <h4>Spatial Analysis</h4>
-              <p>Raster/Vector operations and complex spatial modeling.</p>
-            </div>
-          </div>
-          <div class="course-map-item map-part-v">
-            <div class="map-step">V</div>
-            <div class="map-content">
-              <h4>Applied GIS</h4>
-              <p>Field data collection, storytelling, and ethical AI.</p>
-            </div>
-          </div>
-          <div class="course-map-item map-part-vi">
-            <div class="map-step">VI</div>
-            <div class="map-content">
-              <h4>Research</h4>
-              <p>Advanced project management and research lifecycles.</p>
-            </div>
+      <section class="card learning-scaffold" aria-label="Learning scaffold">
+        <div class="scaffold-head">
+          <h2>At a Glance</h2>
+          <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
+            <span class="scaffold-chip"><strong>Prereqs:</strong> None</span>
+            <span class="scaffold-chip"><strong>Time:</strong> 20 min read + 10 min check</span>
+            <span class="scaffold-chip"><strong>Deliverable:</strong> Setup checklist</span>
           </div>
         </div>
-      </section>
 
-      <section class="card">
-        <h2>Spatial Thinking Pre-Check</h2>
-        <p>Test your natural spatial intuition before we begin.</p>
-        
-        <div id="quiz-container" style="background: #f8fafc; padding: 2rem; border-radius: 12px; margin-top: 1rem;">
-          <div id="quiz-question">
-            <strong>Question:</strong> Which of these is a better example of "Vector" data?
+        <div class="scaffold-grid">
+          <div class="scaffold-card">
+            <h3>Learning outcomes</h3>
+            <ul>
+              <li>Explain what GIS is (tool, science, and workflow) and how this book uses remote sensing as the primary lens.</li>
+              <li>Distinguish raster and vector data with one concrete example of each.</li>
+              <li>Set up your workflow (software, accounts, folders) so you can complete labs reliably.</li>
+            </ul>
           </div>
-          <div id="quiz-options" style="margin: 1rem 0;">
-            <button class="btn-quiz" onclick="checkAnswer(true)">A city boundary polygon</button>
-            <button class="btn-quiz" onclick="checkAnswer(false)">A satellite photo of the city</button>
+
+          <div class="scaffold-card">
+            <h3>Key terms</h3>
+            <p>GIS, layer, raster, vector, coordinate reference system (CRS), remote sensing, area of interest (AOI)</p>
           </div>
-          <div id="quiz-feedback" style="display: none; padding: 1rem; border-radius: 8px; font-weight: 600;"></div>
         </div>
-      </section>
 
-      <section class="card">
-        <h2>Learning Objectives</h2>
-        <div class="objectives-grid">
-          <div class="objective-card">
-            <div class="objective-icon">🛰️</div>
-            <h3>Master Remote Sensing</h3>
-            <p>Analyze satellite imagery to monitor environmental changes.</p>
+        <div class="scaffold-grid">
+          <div class="scaffold-card">
+            <h3>Stop &amp; check</h3>
+            <ol class="scaffold-qa">
+              <li>
+                <details>
+                  <summary>You want to map flood extent from satellite imagery. Raster or vector is the starting data?</summary>
+                  <div>
+                    <p><strong>Answer:</strong> Raster.</p>
+                    <p><strong>Why:</strong> Satellite images are grids of pixels (values per cell).</p>
+                    <p><strong>Common misconception:</strong> "Maps" are always vectors; imagery is usually raster first, vectors often come later (outlines, samples, labels).</p>
+                  </div>
+                </details>
+              </li>
+              <li>
+                <details>
+                  <summary>What is the difference between a map and a GIS analysis?</summary>
+                  <div>
+                    <p><strong>Answer:</strong> A map is a communication product; GIS analysis is the process that creates new information from spatial data.</p>
+                    <p><strong>Why:</strong> GIS is not only visualization; it includes measurement, modeling, and decision support.</p>
+                    <p><strong>Common misconception:</strong> GIS equals cartography; cartography is one part of GIS.</p>
+                  </div>
+                </details>
+              </li>
+            </ol>
           </div>
-          <div class="objective-card">
-            <div class="objective-icon">📊</div>
-            <h3>Spatial Analysis</h3>
-            <p>Use buffering, overlay, and interpolation for problem solving.</p>
+
+          <div class="scaffold-card">
+            <h3>Try it (5 minutes)</h3>
+            <ol>
+              <li>Open Chapter 01 and identify one vector example and one raster example from the page.</li>
+              <li>Write one sentence: what kind of question is easier with raster? what kind is easier with vector?</li>
+            </ol>
           </div>
-          <div class="objective-card">
-            <div class="objective-icon">🎨</div>
-            <h3>Cartographic Design</h3>
-            <p>Create professional maps that communicate clearly.</p>
+        </div>
+
+        <div class="scaffold-grid">
+          <div class="scaffold-card">
+            <h3>Lab (Two Tracks)</h3>
+            <p>Complete one track. Both tracks produce the same deliverable: a one-page setup checklist you can reuse all semester.</p>
+            <div class="scaffold-two-track">
+              <div class="scaffold-track">
+                <h4>Desktop GIS Track (ArcGIS Pro / QGIS)</h4>
+                <p>Confirm install, create a project folder, and open a basemap. Capture one screenshot and note your CRS display setting.</p>
+              </div>
+              <div class="scaffold-track">
+                <h4>Remote Sensing Track (Google Earth Engine)</h4>
+                <p>Confirm account access, open the Code Editor, and load any public image layer. Capture one screenshot and note your AOI.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="scaffold-card">
+            <h3>Common mistakes</h3>
+            <ul>
+              <li>Skipping setup: labs fail later because accounts and folders are not ready.</li>
+              <li>Not recording metadata: you forget CRS, dates, or data sources when writing results.</li>
+              <li>Relying on a single device: keep a consistent folder structure and backups.</li>
+            </ul>
+            <p><strong>Further reading:</strong> https://www.ucgis.org/site/gis-t-body-of-knowledge</p>
           </div>
         </div>
       </section>
 
-      <section class="card">
-        <h2>Software Toolkit</h2>
-        <div class="callout info">
-          <strong>Dual-Platform:</strong> We use <strong>ArcGIS Pro</strong> for desktop GIS and <strong>Google Earth Engine</strong> for cloud-based imagery analysis.
-        </div>
-        <p>Ensure you have your ArcGIS Pro license activated and your Google Earth Engine account approved (signup at <a href="https://earthengine.google.com/">earthengine.google.com</a>).</p>
-      </section>
+      <div class="layout-grid">
+        <div class="content">
+          <section class="card">
+            <h2>🎥 What is GIS?</h2>
+            <p>Before we dive into the technical details, let's explore the fundamental question: What exactly is GIS? Is it just a tool for making maps, a rigorous science, or something more?</p>
+            <div class="video-container">
+              <iframe 
+                src="https://www.youtube.com/embed/XF9t-oQ1r0I" 
+                title="What is GIS? - The Tool, Science, and Art" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+              </iframe>
+            </div>
+          </section>
 
-      <section class="card">
-        <div class="success-tips">
-          <h3>Tips for Success</h3>
-          <ul>
-            <li><strong>Consistency:</strong> Establish a regular practice routine.</li>
-            <li><strong>Hands-on:</strong> Don't skip the labs; GIS is learned by doing.</li>
-            <li><strong>Backups:</strong> Cloud-save your spatial data frequently.</li>
-          </ul>
+          <section class="card">
+            <h2> - ️ The GIS Learning Journey</h2>
+            <p>This textbook is designed as a progressive journey across six parts. Each module builds upon the previous one.</p>
+            
+            <div class="course-map">
+              <div class="course-map-item map-part-i">
+                <div class="map-step">I</div>
+                <div class="map-content">
+                  <h4>Foundations</h4>
+                  <p>Spatial thinking, map design, geodesy, and GNSS.</p>
+                </div>
+              </div>
+              <div class="course-map-item map-part-ii">
+                <div class="map-step">II</div>
+                <div class="map-content">
+                  <h4>Data Creation</h4>
+                  <p>Georeferencing, digitizing, and database management.</p>
+                </div>
+              </div>
+              <div class="course-map-item map-part-iii">
+                <div class="map-step">III</div>
+                <div class="map-content">
+                  <h4>Remote Sensing</h4>
+                  <p>Spectral analysis, imagery foundations, and LiDAR.</p>
+                </div>
+              </div>
+              <div class="course-map-item map-part-iv">
+                <div class="map-step">IV</div>
+                <div class="map-content">
+                  <h4>Spatial Analysis</h4>
+                  <p>Raster/Vector operations and complex spatial modeling.</p>
+                </div>
+              </div>
+              <div class="course-map-item map-part-v">
+                <div class="map-step">V</div>
+                <div class="map-content">
+                  <h4>Applied GIS</h4>
+                  <p>Field data collection, storytelling, and ethical AI.</p>
+                </div>
+              </div>
+              <div class="course-map-item map-part-vi">
+                <div class="map-step">VI</div>
+                <div class="map-content">
+                  <h4>Research</h4>
+                  <p>Advanced project management and research lifecycles.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="card">
+            <h2>🧠 Spatial Thinking Pre-Check</h2>
+            <p>Test your natural spatial intuition before we begin.</p>
+            
+            <div id="quiz-container" style="background: #f8fafc; padding: 2rem; border-radius: 12px; margin-top: 1rem;">
+              <div id="quiz-question">
+                <strong>Question:</strong> Which of these is a better example of "Vector" data?
+              </div>
+              <div id="quiz-options" style="margin: 1rem 0;">
+                <button class="btn-quiz" onclick="checkAnswer(true)">A city boundary polygon</button>
+                <button class="btn-quiz" onclick="checkAnswer(false)">A satellite photo of the city</button>
+              </div>
+              <div id="quiz-feedback" style="display: none; padding: 1rem; border-radius: 8px; font-weight: 600;"></div>
+            </div>
+          </section>
+
+          <section class="card">
+            <h2>🎯 Learning Objectives</h2>
+            <div class="objectives-grid">
+              <div class="objective-card">
+                <div class="objective-icon">🛰️</div>
+                <h3>Master Remote Sensing</h3>
+                <p>Analyze satellite imagery to monitor environmental changes.</p>
+              </div>
+              <div class="objective-card">
+                <div class="objective-icon">📊</div>
+                <h3>Spatial Analysis</h3>
+                <p>Use buffering, overlay, and interpolation for problem solving.</p>
+              </div>
+              <div class="objective-card">
+                <div class="objective-icon">🎨</div>
+                <h3>Cartographic Design</h3>
+                <p>Create professional maps that communicate clearly.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="card">
+            <h2>🚀 Software Toolkit</h2>
+            <div class="callout info">
+              <strong>Dual-Platform:</strong> We use <strong>ArcGIS Pro</strong> for desktop GIS and <strong>Google Earth Engine</strong> for cloud-based imagery analysis.
+            </div>
+            <p>Ensure you have your ArcGIS Pro license activated and your Google Earth Engine account approved (signup at <a href="https://earthengine.google.com/">earthengine.google.com</a>).</p>
+          </section>
+
+          <section class="card">
+            <div class="success-tips">
+              <h3>💡 Tips for Success</h3>
+              <ul>
+                <li><strong>Consistency:</strong> Establish a regular practice routine.</li>
+                <li><strong>Hands-on:</strong> Don't skip the labs; GIS is learned by doing.</li>
+                <li><strong>Backups:</strong> Cloud-save your spatial data frequently.</li>
+              </ul>
+            </div>
+          </section>
+
+          <div class="section-glossary">
+            <h2>📚 Chapter Glossary</h2>
+            <div class="glossary-list">
+              <div class="glossary-item">
+                <span class="glossary-term">Geographic Information System (GIS)</span>
+                <span class="glossary-def">A computer system for capturing, storing, checking, and displaying data related to positions on Earth's surface.</span>
+              </div>
+              <div class="glossary-item">
+                <span class="glossary-term">Spatial Thinking</span>
+                <span class="glossary-def">The ability to visualize and interpret location, distance, direction, relationships, movement, and change in space.</span>
+              </div>
+              <div class="glossary-item">
+                <span class="glossary-term">Remote Sensing</span>
+                <span class="glossary-def">The science of obtaining information about objects or areas from a distance, typically from aircraft or satellites.</span>
+              </div>
+            </div>
+          </div>
         </div>
-      </section>
+
+        <aside class="sidebar">
+          <div class="box-bio">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Gerardus_Mercator.jpg/220px-Gerardus_Mercator.jpg" alt="Mercator">
+            <div>
+              <h3>Gerardus Mercator</h3>
+              <span class="bio-dates">(1512–1594)</span>
+              <p>
+                A Flemish cartographer and geographer. In 1569, he introduced the Mercator projection, which became the standard for nautical navigation because it preserved constant bearings (rhumb lines). While controversial today for its area distortion, it remains the foundation of all web mapping (Web Mercator).
+              </p>
+            </div>
+          </div>
+
+          <div class="sidebar-local-global">
+            <h3>🇨🇱 Texas Connection</h3>
+            <p>
+              <strong>The Texas General Land Office (GLO)</strong>
+            </p>
+            <p>
+              Founded in 1836, the GLO is the oldest state agency in Texas. Originally created to manage the 
+              millions of acres of public lands in the Republic of Texas, today it relies heavily on GIS 
+              to manage coastal erosion, oil & gas leases, and disaster recovery (like Hurricane Harvey) 
+              across the state.
+            </p>
+            <a href="https://www.glo.texas.gov/land/land-management/gis/" target="_blank" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem; width:100%; text-align:center;">Visit GLO GIS Data</a>
+          </div>
+        </aside>
+      </div>
 
       <div class="next-steps">
         <h3>Ready to Begin?</h3>
@@ -388,7 +527,38 @@
           </a>
         </div>
       </div>
-    </main>
+    
+
+        
+
+        
+
+        <section class="card bok-alignment" aria-label="Body of Knowledge alignment">
+            <h2>BoK Alignment</h2>
+            <p>
+                Topics in the UCGIS GIS&amp;T Body of Knowledge that support this chapter.
+            </p>
+            <ul class="bok-topic-list">
+                        <li class="bok-topic">
+            <span class="bok-code">FC-01-038</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10669" target="_blank" rel="noopener noreferrer">An Introduction to the GIS&T Body of Knowledge</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">FC-04</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10687" target="_blank" rel="noopener noreferrer">Domains of Geographic Information</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">FC-06</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10702" target="_blank" rel="noopener noreferrer">Interrogating Geographic Information</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">BoK</span>
+            <a href="https://gistbok-ltb.ucgis.org/" target="_blank" rel="noopener noreferrer">UCGIS GIS&T Body of Knowledge (Living Textbook)</a>
+        </li>
+            </ul>
+        </section>
+
+</main>
 
     <footer>
       <div class="container">

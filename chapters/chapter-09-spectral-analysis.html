@@ -169,15 +169,107 @@
             <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
         </nav>
 
+
+        <section class="card learning-scaffold" aria-label="Learning scaffold">
+            <div class="scaffold-head">
+                <h2>At a Glance</h2>
+                <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapters 01, 07</span>
+                    <span class="scaffold-chip"><strong>Time:</strong> 25 min read + 25 min practice</span>
+                    <span class="scaffold-chip"><strong>Deliverable:</strong> Index interpretation note</span>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Learning outcomes</h3>
+                    <ul>
+                        <li>Explain what a spectral signature represents.</li>
+                        <li>Predict how vegetation, soil, and water differ across bands.</li>
+                        <li>Compute and interpret one simple spectral index conceptually (e.g., NDVI).</li>
+                    </ul>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Key terms</h3>
+                    <p>reflectance, spectral signature, band, NIR, SWIR, index</p>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Stop &amp; check</h3>
+                    <ol class="scaffold-qa">
+                        <li>
+                            <details>
+                                <summary>Why does healthy vegetation look bright in NIR?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> Leaf structure strongly reflects NIR.</p>
+                                    <p><strong>Why:</strong> Cell structure causes high NIR reflectance while chlorophyll absorbs red.</p>
+                                    <p><strong>Common misconception:</strong> NIR means heat; thermal infrared is the heat region.</p>
+                                </div>
+                            </details>
+                        </li>
+                        <li>
+                            <details>
+                                <summary>Why is water often dark in NIR?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> Water absorbs NIR strongly.</p>
+                                    <p><strong>Why:</strong> Absorption reduces reflected energy back to the sensor.</p>
+                                    <p><strong>Common misconception:</strong> Dark pixels always mean shadow; it can be material absorption.</p>
+                                </div>
+                            </details>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Try it (5 minutes)</h3>
+                    <ol>
+                        <li>Pick one surface (water/vegetation/soil) and predict which band will separate it best.</li>
+                        <li>Check the simulator and write one corrected prediction.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Lab (Two Tracks)</h3>
+                    <p>Both tracks produce the same deliverable: a short write-up explaining one index and what it measures.</p>
+                    <div class="scaffold-two-track">
+                        <div class="scaffold-track">
+                            <h4>Desktop GIS Track (ArcGIS Pro / QGIS)</h4>
+                            <p>Compute or visualize NDVI from a multispectral image and interpret high/low values in your AOI.</p>
+                        </div>
+                        <div class="scaffold-track">
+                            <h4>Remote Sensing Track (Google Earth Engine)</h4>
+                            <p>Load Sentinel-2/Landsat, compute NDVI, and export a figure. Describe what the index highlights and what it confuses.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Common mistakes</h3>
+                    <ul>
+                        <li>Interpreting an index without checking season/date.</li>
+                        <li>Comparing scenes with different atmospheric conditions without correction.</li>
+                        <li>Assuming a single index answers every question.</li>
+                    </ul>
+                    <p><strong>Further reading:</strong> https://gistbok-ltb.ucgis.org/</p>
+                </div>
+            </div>
+        </section>
+
+
         <div class="layout-grid">
             <div class="content">
                 <section class="card">
-                    <h2>🌈 The Science of Reflectance</h2>
+                    <h2>The Science of Reflectance</h2>
                     <p>Every object on Earth's surface reflects, absorbs, and transmits light differently depending on its physical properties. By measuring these unique <strong>spectral signatures</strong>, remote sensing can distinguish between healthy vegetation, dry soil, and urban concrete—even when they look identical to our eyes.</p>
                 </section>
 
                 <section class="spectrum-analyzer">
-                    <h3>🔬 Interactive: Spectral Explorer</h3>
+                    <h3>Interactive: Spectral Explorer</h3>
                     <p>Select an object and slide across the spectrum to see how its reflectance changes across different bands.</p>
                     
                     <div class="object-grid">
@@ -223,7 +315,7 @@
                 </div>
 
                 <section class="card" style="margin-top: 3rem;">
-                    <h2>📚 Glossary</h2>
+                    <h2>Glossary</h2>
                     <dl>
                         <dt><strong>Electromagnetic Spectrum:</strong></dt>
                         <dd>The range of all types of EM radiation, from radio waves to gamma rays.</dd>
@@ -238,7 +330,7 @@
 
                 <!-- Merged Band Combiner Section -->
                 <section class="card" style="margin-top: 3rem; border-top: 4px solid var(--accent);">
-                    <h2>🎨 Applied Spectral Analysis: The Band Combiner</h2>
+                    <h2>Applied Spectral Analysis: The Band Combiner</h2>
                     <p>Satellites capture data in separate "channels" or bands. By choosing which band represents Red, Green, and Blue on our screens, we can reveal hidden features of the Earth (like the "Active Composite" below).</p>
                     
                     <div class="combiner-container">
@@ -348,7 +440,7 @@
             <aside class="sidebar">
                 <div class="sidebar-box bio">
                     <h3>Important Person</h3>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/John_William_Strutt.jpg/220px-John_William_Strutt.jpg" alt="Lord Rayleigh" class="bio-img">
+                    <img src="../assets/img/people/lord_rayleigh.png" alt="Lord Rayleigh" class="bio-img">
                     <p><strong>Lord Rayleigh (1842–1919)</strong></p>
                     <p>A Nobel Prize-winning physicist known for explaining why the sky is blue. <strong>Rayleigh Scattering</strong> occurs when light particles are much smaller than the wavelength of the light. In remote sensing, this scattering makes blue light difficult to use for sharp imaging through the atmosphere.</p>
                 </div>
@@ -356,6 +448,7 @@
                 <div class="sidebar-box local">
                     <h3>Local to Global</h3>
                     <p><strong>Algae Blooms in the Gulf</strong></p>
+                    <img src="../assets/img/chapter-09/texas_algae_bloom.jpg" alt="Texas Algae Bloom" style="width:100%; border-radius:8px; margin-bottom:1rem;">
                     <p>Coastal Texas frequently faces "Red Tides" and other algae blooms. Using spectral analysis of satellite sensors (like MODIS), scientists can detect the unique spectral signature of chlorophyll-a in the Gulf of Mexico. This allows for early warnings to protect fisheries and tourism along the coast.</p>
                     <p>By monitoring these colors from space, we can react to environmental changes in real-time.</p>
                 </div>
@@ -363,10 +456,49 @@
         </div>
 
         <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
-            <a href="chapter-08-vgi-neogeography.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 08</a>
-            <a href="chapter-09b-band-combiner.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Band Combiner →</a>
+            <a href="chapter-08-georeferencing.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 08: Georeferencing</a>
+            <a href="chapter-10-remote-sensing.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Remote Sensing →</a>
         </div>
-    </main>
+    
+
+        
+
+        
+
+        <section class="card bok-alignment" aria-label="Body of Knowledge alignment">
+            <h2>BoK Alignment</h2>
+            <p>
+                Topics in the UCGIS GIS&amp;T Body of Knowledge that support this chapter.
+            </p>
+            <ul class="bok-topic-list">
+                        <li class="bok-topic">
+            <span class="bok-code">DC-03-016</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10606" target="_blank" rel="noopener noreferrer">Nature of Multispectral Image Data</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DC-04-035</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10793" target="_blank" rel="noopener noreferrer">Spectral Properties of Earth's Surface</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DC-03-031</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10789" target="_blank" rel="noopener noreferrer">Hyperspectral Remote Sensing</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DC-03-026</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10612" target="_blank" rel="noopener noreferrer">Remote Sensing Platforms</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">FC-05-021</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10693" target="_blank" rel="noopener noreferrer">Resolution</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">BoK</span>
+            <a href="https://gistbok-ltb.ucgis.org/" target="_blank" rel="noopener noreferrer">UCGIS GIS&T Body of Knowledge (Living Textbook)</a>
+        </li>
+            </ul>
+        </section>
+
+</main>
 
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">

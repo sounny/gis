@@ -104,6 +104,96 @@
             <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
         </nav>
 
+        <section class="card learning-scaffold" aria-label="Learning scaffold">
+            <div class="scaffold-head">
+                <h2>At a Glance</h2>
+                <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapters 01, 03</span>
+                    <span class="scaffold-chip"><strong>Time:</strong> 25 min read + 20 min practice</span>
+                    <span class="scaffold-chip"><strong>Deliverable:</strong> Sensor choice note</span>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Learning outcomes</h3>
+                    <ul>
+                        <li>Describe the remote sensing pipeline (energy source to information product).</li>
+                        <li>Compare spatial, spectral, temporal, and radiometric resolution using a real sensor example.</li>
+                        <li>Choose a sensor for a given monitoring goal and justify your choice.</li>
+                    </ul>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Key terms</h3>
+                    <p>passive/active sensor, revisit time, swath, surface reflectance, spatial/spectral/temporal/radiometric resolution</p>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Stop &amp; check</h3>
+                    <ol class="scaffold-qa">
+                        <li>
+                            <details>
+                                <summary>You need weekly vegetation monitoring. Which matters more: spatial or temporal resolution?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> Temporal resolution (revisit frequency).</p>
+                                    <p><strong>Why:</strong> If you cannot observe often enough, you miss change even if pixels are very small.</p>
+                                    <p><strong>Common misconception:</strong> "Highest spatial resolution is always best"; it can be less useful if revisit is rare or clouds dominate.</p>
+                                </div>
+                            </details>
+                        </li>
+                        <li>
+                            <details>
+                                <summary>What is the practical difference between TOA and surface reflectance?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> Surface reflectance is corrected to better represent ground conditions; TOA still includes atmospheric effects.</p>
+                                    <p><strong>Why:</strong> Indices and time series are more comparable when atmospheric effects are reduced.</p>
+                                    <p><strong>Common misconception:</strong> "A true-color image is already corrected"; it can still be TOA and visually pleasing but not analysis-ready.</p>
+                                </div>
+                            </details>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Try it (5 minutes)</h3>
+                    <ol>
+                        <li>Pick a monitoring goal (crops, floods, wildfires, urban growth).</li>
+                        <li>Choose one sensor from the table below and write a 2-sentence justification using the four resolutions.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Lab (Two Tracks)</h3>
+                    <p>Both tracks produce the same deliverable: a short sensor-choice memo plus one figure (map/screenshot) supporting your argument.</p>
+                    <div class="scaffold-two-track">
+                        <div class="scaffold-track">
+                            <h4>Desktop GIS Track (ArcGIS Pro / QGIS)</h4>
+                            <p>Add two imagery layers (e.g., a high-res basemap and a coarser open dataset) and compare what each reveals. Capture one figure and describe the tradeoff.</p>
+                        </div>
+                        <div class="scaffold-track">
+                            <h4>Remote Sensing Track (Google Earth Engine)</h4>
+                            <p>Load Sentinel-2 or Landsat, apply a simple cloud filter, compute NDVI, and export a figure. In your memo, explain why that sensor fits your goal.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Common mistakes</h3>
+                    <ul>
+                        <li>Ignoring clouds/shadows: you interpret atmosphere instead of land surface change.</li>
+                        <li>Mixing dates or seasons: differences look like change but are seasonal effects.</li>
+                        <li>Using degrees for measurement: reproject before area/distance summaries.</li>
+                    </ul>
+                    <p><strong>Further reading:</strong> https://www.ucgis.org/site/gis-t-body-of-knowledge</p>
+                </div>
+            </div>
+        </section>
+
         <div class="layout-grid">
             <div class="content">
                 <section class="card">
@@ -139,6 +229,10 @@
                             <tr><td><strong>WorldView-3</strong></td><td>0.3m</td><td>On-demand</td><td>Military / Commercial</td></tr>
                         </tbody>
                     </table>
+                    <div style="margin-top: 1.5rem; text-align: center;">
+                        <a href="https://livingatlas2.arcgis.com/eoexplorer/" target="_blank" style="display: inline-block; padding: 0.75rem 1.5rem; background: var(--primary); color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">🌍 Launch Esri Earth Observation Explorer</a>
+                        <p style="font-size: 0.8rem; color: var(--secondary); margin-top: 0.5rem;">Explore these satellite layers interactively in your browser.</p>
+                    </div>
                 </section>
 
                 <section class="card">
@@ -153,7 +247,7 @@
                 <div class="quiz-container">
                     <h2>Chapter 10 Checkpoint</h2>
                     <div class="question">
-                        <p><strong>1. A satellite that takes a new image of Austin every 16 days is said to have a 16-day:</strong></p>
+                        <p><strong>1. A satellite that revisits the same location every 16 days is said to have a 16-day:</strong></p>
                         <div class="option" onclick="this.classList.add('correct')">Temporal Resolution</div>
                         <div class="option" onclick="this.classList.add('wrong')">Spatial Resolution</div>
                     </div>
@@ -190,7 +284,7 @@
             <aside class="sidebar">
                 <!-- Important Person Component -->
                 <div class="box-bio">
-                    <img src="https://landsat.gsfc.nasa.gov/wp-content/uploads/2016/08/Virginia_Norwood_MSS.jpg" alt="Virginia Norwood">
+                    <img src="../assets/img/people/virginia_norwood.png" alt="Virginia Norwood">
                     <div>
                         <h3>Virginia T. Norwood</h3>
                         <span class="bio-dates">(1927–2023)</span>
@@ -213,11 +307,50 @@
         </div>
 
         <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
-            <a href="chapter-09b-band-combiner.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 09b</a>
+            <a href="chapter-09-spectral-analysis.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 09</a>
             <a href="chapter-11-image-classification.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Image Classification →</a>
         </div>
 
-    </main>
+    
+
+        
+
+        
+
+        <section class="card bok-alignment" aria-label="Body of Knowledge alignment">
+            <h2>BoK Alignment</h2>
+            <p>
+                Topics in the UCGIS GIS&amp;T Body of Knowledge that support this chapter.
+            </p>
+            <ul class="bok-topic-list">
+                        <li class="bok-topic">
+            <span class="bok-code">DC-03-026</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10612" target="_blank" rel="noopener noreferrer">Remote Sensing Platforms</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DC-03-016</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10606" target="_blank" rel="noopener noreferrer">Nature of Multispectral Image Data</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">FC-05-021</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10693" target="_blank" rel="noopener noreferrer">Resolution</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DC-03</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10781" target="_blank" rel="noopener noreferrer">Remote Sensing Platforms and Sensors</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DC-04-014</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10605" target="_blank" rel="noopener noreferrer">Feature Extraction from Satellite Imagery</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">BoK</span>
+            <a href="https://gistbok-ltb.ucgis.org/" target="_blank" rel="noopener noreferrer">UCGIS GIS&T Body of Knowledge (Living Textbook)</a>
+        </li>
+            </ul>
+        </section>
+
+</main>
 
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">

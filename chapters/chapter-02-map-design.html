@@ -152,6 +152,98 @@
             <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
         </nav>
 
+
+        <section class="card learning-scaffold" aria-label="Learning scaffold">
+            <div class="scaffold-head">
+                <h2>At a Glance</h2>
+                <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapter 01</span>
+                    <span class="scaffold-chip"><strong>Time:</strong> 25 min read + 25 min practice</span>
+                    <span class="scaffold-chip"><strong>Deliverable:</strong> One-page map layout</span>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Learning outcomes</h3>
+                    <ul>
+                        <li>Identify the essential elements of a clear map.</li>
+                        <li>Choose a color scheme that matches the data and audience.</li>
+                        <li>Critique a map for clarity, honesty, and accessibility.</li>
+                    </ul>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Key terms</h3>
+                    <p>visual hierarchy, legend, symbology, classification, color ramp, accessibility</p>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Stop &amp; check</h3>
+                    <ol class="scaffold-qa">
+                        <li>
+                            <details>
+                                <summary>When is a sequential color ramp appropriate?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> For ordered numeric data (low to high).</p>
+                                    <p><strong>Why:</strong> Sequential ramps communicate magnitude in one direction.</p>
+                                    <p><strong>Common misconception:</strong> Random colors can hide ordering and mislead interpretation.</p>
+                                </div>
+                            </details>
+                        </li>
+                        <li>
+                            <details>
+                                <summary>Why should a map include a data source and date?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> To support credibility and correct interpretation.</p>
+                                    <p><strong>Why:</strong> Spatial results are time- and source-dependent.</p>
+                                    <p><strong>Common misconception:</strong> A nice-looking map is not automatically trustworthy without provenance.</p>
+                                </div>
+                            </details>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Try it (5 minutes)</h3>
+                    <ol>
+                        <li>Find one bad map online and list 3 specific design problems.</li>
+                        <li>Rewrite its title and legend text so a non-expert can understand it.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Lab (Two Tracks)</h3>
+                    <p>Both tracks produce the same deliverable: a single map export (PDF/PNG) plus a 5-bullet design rationale.</p>
+                    <div class="scaffold-two-track">
+                        <div class="scaffold-track">
+                            <h4>Desktop GIS Track (ArcGIS Pro / QGIS)</h4>
+                            <p>Make a layout for an index or classification map (NDVI or land cover). Export and include map elements + citations.</p>
+                        </div>
+                        <div class="scaffold-track">
+                            <h4>Remote Sensing Track (Google Earth Engine)</h4>
+                            <p>Create a map view (true/false color or NDVI), add a legend and caption text in your report, and export a figure.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Common mistakes</h3>
+                    <ul>
+                        <li>Using color that implies meaning you do not intend (e.g., red/green without explanation).</li>
+                        <li>Missing legend/title/source or using vague titles.</li>
+                        <li>Relying on color alone (no labels, patterns, or value ranges).</li>
+                    </ul>
+                    <p><strong>Further reading:</strong> https://www.ucgis.org/site/gis-t-body-of-knowledge</p>
+                </div>
+            </div>
+        </section>
+
+
         <div class="layout-grid">
             <div class="content">
                 <section class="card">
@@ -180,14 +272,47 @@
                         <li><strong>T - Title:</strong> Clear, concise, and tells the "What, Where, and When."</li>
                         <li><strong>O - Orientation:</strong> A north arrow or graticule (especially for large scales).</li>
                         <li><strong>L - Legend:</strong> The key that unlocks the meaning of every color and symbol.</li>
-                        <li><strong>S - Scale:</strong> A way to measure distance (Scale Bar is best for digital).</li>
+                        <li>
+                            <strong>S - Scale:</strong> A way to measure distance (Scale Bar is best for digital).
+                            <div style="margin: 1rem 0;">
+                                <img src="../assets/img/diagrams/map_scale_comparison.png" alt="Map Scale Comparison" style="width: 100%; border-radius: 8px; box-shadow: var(--shadow-sm);">
+                                <p style="font-size: 0.8rem; color: var(--secondary); margin-top: 0.2rem;"><em>Visualizing Scale: Large Scale = Small Area (Detailed). Small Scale = Large Area (General).</em></p>
+                            </div>
+                        </li>
                         <li><strong>S - Source:</strong> Where did the data come from? (e.g., "Source: NOAA").</li>
                     </ul>
                 </section>
 
                 <section class="card">
+                    <h2>Levels of Measurement</h2>
+                    <p>Before choosing a color scheme, you must understand your data's structure. In 1946, psychologist Stanley Smith Stevens defined four levels of measurement that dictate how we can map data:</p>
+                    <div style="margin-top: 1.5rem; display: grid; gap: 1rem;">
+                        <div style="background: #f1f5f9; padding: 1rem; border-radius: 8px; border-left: 4px solid var(--secondary);">
+                            <strong>1. Nominal (Names):</strong> Qualitative data with no order. Used for identity or categorization.
+                            <br><em>Examples:</em> Soil types, Place names, Phone numbers (961-8224 is not "more" than 961-8049).
+                            <br><em>Map Choice:</em> <strong style="color:var(--accent);">Qualitative colors</strong> (e.g., Land Use).
+                        </div>
+                        <div style="background: #f1f5f9; padding: 1rem; border-radius: 8px; border-left: 4px solid var(--secondary);">
+                            <strong>2. Ordinal (Order):</strong> Data with a clear rank, but unknown intervals between ranks.
+                            <br><em>Examples:</em> Race results (1st, 2nd, 3rd), High/Medium/Low, Likert scales.
+                            <br><em>Map Choice:</em> <strong style="color:var(--primary);">Sequential colors</strong> or size (e.g., Hazard Risk).
+                        </div>
+                        <div style="background: #f1f5f9; padding: 1rem; border-radius: 8px; border-left: 4px solid var(--success);">
+                            <strong>3. Interval (Differences):</strong> Numeric data where the difference is meaningful, but zero is arbitrary.
+                            <br><em>Examples:</em> Temperature in Celsius (0°C is not "no heat"), Time of day.
+                            <br><em>Map Choice:</em> <strong style="color:var(--primary);">Diverging</strong> or Sequential colors.
+                        </div>
+                        <div style="background: #f1f5f9; padding: 1rem; border-radius: 8px; border-left: 4px solid var(--success);">
+                            <strong>4. Ratio (True Zero):</strong> Numeric data with a true zero point, allowing multiplication/division.
+                            <br><em>Examples:</em> Population density, Distance, Income ($0 means no income).
+                            <br><em>Map Choice:</em> <strong style="color:var(--primary);">Sequential colors</strong> or Proportional Symbols.
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
                     <h2>The Psychology of Color</h2>
-                    <p>Color is one of the most powerful tools in a cartographer's belt, but it must be used with precision. We categorize color use into three main types of palettes:</p>
+                    <p>Color is one of the most powerful tools in a cartographer's belt, but it must be used with precision based on your data's level of measurement.</p>
                     
                     <div class="color-explorer">
                         <h3>Sequential (Low to High)</h3>
@@ -221,8 +346,35 @@
                         </div>
                     </div>
 
-                    <div class="callout warning">
-                        <strong>The Rule of 5-7:</strong> The human mind struggles to distinguish more than 7 color classes at once. Aim for 5-7 categories in your legends.
+                <section class="card">
+                    <h2>Common Thematic Map Types</h2>
+                    <p>Depending on your data's geometry (points, lines, polygons) and measurement level, you can choose from these standard map types:</p>
+                    
+                    <div style="display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); margin-top: 1.5rem;">
+                        <div>
+                            <h4>1. Choropleth Map</h4>
+                            <p style="font-size: 0.9rem; color: var(--secondary);">Polygons shaded by value (e.g., Population Density per County). Requires normalized data (rates/ratios), not raw counts.</p>
+                            <div style="height: 100px; background: linear-gradient(90deg, #eff3ff 0%, #08519c 100%); border-radius: 8px;"></div>
+                        </div>
+                        <div>
+                            <h4>2. Proportional Symbol</h4>
+                            <p style="font-size: 0.9rem; color: var(--secondary);">Circles or squares scaled by magnitude (e.g., City Population). Good for raw counts.</p>
+                            <div style="height: 100px; display: flex; align-items: center; justify-content: center; gap: 10px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;">
+                                <div style="width: 10px; height: 10px; background: var(--accent); border-radius: 50%;"></div>
+                                <div style="width: 25px; height: 25px; background: var(--accent); border-radius: 50%;"></div>
+                                <div style="width: 45px; height: 45px; background: var(--accent); border-radius: 50%;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4>3. Isoline (Contour)</h4>
+                            <p style="font-size: 0.9rem; color: var(--secondary);">Continuous lines connecting points of equal value (e.g., Elevation or Temperature). Best for continuous fields.</p>
+                            <div style="height: 100px; background: repeating-radial-gradient(#fff, #fff 10px, #94a3b8 11px); border-radius: 8px;"></div>
+                        </div>
+                        <div>
+                            <h4>4. Dot Density</h4>
+                            <p style="font-size: 0.9rem; color: var(--secondary);">Dots randomly placed within polygons to show density (e.g., 1 dot = 500 people). Excellent for showing concentration.</p>
+                            <div style="height: 100px; background-image: radial-gradient(circle, #333 1px, transparent 1px); background-size: 10px 10px; border-radius: 8px;"></div>
+                        </div>
                     </div>
                 </section>
 
@@ -250,34 +402,44 @@
                     </div>
                 </div>
 
-                <section class="card" style="margin-top: 3rem;">
-                    <h2>Glossary</h2>
-                    <dl>
-                        <dt><strong>Cartography:</strong></dt>
-                        <dd>The science and art of making maps.</dd>
-                        
-                        <dt><strong>Choropleth Map:</strong></dt>
-                        <dd>A thematic map where areas are shaded in proportion to a statistical variable.</dd>
-                        
-                        <dt><strong>Visual Hierarchy:</strong></dt>
-                        <dd>The order in which the eye perceives elements on a map based on their prominence.</dd>
-                    </dl>
-                </section>
+                <div class="section-glossary">
+                    <h2>📚 Chapter Glossary</h2>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">Cartography</span>
+                            <span class="glossary-def">The science and art of making maps, involving the selection of data, design of symbols, and final layout.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Choropleth Map</span>
+                            <span class="glossary-def">A thematic map where administrative areas (like counties) are shaded in proportion to a statistical variable (e.g., population density).</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Visual Hierarchy</span>
+                            <span class="glossary-def">The arrangement of map elements to imply importance, guiding the user's eye to the most critical information first.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Generalization</span>
+                            <span class="glossary-def">The process of simplifying map features (e.g., smoothing a coastline) to make them legible at smaller scales.</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <aside class="sidebar">
-                <div class="sidebar-box bio">
-                    <h3>Important Person</h3>
-                    <img src="https://static01.nyt.com/images/2020/07/26/obituaries/14Brewer-01/14Brewer-01-mediumSquareAt3X.jpg" alt="Cynthia Brewer" class="bio-img">
-                    <p><strong>Dr. Cynthia Brewer</strong></p>
-                    <p>A Professor of Geography at Penn State University, Dr. Brewer is the creator of <strong>ColorBrewer</strong>—the definitive tool for map color design. Her research on color theory and accessibility has significantly improved the quality and readability of thematic maps globally.</p>
+                <div class="box-bio">
+                    <img src="../assets/img/people/cynthia_brewer.png" alt="Cynthia Brewer">
+                    <div>
+                        <h3>Dr. Cynthia Brewer</h3>
+                        <p>A Professor of Geography at <a href="https://www.geog.psu.edu/directory/cynthia-brewer" target="_blank" style="color:var(--primary);text-decoration:none;">Penn State University</a>, Dr. Brewer is the creator of <strong>ColorBrewer</strong>—the definitive tool for map color design. Her research on color theory and accessibility has significantly improved the quality and readability of thematic maps globally.</p>
+                    </div>
                 </div>
 
-                <div class="sidebar-box local">
-                    <h3>Local to Global</h3>
+                <div class="sidebar-local-global">
+                    <h3>🇨🇱 Texas Connection</h3>
                     <p><strong>The Texas GLO Archive</strong></p>
                     <p>The Texas General Land Office maintains some of the state's oldest and most historically significant maps. From hand-drawn Spanish land grants to modern digital oil and gas maps, the GLO archives show how map elements like <em>Source</em> and <em>Title</em> have evolved over centuries.</p>
                     <p>Checking these records is crucial for modern property law and resource management.</p>
+                    <a href="https://www.glo.texas.gov/history/archives/map-store/index.html" target="_blank" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem; width:100%; text-align:center;">Visit Map Store</a>
                 </div>
             </aside>
         </div>
@@ -290,7 +452,46 @@
             Chapter 03: Projections &rarr;
           </a>
         </div>
-    </main>
+    
+
+        
+
+        
+
+        <section class="card bok-alignment" aria-label="Body of Knowledge alignment">
+            <h2>BoK Alignment</h2>
+            <p>
+                Topics in the UCGIS GIS&amp;T Body of Knowledge that support this chapter.
+            </p>
+            <ul class="bok-topic-list">
+                        <li class="bok-topic">
+            <span class="bok-code">CV-03</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10775" target="_blank" rel="noopener noreferrer">Map Design Fundamentals</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">CV-04</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10776" target="_blank" rel="noopener noreferrer">Map Design Techniques</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">CV-01-001</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10531" target="_blank" rel="noopener noreferrer">Cartography and Science</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">CV-01-026</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10554" target="_blank" rel="noopener noreferrer">Cartography and Power</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">CV-04-018</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10547" target="_blank" rel="noopener noreferrer">Representing Uncertainty</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">BoK</span>
+            <a href="https://gistbok-ltb.ucgis.org/" target="_blank" rel="noopener noreferrer">UCGIS GIS&T Body of Knowledge (Living Textbook)</a>
+        </li>
+            </ul>
+        </section>
+
+</main>
 
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">

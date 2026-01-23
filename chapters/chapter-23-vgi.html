@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 23: VGI & NeoGeography | GIS Digital Textbook</title>
+    <meta name="description" content="Explore the democratization of mapping. Learn about Volunteered Geographic Information (VGI), the 'Wikipedia of Maps' (OSM), and how citizen science is changing geography.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #10b981;
+            --secondary: #64748b;
+            --accent: #3b82f6;
+            --success: #10b981;
+            --bg: #f8fafc;
+        }
+
+        .hero-chapter {
+            background: linear-gradient(135deg, #065f46 0%, #10b981 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-chapter::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 40%);
+        }
+
+        .chapter-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 1100px) {
+            .layout-grid { grid-template-columns: 1fr; }
+        }
+
+        .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        
+        /* Crowdmap Simulator */
+        .crowdmap-sim {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        #crowd-canvas {
+            width: 100%;
+            height: 300px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            border: 2px dashed #cbd5e1;
+        }
+
+        .user-point {
+            width: 10px;
+            height: 10px;
+            background: var(--primary);
+            border-radius: 50%;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        /* Quiz Styles */
+        .quiz-container { background: #d1fae5; padding: 2rem; border-radius: 16px; margin-top: 3rem; }
+        .option { background: white; padding: 1rem; border-radius: 8px; border: 2px solid #e2e8f0; cursor: pointer; margin-bottom: 0.75rem; transition: 0.2s; color: #1e293b; }
+        .option:hover { border-color: var(--primary); }
+        .option.correct { border-color: var(--success); background: #ecfdf5; }
+        .option.wrong { border-color: #ef4444; background: #fff1f2; }
+    </style>
+</head>
+<body>
+
+    <header class="hero-chapter">
+        <div class="container">
+            <span class="chapter-badge">Chapter 23</span>
+            <h1>VGI & NeoGeography</h1>
+            <p class="subtitle">The power of the crowd. Learn how volunteered geographic information and open-source mapping are democratizing the GIS industry.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav style="margin: 2rem 0;">
+            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
+        </nav>
+
+
+        <section class="card learning-scaffold" aria-label="Learning scaffold">
+            <div class="scaffold-head">
+                <h2>At a Glance</h2>
+                <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapters 01, 06</span>
+                    <span class="scaffold-chip"><strong>Time:</strong> 20 min read + 25 min practice</span>
+                    <span class="scaffold-chip"><strong>Deliverable:</strong> VGI quality critique</span>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Learning outcomes</h3>
+                    <ul>
+                        <li>Explain what VGI is and why it can be powerful and risky.</li>
+                        <li>Identify at least three VGI quality dimensions.</li>
+                        <li>Design a simple QA plan using imagery or authoritative data as reference.</li>
+                    </ul>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Key terms</h3>
+                    <p>VGI, completeness, positional accuracy, bias, conflation, metadata</p>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Stop &amp; check</h3>
+                    <ol class="scaffold-qa">
+                        <li>
+                            <details>
+                                <summary>What is one reason VGI can be biased?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> Contributions are uneven across places and communities.</p>
+                                    <p><strong>Why:</strong> Participation varies by access, interest, and events.</p>
+                                    <p><strong>Common misconception:</strong> Crowdsourced means objective; it can reflect systematic gaps.</p>
+                                </div>
+                            </details>
+                        </li>
+                        <li>
+                            <details>
+                                <summary>How can satellite imagery support VGI QA?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> By providing a consistent visual reference for feature presence/location.</p>
+                                    <p><strong>Why:</strong> Imagery can help validate geometry and completeness.</p>
+                                    <p><strong>Common misconception:</strong> Imagery is always truth; it also has date, resolution, and interpretation limits.</p>
+                                </div>
+                            </details>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Try it (5 minutes)</h3>
+                    <ol>
+                        <li>Find one missing feature in a map you use (path/building/landmark) and describe how you would verify it.</li>
+                        <li>Write one sentence: what evidence would you cite?</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Lab (Two Tracks)</h3>
+                    <p>Both tracks produce the same deliverable: a 1-page QA note evaluating a small VGI area (completeness, accuracy, and bias).</p>
+                    <div class="scaffold-two-track">
+                        <div class="scaffold-track">
+                            <h4>Desktop GIS Track (ArcGIS Pro / QGIS)</h4>
+                            <p>Compare a VGI layer to imagery for a small AOI. Mark 3 discrepancies and propose fixes.</p>
+                        </div>
+                        <div class="scaffold-track">
+                            <h4>Remote Sensing Track (Google Earth Engine)</h4>
+                            <p>Load imagery for an AOI and overlay a vector layer. Document 3 features that agree/disagree and explain why.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Common mistakes</h3>
+                    <ul>
+                        <li>Treating VGI as authoritative without checking.</li>
+                        <li>Ignoring date mismatches between imagery and edits.</li>
+                        <li>Conflating no data with no feature.</li>
+                    </ul>
+                    <p><strong>Further reading:</strong> https://www.ucgis.org/site/gis-t-body-of-knowledge</p>
+                </div>
+            </div>
+        </section>
+
+
+        <div class="layout-grid">
+            <div class="content">
+                <section class="card">
+                    <h2>What is VGI?</h2>
+                    <p><strong>Volunteered Geographic Information (VGI)</strong> is the harnessing of tools to create, assemble, and disseminate geographic data provided voluntarily by individuals. Instead of relying solely on professional surveyors, we now have millions of "citizens as sensors."</p>
+                    
+                    <div class="callout" style="background: #ecfdf5; border-left: 5px solid #10b981; color: #065f46; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                        <strong>The "Wikification" of GIS:</strong> Just as Wikipedia democratized knowledge, VGI has democratized map-making, moving it from high-walled government agencies to the palms of our hands.
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>OpenStreetMap (OSM)</h2>
+                    <p>OpenStreetMap is the greatest example of VGI. It is a free, editable map of the whole world being built by volunteers. In humanitarian crises, OSM often provides more up-to-date information than any official government source.</p>
+                    
+                    <div class="video-container" style="margin: 2rem 0; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; box-shadow: var(--shadow-lg);">
+                        <iframe 
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
+                            src="https://www.youtube.com/embed/6iBygIDLzps" 
+                            title="What is OpenStreetMap?" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </section>
+
+                <section class="crowdmap-sim">
+                    <h3>Interactive: Crowdsourced Mapping</h3>
+                    <p>Click anywhere on the panel below to "volunteer" a location point. Notice how individual points start to reveal a pattern (the "Wisdom of the Crowd").</p>
+                    <div id="crowd-canvas" onclick="addPoint(event)"></div>
+                    <div style="margin-top: 1rem; color: #64748b;">Points Contributed: <span id="count">0</span></div>
+                </section>
+
+                <div class="activity-decision">
+                    <span class="activity-icon">📢</span>
+                    <h3>Regional Decision: Crisis Mapping Harvey</h3>
+                    <p>
+                        During Hurricane Harvey in Houston, official flood maps couldn't keep up with the rising water. Volunteers created the <strong>Harvey Relief Hub</strong> map to track requests for rescue.
+                    </p>
+                    <p><strong>The Dilemma:</strong> You are a dispatcher. You see a "VGI" point on the map from a resident claiming their street is underwater, but the official satellite pass from 2 hours ago showed the street was dry. Do you:</p>
+                    <ul style="margin-top:1rem;">
+                        <li><strong>A)</strong> Ignore the point because it's "unverified" citizen data?</li>
+                        <li><strong>B)</strong> Wait for the next official satellite pass to confirm?</li>
+                        <li><strong>C)</strong> Dispatch a drone or neighborhood scout to verify immediately?</li>
+                    </ul>
+                    <div class="callout success" style="margin-top:1rem;">
+                        <strong>Expert Insight:</strong> Most modern emergency managers choose <strong>Option C</strong>. In a "NeoGeography" world, citizen reports are often the earliest warning system. We use "VGI" to identify areas of interest and then use "Authoritative Data" to confirm.
+                    </div>
+                </div>
+
+                <section class="card">
+                    <h2>Summary of Big Ideas</h2>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Citizens as Sensors:</strong> Every person with a smartphone is a potential geographic data generator.</li>
+                        <li><strong>Open Data</strong> fuels innovation and provides critical safety info in regions lacking official mapping resources.</li>
+                        <li><strong>NeoGeography:</strong> The use of digital maps by non-experts for personal, social, or humanitarian goals.</li>
+                        <li><strong>Quality Control</strong> in VGI is maintained through "Linus's Law"—the idea that with enough eyes, all data errors are shallow.</li>
+                    </ul>
+                </section>
+
+                <div class="quiz-container">
+                    <h2>Chapter 23 Checkpoint</h2>
+                    <div class="question">
+                        <p><strong>1. Which platform is widely known as the "Wikipedia of Maps"?</strong></p>
+                        <div class="option" onclick="this.classList.add('wrong')">Google Maps</div>
+                        <div class="option" onclick="this.classList.add('correct')">OpenStreetMap (OSM)</div>
+                    </div>
+                    <div class="question">
+                        <p><strong>2. What is a primary criticism of Volunteered Geographic Information?</strong></p>
+                        <div class="option" onclick="this.classList.add('correct')">Variable data quality and inconsistency in metadata.</div>
+                        <div class="option" onclick="this.classList.add('wrong')">It is too difficult for ordinary people to use.</div>
+                    </div>
+                </div>
+
+                <div class="section-glossary">
+                    <h2>Chapter Glossary</h2>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">Citizen Science:</span>
+                            <span class="glossary-def">The collection and analysis of data relating to the natural world by the general public, often as part of a collaborative project.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Crowdsourcing:</span>
+                            <span class="glossary-def">Obtaining information or input into a task by enlisting the help of a large number of people via the internet.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Geotagging:</span>
+                            <span class="glossary-def">The process of adding geographic coordinates to media such as photos or social media posts.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="sidebar">
+                <div class="box-bio">
+                    <img src="../assets/img/people/steve_feldman.png" alt="Steve Coast">
+                    <div>
+                        <h3>Steve Coast</h3>
+                        <span class="bio-dates">(Born 1980)</span>
+                        <p>The founder of <strong>OpenStreetMap (OSM)</strong>. In 2004, frustrated by the copyright restrictions on British government map data, he decided to "map the world like a wiki." His vision created the largest open geographic database in history, now used by everyone from humanitarian NGOs to Apple and Facebook.</p>
+                    </div>
+                </div>
+
+                <div class="sidebar-local-global">
+                    <h3>🇨🇱 Texas Connection</h3>
+                    <p><strong>The Cajun Navy & Hurricane Harvey</strong></p>
+                    <p>
+                        When Hurricane Harvey flooded Houston in 2017, the 9-1-1 system was overwhelmed. A volunteer group known as the "Cajun Navy" used a simple app called <strong>Zello</strong> and a shared Google Map to coordinate thousands of boat rescues.
+                    </p>
+                    <p>
+                        This "NeoGeography" response was faster and more agile than official government channels, proving the life-saving power of VGI during a crisis.
+                    </p>
+                </div>
+            </aside>
+        </div>
+
+        <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+            <a href="chapter-22-lifelong-learning.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 22: Lifelong Learning</a>
+            <a href="../index.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Back to Dashboard →</a>
+        </div>
+    
+
+        
+
+        <section class="card bok-alignment" aria-label="Body of Knowledge alignment">
+            <h2>BoK Alignment</h2>
+            <p>
+                Topics in the UCGIS GIS&amp;T Body of Knowledge that support this chapter.
+            </p>
+            <ul class="bok-topic-list">
+                        <li class="bok-topic">
+            <span class="bok-code">DC-02-029</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10615" target="_blank" rel="noopener noreferrer">Volunteered Geographic Information</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">GS-02-024</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10720" target="_blank" rel="noopener noreferrer">Citizen Science with GIS&T</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">GS-02-028</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10724" target="_blank" rel="noopener noreferrer">GIS&T and Community Engagement</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DM-02-071</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10655" target="_blank" rel="noopener noreferrer">Geospatial Data Conflation</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">GS-01-004</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10708" target="_blank" rel="noopener noreferrer">Location Privacy</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">BoK</span>
+            <a href="https://gistbok-ltb.ucgis.org/" target="_blank" rel="noopener noreferrer">UCGIS GIS&T Body of Knowledge (Living Textbook)</a>
+        </li>
+            </ul>
+        </section>
+
+</main>
+
+    <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        let count = 0;
+        function addPoint(e) {
+            const canvas = document.getElementById('crowd-canvas');
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const point = document.createElement('div');
+            point.className = 'user-point';
+            point.style.left = x + 'px';
+            point.style.top = y + 'px';
+            canvas.appendChild(point);
+
+            count++;
+            document.getElementById('count').textContent = count;
+        }
+    </script>
+</body>
+</html>

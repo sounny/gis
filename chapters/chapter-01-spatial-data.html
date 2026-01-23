@@ -162,6 +162,98 @@
             <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
         </nav>
 
+
+        <section class="card learning-scaffold" aria-label="Learning scaffold">
+            <div class="scaffold-head">
+                <h2>At a Glance</h2>
+                <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapter 00</span>
+                    <span class="scaffold-chip"><strong>Time:</strong> 20 min read + 20 min practice</span>
+                    <span class="scaffold-chip"><strong>Deliverable:</strong> Raster vs vector decision note</span>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Learning outcomes</h3>
+                    <ul>
+                        <li>Explain the difference between vector and raster models.</li>
+                        <li>Describe how resolution affects what you can see and measure.</li>
+                        <li>Choose the right model for a real GIS question and justify your choice.</li>
+                    </ul>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Key terms</h3>
+                    <p>vector, raster, pixel, resolution, extent, topology</p>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Stop &amp; check</h3>
+                    <ol class="scaffold-qa">
+                        <li>
+                            <details>
+                                <summary>Which data model is best for utility pipelines: raster or vector?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> Vector (lines).</p>
+                                    <p><strong>Why:</strong> Pipelines are discrete objects with connectivity and attributes.</p>
+                                    <p><strong>Common misconception:</strong> Aerial imagery shows pipelines, but the network itself is modeled as vector geometry.</p>
+                                </div>
+                            </details>
+                        </li>
+                        <li>
+                            <details>
+                                <summary>If you increase raster resolution, what happens to pixel size?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> Pixel size decreases.</p>
+                                    <p><strong>Why:</strong> Higher resolution means smaller ground area per pixel.</p>
+                                    <p><strong>Common misconception:</strong> "Higher" resolution does not mean bigger pixels; it changes measurement detail.</p>
+                                </div>
+                            </details>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Try it (5 minutes)</h3>
+                    <ol>
+                        <li>Toggle between raster and vector layers and zoom until you see pixels.</li>
+                        <li>Write one sentence: what stays sharp at any scale, and why?</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Lab (Two Tracks)</h3>
+                    <p>Both tracks produce the same deliverable: a 6-8 sentence decision note about which model fits a chosen problem.</p>
+                    <div class="scaffold-two-track">
+                        <div class="scaffold-track">
+                            <h4>Desktop GIS Track (ArcGIS Pro / QGIS)</h4>
+                            <p>Add imagery + a vector layer (roads/parcels). Compare what questions each layer supports and include one screenshot.</p>
+                        </div>
+                        <div class="scaffold-track">
+                            <h4>Remote Sensing Track (Google Earth Engine)</h4>
+                            <p>Load a public image (Sentinel-2 or Landsat) and a vector AOI. Describe what is pixel-based vs feature-based in your map.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Common mistakes</h3>
+                    <ul>
+                        <li>Confusing map scale with raster resolution.</li>
+                        <li>Assuming all rasters are photographs (many rasters store elevation, temperature, indices).</li>
+                        <li>Forgetting CRS/units when measuring distances/areas.</li>
+                    </ul>
+                    <p><strong>Further reading:</strong> https://www.ucgis.org/site/gis-t-body-of-knowledge</p>
+                </div>
+            </div>
+        </section>
+
+
         <div class="layout-grid">
             <div class="content">
                 <section class="card">
@@ -172,6 +264,7 @@
                         <div>
                             <h3 style="color: var(--primary);">Vector Model</h3>
                             <p>Represents the world as discrete objects. Think of this as "connect the dots" or architectural drafting.</p>
+                            <img src="../assets/img/diagrams/raster_vs_vector_simple.png" alt="Vector GIS Components" style="width: 100%; border-radius: 8px; margin-bottom: 1rem; box-shadow: var(--shadow-sm);">
                             <ul>
                                 <li><strong>Points:</strong> Exact X,Y coordinates (e.g., a specific tree).</li>
                                 <li><strong>Lines:</strong> Connected sequences of points (e.g., a section of Interstate 10).</li>
@@ -184,6 +277,10 @@
                         <div>
                             <h3 style="color: var(--success);">▦ Raster Model</h3>
                             <p>Represents the world as a continuous grid of cells. Think of this as a digital photograph or a TV screen.</p>
+            <div style="text-align: center; margin: 2rem 0;">
+                <img src="../assets/img/diagrams/raster_vs_vector_simple.png" alt="Raster vs Vector Comparison" style="max-width: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+            </div>
+
                             <ul>
                                 <li><strong>Pixels:</strong> Each cell contains a single value (e.g., elevation or color).</li>
                                 <li><strong>Resolution:</strong> The size of the cell determines the detail (e.g., 30m vs 1m pixels).</li>
@@ -191,6 +288,34 @@
                             </ul>
                             <div class="callout info" style="font-size: 0.9rem; border-left-color: var(--success);">
                                 Best for imagery and continuous environmental data.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>Data Capture: Digitizing</h2>
+                    <p>Before we had satellite downloads, we had to manually "trace" paper maps into the computer. This implies mounting a map to a <strong>digitizing tablet</strong> and clicking points along lines to create vector coordinates.</p>
+                    <div style="margin: 1.5rem 0; width: 60%; margin-left: auto; margin-right: auto;">
+                        <img src="../assets/img/diagrams/manual_digitizing_tablet.png" alt="Manual Digitizing Tablet" style="width: 100%; border-radius: 12px; box-shadow: var(--shadow-md);">
+                        <p style="font-size: 0.8rem; color: var(--secondary); margin-top: 0.5rem; text-align: center;">Figure: Manual Digitizing circa 1990s. This is still done today for historical maps!</p>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>Manual GIS: The Legacy of Dr. John Snow</h2>
+                    <p>GIS is not a new concept; it is just a new technology. Long before computers, geographers performed "Manual GIS" using transparent overlays and cognitive spatial analysis.</p>
+                    
+                    <div style="display: flex; gap: 2rem; align-items: flex-start; margin-top: 1.5rem; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 300px;">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/27/Snow-cholera-map-1.jpg" alt="John Snow Cholera Map" style="width: 100%; border-radius: 12px; box-shadow: var(--shadow-md);">
+                            <p style="font-size: 0.8rem; color: var(--secondary); margin-top: 0.5rem; text-align: center;">Figure 1.3: Dr. John Snow's Cholera Map of London's Soho (1854).</p>
+                        </div>
+                        <div style="flex: 1; min-width: 300px;">
+                            <p>In 1854, a cholera outbreak struck London's Soho district. <strong>Dr. John Snow</strong>, a physician, didn't just treat patients; he mapped them.</p>
+                            <p>By plotting the location of deaths (points) and water pumps (points) on a base map, he noticed a deadly cluster around the <strong>Broad Street Pump</strong>. He famously convinced officials to remove the handle of the pump, ending the outbreak.</p>
+                            <div class="callout success">
+                                <strong>The First Spatial Analysis:</strong> Snow didn't just make a map; he used <em>overlay</em> (deaths + pumps) and <em>proximity</em> (clustering) to solve a problem. This is the essence of GIS.
                             </div>
                         </div>
                     </div>
@@ -243,31 +368,37 @@
                     </div>
                 </div>
 
-                <section class="card" style="margin-top: 3rem;">
-                    <h2>Glossary</h2>
-                    <dl>
-                        <dt><strong>Geometric Primitive:</strong></dt>
-                        <dd>The three basic vector shapes: points, lines, and polygons.</dd>
-                        
-                        <dt><strong>Resolution:</strong></dt>
-                        <dd>In raster GIS, the dimension of the area on the ground represented by a single pixel.</dd>
-                        
-                        <dt><strong>Topology:</strong></dt>
-                        <dd>The mathematical study of spatial relationships (overlap, adjacency, connectivity).</dd>
-                    </dl>
-                </section>
+                <div class="section-glossary">
+                    <h2>📚 Chapter Glossary</h2>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">Geometric Primitive</span>
+                            <span class="glossary-def">The three basic shapes used to represent vector features: points, lines, and polygons.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Resolution (Raster)</span>
+                            <span class="glossary-def">In raster GIS, the dimension of the area on the ground represented by a single pixel (e.g., 30 meters).</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Topology</span>
+                            <span class="glossary-def">The mathematical study of spatial relationships (overlap, adjacency, connectivity) that ensures data integrity.</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <aside class="sidebar">
-                <div class="sidebar-box bio">
-                    <h3>Important Person</h3>
-                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Roger_Tomlinson.jpg/220px-Roger_Tomlinson.jpg" alt="Roger Tomlinson" class="bio-img">
-                    <p><strong>Roger Tomlinson (1933–2014)</strong></p>
-                    <p>Known as the "Father of GIS," Tomlinson was a visionary who developed the Canada Geographic Information System in the 1960s—the world's first computerized GIS. He realized that while paper maps were static, digital data could be layered and analyzed mathematically.</p>
+                <div class="box-bio">
+                    <img src="../assets/img/people/roger_tomlinson.png" alt="Roger Tomlinson">
+                    <div>
+                        <h3>Roger Tomlinson</h3>
+                        <span class="bio-dates">(1933–2014)</span>
+                        <p>Known as the "Father of GIS," Tomlinson was a visionary who developed the Canada Geographic Information System in the 1960s—the world's first computerized GIS. He realized that while paper maps were static, digital data could be layered and analyzed mathematically.</p>
+                    </div>
                 </div>
 
-                <div class="sidebar-box local">
-                    <h3>Local to Global</h3>
+                <div class="sidebar-local-global">
+                    <h3>🇨🇱 Texas Connection</h3>
                     <p><strong>The Texas Parcel Map</strong></p>
                     <p>In Texas, the General Land Office (GLO) and local appraisals districts manage one of the most complex <strong>vector</strong> datasets in the country: Land Parcels. Every fence line and property boundary in the state is a polygon with detailed ownership attributes.</p>
                     <p>Globally, these patterns are mirrored in "Cadastral Maps" used for taxation and urban planning across the world.</p>
@@ -283,7 +414,50 @@
             Chapter 02: Map Design &rarr;
           </a>
         </div>
-    </main>
+    
+
+        
+
+        
+
+        <section class="card bok-alignment" aria-label="Body of Knowledge alignment">
+            <h2>BoK Alignment</h2>
+            <p>
+                Topics in the UCGIS GIS&amp;T Body of Knowledge that support this chapter.
+            </p>
+            <ul class="bok-topic-list">
+                        <li class="bok-topic">
+            <span class="bok-code">DM-02-014</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10630" target="_blank" rel="noopener noreferrer">Classic vector data models</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DM-02-007</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10625" target="_blank" rel="noopener noreferrer">The Raster Data Model</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">CV-02-003</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10532" target="_blank" rel="noopener noreferrer">Vector Formats and Sources</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">CV-02-020</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10549" target="_blank" rel="noopener noreferrer">Raster Formats and Sources</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DM-06-086</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10661" target="_blank" rel="noopener noreferrer">Vector-to-Raster and Raster-to-Vector Conversions</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">FC-06</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10702" target="_blank" rel="noopener noreferrer">Interrogating Geographic Information</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">BoK</span>
+            <a href="https://gistbok-ltb.ucgis.org/" target="_blank" rel="noopener noreferrer">UCGIS GIS&T Body of Knowledge (Living Textbook)</a>
+        </li>
+            </ul>
+        </section>
+
+</main>
 
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">
@@ -297,7 +471,7 @@
         const map = L.map('comparison-map').setView([30.2672, -97.7431], 13); // Austin, TX
 
         const rasterLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+            attribution: 'Tiles &copy; Esri  -  Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
         }).addTo(map);
 
         const vectorLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

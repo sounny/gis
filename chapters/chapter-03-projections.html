@@ -135,6 +135,98 @@
             <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
         </nav>
 
+
+        <section class="card learning-scaffold" aria-label="Learning scaffold">
+            <div class="scaffold-head">
+                <h2>At a Glance</h2>
+                <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapters 01-02</span>
+                    <span class="scaffold-chip"><strong>Time:</strong> 25 min read + 25 min practice</span>
+                    <span class="scaffold-chip"><strong>Deliverable:</strong> Projection choice memo</span>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Learning outcomes</h3>
+                    <ul>
+                        <li>Distinguish datum, projection, and CRS in practical terms.</li>
+                        <li>Predict and explain distortion patterns for common projections.</li>
+                        <li>Select a CRS for measurement and justify the choice.</li>
+                    </ul>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Key terms</h3>
+                    <p>CRS, datum, projection, EPSG, Web Mercator, UTM, distortion</p>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Stop &amp; check</h3>
+                    <ol class="scaffold-qa">
+                        <li>
+                            <details>
+                                <summary>Why is Web Mercator a poor choice for area calculations?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> It distorts area (especially away from the equator).</p>
+                                    <p><strong>Why:</strong> It was designed for web mapping convenience, not measurement accuracy.</p>
+                                    <p><strong>Common misconception:</strong> If it looks right on screen, it must measure right.</p>
+                                </div>
+                            </details>
+                        </li>
+                        <li>
+                            <details>
+                                <summary>When is UTM a good default?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> For local/regional work within one UTM zone.</p>
+                                    <p><strong>Why:</strong> It preserves distance/area reasonably well locally in meters.</p>
+                                    <p><strong>Common misconception:</strong> UTM is a single global CRS; it is a zone system.</p>
+                                </div>
+                            </details>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Try it (5 minutes)</h3>
+                    <ol>
+                        <li>Pick one city-sized AOI and write the unit you want for distance (meters or degrees).</li>
+                        <li>Explain in one sentence why your unit choice matters for buffers.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Lab (Two Tracks)</h3>
+                    <p>Both tracks produce the same deliverable: a short memo (8-10 sentences) recommending a CRS for a stated task.</p>
+                    <div class="scaffold-two-track">
+                        <div class="scaffold-track">
+                            <h4>Desktop GIS Track (ArcGIS Pro / QGIS)</h4>
+                            <p>Reproject one layer and measure a distance/area. Compare results before/after and include one screenshot.</p>
+                        </div>
+                        <div class="scaffold-track">
+                            <h4>Remote Sensing Track (Google Earth Engine)</h4>
+                            <p>Load an AOI and compute a simple area/distance summary. Note the CRS/projection assumptions in your memo.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Common mistakes</h3>
+                    <ul>
+                        <li>Measuring distance/area in geographic coordinates (degrees).</li>
+                        <li>Mixing layers with different CRS without noticing.</li>
+                        <li>Assuming EPSG codes imply the same units everywhere.</li>
+                    </ul>
+                    <p><strong>Further reading:</strong> https://www.ucgis.org/site/gis-t-body-of-knowledge</p>
+                </div>
+            </div>
+        </section>
+
+
         <div class="layout-grid">
             <div class="content">
                 <section class="card">
@@ -154,6 +246,18 @@
                     <div class="callout">
                         <strong>The "Orange Peel" Problem:</strong> Try peeling an orange and flattening the skin. You'll find it impossible without tearing it or stretching the surface. Every map projection does exactly this to our planet.
                     </div>
+                </section>
+
+                <section class="card">
+                    <h2>Latitude, Longitude & The Graticule</h2>
+                    <p>To measure location on a varied sphere, we need a grid.</p>
+                    <div style="margin: 1.5rem 0;">
+                        <img src="../assets/img/diagrams/latitude_longitude_graticule.png" alt="Latitude Longitude and Graticule" style="width: 100%; border-radius: 12px; box-shadow: var(--shadow-md);">
+                    </div>
+                    <ul>
+                        <li><strong>Latitude (Parallels):</strong> Measure North-South (0° at Equator to 90° at Poles). Lines never touch.</li>
+                        <li><strong>Longitude (Meridians):</strong> Measure East-West (0° at Prime Meridian to 180°). Lines converge at poles.</li>
+                    </ul>
                 </section>
 
                 <section class="tool-panel">
@@ -178,6 +282,19 @@
                 </section>
 
                 <section class="card">
+                    <h2>Projection Surfaces</h2>
+                    <p>How do we flatten the globe? Imagine wrapping a piece of paper around a lightbulb (the translucent Earth).</p>
+                    <div style="margin: 1.5rem 0;">
+                        <img src="../assets/img/diagrams/map_projection_surfaces.png" alt="Map Projection Surfaces" style="width: 100%; border-radius: 12px; box-shadow: var(--shadow-md);">
+                    </div>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Cylindrical:</strong> Paper wrapped as a tube (Good for Equator, e.g., Mercator).</li>
+                        <li><strong>Conic:</strong> Paper formed as a cone (Good for Mid-Latitudes, e.g., US & Europe).</li>
+                        <li><strong>Planar (Azimuthal):</strong> Paper touching one point (Good for Poles).</li>
+                    </ul>
+                </section>
+
+                <section class="card">
                     <h2>The "Big Four" Distortions</h2>
                     <p>When you flatten the Earth, you must sacrifice one or more of these properties. A projection can be:</p>
                     <ul style="line-height: 2;">
@@ -186,6 +303,51 @@
                         <li><strong>Equidistant:</strong> Preserves <strong>Distance</strong> (measured from one or two points).</li>
                         <li><strong>Azimuthal:</strong> Preserves <strong>Direction</strong> (important for flight paths).</li>
                     </ul>
+                </section>
+
+                <section class="card">
+                    <h2>Map Preprocessing</h2>
+                    <p>Projections are just the beginning. To make different datasets play nicely together, we often need to perform "housecleaning" tasks:</p>
+                    
+                    <h3>1. Georeferencing</h3>
+                    <p>Aligning a raw image (like a scanned map or aerial photo) to a known coordinate system. This is done by creating control points that link the pixels of the image to real-world coordinates.</p>
+                    <div class="callout info">
+                        <strong>World Files:</strong> Georeferencing often creates a small text file (e.g., <code>.tfw</code> or <code>.jpw</code>) containing the math to position the image.
+                    </div>
+
+                    <h3>2. Resampling</h3>
+                    <p>When you change a raster's projection or cell size, the grid must be recalculated. Common methods include:</p>
+                    <ul style="margin-bottom: 1rem;">
+                        <li><strong>Nearest Neighbor:</strong> Fast, keeps original values (good for discrete data like Land Use).</li>
+                        <li><strong>Bilinear Interpolation:</strong> Smoothes values (good for continuous data like Elevation).</li>
+                    </ul>
+
+                    <h3>3. Edge Matching</h3>
+                    <p>Stitching together adjacent maps (like tiles) to ensure features like roads connect seamlessly across boundaries.</p>
+                </section>
+
+                <section class="card">
+                    <h2>State Plane Coordinate System (SPCS)</h2>
+                    <p>While UTM is global, the <strong>State Plane Coordinate System</strong> is purely American. It divides the U.S. into over 120 zones to minimize distortion for local surveying and engineering.</p>
+                    
+                    <div style="display: flex; gap: 2rem; align-items: start; flex-wrap: wrap; margin-top: 1.5rem;">
+                        <div style="flex: 1; min-width: 300px;">
+                            <img src="../assets/img/diagrams/state_plane_zones.png" alt="State Plane Coordinate System Map" style="width: 100%; border-radius: 12px; box-shadow: var(--shadow-md);">
+                            <p style="font-size: 0.8rem; color: var(--secondary); margin-top: 0.5rem; text-align: center;">Figure 3.6: The SPCS divides states like California into multiple horizontal belts (Zones) to maintain high precision.</p>
+                        </div>
+                        <div style="flex: 1; min-width: 300px;">
+                            <ul style="line-height: 1.8;">
+                                <li><strong>The Goal:</strong> To allow surveyors to treat the earth as "flat" within a small zone with error rates of less than 1 part in 10,000.</li>
+                                <li><strong>The Zones:</strong> 
+                                    <ul>
+                                        <li><strong>North-South States:</strong> (like California) are often divided into horizontal strips using the <em>Lambert Conformal Conic</em> projection.</li>
+                                        <li><strong>East-West States:</strong> (like Illinois) often use vertical strips based on the <em>Transverse Mercator</em> projection.</li>
+                                    </ul>
+                                </li>
+                                <li><strong>The Catch:</strong> It is a nightmare when your project crosses zone boundaries (e.g., a roadmap from San Francisco to Los Angeles crosses multiple zones).</li>
+                            </ul>
+                        </div>
+                    </div>
                 </section>
 
                 <section class="card">
@@ -212,33 +374,39 @@
                     </div>
                 </div>
 
-                <section class="card" style="margin-top: 3rem;">
-                    <h2>📚 Glossary</h2>
-                    <dl>
-                        <dt><strong>Geoid:</strong></dt>
-                        <dd>The shape the ocean surface would take under the influence of gravity and Earth's rotation alone.</dd>
-                        
-                        <dt><strong>Standard Parallel:</strong></dt>
-                        <dd>The line of latitude where the projection surface touches the globe; distortion is zero here.</dd>
-                        
-                        <dt><strong>Rhumb Line:</strong></dt>
-                        <dd>A line on a map with a constant compass bearing (straight on Mercator).</dd>
-                    </dl>
-                </section>
+                <div class="section-glossary">
+                    <h2>📚 Chapter Glossary</h2>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">Geoid</span>
+                            <span class="glossary-def">The hypothetical shape of the earth, coinciding with mean sea level and its imagined extension under (or over) land areas.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Standard Parallel</span>
+                            <span class="glossary-def">The line of latitude where the projection surface touches the globe. Distortion is zero along this line.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Rhumb Line</span>
+                            <span class="glossary-def">A line on a sphere that cuts all meridians at the same angle; the path taken by a ship or plane that maintains a constant compass direction.</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <aside class="sidebar">
-                <div class="sidebar-box bio">
-                    <h3>Important Person</h3>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Gerardus_Mercator.jpg/220px-Gerardus_Mercator.jpg" alt="Mercator" class="bio-img">
-                    <p><strong>Gerardus Mercator (1512–1594)</strong></p>
-                    <p>Flemish cartographer and geographer. In 1569, he introduced the Mercator projection, which became the standard for nautical navigation because it preserved constant bearings (rhumb lines). While controversial today for its area distortion, it remains the foundation of web mapping.</p>
+                <div class="box-bio">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Eratosthenes_profile.png" alt="Eratosthenes">
+                    <div>
+                        <h3>Eratosthenes</h3>
+                        <span class="bio-dates">(c. 276 BC – c. 194 BC)</span>
+                        <p>Often called the "Father of Geography," Eratosthenes was the first person to use the word "geography." remarkably, he calculated the circumference of the Earth with high accuracy using only the sun's angle and basic geometry over 2,000 years before satellites existed. This is the foundation of <strong>Geodesy</strong>.</p>
+                    </div>
                 </div>
 
-                <div class="sidebar-box local">
-                    <h3>Local to Global</h3>
+                <div class="sidebar-local-global">
+                    <h3>🇨🇱 Texas Connection</h3>
                     <p><strong>The Texas State Plane System</strong></p>
-                    <p>Texas is massive. To minimize distortion for local surveying, the state is divided into <strong>5 zones</strong> (North, North Central, Central, South Central, South) within the State Plane Coordinate System (SPCS). Each zone uses a customized projection centered on that area.</p>
+                    <p>Texas is massive. To minimize distortion for local surveying, the state is divided into <strong>5 zones</strong> (North, North Central, Central, South Central, South) within the State Plane Coordinate System (SPCS). Each zone uses a customized projection (Lambert Conformal Conic) centered on that area.</p>
                     <p>Surveyors in Austin use the <strong>Texas Central Zone</strong> (FIPS 4203) for maximum precision!</p>
                 </div>
             </aside>
@@ -248,7 +416,46 @@
           <a href="chapter-02-map-design.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 02: Map Design</a>
           <a href="chapter-04-gps.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 04: GNSS & Positioning &rarr;</a>
         </div>
-    </main>
+    
+
+        
+
+        
+
+        <section class="card bok-alignment" aria-label="Body of Knowledge alignment">
+            <h2>BoK Alignment</h2>
+            <p>
+                Topics in the UCGIS GIS&amp;T Body of Knowledge that support this chapter.
+            </p>
+            <ul class="bok-topic-list">
+                        <li class="bok-topic">
+            <span class="bok-code">CV-03-006</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10535" target="_blank" rel="noopener noreferrer">Map Projections</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DM-05-047</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10808" target="_blank" rel="noopener noreferrer">Geographic Coordinate Systems</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DM-05-048</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10644" target="_blank" rel="noopener noreferrer">Planar Coordinate Systems and the U. S. National Grid</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DM-05-052</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10647" target="_blank" rel="noopener noreferrer">Horizontal (Geometric) Datums</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DM-05-051</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10646" target="_blank" rel="noopener noreferrer">Vertical (Geopotential) Datums</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">BoK</span>
+            <a href="https://gistbok-ltb.ucgis.org/" target="_blank" rel="noopener noreferrer">UCGIS GIS&T Body of Knowledge (Living Textbook)</a>
+        </li>
+            </ul>
+        </section>
+
+</main>
 
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">

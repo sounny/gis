@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 05: Georeferencing | GIS Digital Textbook</title>
+    <title>Chapter 08: Georeferencing | GIS Digital Textbook</title>
     <meta name="description" content="Learn how to give life to paper maps. Master control points, RMS errors, and the process of georeferencing historical imagery into a modern GIS coordinate system.">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -145,7 +145,7 @@
 
     <header class="hero-chapter">
         <div class="container">
-            <span class="chapter-badge">Chapter 05</span>
+            <span class="chapter-badge">Chapter 08</span>
             <h1>Georeferencing</h1>
             <p class="subtitle">Assigning coordinates to images. Learn how to transform scanned paper maps and historical aerial photos into accurate spatial data.</p>
         </div>
@@ -155,6 +155,96 @@
         <nav style="margin: 2rem 0;">
             <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
         </nav>
+
+        <section class="card learning-scaffold" aria-label="Learning scaffold">
+            <div class="scaffold-head">
+                <h2>At a Glance</h2>
+                <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapters 01, 03, 04</span>
+                    <span class="scaffold-chip"><strong>Time:</strong> 25 min read + 25 min practice</span>
+                    <span class="scaffold-chip"><strong>Deliverable:</strong> 1-page georef report</span>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Learning outcomes</h3>
+                    <ul>
+                        <li>Place well-distributed ground control points (GCPs) and justify your point choices.</li>
+                        <li>Explain what an affine transformation can and cannot correct.</li>
+                        <li>Interpret RMSE and residuals and identify when a point should be moved or removed.</li>
+                    </ul>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Key terms</h3>
+                    <p>ground control point (GCP), checkpoint, residual, RMSE, affine transformation, resampling, world file</p>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Stop &amp; check</h3>
+                    <ol class="scaffold-qa">
+                        <li>
+                            <details>
+                                <summary>Why is it risky to place all GCPs in one small area of the image?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> The model fits well locally but can warp badly elsewhere.</p>
+                                    <p><strong>Why:</strong> Transformations interpolate error; clustered points provide weak constraints across the full extent.</p>
+                                    <p><strong>Common misconception:</strong> "More points in one corner increases accuracy"; distribution matters more than density in one spot.</p>
+                                </div>
+                            </details>
+                        </li>
+                        <li>
+                            <details>
+                                <summary>Your RMSE is high. What is the first thing you should check?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> Individual point residuals (and whether one point is a mis-click).</p>
+                                    <p><strong>Why:</strong> One bad point can dominate error and distort the fit.</p>
+                                    <p><strong>Common misconception:</strong> "Use a higher-order polynomial"; that can overfit and make the map look worse.</p>
+                                </div>
+                            </details>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Try it (5 minutes)</h3>
+                    <ol>
+                        <li>Use the simulator below to align the scanned map with translation and rotation.</li>
+                        <li>Write one sentence: what distortion remains that translation/rotation cannot fix?</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Lab (Two Tracks)</h3>
+                    <p>Both tracks produce the same deliverable: a short report (1 page) documenting points, error, and decisions.</p>
+                    <div class="scaffold-two-track">
+                        <div class="scaffold-track">
+                            <h4>Desktop GIS Track (ArcGIS Pro / QGIS)</h4>
+                            <p>Georeference a scanned map (or historical aerial) using 6-10 GCPs. Report the final RMSE, list 3 strongest points, and include 1 screenshot of the overlay.</p>
+                        </div>
+                        <div class="scaffold-track">
+                            <h4>Remote Sensing Track (Google Earth Engine)</h4>
+                            <p>Load a basemap image and create 6-10 validation checkpoints (as point features). Use them as a checklist to verify a georeferenced overlay and document any systematic offset you observe.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Common mistakes</h3>
+                    <ul>
+                        <li>Picking blurry features: choose sharp, stable targets (corners, intersections), not vegetation edges.</li>
+                        <li>Clustered points: spread points across the full image extent.</li>
+                        <li>Chasing a low RMSE only: validate with checkpoints and visual inspection, not just the single number.</li>
+                    </ul>
+                    <p><strong>Further reading:</strong> https://gistbok-ltb.ucgis.org/</p>
+                </div>
+            </div>
+        </section>
 
         <div class="layout-grid">
             <div class="content">
@@ -218,8 +308,8 @@
                     </ul>
                 </section>
 
-                <div class="quiz-container">
-                    <h2>Chapter 05 Checkpoint</h2>
+                <section class="quiz-container">
+                    <h2>Chapter 08 Checkpoint</h2>
                     <div class="question">
                         <p><strong>1. What is the minimum number of Ground Control Points (GCPs) required for an Affine (1st Order) transformation?</strong></p>
                         <div class="option" onclick="this.classList.add('wrong')">1</div>
@@ -230,45 +320,88 @@
                         <div class="option" onclick="this.classList.add('correct')">One or more GCPs were placed inaccurately.</div>
                         <div class="option" onclick="this.classList.add('wrong')">You used too many points.</div>
                     </div>
-                </div>
-
-                <section class="card" style="margin-top: 3rem;">
-                    <h2>Glossary</h2>
-                    <dl>
-                        <dt><strong>Residual:</strong></dt>
-                        <dd>The distance between the actual location of a GCP and its estimated location after transformation.</dd>
-                        
-                        <dt><strong>Orthorectification:</strong></dt>
-                        <dd>A process that removes the effects of image tilt and terrain relief from aerial photos.</dd>
-                        
-                        <dt><strong>World File:</strong></dt>
-                        <dd>A small text file used by GIS software to read the georeferencing info of a raster image.</dd>
-                    </dl>
                 </section>
+
+                <div class="section-glossary">
+                    <h2>📚 Chapter Glossary</h2>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">Residual</span>
+                            <span class="glossary-def">The error distance between where a Ground Control Point (GCP) was placed and where the transformation model predicts it should be.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">RMS Error (Root Mean Square)</span>
+                            <span class="glossary-def">A statistical measure of the overall accuracy of a georeferencing transformation. Lower is generally better, but must be validated visually.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Affine Transformation</span>
+                            <span class="glossary-def">A first-order transformation that can scale, rotate, and translate an image but maintains straight lines and parallel relationships.</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <aside class="sidebar">
-                <div class="sidebar-box bio">
-                    <h3>Important Person</h3>
-                    <img src="https://www.usgs.gov/sites/default/files/styles/side_image/public/images/john_snow.jpg" alt="Historical Cartography" class="bio-img">
-                    <p><strong>The Early Aligners</strong></p>
-                    <p>While modern georeferencing is digital, the desire to overlay maps dates back centuries. Early cartographers would literally use transparent paper and sunlight to align "overlays" of different city plans—a precursor to the mathematical georeferencing tools we use today in software like QGIS or ArcGIS.</p>
+                <div class="box-bio">
+                    <img src="https://static.wixstatic.com/media/893ad7_7675dd1341c546db984518d697841c19~mv2.jpg" alt="Peter Dana">
+                    <div>
+                        <h3>Dr. Peter H. Dana</h3>
+                        <p>A geography expert and consultant based in Georgetown, Texas. Dr. Dana is best known for creating <strong>"The Geographer's Craft"</strong>—a seminal online GPS overview that educated a generation of GIS professionals. His work focuses on geodetic datums, high-precision positioning, and the ethics of location technology. <a href="https://www.pdana.com" target="_blank" style="color:var(--primary);text-decoration:none;">Visit pdana.com</a></p>
+                    </div>
                 </div>
 
-                <div class="sidebar-box local">
-                    <h3>Local to Global</h3>
-                    <p><strong>Retro-mapping Austin</strong></p>
-                    <p>The University of Texas at Austin provides an <em>Historical Map Collection</em> containing prints from the 1800s. By georeferencing these maps over modern satellite imagery of the "Drag" (Guadalupe St), researchers can track how buildings and drainage patterns have changed over 150 years.</p>
-                    <p>This process is essential for environmental impact studies and historical preservation.</p>
+                <div class="sidebar-local-global">
+                    <h3>🇨🇱 Texas Connection</h3>
+                    <p><strong>Sanborn Fire Insurance Maps</strong></p>
+                    <p>The University of Texas at Austin's Perry-Castañeda Library holds a massive collection of <strong>Sanborn Fire Insurance Maps</strong> dating back to the 1800s. These highly detailed maps show building footprints for almost every town in Texas.</p>
+                    <p>Students and researchers frequently <strong>georeference</strong> these scans to study urban growth, historical land use, and changes in the built environment over the last century.</p>
+                    <a href="https://maps.lib.utexas.edu/maps/sanborn/" target="_blank" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem; width:100%; text-align:center;">Explore the Collection</a>
                 </div>
             </aside>
         </div>
 
         <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
-          <a href="chapter-04-gps.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 04: GNSS</a>
-          <a href="chapter-06-digitizing.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 06: Digitizing &rarr;</a>
+          <a href="chapter-07-database-management.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 07: Database Management</a>
+          <a href="chapter-09-spectral-analysis.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 09: Spectral Analysis &rarr;</a>
         </div>
-    </main>
+    
+
+        
+
+        <section class="card bok-alignment" aria-label="Body of Knowledge alignment">
+            <h2>BoK Alignment</h2>
+            <p>
+                Topics in the UCGIS GIS&amp;T Body of Knowledge that support this chapter.
+            </p>
+            <ul class="bok-topic-list">
+                        <li class="bok-topic">
+            <span class="bok-code">DC-01-030</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10616" target="_blank" rel="noopener noreferrer">Georeferencing and Georectification</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DM-05</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10807" target="_blank" rel="noopener noreferrer">Georeferencing Systems</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DC-02-010</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10603" target="_blank" rel="noopener noreferrer">Aerial Photography: History and Georeferencing</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DM-06-087</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10662" target="_blank" rel="noopener noreferrer">Raster resampling</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DM-02-007</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10625" target="_blank" rel="noopener noreferrer">The Raster Data Model</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">BoK</span>
+            <a href="https://gistbok-ltb.ucgis.org/" target="_blank" rel="noopener noreferrer">UCGIS GIS&T Body of Knowledge (Living Textbook)</a>
+        </li>
+            </ul>
+        </section>
+
+</main>
 
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">

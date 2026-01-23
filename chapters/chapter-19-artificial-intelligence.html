@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 19: Artificial Intelligence in Geography | GIS Digital Textbook</title>
+    <meta name="description" content="Unlock the power of GeoAI. Learn how Machine Learning, Computer Vision, and Deep Learning are automating the extraction of features from satellite imagery.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --secondary: #64748b;
+            --accent: #d946ef;
+            --success: #10b981;
+            --bg: #f8fafc;
+        }
+
+        .hero-chapter {
+            background: linear-gradient(135deg, #4c1d95 0%, #8b5cf6 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-chapter::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                linear-gradient(0deg, transparent 24%, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.05) 26%, transparent 27%, transparent 74%, rgba(255,255,255,0.05) 75%, rgba(255,255,255,0.05) 76%, transparent 77%),
+                linear-gradient(90deg, transparent 24%, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.05) 26%, transparent 27%, transparent 74%, rgba(255,255,255,0.05) 75%, rgba(255,255,255,0.05) 76%, transparent 77%);
+            background-size: 50px 50px;
+        }
+
+        .chapter-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 1100px) {
+            .layout-grid { grid-template-columns: 1fr; }
+        }
+
+        .sidebar-box {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary);
+        }
+        .sidebar-box.local { border-top-color: var(--accent); }
+
+        .sidebar-box h3 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .bio-img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
+
+        .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        
+        /* AI Demo */
+        .ai-demo {
+            background: #0f172a;
+            padding: 2rem;
+            border-radius: 16px;
+            color: white;
+            text-align: center;
+            margin: 2rem 0;
+            border: 1px solid #334155;
+        }
+
+        .vision-box {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            background: url('../assets/img/chapter-09/texas_algae_bloom.jpg'); /* Reuse existing asset as placeholder or generic landscape */
+            background-size: cover;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        
+        /* Fallback if asset missing, use gradient */
+        .vision-box { background: linear-gradient(45deg, #1e293b, #0f172a); }
+
+        .bounding-box {
+            position: absolute;
+            border: 3px solid #10b981;
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            font-weight: 700;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 2px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .bounding-box::before { content: attr(data-label); background: #10b981; color: black; padding: 2px 4px; }
+
+        /* Quiz Styles */
+        .quiz-container { background: #fdf4ff; padding: 2rem; border-radius: 16px; margin-top: 3rem; }
+        .option { background: white; padding: 1rem; border-radius: 8px; border: 2px solid #e2e8f0; cursor: pointer; margin-bottom: 0.75rem; transition: 0.2s; color: #1e293b; }
+        .option:hover { border-color: var(--primary); }
+        .option.correct { border-color: var(--success); background: #ecfdf5; }
+        .option.wrong { border-color: #ef4444; background: #fff1f2; }
+    </style>
+</head>
+<body>
+
+    <header class="hero-chapter">
+        <div class="container">
+            <span class="chapter-badge">Chapter 19</span>
+            <h1>Artificial Intelligence in Geography</h1>
+            <p class="subtitle">From pixels to patterns. Discover how Deep Learning and Computer Vision are automating the analysis of the planet at scale.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav style="margin: 2rem 0;">
+            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
+        </nav>
+
+
+        <section class="card learning-scaffold" aria-label="Learning scaffold">
+            <div class="scaffold-head">
+                <h2>At a Glance</h2>
+                <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapters 11, 15</span>
+                    <span class="scaffold-chip"><strong>Time:</strong> 30 min read + 30 min lab</span>
+                    <span class="scaffold-chip"><strong>Deliverable:</strong> Object detection results</span>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Learning outcomes</h3>
+                    <ul>
+                        <li>Differentiate between Machine Learning (Random Forest) and Deep Learning (CNNs).</li>
+                        <li>Explain the concept of "Training Data" in the context of object detection.</li>
+                        <li>Critique the "Black Box" nature of AI models in geospatial decision making.</li>
+                    </ul>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Key terms</h3>
+                    <p>GeoAI, Convolutional Neural Network (CNN), Computer Vision, Semantic Segmentation, Training Labels</p>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Stop &amp; check</h3>
+                    <ol class="scaffold-qa">
+                        <li>
+                            <details>
+                                <summary>Why do Deep Learning models generally require more data than traditional classifiers?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> They learn features automatically rather than being told what to look for.</p>
+                                    <p><strong>Why:</strong> The model needs thousands of examples to deduce simple shapes like corners or edges.</p>
+                                    <p><strong>Common misconception:</strong> AI is magic; it is just statistical pattern matching at scale.</p>
+                                </div>
+                            </details>
+                        </li>
+                        <li>
+                            <details>
+                                <summary>What is the main difference between Object Detection and Pixel Classification?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> Detection finds discrete counts (e.g., "5 cars"); Classification labels every pixel (e.g., "Asphalt").</p>
+                                    <p><strong>Why:</strong> Use detection for counting things; use classification for measuring area.</p>
+                                </div>
+                            </details>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Try it (5 minutes)</h3>
+                    <ol>
+                        <li>Look at a satellite image of your neighborhood. Count the swimming pools.</li>
+                        <li>Imagine teaching a computer to do that. What 3 visual rules would you give it? (e.g., "Blue", "Oval", "Backyard").</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Lab (Two Tracks)</h3>
+                    <p>Both tracks produce the same deliverable: a screenshot of detected features and a short accuracy report.</p>
+                    <div class="scaffold-two-track">
+                        <div class="scaffold-track">
+                            <h4>Desktop GIS Track (ArcGIS Pro)</h4>
+                            <p>Use the "Detect Objects Using Deep Learning" tool with a pretrained model (e.g., Building Footprint) to extract features.</p>
+                        </div>
+                        <div class="scaffold-track">
+                            <h4>Remote Sensing Track (Google Earth Engine)</h4>
+                            <p>Train a Random Forest or simple deep learning classifier (TensorFlow integration) to distinguish urban vs. non-urban areas.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Common mistakes</h3>
+                    <ul>
+                        <li>Applying a model trained in one geography (e.g., US suburbs) to a totally different one (e.g., dense informal settlements).</li>
+                        <li>Assuming the "Confidence Score" equals "Accuracy".</li>
+                    </ul>
+                    <p><strong>Further reading:</strong> https://www.ucgis.org/site/gis-t-body-of-knowledge</p>
+                </div>
+            </div>
+        </section>
+
+
+        <div class="layout-grid">
+            <div class="content">
+                <section class="card">
+                    <h2>🧠 What is GeoAI?</h2>
+                    <p><strong>GeoAI (Geospatial Artificial Intelligence)</strong> is the fusion of GIS with modern Machine Learning. While traditional GIS relies on the user to define rules ("Buffer 50 meters"), GeoAI learns the rules from the data itself ("Show me everything that looks like a buffer").</p>
+                </section>
+
+                <section class="card">
+                    <h2>Computer Vision & CNNs</h2>
+                    <p>The breakthrough in modern AI is the <strong>Convolutional Neural Network (CNN)</strong>. This type of algorithm looks at an image like a human eye does—scanning for edges, shapes, and textures to identify objects. It powers everything from self-driving cars to satellite analysis of crop health.</p>
+                </section>
+
+                <section class="ai-demo">
+                    <h3>👁️ Interactive: Object Detection</h3>
+                    <p style="color: #94a3b8; margin-bottom: 1rem;">Click "Analyze" to run the computer vision model on this satellite scene.</p>
+                    
+                    <div class="vision-box" id="visionCanvas">
+                        <!-- Simulated landscape -->
+                        <div style="position: absolute; top: 50px; left: 50px; width: 40px; height: 60px; background: #475569; border-radius: 2px;"></div>
+                        <div style="position: absolute; top: 150px; left: 200px; width: 50px; height: 50px; background: #475569; border-radius: 2px;"></div>
+                        <div style="position: absolute; top: 80px; left: 250px; width: 30px; height: 30px; background: #475569; border-radius: 2px;"></div>
+                        
+                        <!-- Bounding Boxes (Hidden by default) -->
+                        <div class="bounding-box" id="box1" data-label="Building 98%" style="top: 45px; left: 45px; width: 50px; height: 70px;"></div>
+                        <div class="bounding-box" id="box2" data-label="Building 92%" style="top: 145px; left: 195px; width: 60px; height: 60px;"></div>
+                        <div class="bounding-box" id="box3" data-label="Building 85%" style="top: 75px; left: 245px; width: 40px; height: 40px;"></div>
+                    </div>
+
+                    <button style="padding: 1rem 2rem; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer;" onclick="runAI()">🚀 Run Model</button>
+                    <button style="padding: 1rem 2rem; background: transparent; color: white; border: 1px solid white; border-radius: 8px; font-weight: 700; cursor: pointer; margin-left: 1rem;" onclick="resetAI()">Reset</button>
+                </section>
+
+                <section class="card">
+                    <h2>Core Capabilities of GeoAI</h2>
+                    <p>Artificial Intelligence is not just about identifying cats in photos. In the geospatial world, it powers five specific workflows that were previously impossible to scale:</p>
+                    <div style="display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); margin-top: 1.5rem;">
+                        <div style="background: #f1f5f9; padding: 1.5rem; border-radius: 8px;">
+                            <h3 style="margin-top: 0; color: var(--primary);">1. Object Detection</h3>
+                            <p style="font-size: 0.9rem;"><strong>What it does:</strong> Finds and counts specific items in imagery (e.g., cars, swimming pools, solar panels).</p>
+                            <p style="font-size: 0.9rem;"><strong>Why it matters:</strong> Allows for rapid inventory of assets without manual site visits.</p>
+                        </div>
+                        <div style="background: #f1f5f9; padding: 1.5rem; border-radius: 8px;">
+                            <h3 style="margin-top: 0; color: var(--primary);">2. Automated Digitization</h3>
+                            <p style="font-size: 0.9rem;"><strong>What it does:</strong> Converts raster pixels into clean vector geometry (polygons/lines).</p>
+                            <p style="font-size: 0.9rem;"><strong>Why it matters:</strong> Turns a satellite photo into a usable CAD/GIS map layer instantly.</p>
+                        </div>
+                        <div style="background: #f1f5f9; padding: 1.5rem; border-radius: 8px;">
+                            <h3 style="margin-top: 0; color: var(--primary);">3. Feature Classification</h3>
+                            <p style="font-size: 0.9rem;"><strong>What it does:</strong> Assigns semantic labels (e.g., "Commercial" vs "Residential") to geometries.</p>
+                            <p style="font-size: 0.9rem;"><strong>Why it matters:</strong> Adds the "attribute" intelligence to the spatial shapes.</p>
+                        </div>
+                        <div style="background: #f1f5f9; padding: 1.5rem; border-radius: 8px;">
+                            <h3 style="margin-top: 0; color: var(--primary);">4. Change Detection</h3>
+                            <p style="font-size: 0.9rem;"><strong>What it does:</strong> Compares imagery from two different dates to highlight differences.</p>
+                            <p style="font-size: 0.9rem;"><strong>Why it matters:</strong> Critical for monitoring urban sprawl, deforestation, and disaster damage.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>The GeoAI Advantage</h2>
+                    <p>Why are organizations switching from manual mapping to AI-assisted workflows? It comes down to five key factors:</p>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Efficiency:</strong> Tasks that took years (like mapping every driveway in a county) can now be done in weeks.</li>
+                        <li><strong>Scale:</strong> AI applies the same rigor to 10 square miles as it does to 10,000 square miles.</li>
+                        <li><strong>Cost-Savings:</strong> Reduces the "cost per feature" significantly, allowing budgets to focus on analysis rather than data creation.</li>
+                        <li><strong>Standardization:</strong> Humans get tired and subjective; AI follows the exact same logic for every single pixel, ensuring consistency.</li>
+                        <li><strong>Update Frequency:</strong> Cheaper production means maps can be updated annually (or even daily) rather than once a decade.</li>
+                    </ul>
+                </section>
+
+                <section class="card">
+                    <h2>Summary of Big Ideas</h2>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Scalability:</strong> Manual digitization is slow. AI can map every building in a country in a few hours.</li>
+                        <li><strong>Training Data:</strong> AI is only as good as the examples you give it. Garbage in, garbage out.</li>
+                        <li><strong>Validation:</strong> Because AI makes statistical guesses, human verification (QA/QC) is absolutely essential.</li>
+                    </ul>
+                </section>
+
+                <div class="quiz-container">
+                    <h2>Chapter 19 Checkpoint</h2>
+                    <div class="question">
+                        <p><strong>1. Which type of AI task would you use to count the exact number of oil wells in a satellite image?</strong></p>
+                        <div class="option" onclick="this.classList.add('correct')">Object Detection</div>
+                        <div class="option" onclick="this.classList.add('wrong')">Semantic Segmentation</div>
+                    </div>
+                    <div class="question">
+                        <p><strong>2. What is a "False Positive"?</strong></p>
+                        <div class="option" onclick="this.classList.add('wrong')">The model misses a real object.</div>
+                        <div class="option" onclick="this.classList.add('correct')">The model identifies an object where there isn't one (e.g., calling a rock a "car").</div>
+                    </div>
+                </div>
+
+                <div class="section-glossary">
+                    <h2>📚 Chapter Glossary</h2>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">Machine Learning (ML)</span>
+                            <span class="glossary-def">A subset of AI where computers learn from data without being explicitly programmed for every rule.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Deep Learning</span>
+                            <span class="glossary-def">A type of ML using multi-layered neural networks (like CNNs) to learn complex patterns from vast amounts of data.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Semantic Segmentation</span>
+                            <span class="glossary-def">The process of classifying every single pixel in an image into a class (e.g., Road, Building, Tree).</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="sidebar">
+                <div class="box-bio">
+                    <img src="../assets/img/people/fei_fei_li.png" alt="Fei-Fei Li">
+                    <div>
+                        <h3>Dr. Fei-Fei Li</h3>
+                        <p>A Professor at Stanford and the creator of <strong>ImageNet</strong>. While not a geographer, her work in democratizing Computer Vision datasets provided the foundation for almost all modern GeoAI. Her philosophy of "Human-Centered AI" reminds us that technology must serve people, not replace them.</p>
+                    </div>
+                </div>
+
+                <div class="sidebar-local-global">
+                    <h3>🇨🇱 Texas Connection</h3>
+                    <p><strong>AI on the Border</strong></p>
+                    <p>The Texas-Mexico border is one of the most surveilled places on Earth. A network of "Autonomous Surveillance Towers" uses AI computer vision to detect and classify objects (human, vehicle, animal) from miles away.</p>
+                    <p>These towers process video locally (Edge AI) and send alerts to agents only when a specific threat class is detected, reducing false alarms from wildlife.</p>
+                </div>
+            </aside>
+        </div>
+
+        <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+          <a href="chapter-18-gis-ethics.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 18: GIS Ethics</a>
+          <a href="chapter-20-research-data-management.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 20: Research Data Management &rarr;</a>
+        </div>
+    
+
+        
+
+        
+
+        <section class="card bok-alignment" aria-label="Body of Knowledge alignment">
+            <h2>BoK Alignment</h2>
+            <p>
+                Topics in the UCGIS GIS&amp;T Body of Knowledge that support this chapter.
+            </p>
+            <ul class="bok-topic-list">
+                        <li class="bok-topic">
+            <span class="bok-code">AM-08-093</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10496" target="_blank" rel="noopener noreferrer">Artificial Intelligence Approaches</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">AM-08-094</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10497" target="_blank" rel="noopener noreferrer">Machine Learning Approaches</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">AM-08-038</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10478" target="_blank" rel="noopener noreferrer">Pattern Recognition and Matching</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">CP-04-004</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10518" target="_blank" rel="noopener noreferrer">Artificial Intelligence Tools and Platforms for GIS</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">AM-02-009</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10461" target="_blank" rel="noopener noreferrer">Classification and Clustering</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DC-04-014</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10605" target="_blank" rel="noopener noreferrer">Feature Extraction from Satellite Imagery</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">BoK</span>
+            <a href="https://gistbok-ltb.ucgis.org/" target="_blank" rel="noopener noreferrer">UCGIS GIS&T Body of Knowledge (Living Textbook)</a>
+        </li>
+            </ul>
+        </section>
+
+</main>
+
+    <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function runAI() {
+            document.getElementById('box1').style.opacity = 1;
+            setTimeout(() => document.getElementById('box2').style.opacity = 1, 300);
+            setTimeout(() => document.getElementById('box3').style.opacity = 1, 600);
+        }
+
+        function resetAI() {
+            document.querySelectorAll('.bounding-box').forEach(b => b.style.opacity = 0);
+        }
+    </script>
+</body>
+</html>

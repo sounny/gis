@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 20: Research Data Management | GIS Digital Textbook</title>
+    <meta name="description" content="Master the art of GIS data management. Learn how to architect professional research projects, handle metadata, and ensure your spatial analysis is reproducible.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #475569;
+            --secondary: #64748b;
+            --accent: #3b82f6;
+            --success: #10b981;
+            --bg: #f8fafc;
+        }
+
+        .hero-chapter {
+            background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-chapter::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .chapter-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 1100px) {
+            .layout-grid { grid-template-columns: 1fr; }
+        }
+
+        .sidebar-box {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary);
+        }
+        .sidebar-box.local { border-top-color: var(--accent); }
+
+        .sidebar-box h3 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .bio-img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
+
+        .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        
+        /* Architect Sim */
+        .architect-sim {
+            background: #f1f5f9;
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) { .architect-sim { grid-template-columns: 1fr; } }
+
+        .file-pile { background: #fff; padding: 1rem; border-radius: 8px; min-height: 200px; }
+        .folder-structure { display: flex; flex-direction: column; gap: 0.5rem; }
+        .folder { background: #e2e8f0; padding: 1rem; border-radius: 8px; border: 2px dashed #94a3b8; min-height: 60px; }
+
+        /* Quiz Styles */
+        .quiz-container { background: #f1f5f9; padding: 2rem; border-radius: 16px; margin-top: 3rem; }
+        .option { background: white; padding: 1rem; border-radius: 8px; border: 2px solid #e2e8f0; cursor: pointer; margin-bottom: 0.75rem; transition: 0.2s; color: #1e293b; }
+        .option:hover { border-color: var(--primary); }
+        .option.correct { border-color: var(--success); background: #ecfdf5; }
+        .option.wrong { border-color: #ef4444; background: #fff1f2; }
+    </style>
+</head>
+<body>
+
+    <header class="hero-chapter">
+        <div class="container">
+            <span class="chapter-badge">Chapter 20</span>
+            <h1>Research Data Management</h1>
+            <p class="subtitle">Architecture for science. Learn how to structure your GIS projects to ensure that your analysis is reproducible, authoritative, and built to last.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav style="margin: 2rem 0;">
+            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
+        </nav>
+
+
+        <section class="card learning-scaffold" aria-label="Learning scaffold">
+            <div class="scaffold-head">
+                <h2>At a Glance</h2>
+                <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapters 15 - 19</span>
+                    <span class="scaffold-chip"><strong>Time:</strong> 25 min read + 35 min cleanup</span>
+                    <span class="scaffold-chip"><strong>Deliverable:</strong> Project README + metadata</span>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Learning outcomes</h3>
+                    <ul>
+                        <li>Organize a GIS/RS project for reproducibility.</li>
+                        <li>Write a minimal README and metadata record.</li>
+                        <li>Choose an appropriate license and citation format.</li>
+                    </ul>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Key terms</h3>
+                    <p>metadata, provenance, DOI, licensing, reproducibility, versioning</p>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Stop &amp; check</h3>
+                    <ol class="scaffold-qa">
+                        <li>
+                            <details>
+                                <summary>Why is CRS information part of metadata?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> Because coordinates and measurements depend on CRS.</p>
+                                    <p><strong>Why:</strong> Without CRS, data can be misaligned or mis-measured.</p>
+                                    <p><strong>Common misconception:</strong> A shapefile knows its CRS; it often does not travel reliably without metadata.</p>
+                                </div>
+                            </details>
+                        </li>
+                        <li>
+                            <details>
+                                <summary>What is a good alternative to 'final_v7_reallyfinal'?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> Semantic versioning and a changelog (or dated releases).</p>
+                                    <p><strong>Why:</strong> Clear versioning supports replication and comparison.</p>
+                                    <p><strong>Common misconception:</strong> You will remember later; project history becomes unreadable fast.</p>
+                                </div>
+                            </details>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Try it (5 minutes)</h3>
+                    <ol>
+                        <li>Create a folder structure: data/raw, data/processed, outputs, scripts, docs.</li>
+                        <li>Write 5 README bullets describing data sources and processing steps.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Lab (Two Tracks)</h3>
+                    <p>Both tracks produce the same deliverable: a clean project structure plus a README that another student can run.</p>
+                    <div class="scaffold-two-track">
+                        <div class="scaffold-track">
+                            <h4>Desktop GIS Track (ArcGIS Pro / QGIS)</h4>
+                            <p>Package a small project with inputs, outputs, and a methods log. Export one final figure.</p>
+                        </div>
+                        <div class="scaffold-track">
+                            <h4>Remote Sensing Track (Google Earth Engine)</h4>
+                            <p>Document your script inputs (AOI, dates, bands), export outputs, and write a methods + provenance note.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Common mistakes</h3>
+                    <ul>
+                        <li>Editing raw data instead of writing processed outputs.</li>
+                        <li>Not recording acquisition dates or processing level.</li>
+                        <li>Sharing outputs without listing parameters and versions.</li>
+                    </ul>
+                    <p><strong>Further reading:</strong> https://www.ucgis.org/site/gis-t-body-of-knowledge</p>
+                </div>
+            </div>
+        </section>
+
+
+        <div class="layout-grid">
+            <div class="content">
+                <section class="card">
+                    <h2>🔬 GIS is Research</h2>
+                    <p>Professional GIS analysts spend up to 80% of their time on data management. If your folder structure is a mess, your analysis will likely be a mess too. <strong>Research Data Management (RDM)</strong> is the practice of architecting your files and metadata to survive for the long term.</p>
+                </section>
+
+                <section class="card">
+                    <h3>📂 The Standard Project Structure</h3>
+                    <p>A professional GIS project should move from left to right: from Raw Data to the Final Product.</p>
+                    <ul style="line-height: 2; margin-top: 1rem;">
+                        <li><strong>01_Original_Data:</strong> Read-only downloads. Never edit these!</li>
+                        <li><strong>02_Scratch:</strong> Temporary files like clippings or buffer results.</li>
+                        <li><strong>03_Analysis:</strong> Your Geodatabases and processing models.</li>
+                        <li><strong>04_Final_Map:</strong> Only the authoritative maps for the client.</li>
+                    </ul>
+                </section>
+
+                <section class="card">
+                    <h2>Summary of Big Ideas</h2>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Metadata:</strong> Data about data. It explains the 5 Ws: Who, What, When, Where, Why.</li>
+                        <li><strong>File Naming Conventions:</strong> Avoid spaces and generic names like "final_v2.shp". Use dates and snake_case (e.g., 2026_05_12_austin_flood_zone.gdb).</li>
+                        <li><strong>Data Provenance:</strong> The ability to trace a piece of data back to its original source and lineage.</li>
+                        <li><strong>Longevity:</strong> Using standard formats like GeoPackage (.gpkg) ensures your data can be read in 20 years.</li>
+                    </ul>
+                </section>
+
+                <div class="quiz-container">
+                    <h2>Chapter 20 Checkpoint</h2>
+                    <div class="question">
+                        <p><strong>1. Why should the "Original Data" folder be kept separate from the analysis?</strong></p>
+                        <div class="option" onclick="this.classList.add('correct')">To ensure the raw sources remain clean and can be re-accessed if a mistake is made.</div>
+                        <div class="option" onclick="this.classList.add('wrong')">To save space on the computer.</div>
+                    </div>
+                    <div class="question">
+                        <p><strong>2. In a professional GIS report, the section explaining who created the data and when is called:</strong></p>
+                        <div class="option" onclick="this.classList.add('wrong')">Annotation</div>
+                        <div class="option" onclick="this.classList.add('correct')">Metadata</div>
+                    </div>
+                </div>
+
+                <div class="section-glossary">
+                    <h2>📚 Chapter Glossary</h2>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">Metadata</span>
+                            <span class="glossary-def">Structured information that describes, explains, locates, or makes it easier to retrieve, use, or manage an information resource (Data about Data).</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Reproducibility</span>
+                            <span class="glossary-def">The ability of an entire analysis to be duplicated, either by the same researcher or by someone else working independently, by following the same steps.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Data Provenance</span>
+                            <span class="glossary-def">The documentation of where a piece of data comes from and the processes and methodology by which it was produced (Lineage).</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="sidebar">
+                <div class="box-bio">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Sir_Tim_Berners-Lee_%28cropped%29.jpg/220px-Sir_Tim_Berners-Lee_%28cropped%29.jpg" alt="Tim Berners-Lee">
+                    <div>
+                        <h3>Sir Tim Berners-Lee</h3>
+                        <p>The inventor of the World Wide Web. He also championed the concept of <strong>"Linked Data"</strong>—the idea that data on the web should be structured and connected (like a giant database). This philosophy underpins modern "Spatial Data Infrastructures" (SDIs) where researchers can share and discover GIS data globally.</p>
+                    </div>
+                </div>
+
+                <div class="sidebar-local-global">
+                    <h3>🇨🇱 Texas Connection</h3>
+                    <p><strong>TACC: The Texas Advanced Computing Center</strong></p>
+                    <p>Located at UT Austin, TACC is home to "Frontera," one of the most powerful supercomputers in the world. Geospatial researchers use TACC to process petabytes of satellite imagery and run massive climate models that would crash a normal desktop computer.</p>
+                    <p>It is the "Big Data" backbone of Texas research.</p>
+                    <a href="https://www.tacc.utexas.edu/" target="_blank" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem; width:100%; text-align:center;">Explore TACC</a>
+                </div>
+            </aside>
+        </div>
+
+        <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+          <a href="chapter-19-artificial-intelligence.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 19: Artificial Intelligence</a>
+          <a href="chapter-21-research-in-gis.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 21: Research in GIS &rarr;</a>
+        </div>
+    
+
+        
+
+        
+
+        <section class="card bok-alignment" aria-label="Body of Knowledge alignment">
+            <h2>BoK Alignment</h2>
+            <p>
+                Topics in the UCGIS GIS&amp;T Body of Knowledge that support this chapter.
+            </p>
+            <ul class="bok-topic-list">
+                        <li class="bok-topic">
+            <span class="bok-code">DM-07-057</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10553" target="_blank" rel="noopener noreferrer">Metadata, Quality, and Uncertainty</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DM-07-060</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10650" target="_blank" rel="noopener noreferrer">Spatial Data Infrastructures</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">GS-01-023</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10719" target="_blank" rel="noopener noreferrer">Legal Mechanisms for Sharing Geospatial Information</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">PD-02-022</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10816" target="_blank" rel="noopener noreferrer">Licensing of GIS Applications</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">PD-05-033</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10769" target="_blank" rel="noopener noreferrer">GDAL/OGR and Geospatial Data IO Libraries</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">AM-09-107</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10464" target="_blank" rel="noopener noreferrer">Spatial Data Uncertainty</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">BoK</span>
+            <a href="https://gistbok-ltb.ucgis.org/" target="_blank" rel="noopener noreferrer">UCGIS GIS&T Body of Knowledge (Living Textbook)</a>
+        </li>
+            </ul>
+        </section>
+
+</main>
+
+    <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -110,11 +110,103 @@
             <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
         </nav>
 
+
+        <section class="card learning-scaffold" aria-label="Learning scaffold">
+            <div class="scaffold-head">
+                <h2>At a Glance</h2>
+                <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapter 03</span>
+                    <span class="scaffold-chip"><strong>Time:</strong> 20 min read + 20 min practice</span>
+                    <span class="scaffold-chip"><strong>Deliverable:</strong> Field collection plan</span>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Learning outcomes</h3>
+                    <ul>
+                        <li>Explain how GNSS positioning works at a high level.</li>
+                        <li>Identify factors that reduce accuracy (multipath, poor geometry).</li>
+                        <li>Plan a basic field collection workflow for validation/GCPs.</li>
+                    </ul>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Key terms</h3>
+                    <p>GNSS, trilateration, multipath, DOP, differential correction, datum</p>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Stop &amp; check</h3>
+                    <ol class="scaffold-qa">
+                        <li>
+                            <details>
+                                <summary>What usually causes multipath error?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> Signals reflecting off buildings/terrain before reaching the receiver.</p>
+                                    <p><strong>Why:</strong> Reflections increase path length and bias the range estimate.</p>
+                                    <p><strong>Common misconception:</strong> More satellites always guarantees better accuracy; geometry and environment matter.</p>
+                                </div>
+                            </details>
+                        </li>
+                        <li>
+                            <details>
+                                <summary>Why does CRS/datum matter for GNSS points?</summary>
+                                <div>
+                                    <p><strong>Answer:</strong> Because coordinates depend on the reference model used.</p>
+                                    <p><strong>Why:</strong> A mismatch can create consistent offsets between layers.</p>
+                                    <p><strong>Common misconception:</strong> Latitude/longitude is universal and automatically matches every map.</p>
+                                </div>
+                            </details>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Try it (5 minutes)</h3>
+                    <ol>
+                        <li>List 3 places on campus/city where GNSS accuracy would likely be poor.</li>
+                        <li>For each, write one mitigation (move, wait, repeat, use correction).</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="scaffold-grid">
+                <div class="scaffold-card">
+                    <h3>Lab (Two Tracks)</h3>
+                    <p>Both tracks produce the same deliverable: a one-page plan describing how you would collect validation points for an imagery analysis.</p>
+                    <div class="scaffold-two-track">
+                        <div class="scaffold-track">
+                            <h4>Desktop GIS Track (ArcGIS Pro / QGIS)</h4>
+                            <p>Design a point feature class or form schema (fields + domains). Define required metadata (time, accuracy, notes).</p>
+                        </div>
+                        <div class="scaffold-track">
+                            <h4>Remote Sensing Track (Google Earth Engine)</h4>
+                            <p>Define an AOI and draft a validation sampling plan (how many points per class and where you would collect them).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scaffold-card">
+                    <h3>Common mistakes</h3>
+                    <ul>
+                        <li>Collecting points with unknown CRS/datum or missing metadata.</li>
+                        <li>Taking one reading and assuming it is correct (no repeats).</li>
+                        <li>Collecting under tree canopy/near buildings without noting expected error.</li>
+                    </ul>
+                    <p><strong>Further reading:</strong> https://gistbok-ltb.ucgis.org/</p>
+                </div>
+            </div>
+        </section>
+
+
         <div class="layout-grid">
             <div class="content">
                 <section class="card">
                     <h2>What is GNSS?</h2>
-                    <p><strong>GNSS</strong> (Global Navigation Satellite System) is the umbrella term for satellite constellations that provide positioning, navigation, and timing (PNT) data. While <strong>GPS</strong> (Global Positioning System) is the most famous, it is actually just one of several systems operated worldwide.</p>
+                    <p><strong>GNSS</strong> (Global Navigation Satellite System) is the umbrella term for satellite constellations that provide positioning, navigation, and timing (PNT) data. While <strong>GPS</strong> (Global Positioning System) is the most famous, it is actually just one of several systems operated worldwide. For official US government information, visit <a href="https://www.gps.gov/" target="_blank" style="color:var(--primary);">GPS.gov</a>.</p>
                     
                     <table class="gnss-table">
                         <thead>
@@ -150,6 +242,25 @@
                 </section>
 
                 <section class="card">
+                    <h2>How Trilateration Works</h2>
+                    <p>The core math behind GPS is <strong>Trilateration</strong>. It's like a high-tech version of triangulation, but using spheres instead of triangles.</p>
+                    
+                    <div style="display: flex; gap: 2rem; align-items: center; flex-wrap: wrap; margin-top: 2rem;">
+                        <div style="flex: 1; min-width: 300px;">
+                            <img src="../assets/img/diagrams/gps_trilateration.png" alt="GPS Trilateration Diagram" style="width: 100%; border-radius: 12px; box-shadow: var(--shadow-md);">
+                        </div>
+                        <div style="flex: 1; min-width: 300px;">
+                            <ol style="line-height: 1.8;">
+                                <li><strong>1 Satellite:</strong> You are somewhere on a sphere of radius $R_1$ from the satellite.</li>
+                                <li><strong>2 Satellites:</strong> The intersection of two spheres is a <strong>circle</strong>. You are somewhere on that circle.</li>
+                                <li><strong>3 Satellites:</strong> The intersection of the circle and a third sphere narrows it down to <strong>two points</strong>. One is usually way out in space, the other is on Earth.</li>
+                                <li><strong>4 Satellites:</strong> The fourth sphere resolves the ambiguity and corrects for <strong>time bias</strong> in your receiver's clock. TV + 3D Position.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
                     <h2>Summary of Big Ideas</h2>
                     <ul style="line-height: 1.8;">
                         <li><strong>Trilateration:</strong> The mathematical process of finding your location by measuring distances to 4 or more satellites.</li>
@@ -173,42 +284,95 @@
                     </div>
                 </div>
 
-                <section class="card" style="margin-top: 3rem;">
-                    <h2>📚 Glossary</h2>
-                    <dl>
-                        <dt><strong>GNSS:</strong></dt>
-                        <dd>Global Navigation Satellite System—the general term for all satellite navigation constellations.</dd>
-                        
-                        <dt><strong>Multipath:</strong></dt>
-                        <dd>An error caused when satellite signals reflect off buildings or terrain before hitting the receiver.</dd>
-                        
-                        <dt><strong>WAAS:</strong></dt>
-                        <dd>Wide Area Augmentation System—a system of ground stations and satellites that improve GPS accuracy for aviation.</dd>
-                    </dl>
-                </section>
+                <div class="section-glossary">
+                    <h2>📚 Chapter Glossary</h2>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">GNSS (Global Navigation Satellite System)</span>
+                            <span class="glossary-def">The general umbrella term for all satellite navigation constellations, including GPS (USA), Galileo (EU), GLONASS (Russia), and BeiDou (China).</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Multipath Error</span>
+                            <span class="glossary-def">A positioning error caused when satellite signals reflect off buildings or terrain before hitting the receiver, artificially extending the signal path.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Trilateration</span>
+                            <span class="glossary-def">The mathematical method used by GPS receivers to calculate position by measuring distances to at least four satellites.</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <aside class="sidebar">
-                <div class="sidebar-box bio">
-                    <h3>Important Person</h3>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Gladys_West_at_the_Pentagon.jpg/220px-Gladys_West_at_the_Pentagon.jpg" alt="Gladys West" class="bio-img">
-                    <p><strong>Dr. Gladys West</strong></p>
-                    <p>A mathematician whose work at the U.S. Naval Proving Ground was essential to the development of the GPS system. She processed satellite data and developed the mathematical models of the Earth's shape (geoid) that every GPS receiver on Earth uses today to calculate height and location.</p>
+                <div class="box-bio">
+                    <img src="../assets/img/people/gladys_west.png" alt="Gladys West">
+                    <div>
+                        <h3>Dr. Gladys West</h3>
+                        <p>A mathematician whose work at the U.S. Naval Proving Ground was essential to the development of the GPS system. She processed satellite data and developed the mathematical models of the Earth's shape (geoid) that every GPS receiver on Earth uses today to calculate height and location.</p>
+                    </div>
                 </div>
 
-                <div class="sidebar-box local">
-                    <h3>Local to Global</h3>
+                <div class="box-bio">
+                    <img src="../assets/img/people/greg_winfree.png" alt="Greg Winfree">
+                    <div>
+                        <h3>Greg Winfree</h3>
+                        <p>A prominent national leader in <strong>Positioning, Navigation, and Timing (PNT)</strong> policy. Currently the Agency Director of the Texas A&M Transportation Institute (TTI), he previously served as Assistant Secretary at the U.S. DOT, overseeing the <strong>National Transportation Atlas Database (NTAD)</strong>. His research now integrates high-precision GNSS with "Smart Transportation" and automated vehicle (V2X) systems.</p>
+                    </div>
+                </div>
+
+                <div class="sidebar-local-global">
+                    <h3>🇨🇱 Texas Connection</h3>
                     <p><strong>GPS in the Permian Basin</strong></p>
                     <p>Texas is one of the world's leading energy producers. In the Permian Basin, GNSS is used for everything from the centimeter-precise placement of drilling rigs to tracking the fleets of trucks moving equipment across West Texas. Without high-precision GPS, the modern energy economy of Texas—and the global energy supply—would grind to a halt.</p>
+                    <a href="https://www.txdot.gov/business/maintenance/precisionsurvey.html" target="_blank" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem; width:100%; text-align:center;">TxDOT Real-Time Network</a>
                 </div>
             </aside>
         </div>
 
         <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
           <a href="chapter-03-projections.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 3: Projections</a>
-          <a href="chapter-05-georeferencing.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 5: Georeferencing &rarr;</a>
+          <a href="chapter-05-analysis.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 5: Spatial Analysis &rarr;</a>
         </div>
-    </main>
+    
+
+        
+
+        
+
+        <section class="card bok-alignment" aria-label="Body of Knowledge alignment">
+            <h2>BoK Alignment</h2>
+            <p>
+                Topics in the UCGIS GIS&amp;T Body of Knowledge that support this chapter.
+            </p>
+            <ul class="bok-topic-list">
+                        <li class="bok-topic">
+            <span class="bok-code">DC-02-003</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10599" target="_blank" rel="noopener noreferrer">Global Navigation Satellite Systems</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DC-06-009</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10602" target="_blank" rel="noopener noreferrer">Field Data Capture Technologies</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DM-05-052</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10647" target="_blank" rel="noopener noreferrer">Horizontal (Geometric) Datums</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">DM-05-047</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10808" target="_blank" rel="noopener noreferrer">Geographic Coordinate Systems</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">GS-01-004</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10708" target="_blank" rel="noopener noreferrer">Location Privacy</a>
+        </li>
+                        <li class="bok-topic">
+            <span class="bok-code">BoK</span>
+            <a href="https://gistbok-ltb.ucgis.org/" target="_blank" rel="noopener noreferrer">UCGIS GIS&T Body of Knowledge (Living Textbook)</a>
+        </li>
+            </ul>
+        </section>
+
+</main>
 
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">

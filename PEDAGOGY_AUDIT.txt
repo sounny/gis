@@ -1,0 +1,185 @@
+Pedagogical Audit (Page-by-Page)
+GIS Online Textbook
+Date: 2026-01-23
+
+Scope
+- Reviewed the HTML chapter pages under `chapters/` (Chapter 00 through Chapter 20).
+- Goal: identify concrete ways to make each lesson more comprehensive, teachable, and assessment-aligned.
+- Emphasis: Remote Sensing-first (imagery-driven workflows), global/OER audience (no institutional branding), and accessible interactivity.
+
+Global Recommendations (apply to every chapter)
+- Add a consistent learning scaffold near the top:
+  - Prereqs, Time estimate, Learning outcomes (measurable verbs), Key terms
+  - Stop and check (3-5 questions with feedback)
+  - Try it (5-minute micro task)
+  - Lab (ArcGIS Pro/QGIS track + Earth Engine track)
+  - Lessons learned (5 bullets), Common mistakes, Further reading
+- Upgrade all formative checks so that wrong answers:
+  - reveal the correct answer
+  - explain why it is correct
+  - address one common misconception
+  - allow reset/retry
+- Accessibility defaults:
+  - keyboard operation for toggles/quizzes/maps (not mouse-only)
+  - visible focus styles
+  - alt text for images; captions/transcripts for embedded videos
+  - do not rely on color alone for correctness; provide text feedback
+- Global framing:
+  - avoid single-city anchoring unless clearly labeled as an optional case study
+  - remove any institution-specific references; prefer global datasets/examples
+- RS-first thread:
+  - maintain a repeated AOI + repeated datasets across chapters (same place, same Sentinel/Landsat/LiDAR samples) to make the course feel like one coherent workflow.
+
+Chapter 00: Welcome (`chapters/chapter-00-welcome.html`)
+- Add Prereqs, Time estimate, Learning outcomes, Key terms, and a short "How to use this book" panel.
+- Expand the pre-check into ~8 questions with per-choice feedback, misconceptions, and reset.
+- Add a setup checklist (software/accounts/folder structure/browser) + troubleshooting for interactives.
+- Add an RS-first orientation: one end-to-end example (question -> imagery -> analysis -> decision).
+- Add captions/transcript link for the YouTube embed and ensure quiz buttons have strong focus styles.
+
+Chapter 01: Spatial Data (`chapters/chapter-01-spatial-data.html`)
+- Add outcomes/prereqs/time + key terms (vector, raster, resolution, extent, topology, CRS).
+- Add an imagery-to-vector mini workflow (digitize training polygons on imagery) to reinforce RS-first.
+- Improve quiz feedback: currently disables options but does not reveal the correct option when wrong.
+- Reduce Austin-centric framing (or provide alternate locations) to keep global applicability.
+- Ensure map toggle and quiz options work by keyboard and provide a text summary of the map lesson.
+
+Chapter 02: Map Design (`chapters/chapter-02-map-design.html`)
+- Add a "What you will produce" section (a one-page map layout) + a simple self-grading rubric.
+- Standardize and align the mnemonic (T.O.L.S./TALLS) with what is assessed; avoid mismatched acronyms.
+- Add RS-first examples (NDVI, burn severity, flood extent) showing legend/caption/source best practices.
+- Add a "Common mistakes" block (bad ramps, too many classes, missing sources, misleading scale/extent).
+- Add colorblind-safe palette guidance and avoid color-only encoding in checks.
+
+Chapter 03: Projections (`chapters/chapter-03-projections.html`)
+- Add prereqs/time/outcomes + key terms (datum vs projection vs CRS, EPSG, UTM, Web Mercator).
+- Add an RS-first vignette: why summary stats and distances break in degrees; reprojection/resampling tradeoffs.
+- Add a scenario-based "choose the projection" formative with feedback (navigation vs thematic vs polar).
+- Turn the interactive into a guided "predict then check" sequence with short prompts.
+- Ensure controls and map canvas have keyboard support and a non-visual explanation of takeaways.
+
+Chapter 04: GNSS (`chapters/chapter-04-gps.html`)
+- Add outcomes/prereqs/time + key terms (trilateration, pseudorange, DOP, multipath).
+- Add a concept-accurate DOP demo (good vs bad satellite geometry) using predict-then-reveal.
+- Add RS-first link: why GNSS matters for GCPs, orthomosaics, and validation.
+- Add a field checklist + QA routine (open sky, stabilization, record metadata, repeats, datum checks).
+- Ensure quizzes provide text explanations (not only color changes) and offer a non-animated alternative.
+
+Chapter 05: Georeferencing (`chapters/chapter-05-georeferencing.html`)
+- Add outcomes/prereqs/time + key terms (GCP, checkpoint, RMSE, residuals, affine/polynomial).
+- Add the checkpoint vs control point distinction and separate checkpoint RMSE from fit error.
+- Improve the simulator: include scale/skew, teach point distribution (corners/edges), avoid collinearity.
+- Add RS-first notes: georeferencing vs orthorectification; include a real small imagery lab prompt.
+- Add a "Common mistakes" block (too few points, clustered points, wrong CRS, overfitting with high order).
+
+Chapter 06: Digitizing (`chapters/chapter-06-digitizing.html`)
+- Add scaffold + a digitizing quality rubric (snapping, topology rules, attribute completeness).
+- Add RS-first use case: digitize training/validation polygons for classification.
+- Expand "common errors" into detection/fix steps (slivers, overshoots, gaps/overlaps, vertex density).
+- Add image-based error spotting formative (choose the best polygon; explain why).
+- Provide an alternate path for learners who cannot do fine mouse digitizing (accessibility).
+
+Chapter 07: Database Management (`chapters/chapter-07-database-management.html`)
+- Add outcomes/prereqs/time + key terms (PK/FK, normalization, join, nulls, domains).
+- Expand SQL sandbox: add JOIN and GROUP BY prompts + common-error hints.
+- RS-first: use imagery metadata tables (scene ID, date, cloud percent) and show filtering via queries.
+- Add "Common mistakes" (leading zeros, mismatched types, duplicate keys, many-to-many joins).
+- Reduce US-only IDs (FIPS) by adding a global parallel example (ISO/admin IDs).
+
+Chapter 07 (Band Combiner): Band Combiner (`chapters/chapter-07-band-combiner.html`)
+- Resolve chapter numbering overlap/confusion (file name suggests Chapter 07 but content overlaps earlier chapters).
+- Replace stock photos/filters with real satellite chips (Sentinel/Landsat) and explain reflectance meaning.
+- Add a band reference table (wavelength, typical uses) and recipe cards for presets.
+- Add an assessment: choose the best composite for a given question (water/burn/veg stress) with feedback.
+- Ensure combiner controls are keyboard operable and include text descriptions of visual differences.
+
+Chapter 08: VGI & NeoGeography (`chapters/chapter-08-vgi-neogeography.html`)
+- Add scaffold + key terms (VGI, completeness, positional accuracy, contributor bias, conflation).
+- Add a mini-unit on data quality evaluation (compare to imagery/authoritative sources; sampling QA).
+- RS-first: show VGI as ground truth/validation for classification; discuss risks of label bias.
+- Add a lab prompt: safe/simulated OSM contribution + reflection on ethics and bias.
+- Ensure the point-adding simulator has keyboard alternatives and a text-first explanation.
+
+Chapter 09: Spectral Analysis (`chapters/chapter-09-spectral-analysis.html`)
+- Add scaffold + key terms (reflectance, absorption, spectral signature, NIR/SWIR/TIR).
+- Replace arbitrary plots with realistic labeled curves (veg/water/soil/urban) and wavelength units.
+- Add explicit misconceptions (NIR is not heat; true color is not raw; radiance vs reflectance).
+- Add a Try it: compute NDVI/NDWI from two pixels with feedback and interpretation.
+- Add keyboard step controls for sliders and a text-only alternative explanation.
+
+Chapter 10: Remote Sensing Foundations (`chapters/chapter-10-remote-sensing.html`)
+- Add scaffold + key terms (passive/active, TOA vs surface reflectance, revisit, resolution tradeoffs).
+- Add the RS pipeline figure: source -> atmosphere -> target -> sensor -> processing -> information.
+- Add a "choose the sensor" formative (goal cards) with feedback.
+- Add a lab prompt (ArcGIS Pro/QGIS + Earth Engine): cloud mask, NDVI, interpretation.
+- Add "Common mistakes" (mixing dates, skipping preprocessing, ignoring clouds/shadows).
+
+Chapter 11: Image Classification (`chapters/chapter-11-image-classification.html`)
+- Add scaffold + key terms (training/validation, overfitting, class imbalance, confusion matrix).
+- Add accuracy assessment content (producer/user accuracy, overall accuracy; optional kappa).
+- Add predict-then-test on feature choice (RGB vs indices vs SWIR) and explain separability.
+- Add "Common mistakes" (train/val leakage, spatial autocorrelation, unbalanced samples).
+- Ensure training interactions and checks are keyboard accessible and provide a non-interactive alternative path.
+
+Chapter 12: LiDAR & 3D (`chapters/chapter-12-lidar.html`)
+- Add scaffold + key terms (returns, intensity, classification codes, DTM/DSM/nDSM, CHM).
+- Fix concept issue: CHM is canopy height; building height is typically from nDSM (DSM - DEM).
+- Add a point cloud anatomy section and a simple workflow (classify -> rasterize -> validate).
+- Add a lab prompt using an open LiDAR sample (create DEM/DSM, compute heights) + QA.
+- Provide text-first explanations so learning does not depend on animation/motion.
+
+Chapter 13: Raster Analysis (`chapters/chapter-13-raster-analysis.html`)
+- Add scaffold + key terms (NoData, alignment/snap raster, resampling, focal/zonal/global).
+- RS-first: anchor examples in NDVI thresholding, burn severity, slope from DEM, suitability.
+- Expand beyond local ops: include focal, zonal, global demos with predict-then-reveal.
+- Add "Common mistakes" (misalignment, mixing resolutions, NoData propagation, degree-based distance).
+- Remove markdown-style ** inside HTML (screen reader / learner confusion).
+
+Chapter 14: Vector Analysis (`chapters/chapter-14-vector-analysis.html`)
+- Add scaffold + key terms (buffer, dissolve, overlay, spatial join, slivers).
+- Add projection hygiene gate concept (buffers in degrees vs meters) with a concrete worked example.
+- Add overlay pitfalls and fixes (slivers, tolerance, multipart, attribute explosion).
+- RS-first: position vector analysis as supporting AOIs, training polygons, validation sampling.
+- Improve assessments so they include scenario-based reasoning + explanations.
+
+Chapter 15: Spatial Modeling (`chapters/chapter-15-spatial-modeling.html`)
+- Add scaffold + key terms (workflow, parameters, environments, reproducibility, logging).
+- Add at least one full worked model case study (inputs -> steps -> outputs) explaining why each step exists.
+- RS-first: propose an automated pipeline (cloud mask -> composite -> NDVI -> change -> export) with parameterization.
+- Add "Common mistakes" (hardcoded paths, inconsistent env, overwriting outputs, undocumented params).
+- Add a lab prompt: build twice (GUI + script) and compare reproducibility; include rubric.
+
+Chapter 16: Mobile GIS (`chapters/chapter-16-mobile-gis.html`)
+- Add scaffold + key terms (offline areas, domains, validation rules, positional accuracy, privacy).
+- Standardize/neutralize location examples (currently mixes Florida and Austin references).
+- Add a field form design rubric + QA routine (required fields, constrained values, photo standards).
+- RS-first: connect field data to RS validation workflows.
+- Ensure form and map interactions have keyboard access and provide an alternate exercise path.
+
+Chapter 17: Storytelling (`chapters/chapter-17-storytelling.html`)
+- Add scaffold + story planning template + grading rubric.
+- Remove institution-specific reference (Texas State University) to preserve global/OER stance.
+- Replace placeholder imagery with an RS-driven narrative example (urban heat/flood/deforestation) + citations.
+- Accessibility: alt text/captions, keyboard-friendly scrolly behavior, transcript/summary.
+- Add critique-based assessment tasks with exemplar answers.
+
+Chapter 18: GIS Ethics & AI (`chapters/chapter-18-gis-ethics-ai.html`)
+- Add scaffold + key terms (bias, uncertainty, provenance, consent, model cards).
+- Expand ethics simulator to multiple nuanced scenarios with feedback (not binary).
+- RS-first: add high-resolution imagery ethics (surveillance, re-identification, sensitive sites).
+- Add "Common mistakes" (publishing raw points, weak anonymization, uncritical AI use).
+- Add further reading links (FAIR/CARE, standards for uncertainty/provenance).
+
+Chapter 19: Research Data Management (`chapters/chapter-19-research-data-management.html`)
+- Add scaffold + key terms (metadata, provenance, DOI, licensing, reproducibility).
+- Add a minimum-viable RDM template (README sections + checklist).
+- RS-first: imagery product best practices (processing level, cloud masks, COGs, tiling, STAC concepts).
+- Add "Common mistakes" (editing raw data, ambiguous versioning, missing CRS/dates).
+- Add an applied lab prompt: reorganize a messy project into a standard structure + write methods log.
+
+Chapter 20: Research in GIS (`chapters/chapter-20-research-in-gis.html`)
+- Add scaffold + key terms (hypothesis, operationalization, validity, uncertainty, reproducibility).
+- Remove personal/institution framing ("Dr. Sounny's dissertation") from the core chapter; keep globally framed.
+- RS-first: provide example research questions mapped to EO data sources and methods.
+- Add a reproducible literature review workflow (keywords, inclusion/exclusion, concept matrix).
+- Add an assessed mini research proposal assignment with rubric + sample strong responses.
