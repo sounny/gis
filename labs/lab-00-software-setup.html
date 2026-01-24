@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 00: Software Setup & Verification | GIS Lab Manual</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/lab.css">
+    <style>
+        .step-img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="lab-header">
+        <div class="container">
+            <nav style="margin-bottom: 1rem;">
+                <a href="index.html" style="color: var(--primary); text-decoration: none; font-weight: 600;">&larr; Back to Lab Manual</a>
+            </nav>
+            <span class="lab-badge">Lab 00</span>
+            <h1>Software Setup & Verification</h1>
+            <p class="subtitle">The first step of any journey is packing your bags. Ensure your GIS environment is ready for the semester.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 1. Learning Objectives -->
+        <section class="card">
+            <h2>🎯 Learning Objectives</h2>
+            <ul>
+                <li>Verify access to a professional or open-source GIS platform.</li>
+                <li>Navigate the initial installation or login process for your chosen tool.</li>
+                <li>Demonstrate a working environment by capturing a "Hello World" screenshot.</li>
+            </ul>
+        </section>
+
+        <!-- 2. Scenario & Data -->
+        <section class="card">
+            <h2>📂 Background</h2>
+            <p>GIS is not a single piece of software; it is a system. Throughout this course, you may encounter different tools. You only need to set up <strong>ONE</strong> of the following platforms to complete the core labs, although we encourage you to explore them all.</p>
+            
+            <div class="callout info">
+                <strong>Which one should I choose?</strong>
+                <ul>
+                    <li><strong>ArcGIS Pro:</strong> Choose this if you are a university student with a provided license. It is the industry standard for corporate and government jobs.</li>
+                    <li><strong>QGIS:</strong> Choose this if you are a hobbyist, Mac/Linux user, or advocate for open-source. It is free, powerful, and runs on any computer.</li>
+                    <li><strong>ArcGIS Online:</strong> Choose this if you cannot install software on your computer (e.g., Chromebook users). It runs entirely in your web browser.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 3. Instructions (The Switcher) -->
+        <h2>🛠️ Step-by-Step Instructions</h2>
+        <p>Select your preferred GIS platform to view set up instructions:</p>
+
+        <nav class="platform-switcher">
+            <button class="tab-btn active" data-platform="arcgis">
+                <span class="icon">🟦</span> ArcGIS Pro (Windows Only)
+            </button>
+            <button class="tab-btn" data-platform="qgis">
+                <span class="icon">🟩 QGIS (Win/Mac/Linux)</span>
+            </button>
+            <button class="tab-btn" data-platform="web">
+                <span class="icon">🟧 ArcGIS Online (Web)</span>
+            </button>
+        </nav>
+
+        <!-- ArcGIS Pro Pane -->
+        <div class="instruction-pane active" data-platform="arcgis">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Check System Requirements</h3>
+                    <p>ArcGIS Pro is a heavy 3D application. It requires a modern Windows PC. Mac users must use Parallels or Boot Camp.</p>
+                    <p><a href="https://pro.arcgis.com/en/run-check/" target="_blank">Run the System Check Tool &rarr;</a></p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Download & Install</h3>
+                    <p>Log in to your university's software portal (e.g., MyESRI or Canvas) to download the <strong>ArcGIS Pro</strong> installer. Run the installer and accept all defaults.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Sign In with Organization</h3>
+                    <p>When you first open Pro, it will ask you to Sign In. Do <strong>NOT</strong> create a public account here.</p>
+                    <ol>
+                        <li>Click <strong>"Your ArcGIS Organization's URL"</strong>.</li>
+                        <li>Type your university prefix (e.g., <code>utexas</code>, <code>southwestern</code>).</li>
+                        <li>This will redirect you to your campus login page (SSO). Log in with your school ID.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <h3>Create a Project</h3>
+                    <p>Once logged in, click <strong>"Map"</strong> under the "New Project" templates. Name it <code>Lab00_Setup</code>.</p>
+                    <p>You should see a map of the world. Verify your name appears in the top-right corner.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- QGIS Pane -->
+        <div class="instruction-pane" data-platform="qgis">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Download QGIS</h3>
+                    <p>Go to the official QGIS download page. We recommend the <strong>Long Term Release (LTR)</strong> version for stability.</p>
+                    <p><a href="https://qgis.org/en/site/forusers/download.html" target="_blank" class="btn btn-sm btn-primary">Download QGIS LTR &rarr;</a></p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Install</h3>
+                    <p>Run the installer. It is quite large (~1GB), so be patient.</p>
+                    <p><strong>Mac Users:</strong> You may need to right-click the file and select "Open" to bypass security warnings about unidentified developers.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Launch QGIS Desktop</h3>
+                    <p>Search your computer for "QGIS Desktop" (avoid "OSGeo4W Shell").</p>
+                    <p>When it opens, you will see a blank canvas. To verify it works, go to the <strong>Browser Panel</strong> (left side), expand <strong>XYZ Tiles</strong>, and double-click <strong>OpenStreetMap</strong>. A map should appear.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Web GIS Pane -->
+        <div class="instruction-pane" data-platform="web">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Go to ArcGIS Online</h3>
+                    <p>Navigate to <a href="https://www.arcgis.com" target="_blank">www.arcgis.com</a>.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Create Account or Sign In</h3>
+                    <p><strong>Students:</strong> Click "Sign In", select "Your ArcGIS Organization's URL", and use your school credentials.</p>
+                    <p><strong>Public/Hobbyist:</strong> Click "Create an account" (bottom of page) &rarr; "Create a Public Account". You can use Google/Facebook or an email.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Open Map Viewer</h3>
+                    <p>Once logged in, click <strong>"Map"</strong> in the top navigation bar. Select "Open in Map Viewer".</p>
+                    <p>You should see a base map of the world. Ensure your profile icon appears in the top right.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="callout warning" style="margin-top: 2rem;">
+            <strong>Pro Tip:</strong> Whichever platform you choose, stick with it! Switching back and forth mid-semester can be confusing as buttons move around.
+        </div>
+
+        <!-- 4. Deliverables -->
+        <section class="card" style="margin-top: 4rem; border-top: 4px solid var(--success);">
+            <h2>✅ Submission & Assessment</h2>
+            <p>To pass this first lab, submit a single image file (JPG or PNG) to your instructor (or save it for your records).</p>
+            
+            <div style="background: #f1faee; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #1d3557;">
+                <h4>The Screenshot Must Include:</h4>
+                <ol>
+                    <li>The software interface openly running.</li>
+                    <li>A visible map (basemap is fine).</li>
+                    <li><strong>For ArcGIS Users:</strong> Your logged-in username in the corner.</li>
+                </ol>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine | GIS Lab Manual</p>
+        </div>
+    </footer>
+
+    <script src="js/lab-switcher.js"></script>
+</body>
+</html>
