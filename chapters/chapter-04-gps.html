@@ -19,7 +19,9 @@
         }
 
         .hero-chapter {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            background: linear-gradient(rgba(30, 58, 138, 0.7), rgba(59, 130, 246, 0.8)), url('../assets/img/hero_chapter04.png');
+            background-size: cover;
+            background-position: center;
             padding: 5rem 2rem;
             text-align: center;
             color: white;
@@ -101,7 +103,7 @@
         <div class="container">
             <span class="chapter-badge">Chapter 4</span>
             <h1>GNSS & Positioning</h1>
-            <p class="subtitle">Finding your place on Earth. Learn the science behind Global Navigation Satellite Systems and how we achieve high-precision positioning across the globe.</p>
+            <p class="subtitle">Positioning on Earth. Discover the science behind Global Navigation Satellite Systems and the methods for achieving high-precision positioning across the globe.</p>
         </div>
     </header>
 
@@ -112,7 +114,9 @@
 
 
         <section class="card learning-scaffold" aria-label="Learning scaffold">
-            <div class="scaffold-head">
+            <details class="learning-scaffold-details">
+  <summary>
+<div class="scaffold-head">
                 <h2>At a Glance</h2>
                 <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
                     <span class="scaffold-chip"><strong>Prereqs:</strong> Chapter 03</span>
@@ -120,6 +124,7 @@
                     <span class="scaffold-chip"><strong>Deliverable:</strong> Field collection plan</span>
                 </div>
             </div>
+  </summary>
 
             <div class="scaffold-grid">
                 <div class="scaffold-card">
@@ -176,7 +181,7 @@
             <div class="scaffold-grid">
                 <div class="scaffold-card">
                     <h3>Lab (Two Tracks)</h3>
-                    <p>Both tracks produce the same deliverable: a one-page plan describing how you would collect validation points for an imagery analysis.</p>
+                    <p>Both tracks produce the same deliverable: a one-page plan describing the collection of validation points for an imagery analysis.</p>
                     <div class="scaffold-two-track">
                         <div class="scaffold-track">
                             <h4>Desktop GIS Track (ArcGIS Pro / QGIS)</h4>
@@ -199,7 +204,7 @@
                     <p><strong>Further reading:</strong> https://gistbok-ltb.ucgis.org/</p>
                 </div>
             </div>
-        </section>
+        </details></section>
 
 
         <div class="layout-grid">
@@ -230,7 +235,7 @@
                     <ul style="line-height: 2;">
                         <li><strong>Space Segment:</strong> The constellation of satellites broadcasting signals.</li>
                         <li><strong>Control Segment:</strong> Ground stations that track satellites and upload orbital corrections.</li>
-                        <li><strong>User Segment:</strong> Your receiver (phone, car, survey gear) that calculates your position.</li>
+                        <li><strong>User Segment:</strong> A receiver (phone, car, survey gear) that calculates the position.</li>
                     </ul>
                 </section>
 
@@ -251,10 +256,10 @@
                         </div>
                         <div style="flex: 1; min-width: 300px;">
                             <ol style="line-height: 1.8;">
-                                <li><strong>1 Satellite:</strong> You are somewhere on a sphere of radius $R_1$ from the satellite.</li>
-                                <li><strong>2 Satellites:</strong> The intersection of two spheres is a <strong>circle</strong>. You are somewhere on that circle.</li>
+                                <li><strong>1 Satellite:</strong> The location exists on a sphere of radius $R_1$ from the satellite.</li>
+                                <li><strong>2 Satellites:</strong> The intersection of two spheres is a <strong>circle</strong>. The location exists on that circle.</li>
                                 <li><strong>3 Satellites:</strong> The intersection of the circle and a third sphere narrows it down to <strong>two points</strong>. One is usually way out in space, the other is on Earth.</li>
-                                <li><strong>4 Satellites:</strong> The fourth sphere resolves the ambiguity and corrects for <strong>time bias</strong> in your receiver's clock. TV + 3D Position.</li>
+                                <li><strong>4 Satellites:</strong> The fourth sphere resolves the ambiguity and corrects for <strong>time bias</strong> in the receiver's clock. TV + 3D Position.</li>
                             </ol>
                         </div>
                     </div>
@@ -263,9 +268,9 @@
                 <section class="card">
                     <h2>Summary of Big Ideas</h2>
                     <ul style="line-height: 1.8;">
-                        <li><strong>Trilateration:</strong> The mathematical process of finding your location by measuring distances to 4 or more satellites.</li>
+                        <li><strong>Trilateration:</strong> The mathematical process of finding the location by measuring distances to 4 or more satellites.</li>
                         <li><strong>Differential GPS (DGPS):</strong> Using a stationary base station at a known point to correct errors for a mobile receiver.</li>
-                        <li><strong>DOP (Dilution of Precision):</strong> A measure of how much your geometry (satellite positions) affects your accuracy.</li>
+                        <li><strong>DOP (Dilution of Precision):</strong> A measure of how much the satellite geometry (positions) affects positioning accuracy.</li>
                         <li><strong>Error Sources:</strong> Atmospheric delays, signal multipath (bouncing off buildings), and orbital drift.</li>
                     </ul>
                 </section>
@@ -320,10 +325,27 @@
                     </div>
                 </div>
 
+                <div class="sidebar-box" style="border-top-color: #64748b;">
+                    <h3>📺 Blast from the Past</h3>
+                    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; margin-bottom: 1rem;">
+                        <iframe 
+                            src="https://www.youtube.com/embed/EpA8Lf8Gt1Q?si=88jEwlEQZqstHtMj" 
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
+                            title="1986: Satellite Navigation for Cars of the Future" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen></iframe>
+                    </div>
+                    <p style="font-size: 0.85rem; line-height: 1.4;">
+                        <strong>1986: Satellite Navigation for Cars of the Future.</strong> 
+                        "It may not look futuristic, but this is a highly intelligent car." 
+                        BBC presenters explore the earliest concept cars using satellite guidance—long before the technology was available to the public.
+                    </p>
+                </div>
+
                 <div class="sidebar-local-global">
                     <h3>🇨🇱 Texas Connection</h3>
                     <p><strong>GPS in the Permian Basin</strong></p>
-                    <p>Texas is one of the world's leading energy producers. In the Permian Basin, GNSS is used for everything from the centimeter-precise placement of drilling rigs to tracking the fleets of trucks moving equipment across West Texas. Without high-precision GPS, the modern energy economy of Texas—and the global energy supply—would grind to a halt.</p>
+                    <p>Texas is one of the world's leading energy producers. In the Permian Basin, GNSS is used for everything from the centimeter-precise placement of drilling rigs to tracking the fleets of trucks moving equipment across West Texas. Without high-precision GPS, the modern energy economy of Texas, and the global energy supply, would grind to a halt.</p>
                     <a href="https://www.txdot.gov/business/maintenance/precisionsurvey.html" target="_blank" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem; width:100%; text-align:center;">TxDOT Real-Time Network</a>
                 </div>
             </aside>

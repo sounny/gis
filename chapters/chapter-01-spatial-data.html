@@ -164,7 +164,9 @@
 
 
         <section class="card learning-scaffold" aria-label="Learning scaffold">
-            <div class="scaffold-head">
+            <details class="learning-scaffold-details">
+  <summary>
+<div class="scaffold-head">
                 <h2>At a Glance</h2>
                 <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
                     <span class="scaffold-chip"><strong>Prereqs:</strong> Chapter 00</span>
@@ -172,6 +174,7 @@
                     <span class="scaffold-chip"><strong>Deliverable:</strong> Raster vs vector decision note</span>
                 </div>
             </div>
+  </summary>
 
             <div class="scaffold-grid">
                 <div class="scaffold-card">
@@ -251,7 +254,7 @@
                     <p><strong>Further reading:</strong> https://www.ucgis.org/site/gis-t-body-of-knowledge</p>
                 </div>
             </div>
-        </section>
+        </details></section>
 
 
         <div class="layout-grid">
@@ -260,11 +263,15 @@
                     <h2>The Two Pillars of GIS</h2>
                     <p>In the digital realm, geographic information is predominantly stored in one of two formats: <strong>Vector</strong> or <strong>Raster</strong>. Choosing the right one is the fundamental decision of every GIS project.</p>
                     
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <img src="../assets/img/diagrams/vector_vs_raster_intro.png" alt="Vector vs Raster Comparison" style="max-width: 100%; border-radius: 12px; box-shadow: var(--shadow-sm);">
+                        <p style="font-size: 0.8rem; color: var(--secondary); margin-top: 0.5rem;">Figure 1.1: The fundamental dichotomy of spatial data.</p>
+                    </div>
+
                     <div class="feature-grid">
                         <div>
                             <h3 style="color: var(--primary);">Vector Model</h3>
                             <p>Represents the world as discrete objects. Think of this as "connect the dots" or architectural drafting.</p>
-                            <img src="../assets/img/diagrams/raster_vs_vector_simple.png" alt="Vector GIS Components" style="width: 100%; border-radius: 8px; margin-bottom: 1rem; box-shadow: var(--shadow-sm);">
                             <ul>
                                 <li><strong>Points:</strong> Exact X,Y coordinates (e.g., a specific tree).</li>
                                 <li><strong>Lines:</strong> Connected sequences of points (e.g., a section of Interstate 10).</li>
@@ -276,18 +283,34 @@
                         </div>
                         <div>
                             <h3 style="color: var(--success);">▦ Raster Model</h3>
-                            <p>Represents the world as a continuous grid of cells. Think of this as a digital photograph or a TV screen.</p>
-            <div style="text-align: center; margin: 2rem 0;">
-                <img src="../assets/img/diagrams/raster_vs_vector_simple.png" alt="Raster vs Vector Comparison" style="max-width: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
-            </div>
+                            <p>Represents the world as a continuous grid of cells. Think of this as a digital photograph or a TV screen. In its simplest form, a raster is just a matrix of rows and columns.</p>
+                            
+                            <img src="../assets/img/diagrams/raster_cell_definition.png" alt="Raster Cell Structure" style="width: 100%; border-radius: 8px; margin-bottom: 1rem; border: 1px solid #e2e8f0;">
 
-                            <ul>
-                                <li><strong>Pixels:</strong> Each cell contains a single value (e.g., elevation or color).</li>
-                                <li><strong>Resolution:</strong> The size of the cell determines the detail (e.g., 30m vs 1m pixels).</li>
-                                <li><strong>Surfaces:</strong> Ideal for continuous phenomena like temperature or elevation.</li>
+                            <h4>Key Characteristics</h4>
+                            <p style="font-size: 0.9rem;">Each cell (or pixel) holds a value representing one of three things:</p>
+                            <ul style="font-size: 0.9rem;">
+                                <li><strong>Continuous Data:</strong> Values that change gradually, like elevation (DEMs) or temperature.</li>
+                                <li><strong>Thematic (Discrete) Data:</strong> Categorical values, like Land Use (1=Forest, 2=Water).</li>
+                                <li><strong>Pictures:</strong> Scanned maps or aerial photos where value = color.</li>
                             </ul>
+
+                            <h4>Cell Location & Coordinates</h4>
+                            <p style="font-size: 0.9rem;">
+                                A raster is essentially a giant spreadsheet. The location of every cell is defined by its <strong>Row</strong> and <strong>Column</strong> coordinates. 
+                                In a real GIS, we map these Cartesian (x,y) coordinates to real-world locations (Latitude/Longitude) so the image sits in the right place on Earth.
+                            </p>
+                            <img src="../assets/img/diagrams/raster_coordinate_system.png" alt="Raster Coordinate System" style="width: 100%; border-radius: 8px; margin: 0.5rem 0 1rem 0; box-shadow: var(--shadow-sm);">
+
+                            <h4>Why use Raster?</h4>
+                            <ul style="font-size: 0.9rem;">
+                                <li>✅ <strong>Advanced Analysis:</strong> Essential for math-heavy modeling (e.g., surface runoff, suitability analysis).</li>
+                                <li>✅ <strong>Continuous Surfaces:</strong> The only way to truly represent things that exist everywhere (like air pressure).</li>
+                                <li>❌ <strong>Trade-offs:</strong> Rasters can become huge files (adding detail = 4x file size). They also suffer from "mixed pixels" where one cell must represent multiple features.</li>
+                            </ul>
+
                             <div class="callout info" style="font-size: 0.9rem; border-left-color: var(--success);">
-                                Best for imagery and continuous environmental data.
+                                <strong>Rule of Thumb:</strong> If the data changes continuously across the landscape (elevation, rainfall), use Raster. If it has distinct edges (property lines, roads), use Vector.
                             </div>
                         </div>
                     </div>
@@ -364,6 +387,32 @@
                         <div class="options">
                             <div class="option" onclick="checkAnswer(this, false)">The cell size increases.</div>
                             <div class="option" onclick="checkAnswer(this, true)">The cell size decreases (becomes more detailed).</div>
+                        </div>
+                    </div>
+
+                    <div class="question" id="q3">
+                        <p><strong>3. Which model is best suited for representing continuous elevation across a mountain range?</strong></p>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, false)">Vector (Polygons)</div>
+                            <div class="option" onclick="checkAnswer(this, true)">Raster (Grid of values)</div>
+                        </div>
+                    </div>
+
+                    <div class="question" id="q4">
+                        <p><strong>4. Which geometric primitive would best represent a solitary oak tree on a city park map?</strong></p>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, true)">Point</div>
+                            <div class="option" onclick="checkAnswer(this, false)">Line</div>
+                            <div class="option" onclick="checkAnswer(this, false)">Polygon</div>
+                        </div>
+                    </div>
+
+                    <div class="question" id="q5">
+                        <p><strong>5. Dr. John Snow's 1854 analysis was groundbreaking because he:</strong></p>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, false)">Used satellite imagery to find the pump.</div>
+                            <div class="option" onclick="checkAnswer(this, true)">Overlaid two datasets (deaths and pumps) to find a spatial relationship.</div>
+                            <div class="option" onclick="checkAnswer(this, false)">Created the first digital raster grid of London.</div>
                         </div>
                     </div>
                 </div>
@@ -462,6 +511,9 @@
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">
             <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #64748b;">
+                Made with ❤️ by <a href="https://sounny.github.io" target="_blank" style="color: #64748b; text-decoration: underline;">Dr. Sounny</a>
+            </p>
         </div>
     </footer>
 

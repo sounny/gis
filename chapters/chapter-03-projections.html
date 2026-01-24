@@ -19,7 +19,9 @@
         }
 
         .hero-chapter {
-            background: linear-gradient(135deg, #1e1b4b 0%, #6366f1 100%);
+            background: linear-gradient(rgba(30, 27, 75, 0.7), rgba(99, 102, 241, 0.8)), url('../assets/img/hero_chapter03.png');
+            background-size: cover;
+            background-position: center;
             padding: 5rem 2rem;
             text-align: center;
             color: white;
@@ -47,7 +49,7 @@
             border: 1px solid rgba(255,255,255,0.3);
         }
 
-        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
         .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
 
         .layout-grid {
@@ -137,7 +139,9 @@
 
 
         <section class="card learning-scaffold" aria-label="Learning scaffold">
-            <div class="scaffold-head">
+            <details class="learning-scaffold-details">
+  <summary>
+<div class="scaffold-head">
                 <h2>At a Glance</h2>
                 <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
                     <span class="scaffold-chip"><strong>Prereqs:</strong> Chapters 01-02</span>
@@ -145,6 +149,7 @@
                     <span class="scaffold-chip"><strong>Deliverable:</strong> Projection choice memo</span>
                 </div>
             </div>
+  </summary>
 
             <div class="scaffold-grid">
                 <div class="scaffold-card">
@@ -224,7 +229,7 @@
                     <p><strong>Further reading:</strong> https://www.ucgis.org/site/gis-t-body-of-knowledge</p>
                 </div>
             </div>
-        </section>
+        </details></section>
 
 
         <div class="layout-grid">

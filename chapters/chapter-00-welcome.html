@@ -15,6 +15,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <style>
       /* Chapter-specific styles */
       .hero-chapter {
@@ -256,7 +257,9 @@
       </nav>
 
       <section class="card learning-scaffold" aria-label="Learning scaffold">
-        <div class="scaffold-head">
+        <details class="learning-scaffold-details">
+  <summary>
+<div class="scaffold-head">
           <h2>At a Glance</h2>
           <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
             <span class="scaffold-chip"><strong>Prereqs:</strong> None</span>
@@ -264,6 +267,7 @@
             <span class="scaffold-chip"><strong>Deliverable:</strong> Setup checklist</span>
           </div>
         </div>
+  </summary>
 
         <div class="scaffold-grid">
           <div class="scaffold-card">
@@ -319,8 +323,8 @@
 
         <div class="scaffold-grid">
           <div class="scaffold-card">
-            <h3>Lab (Two Tracks)</h3>
-            <p>Complete one track. Both tracks produce the same deliverable: a one-page setup checklist you can reuse all semester.</p>
+            <h3>Lab (Three Tracks)</h3>
+            <p>Complete one track. All tracks produce the same deliverable: a one-page setup checklist you can reuse all semester.</p>
             <div class="scaffold-two-track">
               <div class="scaffold-track">
                 <h4>Desktop GIS Track (ArcGIS Pro / QGIS)</h4>
@@ -329,6 +333,10 @@
               <div class="scaffold-track">
                 <h4>Remote Sensing Track (Google Earth Engine)</h4>
                 <p>Confirm account access, open the Code Editor, and load any public image layer. Capture one screenshot and note your AOI.</p>
+              </div>
+              <div class="scaffold-track">
+                <h4>WebGIS Track (ArcGIS Online / Felt)</h4>
+                <p>Create a free public account. Open the Map Viewer, search and add a layer from the Living Atlas. Capture one screenshot of your web map.</p>
               </div>
             </div>
           </div>
@@ -343,7 +351,7 @@
             <p><strong>Further reading:</strong> https://www.ucgis.org/site/gis-t-body-of-knowledge</p>
           </div>
         </div>
-      </section>
+      </details></section>
 
       <div class="layout-grid">
         <div class="content">
@@ -355,6 +363,116 @@
                 src="https://www.youtube.com/embed/XF9t-oQ1r0I" 
                 title="What is GIS? - The Tool, Science, and Art" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+              </iframe>
+            </div>
+          </section>
+
+          <section class="card">
+            <h2>🌍 Asking the Questions of "Where"</h2>
+            <p>
+              When we think of GIS, we often think of simply locating things. Consider the classic game 
+              <strong>Where's Waldo?</strong>. Finding Waldo on the page is a basic GIS query: <em>"Where is point X?"</em>. 
+              But true spatial analysis goes deeper.
+            </p>
+            <div class="callout info">
+              <strong>From "Where" to "Why":</strong> Once we find Waldo in many different scenes, we can start to ask: 
+              <em>Why is he there?</em> What surrounds him? By understanding the patterns of his location, 
+              we can move to <strong>predictive modeling</strong>—guessing where he might appear next.
+            </div>
+            <p>
+              GIS is a framework for understanding and managing our complex world. We take the infinite complexity of the 
+              <strong>Real World</strong> and simplify it into <strong>Geographic Knowledge</strong> (data layers like roads, 
+              forests, and elevations). We then apply tools to this knowledge to make decisions—whether it's urban planning, 
+              conservation, or business intelligence.
+            </p>
+          </section>
+
+          <section class="card">
+            <h2>🎨 The Art of GIS</h2>
+            <p>
+              Is GIS a tool? Is it a science? This is a common debate. However, a third perspective is that 
+               <strong>GIS is an Art</strong>.
+            </p>
+            <ul style="margin-top: 1rem; margin-bottom: 1.5rem; line-height: 1.8;">
+              <li><strong>The Paint:</strong> Your geographic data (pixels, points, lines).</li>
+              <li><strong>The Brushes:</strong> The analytical tools (buffers, overlays, map algebra).</li>
+              <li><strong>The Art:</strong> How you creatively combine them to reveal new truths.</li>
+            </ul>
+            <p>
+              Just as three doctors might give different prognoses, three GIS analysts might approach a problem differently. 
+              The most powerful GIS work often comes from "daisy-chaining" simple tools together in creative ways to answer 
+              questions that have never been asked before.
+            </p>
+          </section>
+
+          <section class="card">
+            <h2>🔬 GIS in Action: Case Studies</h2>
+            <p>
+              To illustrate the versatility of asking "Where," here are three examples of creative GIS applications across different disciplines:
+            </p>
+            
+            <div style="margin-top: 2rem;">
+              <h3 style="color: var(--primary);">1. Sustainability: Are Solar Panels Enough?</h3>
+              <p>
+                <strong>The Question:</strong> Do trendy solar installations on rooftops actually make economic and environmental sense?
+              </p>
+              <p>
+                <strong>The Approach:</strong> Using <strong>LiDAR</strong> (Light Detection and Ranging), we created specific "Digital Roof Models" for both University of Texas and Southwestern University. 
+                By combining slope, aspect, and tree canopy shadows (NDVI), we calculated the exact solar potential of every single rooftop.
+                The finding? Subsidies are crucial. Without them, the "payback period" for many installs exceeded 30 years, making them 
+                environmentally friendly but not economically sustainable.
+              </p>
+              <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                <a href="../assets/Solar_Power_Potential_on_the_University.pdf" target="_blank" class="btn btn-sm" style="background: #f1f5f9; border: 1px solid #cbd5e1; color: #334155; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem;">
+                  📄 UT Austin Solar Study (PDF)
+                </a>
+                <a href="../assets/Rooftop_Solar_Potential_of_Southwestern.pdf" target="_blank" class="btn btn-sm" style="background: #f1f5f9; border: 1px solid #cbd5e1; color: #334155; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem;">
+                  📄 Southwestern Univ. Study (PDF)
+                </a>
+              </div>
+            </div>
+
+            <div style="margin-top: 2rem; border-top: 1px solid #eee; padding-top: 2rem;">
+              <h3 style="color: var(--primary);">2. Physical Geography: Inverting the Landscape</h3>
+              <p>
+                <strong>The Question:</strong> Where does the Mississippi River natural levee end and the floodplain begin?
+              </p>
+              <p>
+                <strong>The Approach:</strong> Hydrology tools usually find where water flows <em>down</em>. To find the crest of natural levees (the highest points), 
+                we <strong>inverted the Digital Elevation Model (DEM)</strong>—flipping the landscape upside down. 
+                We then ran standard stream-finding algorithms on this inverted world to extract the ridges. 
+                This revealed that small, non-catastrophic floods connect the river to the floodplain much more often than previously thought.
+              </p>
+            </div>
+
+            <div style="margin-top: 2rem; border-top: 1px solid #eee; padding-top: 2rem;">
+              <h3 style="color: var(--primary);">3. Humanities: Where is the "Southwest"?</h3>
+              <p>
+                <strong>The Question:</strong> The "Southwest" is a vernacular region—it exists in our minds, not on a legal map. Where do people think it is?
+              </p>
+              <p>
+                <strong>The Approach:</strong> We surveyed people and asked them to draw a polygon of "The Southwest." 
+                Using <strong>Map Algebra</strong>, we stacked all these polygons (Raster Addition). 
+                The result showed a "fuzzy" geography: a core area (AZ/NM) that everyone agreed on, and correctly fading edges. 
+                Interestingly, the region seems to be migrating westward over time compared to studies from the 1970s.
+              </p>
+            </div>
+          </section>
+
+          <section class="card">
+            <h2>📺 Case Study: Asking the Questions of "Where"</h2>
+            <p>
+              Watch this video to explore a real-world example of how we formulate and answer spatial questions. 
+              Key takeaways include the importance of context and the transition from simple location finding to complex spatial reasoning.
+            </p>
+            <div class="video-container">
+              <iframe 
+                src="https://www.youtube.com/embed/wclmkmyuaNc?si=K_XKOTQ_T9KXJrum" 
+                title="Case Study: Asking the Questions of Where" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" 
                 allowfullscreen>
               </iframe>
             </div>
@@ -450,15 +568,34 @@
           <section class="card">
             <h2>🚀 Software Toolkit</h2>
             <div class="callout info">
-              <strong>Dual-Platform:</strong> We use <strong>ArcGIS Pro</strong> for desktop GIS and <strong>Google Earth Engine</strong> for cloud-based imagery analysis.
+              <strong>Multi-Platform Approach:</strong> We embrace a flexible toolkit. While <strong>ArcGIS Pro</strong> is our primary commercial desktop tool, we also leverage the open-source power of <strong>QGIS</strong> and the creative potential of <strong>WebGIS</strong>.
             </div>
-            <p>Ensure you have your ArcGIS Pro license activated and your Google Earth Engine account approved (signup at <a href="https://earthengine.google.com/">earthengine.google.com</a>).</p>
+            
+            <h3>Desktop & Cloud Engines</h3>
+            <p>
+              For deep analysis, you will need a robust desktop environment (ArcGIS Pro or QGIS). For planetary-scale remote sensing, 
+              we rely on <strong>Google Earth Engine</strong>. Ensure your accounts are active and ready.
+            </p>
+
+            <h3>WebGIS Applications</h3>
+            <p>
+              Not all GIS requires installation. throughout the book, we will use accessible web applications—like the interactive tools found at 
+              <a href="https://sounny.github.io" target="_blank">sounny.github.io</a>—to perform quick visualizations and analyses directly in the browser.
+            </p>
+
+            <h3>AI-Assisted Workflows</h3>
+            <p>
+              The modern GIS analyst has a new partner: <strong>Artificial Intelligence</strong>. Today, you can use AI to write Python scripts 
+              that automate complex spatial tasks, making advanced analysis accessible to everyone. We will explore this frontier in 
+              <a href="chapter-21-artificial-intelligence.html">Chapter 21: Artificial Intelligence</a> within the "Future of GIS" section.
+            </p>
           </section>
 
           <section class="card">
             <div class="success-tips">
               <h3>💡 Tips for Success</h3>
               <ul>
+                <li><strong>Be Organized:</strong> Keep your files structured. Good data management is the foundation of every successful project.</li>
                 <li><strong>Consistency:</strong> Establish a regular practice routine.</li>
                 <li><strong>Hands-on:</strong> Don't skip the labs; GIS is learned by doing.</li>
                 <li><strong>Backups:</strong> Cloud-save your spatial data frequently.</li>
@@ -487,12 +624,16 @@
 
         <aside class="sidebar">
           <div class="box-bio">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Gerardus_Mercator.jpg/220px-Gerardus_Mercator.jpg" alt="Mercator">
+            <img src="../assets/img/people/gerardus_mercator.jpg" alt="Mercator">
             <div>
               <h3>Gerardus Mercator</h3>
               <span class="bio-dates">(1512–1594)</span>
               <p>
                 A Flemish cartographer and geographer. In 1569, he introduced the Mercator projection, which became the standard for nautical navigation because it preserved constant bearings (rhumb lines). While controversial today for its area distortion, it remains the foundation of all web mapping (Web Mercator).
+              </p>
+              <div id="mercator-map" style="height: 200px; width: 100%; margin-top: 1rem; border-radius: 8px; border: 1px solid #ccc; z-index: 1;"></div>
+              <p style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem; font-style: italic;">
+                Interactive: This map uses the Web Mercator projection. Notice how Greenland appears larger than it is in reality due to distortion at the poles.
               </p>
             </div>
           </div>
@@ -510,6 +651,49 @@
             </p>
             <a href="https://www.glo.texas.gov/land/land-management/gis/" target="_blank" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem; width:100%; text-align:center;">Visit GLO GIS Data</a>
           </div>
+
+          <!-- OPTION: Florida Connection Template
+          <div class="sidebar-local-global florida">
+            <h3>🍊 Florida Connection</h3>
+            <p>
+              <strong>The Everglades Restoration Plan</strong>
+            </p>
+            <p>
+              GIS plays a critical role in the Comprehensive Everglades Restoration Plan (CERP). 
+              Water managers use spatial models to simulate flow across the "River of Grass" to balance 
+              ecosystem health with the water needs of Miami's growing population.
+            </p>
+          </div>
+          -->
+
+          <!-- OPTION: France Connection Template
+          <div class="sidebar-local-global france">
+            <h3>🇫🇷 France Connection</h3>
+            <p>
+              <strong>IGN (Institut géographique national)</strong>
+            </p>
+            <p>
+              Frances national mapping agency, IGN, is a pioneer in historical maps. 
+              Their "Remonter le Temps" (Go Back in Time) portal allows users to seamlessly compare 
+              historical aerial photography from the 1950s with modern satellite imagery to track urbanization.
+            </p>
+            <a href="https://remonterletemps.ign.fr/" target="_blank" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem; width:100%; text-align:center;">Visit Remonter le Temps</a>
+          </div>
+          -->
+
+          <!-- OPTION: Morocco Connection Template
+          <div class="sidebar-local-global morocco">
+            <h3>🇲🇦 Morocco Connection</h3>
+            <p>
+              <strong>Noor Ouarzazate Solar Complex</strong>
+            </p>
+            <p>
+              Visible from space, the world's largest concentrated solar power plant resides on the edge of the Sahara. 
+              GIS and Remote Sensing were essential in selecting this location—optimizing for 
+              Direct Normal Irradiance (DNI), water access for cooling, and specialized terrain flatness.
+            </p>
+          </div>
+          -->
         </aside>
       </div>
 
@@ -563,9 +747,26 @@
     <footer>
       <div class="container">
         <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #64748b;">
+            Made with ❤️ by <a href="https://sounny.github.io" target="_blank" style="color: #64748b; text-decoration: underline;">Dr. Sounny</a>
+        </p>
       </div>
     </footer>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+      // Initialize the Mercator bio map
+      const map = L.map('mercator-map', {
+          center: [20, 0],
+          zoom: 1,
+          scrollWheelZoom: false, // Prevent scrolling page when interacting
+          attributionControl: false
+      });
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+    </script>
     <script>
       function checkAnswer(isCorrect) {
         const feedback = document.getElementById('quiz-feedback');
