@@ -13,3 +13,7 @@ AGENTS.md
 # Development documentation (markdown files)
 *.md
 !conductor/**/*.md
+
+# Python
+__pycache__/
+*.pyc
