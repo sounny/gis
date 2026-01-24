@@ -1,4 +1,5 @@
 import argparse
+import concurrent.futures
 import json
 import os
 import re
@@ -78,6 +79,29 @@ def _topic_to_markdown(topic: dict) -> str:
     return text
 
 
+def process_topic(key, base, out_dir, fmt):
+    topic_url = f"{base}/current/concepts/{urllib.parse.quote(str(key))}.json"
+    topic = _http_get_json(topic_url)
+    if not isinstance(topic, dict):
+        return None
+
+    code = topic.get("code") or str(key)
+    safe = _safe_filename(code)
+
+    if fmt in ("json", "both"):
+        _write_json(os.path.join(out_dir, f"{safe}.json"), topic)
+    if fmt in ("md", "both"):
+        _write_text(os.path.join(out_dir, f"{safe}.md"), _topic_to_markdown(topic))
+
+    return {
+        "key": key,
+        "code": topic.get("code"),
+        "name": topic.get("name"),
+        "link": topic.get("link"),
+        "out_base": os.path.join(out_dir, safe),
+    }
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(
         description="Export UCGIS BoK topics (Firebase RTDB) to local files"
@@ -104,7 +128,13 @@ def main() -> int:
         "--sleep",
         type=float,
         default=0.05,
-        help="Sleep seconds between topic requests",
+        help="Sleep seconds between topic requests (deprecated/ignored in parallel mode)",
+    )
+    ap.add_argument(
+        "--workers",
+        type=int,
+        default=10,
+        help="Number of concurrent workers",
     )
     args = ap.parse_args()
 
@@ -125,37 +155,31 @@ def main() -> int:
         "topics": [],
     }
 
-    # 2) Fetch each topic
-    for i, key in enumerate(keys, 1):
-        topic_url = f"{args.base}/current/concepts/{urllib.parse.quote(str(key))}.json"
-        topic = _http_get_json(topic_url)
-        if not isinstance(topic, dict):
-            continue
+    # 2) Fetch each topic in parallel
+    count = 0
+    total = len(keys)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=args.workers) as executor:
+        # Submit all tasks
+        future_to_key = {
+            executor.submit(process_topic, key, args.base, args.out, args.format): key
+            for key in keys
+        }
 
-        code = topic.get("code") or str(key)
-        name = topic.get("name") or ""
-        safe = _safe_filename(code)
+        # Process results as they complete
+        for future in concurrent.futures.as_completed(future_to_key):
+            try:
+                result = future.result()
+                if result:
+                    manifest["topics"].append(result)
+            except Exception as exc:
+                key = future_to_key[future]
+                print(f"Topic {key} generated an exception: {exc}")
 
-        if args.format in ("json", "both"):
-            _write_json(os.path.join(args.out, f"{safe}.json"), topic)
-        if args.format in ("md", "both"):
-            _write_text(os.path.join(args.out, f"{safe}.md"), _topic_to_markdown(topic))
+            count += 1
+            if count % 25 == 0 or count == total:
+                print(f"Fetched {count}/{total}")
 
-        manifest["topics"].append(
-            {
-                "key": key,
-                "code": topic.get("code"),
-                "name": topic.get("name"),
-                "link": topic.get("link"),
-                "out_base": os.path.join(args.out, safe),
-            }
-        )
-        manifest["count"] = len(manifest["topics"])
-
-        if args.sleep:
-            time.sleep(args.sleep)
-        if i % 25 == 0:
-            print(f"Fetched {i}/{len(keys)}")
+    manifest["count"] = len(manifest["topics"])
 
     _write_json(os.path.join(args.out, "manifest.json"), manifest)
     print(f"Done. Exported {manifest['count']} topics to {args.out}")
