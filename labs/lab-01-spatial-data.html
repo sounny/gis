@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lab [NUM]: [TITLE] | GIS Lab Manual</title>
+    <title>Lab 01: Designing a Site Map | GIS Lab Manual</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="css/lab.css">
 </head>
@@ -14,9 +14,9 @@
             <nav style="margin-bottom: 1rem;">
                 <a href="index.html" style="color: var(--primary); text-decoration: none; font-weight: 600;">&larr; Back to Lab Manual</a>
             </nav>
-            <span class="lab-badge">Lab [NUM]</span>
-            <h1>[LAB TITLE]</h1>
-            <p class="subtitle">[Brief 1-sentence mission statement for the lab]</p>
+            <span class="lab-badge">Lab 01</span>
+            <h1>Designing a Simple Site Map</h1>
+            <p class="subtitle">Your first mission: Create a professional map of a place you know well using standard cartographic elements.</p>
         </div>
     </header>
 
@@ -25,29 +25,31 @@
         <section class="card">
             <h2>🎯 Learning Objectives</h2>
             <ul>
-                <li>[Objective 1]</li>
-                <li>[Objective 2]</li>
-                <li>[Objective 3]</li>
+                <li>Navigate the GIS map interface (Pan, Zoom, Identify).</li>
+                <li>Find a specific location using search tools.</li>
+                <li>Create a <strong>Layout</strong> suitable for printing (PDF/Image).</li>
+                <li>Add essential map elements: <strong>Title, North Arrow, Scale Bar, and Author Name</strong>.</li>
             </ul>
         </section>
 
         <!-- 2. Scenario & Data -->
         <section class="card">
             <h2>📂 Scenario & Requirements</h2>
-            <p>[Describe the real-world problem or research question]</p>
+            <p>
+                You have been hired as a "Campus Mapper." Your client (me, your instructor) needs a simple yet professional 
+                <strong>Site Map</strong> of a location of your choice. This could be your university campus, your neighborhood park, 
+                or even your hometown center.
+            </p>
+            <p>The goal is not complex analysis; the goal is <strong>communication</strong>. Can you produce a clean, readable map?</p>
             
-            <div class="data-download-card">
-                <div>
-                    <strong>Data Package:</strong> <code>[filename].zip</code>
-                    <p style="margin:0; font-size: 0.85rem; color: #64748b;">Contains Shapefiles, GeoJSON, and CSV</p>
-                </div>
-                <a href="#" class="btn btn-primary">Download Data</a>
+            <div class="callout info">
+                <strong>Data Needed:</strong> None! We will use the built-in "Basemaps" (Satellite or Street layers) provided by the software.
             </div>
         </section>
 
         <!-- 3. Instructions (The Switcher) -->
         <h2>🛠️ Step-by-Step Instructions</h2>
-        <p>Select your preferred GIS platform to view instructions:</p>
+        <p>Select your preferred GIS platform:</p>
 
         <nav class="platform-switcher">
             <button class="tab-btn active" data-platform="arcgis">
@@ -57,7 +59,7 @@
                 <span class="icon">🟩 QGIS</span>
             </button>
             <button class="tab-btn" data-platform="web">
-                <span class="icon">🟧 Web GIS</span>
+                <span class="icon">🟧 ArcGIS Online</span>
             </button>
         </nav>
 
@@ -66,11 +68,47 @@
             <div class="step">
                 <div class="step-num">1</div>
                 <div class="step-content">
-                    <h3>Setting up the Project</h3>
-                    <p>Open ArcGIS Pro and create a new Map project. Extract your downloaded data to your project folder...</p>
+                    <h3>Explore and Locate</h3>
+                    <p>Open your project from Lab 00. Use the <strong>Locate</strong> tool (magnifying glass) at the top right to search for your chosen location.</p>
+                    <p>Change your Basemap: Go to the <strong>Map Tab &rarr; Basemap</strong>. Choose "Imagery Hybrid" or "Topographic".</p>
                 </div>
             </div>
-            <!-- Add more steps -->
+
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Create a Layout</h3>
+                    <p>A "Map" is for working data; a "Layout" is for printing.</p>
+                    <ol>
+                        <li>Go to <strong>Insert Tab &rarr; New Layout</strong>. Select "Letter (8.5 x 11) Landscape".</li>
+                        <li>Go to <strong>Insert Tab &rarr; Map Frame</strong>. Draw a rectangle on the page to place your map.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Add Map Elements</h3>
+                    <p>Use the <strong>Insert Tab</strong> to add the following:</p>
+                    <ul>
+                        <li><strong>North Arrow:</strong> To show orientation.</li>
+                        <li><strong>Scale Bar:</strong> To show distance/size.</li>
+                        <li><strong>Text (Title):</strong> Name your place (e.g., "Southwestern University Campus").</li>
+                        <li><strong>Dynamic Text (Service Layer Credits):</strong> Acknowledges the data source.</li>
+                        <li><strong>Text (Author):</strong> "Created by [Your Name]".</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <h3>Export</h3>
+                    <p>Go to the <strong>Share Tab &rarr; Export Layout</strong>.</p>
+                    <p>Format: <code>JPG</code> or <code>PDF</code>. DPI: <code>300</code>. Save it to your computer.</p>
+                </div>
+            </div>
         </div>
 
         <!-- QGIS Pane -->
@@ -78,11 +116,46 @@
             <div class="step">
                 <div class="step-num">1</div>
                 <div class="step-content">
-                    <h3>Importing Data</h3>
-                    <p>Open QGIS. Drag and drop the GeoJSON files into the layers panel...</p>
+                    <h3>Load Basemap</h3>
+                    <p>In the Browser Panel (left), double-click <strong>XYZ Tiles &rarr; OpenStreetMap</strong>.</p>
+                    <p>Use the Pan (Hand) and Zoom tool to find your location. (Tip: You can install the "QuickMapServices" plugin for Google Satellite imagery).</p>
                 </div>
             </div>
-            <!-- Add more steps -->
+
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Create Print Layout</h3>
+                    <p>QGIS separates the canvas from the printer page.</p>
+                    <ol>
+                        <li>Go to <strong>Project &rarr; New Print Layout</strong>. Name it "Lab1_Map".</li>
+                        <li>Click the <strong>Add Map</strong> icon (looks like a scroll) on the left sidebar. Draw a box on the page.</li>
+                        <li>Use the "Move Item Content" tool to adjust the zoom inside the box.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Add Elements</h3>
+                    <p>Use the Left Sidebar tools:</p>
+                    <ul>
+                        <li><strong>Add Label (Text):</strong> Add Title and your Name. (Edit text in the Right Sidebar "Item Properties").</li>
+                        <li><strong>Add Scale Bar:</strong> Draw a box. Adjust units in Item Properties.</li>
+                        <li><strong>Add North Arrow:</strong> Draw a box.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <h3>Export Image</h3>
+                    <p>Go to the top toolbar: <strong>Layout &rarr; Export as Image</strong>.</p>
+                    <p>Save as a JPG/PNG. Recommended 300 dpi.</p>
+                </div>
+            </div>
         </div>
 
         <!-- Web GIS Pane -->
@@ -90,24 +163,46 @@
             <div class="step">
                 <div class="step-num">1</div>
                 <div class="step-content">
-                    <h3>ArcGIS Online Setup</h3>
-                    <p>Log in to your ArcGIS Public Account. Click 'Map' to open the classic Map Viewer...</p>
+                    <h3>Setup Map</h3>
+                    <p>Go to <strong>ArcGIS Online &rarr; Map Viewer</strong>.</p>
+                    <p>Search for your location in the top right search bar.</p>
+                    <p>Change Basemap: Click the "Basemap" icon (left dark toolbar) and choose "Imagery" or "Navigation".</p>
                 </div>
             </div>
-            <!-- Add more steps -->
+
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Add Sketch Layers</h3>
+                    <p>Click <strong>"Sketch"</strong> (Pencil icon) on the right toolbar.</p>
+                    <p>Use the "Stamp" or "Text" tool to place a label on the map naming the site (Site Title). Add another text box with your Name.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Print / Export</h3>
+                    <p>On the left toolbar, click <strong>"Print"</strong> (Printer icon).</p>
+                    <ul>
+                        <li><strong>Title:</strong> Enter your Map Title.</li>
+                        <li><strong>Layout:</strong> Choose "Letter ANSI A Landscape".</li>
+                        <li><strong>Format:</strong> PDF or JPG.</li>
+                    </ul>
+                    <p>Click "Export". The file will generate after a few seconds—click the result to download it.</p>
+                </div>
+            </div>
         </div>
 
         <!-- 4. Deliverables -->
         <section class="card" style="margin-top: 4rem; border-top: 4px solid var(--accent);">
             <h2>✅ Submission & Assessment</h2>
-            <p>To complete this lab, you must submit:</p>
+            <p>To pass Lab 01, submit your exported map file (JPG/PDF). It will be graded on:</p>
             <ul>
-                <li>[Deliverable 1: e.g. A screenshot of your final map]</li>
-                <li>[Deliverable 2: e.g. A CSV of your calculated statistics]</li>
+                <li><strong>Completeness:</strong> Does it show the location clearly?</li>
+                <li><strong>Elements:</strong> Does it have a Title, North Arrow, Scale Bar, and Author Name?</li>
+                <li><strong>Aesthetics:</strong> Is the text readable? Is the map centered?</li>
             </ul>
-            <div class="callout warning">
-                <strong>Quality Check:</strong> Ensure your map includes a Title, Legend, and North Arrow before exporting.
-            </div>
         </section>
 
     </main>

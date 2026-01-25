@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lab [NUM]: [TITLE] | GIS Lab Manual</title>
+    <title>Lab 02: Global Administrative Data | GIS Lab Manual</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="css/lab.css">
 </head>
@@ -14,9 +14,9 @@
             <nav style="margin-bottom: 1rem;">
                 <a href="index.html" style="color: var(--primary); text-decoration: none; font-weight: 600;">&larr; Back to Lab Manual</a>
             </nav>
-            <span class="lab-badge">Lab [NUM]</span>
-            <h1>[LAB TITLE]</h1>
-            <p class="subtitle">[Brief 1-sentence mission statement for the lab]</p>
+            <span class="lab-badge">Lab 02</span>
+            <h1>Working with External Data (GADM)</h1>
+            <p class="subtitle">Real-world GIS involves hunting for data. Learn to download, import, and visualize political hierarchies.</p>
         </div>
     </header>
 
@@ -25,29 +25,42 @@
         <section class="card">
             <h2>🎯 Learning Objectives</h2>
             <ul>
-                <li>[Objective 1]</li>
-                <li>[Objective 2]</li>
-                <li>[Objective 3]</li>
+                <li>Locate and download authentic spatial data from a trusted external repository (GADM).</li>
+                <li>Import Shapefiles/GeoPackages into your GIS platform.</li>
+                <li>Understand administrative hierarchies (National vs. State vs. County).</li>
+                <li>Apply symbology rules (outline width, fill color) to visually distinguish hierarchy levels.</li>
             </ul>
         </section>
 
         <!-- 2. Scenario & Data -->
         <section class="card">
-            <h2>📂 Scenario & Requirements</h2>
-            <p>[Describe the real-world problem or research question]</p>
+            <h2>📂 Scenario & Sources</h2>
+            <p>
+                You are a country analyst for an NGO. You need to produce a clean reference map of a specific country's administrative divisions to include in a report.
+                Instead of drawing it yourself, you will source the "Gold Standard" of administrative data: <strong>GADM (Database of Global Administrative Areas)</strong>.
+            </p>
             
             <div class="data-download-card">
                 <div>
-                    <strong>Data Package:</strong> <code>[filename].zip</code>
-                    <p style="margin:0; font-size: 0.85rem; color: #64748b;">Contains Shapefiles, GeoJSON, and CSV</p>
+                    <strong>Primary Source:</strong> <code>GADM.org</code>
+                    <p style="margin:0; font-size: 0.85rem; color: #64748b;">You will choose your own country to map.</p>
                 </div>
-                <a href="#" class="btn btn-primary">Download Data</a>
+                <a href="https://gadm.org/download_country.html" target="_blank" class="btn btn-primary">Go to GADM Data &rarr;</a>
+            </div>
+
+            <div class="callout warning">
+                <strong>Data Structure:</strong> GADM uses a level system:
+                <ul>
+                    <li><strong>ADM0:</strong> National Boundary (The Country)</li>
+                    <li><strong>ADM1:</strong> First Order Divison (States/Provinces/Regions)</li>
+                    <li><strong>ADM2:</strong> Second Order Division (Counties/Districts/Communes)</li>
+                </ul>
             </div>
         </section>
 
         <!-- 3. Instructions (The Switcher) -->
         <h2>🛠️ Step-by-Step Instructions</h2>
-        <p>Select your preferred GIS platform to view instructions:</p>
+        <p>Select your preferred GIS platform:</p>
 
         <nav class="platform-switcher">
             <button class="tab-btn active" data-platform="arcgis">
@@ -57,7 +70,7 @@
                 <span class="icon">🟩 QGIS</span>
             </button>
             <button class="tab-btn" data-platform="web">
-                <span class="icon">🟧 Web GIS</span>
+                <span class="icon">🟧 ArcGIS Online</span>
             </button>
         </nav>
 
@@ -66,11 +79,49 @@
             <div class="step">
                 <div class="step-num">1</div>
                 <div class="step-content">
-                    <h3>Setting up the Project</h3>
-                    <p>Open ArcGIS Pro and create a new Map project. Extract your downloaded data to your project folder...</p>
+                    <h3>Download Data</h3>
+                    <ol>
+                        <li>Go to <a href="https://gadm.org/download_country.html" target="_blank">GADM Country Download</a>.</li>
+                        <li>Select a country (suggestion: <em>Ireland, Viet Nam, or Costa Rica</em>—avoid huge countries like USA/Russia for now).</li>
+                        <li>Click <strong>"Shapefile"</strong> to download the ZIP.</li>
+                        <li><strong>Important:</strong> Unzip the folder in your device's <code>Documents/GIS/Lab02</code> folder.</li>
+                    </ol>
                 </div>
             </div>
-            <!-- Add more steps -->
+
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Import Layers</h3>
+                    <p>Open ArcGIS Pro. Use the <strong>Catalog Pane</strong> to navigate to your Lab02 folder.</p>
+                    <p>Drag and drop the <code>_0</code> (National), <code>_1</code> (State), and <code>_2</code> (County) shapefiles onto the map.</p>
+                    <p><em>Note: If you only see one shapefile, drag it in multiple times.</em></p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Symbolize Hierarchy</h3>
+                    <p>We want to see the boundaries clearly. Use the <strong>Symbology</strong> pane:</p>
+                    <ul>
+                        <li><strong>ADM2 (Bottom Layer):</strong> Set Fill to "No Color" (or very light gray). Set Outline Width to <code>0.5 pt</code> (Gray).</li>
+                        <li><strong>ADM1 (Middle Layer):</strong> Set Fill to "No Color". Set Outline Width to <code>1.5 pt</code> (Darker Gray).</li>
+                        <li><strong>ADM0 (Top Layer):</strong> Set Fill to "No Color". Set Outline Width to <code>3.0 pt</code> (Black).</li>
+                    </ul>
+                    <p>Arrange the draw order in the Contents pane so ADM0 is on top.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <h3>Layout & Export</h3>
+                    <p>Create a Layout (Insert &rarr; Layout). Add your map frame.</p>
+                    <p>Add a Title ("Administrative Divisions of [Country]"), Scale Bar, North Arrow, and Legend.</p>
+                    <p>Export as PDF.</p>
+                </div>
+            </div>
         </div>
 
         <!-- QGIS Pane -->
@@ -78,11 +129,46 @@
             <div class="step">
                 <div class="step-num">1</div>
                 <div class="step-content">
-                    <h3>Importing Data</h3>
-                    <p>Open QGIS. Drag and drop the GeoJSON files into the layers panel...</p>
+                    <h3>Download Data</h3>
+                    <ol>
+                        <li>Go to <a href="https://gadm.org/download_country.html" target="_blank">GADM Country Download</a>.</li>
+                        <li>Select a country.</li>
+                        <li>Click <strong>"Geopackage"</strong> (Recommended for QGIS) or "Shapefile".</li>
+                        <li>Download and save to your project folder.</li>
+                    </ol>
                 </div>
             </div>
-            <!-- Add more steps -->
+
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Load Data</h3>
+                    <p>Drag the Geopackage (<code>.gpkg</code>) into QGIS. It will ask which layers to add.</p>
+                    <p>Select layers ending in <code>0</code>, <code>1</code>, and <code>2</code>. Click OK.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Style the Hierarchy</h3>
+                    <p>Open <strong>Layer Properties &rarr; Symbology</strong> for each layer:</p>
+                    <ul>
+                        <li><strong>Layer 2 (Counties):</strong> Simple Fill &rarr; Transparent Fill. Stroke width: <code>0.1 mm</code>.</li>
+                        <li><strong>Layer 1 (States):</strong> Simple Fill &rarr; Transparent Fill. Stroke width: <code>0.4 mm</code>. Stroke Color: Dark Gray.</li>
+                        <li><strong>Layer 0 (Nation):</strong> Simple Fill &rarr; Transparent Fill. Stroke width: <code>0.8 mm</code>. Stroke Color: Black.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <h3>Print Layout</h3>
+                    <p>Project &rarr; New Print Layout. Add Map. Add Legend.</p>
+                    <p>Export as PDF.</p>
+                </div>
+            </div>
         </div>
 
         <!-- Web GIS Pane -->
@@ -90,24 +176,55 @@
             <div class="step">
                 <div class="step-num">1</div>
                 <div class="step-content">
-                    <h3>ArcGIS Online Setup</h3>
-                    <p>Log in to your ArcGIS Public Account. Click 'Map' to open the classic Map Viewer...</p>
+                    <h3>Data Prep</h3>
+                    <p>ArcGIS Online requires zipped Shapefiles.</p>
+                    <ol>
+                        <li>Download the "Shapefile" version from GADM for a <strong>small</strong> country (e.g., Jamaica, Belgium). Large files will fail the free tier upload.</li>
+                        <li>Unzip the main download.</li>
+                        <li><strong>Crucial Step:</strong> You must create a separate .zip file for each layer you want to upload.
+                            <br>Example: Select <code>gadm36_JAM_1.shp</code>, <code>.shx</code>, <code>.dbf</code>, and <code>.prj</code> -> Right Click -> Send to Compressed Folder -> Name it <code>Jamaica_Level1.zip</code>.
+                        </li>
+                    </ol>
                 </div>
             </div>
-            <!-- Add more steps -->
+
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Upload to Map Viewer</h3>
+                    <p>In Map Viewer, click <strong>Add &rarr; Add Layer from File</strong>.</p>
+                    <p>Upload your <code>Level0.zip</code>, <code>Level1.zip</code>, and <code>Level2.zip</code> one by one.</p>
+                    <p>Select "Import as a Feature Layer" if asked.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Visualize</h3>
+                    <p>Use the <strong>"Styles"</strong> pane (Shapes icon) on the right.</p>
+                    <p>Set Fill transparency to 100%. Adjust outline widths to create the hierarchy effect (Thickest for Level 0, Thinnest for Level 2).</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <h3>Print</h3>
+                    <p>Use the Print tool to generate a PDF of your map.</p>
+                </div>
+            </div>
         </div>
 
         <!-- 4. Deliverables -->
         <section class="card" style="margin-top: 4rem; border-top: 4px solid var(--accent);">
-            <h2>✅ Submission & Assessment</h2>
-            <p>To complete this lab, you must submit:</p>
+            <h2>✅ Submission</h2>
+            <p>Submit a single PDF map containing:</p>
             <ul>
-                <li>[Deliverable 1: e.g. A screenshot of your final map]</li>
-                <li>[Deliverable 2: e.g. A CSV of your calculated statistics]</li>
+                <li>The administrative boundaries of your chosen country.</li>
+                <li>Clear visual distinction between National, State/Regional, and County/District lines (Hierarchy).</li>
+                <li>Standard map elements (Title, Legend, Scale, North Arrow).</li>
             </ul>
-            <div class="callout warning">
-                <strong>Quality Check:</strong> Ensure your map includes a Title, Legend, and North Arrow before exporting.
-            </div>
         </section>
 
     </main>

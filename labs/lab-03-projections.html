@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lab [NUM]: [TITLE] | GIS Lab Manual</title>
+    <title>Lab 03: Raster Resolution | GIS Lab Manual</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="css/lab.css">
 </head>
@@ -14,9 +14,9 @@
             <nav style="margin-bottom: 1rem;">
                 <a href="index.html" style="color: var(--primary); text-decoration: none; font-weight: 600;">&larr; Back to Lab Manual</a>
             </nav>
-            <span class="lab-badge">Lab [NUM]</span>
-            <h1>[LAB TITLE]</h1>
-            <p class="subtitle">[Brief 1-sentence mission statement for the lab]</p>
+            <span class="lab-badge">Lab 03</span>
+            <h1>Raster Resolution & Imagery</h1>
+            <p class="subtitle">Zoom in until the world breaks. Learn to download, visualize, and measure the pixels of aerial photography.</p>
         </div>
     </header>
 
@@ -25,29 +25,33 @@
         <section class="card">
             <h2>🎯 Learning Objectives</h2>
             <ul>
-                <li>[Objective 1]</li>
-                <li>[Objective 2]</li>
-                <li>[Objective 3]</li>
+                <li>Search for and download high-resolution raster imagery from <strong>OpenAerialMap</strong> (or similar simple repository).</li>
+                <li>Distinguish between <strong>Spatial Resolution</strong> (pixel size) and Extent.</li>
+                <li>Use GIS measurement tools to manually verify pixel size.</li>
+                <li>Understand the trade-off between file size and resolution.</li>
             </ul>
         </section>
 
         <!-- 2. Scenario & Data -->
         <section class="card">
-            <h2>📂 Scenario & Requirements</h2>
-            <p>[Describe the real-world problem or research question]</p>
+            <h2>📂 Scenario & Sources</h2>
+            <p>
+                A client wants to count cars in a parking lot to estimate traffic. They handed you a satellite image, but it's blurry.
+                Your task is to find a better, higher-resolution image of a specific area, download it, and determine if it is sharp enough (has a small enough <strong>Ground Sample Distance</strong>) to see individual vehicles.
+            </p>
             
             <div class="data-download-card">
                 <div>
-                    <strong>Data Package:</strong> <code>[filename].zip</code>
-                    <p style="margin:0; font-size: 0.85rem; color: #64748b;">Contains Shapefiles, GeoJSON, and CSV</p>
+                    <strong>Primary Source:</strong> <code>OpenAerialMap.org</code>
+                    <p style="margin:0; font-size: 0.85rem; color: #64748b;">Community-contributed drone and aerial imagery.</p>
                 </div>
-                <a href="#" class="btn btn-primary">Download Data</a>
+                <a href="https://openaerialmap.org/" target="_blank" class="btn btn-primary">Open OAM Browser &rarr;</a>
             </div>
         </section>
 
         <!-- 3. Instructions (The Switcher) -->
         <h2>🛠️ Step-by-Step Instructions</h2>
-        <p>Select your preferred GIS platform to view instructions:</p>
+        <p>Select your preferred GIS platform:</p>
 
         <nav class="platform-switcher">
             <button class="tab-btn active" data-platform="arcgis">
@@ -57,7 +61,7 @@
                 <span class="icon">🟩 QGIS</span>
             </button>
             <button class="tab-btn" data-platform="web">
-                <span class="icon">🟧 Web GIS</span>
+                <span class="icon">🟧 ArcGIS Online</span>
             </button>
         </nav>
 
@@ -66,11 +70,43 @@
             <div class="step">
                 <div class="step-num">1</div>
                 <div class="step-content">
-                    <h3>Setting up the Project</h3>
-                    <p>Open ArcGIS Pro and create a new Map project. Extract your downloaded data to your project folder...</p>
+                    <h3>Find & Download Data</h3>
+                    <ol>
+                        <li>Go to <a href="https://map.openaerialmap.org/" target="_blank">OpenAerialMap Browser</a>.</li>
+                        <li>Pan to an interesting area (e.g., a tropical island, a city center, or a disaster zone).</li>
+                        <li>Click on a square in the grid to select an image. Look for "Resolution" in the sidebar (aim for <strong>5cm - 50cm</strong>).</li>
+                        <li>Click the <strong>Download</strong> button (it usually downloads a <code>.tif</code>).</li>
+                    </ol>
                 </div>
             </div>
-            <!-- Add more steps -->
+
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Import Raster</h3>
+                    <p>Open ArcGIS Pro. Drag the downloaded <code>.tif</code> file from your Catalog or File Explorer onto the map.</p>
+                    <p><em>(Click "Yes" if it asks to build Pyramids/Statistics)</em>.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Inspect the Pixels</h3>
+                    <p>Zoom in very close to a specific object (like a car, a tree, or a roof).</p>
+                    <p>Keep zooming until the image clearly becomes "blocky" or pixelated. You are now seeing the raw data cells.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <h3>Measure Resolution</h3>
+                    <p>Go to the <strong>Map Tab &rarr; Measure Tool &rarr; Measure Distance</strong>.</p>
+                    <p>Carefully click on the left edge of <strong>one single pixel</strong>, then click on the right edge.</p>
+                    <p>What is the distance? (e.g., 0.15 meters). This is the <strong>Spatial Resolution</strong>.</p>
+                </div>
+            </div>
         </div>
 
         <!-- QGIS Pane -->
@@ -78,11 +114,42 @@
             <div class="step">
                 <div class="step-num">1</div>
                 <div class="step-content">
-                    <h3>Importing Data</h3>
-                    <p>Open QGIS. Drag and drop the GeoJSON files into the layers panel...</p>
+                    <h3>Find & Download Data</h3>
+                    <ol>
+                        <li>Go to <a href="https://map.openaerialmap.org/" target="_blank">OpenAerialMap Browser</a>.</li>
+                        <li>Select an image with good resolution (low Ground Sample Distance).</li>
+                        <li>Download the <code>.tif</code> file.</li>
+                    </ol>
                 </div>
             </div>
-            <!-- Add more steps -->
+
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Load Raster</h3>
+                    <p>Drag the <code>.tif</code> file into the QGIS canvas.</p>
+                    <p>If it looks dark or weird, right-click the layer &rarr; <strong>Properties &rarr; Symbology</strong>. Ensure it is set to "Multiband Color" (Red=B1, Green=B2, Blue=B3).</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Zoom & Measure</h3>
+                    <p>Zoom in until you see individual square pixels.</p>
+                    <p>Use the <strong>Measure Line</strong> tool (ruler icon). Change measurement units to "Meters" or "Centimeters" if needed.</p>
+                    <p>Measure the width of one pixel.</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <h3>Verify Metadata</h3>
+                    <p>Right-click the layer &rarr; <strong>Properties &rarr; Information</strong>.</p>
+                    <p>Look for "Pixel Size". It might be in degrees or meters depending on the CRS. Does it match your measurement?</p>
+                </div>
+            </div>
         </div>
 
         <!-- Web GIS Pane -->
@@ -90,24 +157,41 @@
             <div class="step">
                 <div class="step-num">1</div>
                 <div class="step-content">
-                    <h3>ArcGIS Online Setup</h3>
-                    <p>Log in to your ArcGIS Public Account. Click 'Map' to open the classic Map Viewer...</p>
+                    <h3>Limitations of Web GIS</h3>
+                    <p><strong>Note:</strong> Uploading large TIFFs (GeoTIFFs) to a free ArcGIS Online account is often restricted or consumes many credits. For this lab, we will use a <strong>pre-hosted</strong> high-res layer from the Living Atlas.</p>
                 </div>
             </div>
-            <!-- Add more steps -->
+
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Add Imagery Layer</h3>
+                    <p>Open Map Viewer. Click <strong>Add &rarr; Browse Living Atlas</strong>.</p>
+                    <p>Search for: <code>"NAIP Imagery"</code> (USA) or <code>"World Imagery"</code>.</p>
+                    <p>Add it to the map.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Zoom & Measure</h3>
+                    <p>Zoom in as far as the browser allows.</p>
+                    <p>Use the <strong>Measure</strong> tool (ruler icon, right toolbar). Select "Distance" and units "Meters".</p>
+                    <p>Try to measure the width of a small object (like a car windshield).</p>
+                </div>
+            </div>
         </div>
 
         <!-- 4. Deliverables -->
         <section class="card" style="margin-top: 4rem; border-top: 4px solid var(--accent);">
-            <h2>✅ Submission & Assessment</h2>
-            <p>To complete this lab, you must submit:</p>
-            <ul>
-                <li>[Deliverable 1: e.g. A screenshot of your final map]</li>
-                <li>[Deliverable 2: e.g. A CSV of your calculated statistics]</li>
-            </ul>
-            <div class="callout warning">
-                <strong>Quality Check:</strong> Ensure your map includes a Title, Legend, and North Arrow before exporting.
-            </div>
+            <h2>✅ Submission</h2>
+            <p>Submit a short Lab Report (PDF) containing:</p>
+            <ol>
+                <li><strong>Screenshot:</strong> The image zoomed in so pixels are clearly visible, identifying an object (e.g., "This blobd is a car").</li>
+                <li><strong>Measurement:</strong> "I measured one pixel to be X cm/meters."</li>
+                <li><strong>Reflection:</strong> Based on this resolution, could you identify the <em>make and model</em> o the car? Why or why not?</li>
+            </ol>
         </section>
 
     </main>
