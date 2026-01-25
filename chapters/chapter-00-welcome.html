@@ -243,7 +243,12 @@
   <body>
     <header class="hero-chapter">
       <div class="container">
-        <span class="chapter-badge">Chapter 00</span>
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <span class="chapter-badge">Chapter 00</span>
+            <a href="../index.html" style="background: rgba(255,255,255,0.2); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: background 0.2s;">
+                ← Back to Textbook
+            </a>
+        </div>
         <h1>Welcome to GIS</h1>
         <p class="subtitle">
           Your gateway to a world where geography meets technology. This book emphasizes <strong>spatial thinking</strong> to solve real-world problems using the lens of Remote Sensing.
@@ -252,9 +257,7 @@
     </header>
 
     <main class="container">
-      <nav style="margin: 2rem 0">
-        <a href="../index.html" style="color: var(--accent)">← Back to Textbook</a>
-      </nav>
+
 
       <section class="card learning-scaffold" aria-label="Learning scaffold">
         <details class="learning-scaffold-details">
@@ -369,6 +372,7 @@
               <strong>Where's Waldo?</strong>. Finding Waldo on the page is a basic GIS query: <em>"Where is point X?"</em>. 
               But true spatial analysis goes deeper.
             </p>
+            <img src="../assets/img/waldo_analysis.png" alt="Finding Waldo" style="width: 100%; max-width: 500px; display: block; margin: 1.5rem auto; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid #e2e8f0;">
             <div class="callout info">
               <strong>From "Where" to "Why":</strong> Once we find Waldo in many different scenes, we can start to ask: 
               <em>Why is he there?</em> What surrounds him? By understanding the patterns of his location, 
@@ -460,13 +464,26 @@
             </div>
           </section>
 
-          <section class="card">
-            <h2>📺 Case Study: Asking the Questions of "Where"</h2>
+          <div class="sidebar-box" style="margin: 2rem 0; padding: 1.5rem; background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <!-- Single Tab Bar -->
+            <div class="sidebar-tabs">
+                <button class="tab-btn active" style="cursor: default; border-color: #ea580c; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.2);">
+                    <span style="font-size: 1.5rem;">🧐</span>
+                </button>
+            </div>
+            
+            <h3 style="margin-top: 0;">
+                <span style="font-size: 1.25em; vertical-align: text-bottom; margin-right: 0.25rem;">🧐</span> 
+                Geographic Inquiry
+            </h3>
+            <p>
+              <strong>Asking the Questions of "Where"</strong>
+            </p>
             <p>
               Watch this video to explore a real-world example of how we formulate and answer spatial questions. 
               Key takeaways include the importance of context and the transition from simple location finding to complex spatial reasoning.
             </p>
-            <div class="video-container">
+            <div class="video-container" style="margin-top: 1rem; box-shadow: none; border-radius: 8px;">
               <iframe 
                 src="https://www.youtube.com/embed/wclmkmyuaNc?si=K_XKOTQ_T9KXJrum" 
                 title="Case Study: Asking the Questions of Where" 
@@ -476,7 +493,7 @@
                 allowfullscreen>
               </iframe>
             </div>
-          </section>
+          </div>
 
           <section class="card">
             <h2> - ️ The GIS Learning Journey</h2>
@@ -624,76 +641,182 @@
 
         <aside class="sidebar">
           <div class="box-bio">
-            <img src="../assets/img/people/gerardus_mercator.jpg" alt="Mercator">
-            <div>
-              <h3>Gerardus Mercator</h3>
-              <span class="bio-dates">(1512–1594)</span>
+            <!-- Single Tab Bar -->
+            <div class="sidebar-tabs">
+                <button class="tab-btn active" style="cursor: default; border-color: #7c3aed; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);">
+                    <span style="font-size: 1.5rem;">🦸</span>
+                </button>
+            </div>
+            
+            <h3>
+                <span style="font-size: 1.25em; vertical-align: text-bottom; margin-right: 0.25rem;">🦸</span> 
+                GIS Hero
+            </h3>
+
+            <div style="display: flex; gap: 1rem; align-items: flex-start; flex-direction: column;">
+              <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+                <img src="../assets/img/people/gerardus_mercator.jpg" alt="Mercator" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid #ddd;">
+                <div>
+                   <h3 style="margin: 0; font-size: 1.1rem; color: #1e293b;">Gerardus Mercator</h3>
+                   <span class="bio-dates" style="color: #64748b; font-size: 0.85rem;">(1512–1594)</span>
+                </div>
+              </div>
+              
+              <div>
+                <p style="margin-top: 0; font-size: 0.9rem; line-height: 1.6;">
+                  A Flemish cartographer and geographer. In 1569, he introduced the Mercator projection, which became the standard for nautical navigation because it preserved constant bearings (rhumb lines). While controversial today for its area distortion, it remains the foundation of all web mapping (Web Mercator).
+                </p>
+                <div id="mercator-map" style="height: 180px; width: 100%; margin-top: 1rem; border-radius: 8px; border: 1px solid #ccc; z-index: 1;"></div>
+                <p style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem; font-style: italic;">
+                  Interactive: This map uses the Web Mercator projection. Notice how Greenland appears larger than it is in reality due to distortion at the poles.
+                </p>
+              </div>
+            </div>
+          </div>
+
+
+
+          <style>
+            .sidebar-tabs {
+              display: flex;
+              justify-content: center;
+              gap: 0.75rem;
+              margin-bottom: 1.5rem;
+              padding: 0.5rem;
+              background: #f8fafc;
+              border-radius: 16px;
+              border: 1px solid #e2e8f0;
+            }
+            .tab-btn {
+              background: white;
+              border: 1px solid transparent;
+              border-radius: 12px;
+              width: 44px;
+              height: 44px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              cursor: pointer;
+              font-size: 1.2rem;
+              transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+              box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+              opacity: 0.7;
+            }
+            .tab-btn img {
+              width: 24px;
+              height: auto;
+              filter: grayscale(20%);
+              transition: all 0.2s;
+            }
+            .tab-btn:hover {
+              opacity: 1;
+              transform: translateY(-2px);
+              box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            }
+            .tab-btn:hover img { filter: grayscale(0%); }
+            .tab-btn.active {
+              background: white;
+              border-color: var(--primary);
+              box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.2);
+              opacity: 1;
+              transform: scale(1.05);
+            }
+            .tab-btn.active img { filter: grayscale(0%); transform: scale(1.1); }
+            
+            .tab-content { display: none; animation: fadeIn 0.4s ease-out; }
+            .tab-content.active { display: block; }
+            .tab-flag-header { height: 1.25em; vertical-align: text-bottom; margin-right: 0.25rem; }
+            
+            @keyframes fadeIn { 
+              from { opacity: 0; transform: translateY(5px); } 
+              to { opacity: 1; transform: translateY(0); } 
+            }
+          </style>
+
+          <div class="sidebar-local-global">
+            <div class="sidebar-tabs">
+              <button class="tab-btn active" onclick="switchTab('texas')" title="Texas">
+                <img src="../assets/img/flags/texas.svg" alt="Texas">
+              </button>
+              <button class="tab-btn" onclick="switchTab('florida')" title="Florida">
+                <img src="../assets/img/flags/florida.svg" alt="Florida">
+              </button>
+              <button class="tab-btn" onclick="switchTab('france')" title="France">
+                <img src="../assets/img/flags/france.svg" alt="France">
+              </button>
+              <button class="tab-btn" onclick="switchTab('morocco')" title="Morocco">
+                <img src="../assets/img/flags/morocco.svg" alt="Morocco">
+              </button>
+            </div>
+
+            <!-- Texas Content (Default) -->
+            <div id="tab-texas" class="tab-content active">
+              <h3>
+                <img src="../assets/img/flags/texas.svg" alt="Texas Flag" class="tab-flag-header"> 
+                Texas Connection
+              </h3>
+              <p><strong>The Texas General Land Office (GLO)</strong></p>
               <p>
-                A Flemish cartographer and geographer. In 1569, he introduced the Mercator projection, which became the standard for nautical navigation because it preserved constant bearings (rhumb lines). While controversial today for its area distortion, it remains the foundation of all web mapping (Web Mercator).
+                Founded in 1836, the GLO is the oldest state agency in Texas. Originally created to manage the millions of acres of public lands in the Republic of Texas, today it relies heavily on GIS to manage coastal erosion, oil & gas leases, and disaster recovery (like Hurricane Harvey) across the state.
               </p>
-              <div id="mercator-map" style="height: 200px; width: 100%; margin-top: 1rem; border-radius: 8px; border: 1px solid #ccc; z-index: 1;"></div>
-              <p style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem; font-style: italic;">
-                Interactive: This map uses the Web Mercator projection. Notice how Greenland appears larger than it is in reality due to distortion at the poles.
+              <a href="https://www.glo.texas.gov/land/land-management/gis/" target="_blank" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem; width:100%; text-align:center;">Visit GLO GIS Data</a>
+            </div>
+
+            <!-- Florida Content -->
+            <div id="tab-florida" class="tab-content">
+              <h3>
+                <img src="../assets/img/flags/florida.svg" alt="Florida Flag" class="tab-flag-header"> 
+                Florida Connection
+              </h3>
+              <p><strong>The Everglades Restoration Plan</strong></p>
+              <p>
+                GIS plays a critical role in the Comprehensive Everglades Restoration Plan (CERP). Water managers use spatial models to simulate flow across the "River of Grass" to balance ecosystem health with the water needs of Miami's growing population.
+              </p>
+            </div>
+
+            <!-- France Content -->
+            <div id="tab-france" class="tab-content">
+              <h3>
+                <img src="../assets/img/flags/france.svg" alt="France Flag" class="tab-flag-header"> 
+                France Connection
+              </h3>
+              <p><strong>IGN (Institut géographique national)</strong></p>
+              <p>
+                France's national mapping agency, IGN, is a pioneer in historical maps. Their "Remonter le Temps" (Go Back in Time) portal allows users to seamlessly compare historical aerial photography from the 1950s with modern satellite imagery to track urbanization.
+              </p>
+              <a href="https://remonterletemps.ign.fr/" target="_blank" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem; width:100%; text-align:center;">Visit Remonter le Temps</a>
+            </div>
+
+            <!-- Morocco Content -->
+            <div id="tab-morocco" class="tab-content">
+              <h3>
+                <img src="../assets/img/flags/morocco.svg" alt="Morocco Flag" class="tab-flag-header"> 
+                Morocco Connection
+              </h3>
+              <p><strong>Noor Ouarzazate Solar Complex</strong></p>
+              <p>
+                Visible from space, the world's largest concentrated solar power plant resides on the edge of the Sahara. GIS and Remote Sensing were essential in selecting this location—optimizing for Direct Normal Irradiance (DNI), water access for cooling, and specialized terrain flatness.
               </p>
             </div>
           </div>
 
-          <div class="sidebar-local-global">
-            <h3>🇨🇱 Texas Connection</h3>
-            <p>
-              <strong>The Texas General Land Office (GLO)</strong>
-            </p>
-            <p>
-              Founded in 1836, the GLO is the oldest state agency in Texas. Originally created to manage the 
-              millions of acres of public lands in the Republic of Texas, today it relies heavily on GIS 
-              to manage coastal erosion, oil & gas leases, and disaster recovery (like Hurricane Harvey) 
-              across the state.
-            </p>
-            <a href="https://www.glo.texas.gov/land/land-management/gis/" target="_blank" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem; width:100%; text-align:center;">Visit GLO GIS Data</a>
-          </div>
-
-          <!-- OPTION: Florida Connection Template
-          <div class="sidebar-local-global florida">
-            <h3>🍊 Florida Connection</h3>
-            <p>
-              <strong>The Everglades Restoration Plan</strong>
-            </p>
-            <p>
-              GIS plays a critical role in the Comprehensive Everglades Restoration Plan (CERP). 
-              Water managers use spatial models to simulate flow across the "River of Grass" to balance 
-              ecosystem health with the water needs of Miami's growing population.
-            </p>
-          </div>
-          -->
-
-          <!-- OPTION: France Connection Template
-          <div class="sidebar-local-global france">
-            <h3>🇫🇷 France Connection</h3>
-            <p>
-              <strong>IGN (Institut géographique national)</strong>
-            </p>
-            <p>
-              Frances national mapping agency, IGN, is a pioneer in historical maps. 
-              Their "Remonter le Temps" (Go Back in Time) portal allows users to seamlessly compare 
-              historical aerial photography from the 1950s with modern satellite imagery to track urbanization.
-            </p>
-            <a href="https://remonterletemps.ign.fr/" target="_blank" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem; width:100%; text-align:center;">Visit Remonter le Temps</a>
-          </div>
-          -->
-
-          <!-- OPTION: Morocco Connection Template
-          <div class="sidebar-local-global morocco">
-            <h3>🇲🇦 Morocco Connection</h3>
-            <p>
-              <strong>Noor Ouarzazate Solar Complex</strong>
-            </p>
-            <p>
-              Visible from space, the world's largest concentrated solar power plant resides on the edge of the Sahara. 
-              GIS and Remote Sensing were essential in selecting this location—optimizing for 
-              Direct Normal Irradiance (DNI), water access for cooling, and specialized terrain flatness.
-            </p>
-          </div>
-          -->
+          <script>
+            function switchTab(tabId) {
+              // Hide all contents
+              document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+              // Deactivate all buttons
+              document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+              
+              // Show selected content
+              document.getElementById('tab-' + tabId).classList.add('active');
+              // Activate button (find button by onclick attr for simplicity in this context)
+              const buttons = document.querySelectorAll('.tab-btn');
+              if(tabId === 'texas') buttons[0].classList.add('active');
+              if(tabId === 'florida') buttons[1].classList.add('active');
+              if(tabId === 'france') buttons[2].classList.add('active');
+              if(tabId === 'morocco') buttons[3].classList.add('active');
+            }
+          </script>
         </aside>
       </div>
 
