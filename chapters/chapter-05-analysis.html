@@ -96,6 +96,51 @@
             border-top: 4px solid var(--primary);
         }
     </style>
+    <script>
+        function updateSuitability() {
+            const wNature = parseInt(document.getElementById('w-nature').value);
+            const wRoad = parseInt(document.getElementById('w-road').value);
+            const wSlope = parseInt(document.getElementById('w-slope').value);
+            
+            // Normalize so they sum to 100% implicitly by ratio? No, let's just show the sum warning if it's off.
+            // Or simpler: Just sum them up and show the percentage.
+            const sum = wNature + wRoad + wSlope;
+            const sumDisplay = document.getElementById('weight-sum');
+            
+            if(sum === 0) {
+                 sumDisplay.innerHTML = "Total: 0% (Move sliders!)";
+                 return; 
+            }
+
+            sumDisplay.innerHTML = `Total Weight: ${sum}% ` + (sum!==100 ? "(Try to aim for 100!)" : "(Perfect!)");
+            sumDisplay.style.color = sum === 100 ? "var(--success)" : "var(--accent)";
+
+            // Calculate Scores (0-100)
+            // Site A: Nature 100, Road 0, Slope 20 (Bad slope)
+            // Site B: Nature 10, Road 100, Slope 100 (Flat)
+            // Site C: Nature 60, Road 60, Slope 60 (Moderate)
+            
+            const scoreA = (100 * wNature + 0 * wRoad + 20 * wSlope) / sum;
+            const scoreB = (10 * wNature + 100 * wRoad + 100 * wSlope) / sum;
+            const scoreC = (60 * wNature + 60 * wRoad + 60 * wSlope) / sum;
+            
+            updateBar('site-a', scoreA);
+            updateBar('site-b', scoreB);
+            updateBar('site-c', scoreC);
+        }
+        
+        function updateBar(id, score) {
+            const el = document.querySelector(`#${id} .score-bar div`);
+            el.style.width = score + "%";
+            // Color code
+            if(score > 80) el.style.background = "var(--success)";
+            else if(score > 50) el.style.background = "var(--primary)";
+            else el.style.background = "var(--accent)";
+        }
+        
+        // Init
+        window.onload = function() { updateSuitability(); };
+    </script>
 </head>
 <body>
 
@@ -208,6 +253,44 @@
                         <img src="../assets/img/diagrams/raster_map_algebra_diagram.png" alt="Raster Map Algebra Diagram" style="width: 100%; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
                         <p style="font-size: 0.8rem; color: var(--secondary); margin-top: 0.5rem; text-align: center;">Figure 5.4: Basic Map Algebra operations. Notice how 'Add' sums the value of each overlapping cell.</p>
                     </div>
+
+                    <div style="margin-top: 3rem; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 2rem;">
+                        <h3>Interactive: Suitability Studio</h3>
+                        <p>You are siting a new <strong>Eco-Lodge</strong>. Adjust the importance (weights) of the three factors below to see which site wins. (Note: Everything must sum to 100%).</p>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;">
+                            <div class="controls">
+                                <label style="display:block; margin-bottom:0.5rem; font-weight:600;">Nature View (0-100%)</label>
+                                <input type="range" id="w-nature" min="0" max="100" value="50" oninput="updateSuitability()" style="width:100%; margin-bottom:1rem;">
+                                
+                                <label style="display:block; margin-bottom:0.5rem; font-weight:600;">Road Access (0-100%)</label>
+                                <input type="range" id="w-road" min="0" max="100" value="50" oninput="updateSuitability()" style="width:100%; margin-bottom:1rem;">
+                                
+                                <label style="display:block; margin-bottom:0.5rem; font-weight:600;">Flat Slope (0-100%)</label>
+                                <input type="range" id="w-slope" min="0" max="100" value="0" oninput="updateSuitability()" style="width:100%; margin-bottom:1rem;">
+                                
+                                <p id="weight-sum" style="font-size: 0.9rem; color: var(--secondary);">Total Weight: 100% (Balanced)</p>
+                            </div>
+                            
+                            <div class="results">
+                                <div class="site-card" id="site-a" style="padding:1rem; border:1px solid #cbd5e1; border-radius:8px; margin-bottom:0.5rem;">
+                                    <strong>Site A (Mountain Top)</strong>
+                                    <div class="score-bar" style="height:8px; background:#ddd; margin-top:5px; border-radius:4px;"><div style="width:0%; height:100%; background:var(--primary); transition:width 0.3s;"></div></div>
+                                    <small>Great View, No Road, Steep.</small>
+                                </div>
+                                <div class="site-card" id="site-b" style="padding:1rem; border:1px solid #cbd5e1; border-radius:8px; margin-bottom:0.5rem;">
+                                    <strong>Site B (Valley Highway)</strong>
+                                    <div class="score-bar" style="height:8px; background:#ddd; margin-top:5px; border-radius:4px;"><div style="width:0%; height:100%; background:var(--primary); transition:width 0.3s;"></div></div>
+                                    <small>Bad View, Great Road, Flat.</small>
+                                </div>
+                                <div class="site-card" id="site-c" style="padding:1rem; border:1px solid #cbd5e1; border-radius:8px;">
+                                    <strong>Site C (Foothills)</strong>
+                                    <div class="score-bar" style="height:8px; background:#ddd; margin-top:5px; border-radius:4px;"><div style="width:0%; height:100%; background:var(--primary); transition:width 0.3s;"></div></div>
+                                    <small>Okay View, Okay Road, Moderate.</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </section>
 
                 <section class="card">
@@ -220,6 +303,11 @@
                     
                     <h3>Theissen Polygons</h3>
                     <p>Mathematically defining the "catchment area" of a point. Any location inside a Theissen polygon is closer to that polygon's center point than any other point.</p>
+
+                    <div class="callout warning" style="border-left-color: var(--accent); background: #fff1f2; margin-top: 2rem;">
+                        <strong>🛑 Critical GIS: The "Black Box" of Weights</strong>
+                        <p>In the Suitability Studio above, you saw how changing weights changes the "best" site. In the real world, these weights are often decided by politicians or developers, not just data. If you weight "Property Value" higher than "Community Impact," your map will suggest gentrification. <strong>Algorithms are opinions embedded in code.</strong></p>
+                    </div>
                 </section>
             </div>
 
@@ -232,8 +320,8 @@
 
                 <div class="sidebar-box">
                     <h3>🇨🇱 Texas Connection</h3>
-                    <p><strong>Hurricane Harvey & Flood Analysis</strong></p>
-                    <p>During Hurricane Harvey (2017), spatial analysis was critical. Analysts used <strong>LIDAR</strong> (Raster) to model elevation and <strong>Network Analysis</strong> to route rescue boats through flooded streets. "What if" scenarios helped emergency managers decide where to stage supplies.</p>
+                    <p><strong>The Woodlands: A McHargian Design</strong></p>
+                    <p>One of the most famous applications of Ian McHarg's ecological planning method is <strong>The Woodlands, Texas</strong>. In the 1970s, George Mitchell hired McHarg's firm to design a community north of Houston that respected the natural hydrology and forest cover. Instead of a concrete grid, they used suitability analysis to preserve drainage channels, resulting in a community that (mostly) withstands floods better than its neighbors.</p>
                 </div>
             </aside>
         </div>

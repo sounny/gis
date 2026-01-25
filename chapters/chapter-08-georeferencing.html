@@ -274,32 +274,45 @@
                 </section>
 
                 <section class="georef-sim">
-                    <h3>Simulated Alignment</h3>
-                    <p>Use the sliders to manually align this "Scanned Map" (Yellow) with the "Base Map" (Grid).</p>
+                    <h3>Interactive: Georeferencing Simulator</h3>
+                    <p>Drag the sliders to align the historical "Scanned Map" (Yellow) perfectly with the modern "Ghost Map" (Dotted Outline). Watch the <strong>RMSE</strong> (Error) drop as you get closer!</p>
                     
                     <div class="preview-box">
                         <div class="basemap-viz"></div>
+                        <!-- Result Message -->
+                        <div id="success-msg" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); background:rgba(16,185,129,0.9); padding:10px 20px; border-radius:8px; color:white; font-weight:bold; display:none; z-index:10;">🎉 MATCH! RMSE < 1.0</div>
+                        
+                        <!-- Target (Ghost) -->
+                        <div id="ghostMap" style="width:200px; height:200px; border:2px dashed #94a3b8; color:#94a3b8; position:absolute; display:flex; align-items:center; justify-content:center; transform: translate(20px, 0) rotate(15deg);">Target</div>
+                        
+                        <!-- User Map -->
                         <div class="scanned-map" id="targetMap">📜 Scanned Data</div>
                     </div>
 
                     <div class="control-panel">
                         <div>
-                            <label>X Position</label>
-                            <input type="range" min="-100" max="100" value="0" id="posX" style="width:100%;">
+                            <label>X Shift (Move East/West)</label>
+                            <input type="range" min="-100" max="100" value="-80" id="posX" style="width:100%;">
                         </div>
                         <div>
                             <label>Rotation</label>
-                            <input type="range" min="0" max="360" value="0" id="rot" style="width:100%;">
+                            <input type="range" min="0" max="360" value="45" id="rot" style="width:100%;">
                         </div>
                     </div>
+                    <p id="rmse-display" style="margin-top:1rem; font-family:monospace; color:#f59e0b;">Current RMSE: HIGH (Unknown)</p>
                 </section>
 
                 <section class="card">
                     <h2>Measuring Error: RMS</h2>
-                    <p>No georeferenced map is perfectly aligned. We measure the "goodness of fit" using <strong>Root Mean Square (RMS) Error</strong>. This value represents the average distance between where you placed a point and where the mathematical model says it should be.</p>
+                    <p>No georeferenced map is perfectly aligned. We measure the "goodness of fit" using <strong>Root Mean Square (RMSE) Error</strong>. This value represents the average distance between where you placed a point and where the mathematical model says it should be.</p>
                     
                     <div class="callout" style="background: #fffbeb; border-left: 5px solid #f59e0b; color: #92400e; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
-                        <strong>Pro Tip:</strong> High RMS error? Check your points! A single "mis-clicked" point can ruin the whole transformation. Professionals often look for the <em>Residual</em> of each point to find the culprits.
+                        <strong>Pro Tip:</strong> High RMSE error? Check your points! A single "mis-clicked" point can ruin the whole transformation. Professionals often look for the <em>Residual</em> of each point to find the culprits.
+                    </div>
+
+                    <div class="callout warning" style="border-left-color: var(--accent); background: #fff1f2; margin-top: 2rem;">
+                        <strong>🛑 Critical GIS: Counter-Mapping</strong>
+                        <p>Georeferencing is not just for old insurance maps. Indigenous groups worldwide are digitizing and georeferencing their ancestors' hand-drawn sketch maps or oral history sites. By bringing these into a modern GIS coordinate system, they can legally prove historical land occupancy and challenge government "empty land" claims in court. This practice is known as <strong>Counter-Mapping</strong>.</p>
                     </div>
                 </section>
 
@@ -421,13 +434,42 @@
         const target = document.getElementById('targetMap');
         const posX = document.getElementById('posX');
         const rot = document.getElementById('rot');
+        const rmseDisplay = document.getElementById('rmse-display');
+        const successMsg = document.getElementById('success-msg');
+
+        // Target (Ghost) Values
+        const targetX = 20;
+        const targetRot = 15; // Degrees
 
         function update() {
-            target.style.transform = `translate(${posX.value}px, 0) rotate(${rot.value}deg)`;
+            const x = parseInt(posX.value);
+            const r = parseInt(rot.value);
+            
+            target.style.transform = `translate(${x}px, 0) rotate(${r}deg)`;
+            
+            // Calculate Pseudo-RMSE (Just distance from target state)
+            const diffX = Math.abs(x - targetX);
+            const diffR = Math.min(Math.abs(r - targetRot), Math.abs((r-360) - targetRot)); // Handle wrap? No, slider is 0-360.
+            
+            // Simple heuristic for "RMSE" display
+            const rmse = (diffX * 0.5) + (diffR * 0.5);
+            
+            if(rmse < 3) {
+                rmseDisplay.innerHTML = `Current RMSE: ${rmse.toFixed(2)} (Match!)`;
+                rmseDisplay.style.color = "var(--success)";
+                successMsg.style.display = "block";
+            } else {
+                rmseDisplay.innerHTML = `Current RMSE: ${rmse.toFixed(1)} (Too High)`;
+                rmseDisplay.style.color = "var(--accent)";
+                successMsg.style.display = "none";
+            }
         }
 
         posX.addEventListener('input', update);
         rot.addEventListener('input', update);
+        
+        // Init
+        update();
     </script>
 </body>
 </html>

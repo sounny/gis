@@ -4,7 +4,6 @@
 references/
 
 # Agent config
-AGENTS.md
 
 # Local automation and tooling outputs
 # conductor/
@@ -13,3 +12,11 @@ AGENTS.md
 # Development documentation (markdown files)
 *.md
 !conductor/**/*.md
+!AGENTS.md
+!agents.md
+
+# OCNOTES are intentional, shareable mining outputs
+!*.OCNOTES.md
+
+# OCSIDEBARs are intentional, shareable sidebar drafts
+!*.OCSIDEBARs.md

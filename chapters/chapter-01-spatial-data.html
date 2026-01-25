@@ -145,7 +145,48 @@
 
         .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0; }
         @media (max-width: 768px) { .feature-grid { grid-template-columns: 1fr; } }
+
+        .decision-btn {
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text);
+            transition: all 0.2s;
+        }
+        .decision-btn:hover { border-color: var(--primary); transform: translateY(-2px); }
+        .decision-btn.active-vector { background: var(--primary); color: white; border-color: var(--primary); }
+        .decision-btn.active-raster { background: var(--success); color: white; border-color: var(--success); }
     </style>
+    <script>
+        function revealDecision(btn, type, explanation) {
+            // Reset buttons
+            const allBtns = document.querySelectorAll('.decision-btn');
+            allBtns.forEach(b => {
+                b.classList.remove('active-vector', 'active-raster');
+                b.style.opacity = '0.6';
+            });
+
+            // Activate clicked
+            btn.style.opacity = '1';
+            if(type === 'vector') btn.classList.add('active-vector');
+            if(type === 'raster') btn.classList.add('active-raster');
+
+            // Show output
+            const output = document.getElementById('decision-output');
+            const color = type === 'vector' ? 'var(--primary)' : 'var(--success)';
+            const icon = type === 'vector' ? '✏️' : '▦';
+            
+            output.innerHTML = `
+                <h3 style="color: ${color}; margin-top:0;">${icon} Best Choice: ${type.toUpperCase()}</h3>
+                <p style="margin-bottom:0;">${explanation}</p>
+            `;
+            output.style.border = `2px solid ${color}`;
+            output.style.background = type === 'vector' ? '#eff6ff' : '#f0fdf4';
+        }
+    </script>
 </head>
 <body>
 
@@ -340,6 +381,10 @@
                             <div class="callout success">
                                 <strong>The First Spatial Analysis:</strong> Snow didn't just make a map; he used <em>overlay</em> (deaths + pumps) and <em>proximity</em> (clustering) to solve a problem. This is the essence of GIS.
                             </div>
+                            
+                            <div class="callout" style="border-left-color: var(--danger); background: #fef2f2; margin-top: 1rem;">
+                                <strong>🛑 Ethics Check:</strong> If Dr. Snow did this today, he might violate privacy laws (like HIPAA). Mapping individual patients' homes is dangerous. Modern GIS often aggregates points into larger polygons (like zip codes) to protect identity.
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -357,6 +402,24 @@
                     
                     <div class="callout info">
                         <strong>Notice:</strong> When you zoom in far on the raster, you eventually see the "grain" or pixels. The vector data stays perfectly sharp at any scale.
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>Interactive: The Data Model Decision Matrix</h2>
+                    <p>As a GIS Analyst, your first job is often choosing the right format. Click the scenarios below to see if they should be <strong>Vector</strong> or <strong>Raster</strong>.</p>
+                    
+                    <div class="decision-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+                        <button class="decision-btn" onclick="revealDecision(this, 'vector', 'Pipelines are discrete linear networks with flow direction.')">Utility Pipes</button>
+                        <button class="decision-btn" onclick="revealDecision(this, 'raster', 'Floods are continuous surfaces; water depth varies everywhere.')">Flood Depth</button>
+                        <button class="decision-btn" onclick="revealDecision(this, 'vector', 'Parcels have legal boundaries and exact ownership attributes.')">Land Parcels</button>
+                        <button class="decision-btn" onclick="revealDecision(this, 'raster', 'Temperature is a continuous field; it does not stop at a line.')">Air Temp</button>
+                        <button class="decision-btn" onclick="revealDecision(this, 'vector', 'Crimes are specific events (points) at specific addresses.')">Crime Locations</button>
+                        <button class="decision-btn" onclick="revealDecision(this, 'raster', 'Satellite imagery is a grid of reflected light values.')">Aerial Photo</button>
+                    </div>
+                    
+                    <div id="decision-output" style="margin-top: 1.5rem; padding: 1rem; border-radius: 8px; background: #f8fafc; border: 1px dashed #cbd5e1; text-align: center; min-height: 60px;">
+                        <em>Select a scenario above to see the expert recommendation.</em>
                     </div>
                 </section>
 

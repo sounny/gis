@@ -252,6 +252,11 @@
                     <div class="callout success" style="margin-top:1rem;">
                         <strong>Expert Insight:</strong> Choose <strong>Option B</strong>. While it takes more effort to set up, it creates a <em>dynamic link</em>. If the survey data is updated next year, you simply swap the CSV, and your map updates automatically. This is "Data Normalization."
                     </div>
+
+                    <div class="callout warning" style="border-left-color: var(--accent); background: #fff1f2; margin-top: 2rem;">
+                        <strong>🛑 Critical GIS: The Danger of NULL</strong>
+                        <p>In a database, <code>NULL</code> means "unknown." It is NOT the same as <code>0</code>. If you average a column where half the values are NULL, the computer ignores them. If you treat them as 0, you drag the average down artificially. <br><em>Example:</em> If a neighborhood doesn't report crime data (NULL), a heatmap might show it as "Safe" (0 crimes). This is a common source of algorithmic bias.</p>
+                    </div>
                 </div>
 
                 <section class="card">
