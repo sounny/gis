@@ -21,25 +21,22 @@
       .hero-chapter {
         background: linear-gradient(
           135deg,
-          #1a1a2e 0%,
-          #16213e 50%,
-          #0f3460 100%
-        );
-        padding: 4rem 2rem;
+          rgba(26, 26, 46, 0.9) 0%,
+          rgba(22, 33, 62, 0.8) 50%,
+          rgba(15, 52, 96, 0.9) 100%
+        ),
+        url("../assets/img/chapter_00_hero_globe.png");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        padding: 5rem 2rem;
         text-align: center;
         position: relative;
         overflow: hidden;
       }
 
       .hero-chapter::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%234a90a4' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        opacity: 0.5;
+        display: none;
       }
 
       .hero-chapter .container {
@@ -68,15 +65,20 @@
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
+        /* Added shadow for better legibility against image */
+        text-shadow: 0 4px 10px rgba(0,0,0,0.3);
       }
 
       .hero-chapter .subtitle {
         font-size: 1.25rem;
-        color: rgba(255, 255, 255, 0.8);
+        color: rgba(255, 255, 255, 0.9);
         max-width: 700px;
         margin: 0 auto 2rem;
         line-height: 1.7;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
       }
+      
+      /* .hero-globe-img removed */
 
       .objectives-grid {
         display: grid;
@@ -243,18 +245,32 @@
   <body>
     <header class="hero-chapter">
       <div class="container">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-            <span class="chapter-badge">Chapter 00</span>
-            <a href="../index.html" style="background: rgba(255,255,255,0.2); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: background 0.2s;">
-                ← Back to Textbook
-            </a>
-        </div>
+<!-- Old navigation removed in favor of sticky nav -->
         <h1>Welcome to GIS</h1>
         <p class="subtitle">
           Your gateway to a world where geography meets technology. This book emphasizes <strong>spatial thinking</strong> to solve real-world problems using the lens of Remote Sensing.
         </p>
       </div>
     </header>
+
+    <!-- STICKY NAVIGATION BAR -->
+    <nav class="sticky-chapter-bar">
+      <div class="nav-container">
+        <div class="nav-left">
+          <span class="nav-chapter-num">Chapter 00</span>
+        </div>
+        <div class="nav-center">
+          <span class="nav-current-title">Welcome to GIS</span>
+        </div>
+        <div class="nav-right">
+          <a href="../index.html" class="nav-toc-btn" title="Table of Contents">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            <span class="toc-text">TOC</span>
+          </a>
+        </div>
+      </div>
+      <div class="nav-progress-bar"></div>
+    </nav>
 
     <main class="container">
 
@@ -392,16 +408,45 @@
               Is GIS a tool? Is it a science? This is a common debate. However, a third perspective is that 
                <strong>GIS is an Art</strong>.
             </p>
-            <ul style="margin-top: 1rem; margin-bottom: 1.5rem; line-height: 1.8;">
-              <li><strong>The Paint:</strong> Your geographic data (pixels, points, lines).</li>
-              <li><strong>The Brushes:</strong> The analytical tools (buffers, overlays, map algebra).</li>
-              <li><strong>The Art:</strong> How you creatively combine them to reveal new truths.</li>
+            <div style="text-align: center; margin: 2rem 0;">
+              <img src="../assets/img/art_of_gis_analogy.png" alt="The Art of GIS: Data as Paint, Tools as Brushes, Platform as Canvas" style="width: 100%; max-width: 800px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+            </div>
+            <ul style="margin-top: 1rem; margin-bottom: 1.5rem; line-height: 1.8; list-style: none; padding-left: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+              <li style="background: #f8fafc; padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                <strong style="color: var(--primary);">1. The Paint (Data):</strong><br>
+                Just as an artist needs pigment, a GIS analyst needs data—pixels, points, and lines that represent the raw material of reality.
+              </li>
+              <li style="background: #f8fafc; padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                <strong style="color: var(--accent);">2. The Brushes (Tools):</strong><br>
+                Buffers, overlays, and map algebra are your creative instruments. The skill lies in knowing which tool produces the desired effect.
+              </li>
+              <li style="background: #f8fafc; padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                <strong style="color: #10b981;">3. The Canvas (Platform):</strong><br>
+                Whether it's a printed PDF or an interactive web map, this is where your creative combination of data and tools comes to life.
+              </li>
             </ul>
+            <h3>The Medical Analogy: Why GIS is "Not Exact"</h3>
             <p>
-              Just as three doctors might give different prognoses, three GIS analysts might approach a problem differently. 
-              The most powerful GIS work often comes from "daisy-chaining" simple tools together in creative ways to answer 
-              questions that have never been asked before.
+              Consider the practice of Medicine. It is often described as an "art supported by science" rather than a rigid science like Physics. Why? Because a doctor rarely has 100% certainty. They work with a <em>mental model</em> of the human body, imperfect data (symptoms, test results), and the unique context of the patient. Consequently, three expert physicians might look at the same patient and suggest three different, equally valid courses of treatment.
             </p>
+            <p>
+              <strong>Spatial Analysis follows the same pattern.</strong>
+            </p>
+            <p>
+              We never work with the "real world"; we work with <em>models</em> of the world (our data layers). Because these models are simplifications of reality, there is inherent subjectivity in how we choose to analyze them. There is rarely a single "correct" button to press. Instead, the "Art" lies in your ability to daisy-chain simple tools together to construct a logical workflow.
+            </p>
+            <div class="callout warning">
+              <strong>The Burden of Defendability:</strong> Because subjectivity is unavoidable, your primary goal is to create <strong>defendable work</strong>. Like a doctor entering notes into a chart, you must well-document your workflow, explicitly state your underlying assumptions, and be ready to justify your generalizations. In GIS, how you arrived at the map is often more important than the map itself.
+            </div>
+
+            <div style="text-align: center; margin-top: 3rem; margin-bottom: 2rem; border-top: 1px solid #eee; padding-top: 2rem;">
+              <img src="../assets/img/van_gogh_starry_night.jpg" alt="Vincent van Gogh's Starry Night" style="width: 100%; max-width: 600px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+              <h4 style="margin-top: 1.5rem; color: var(--primary-dark);">The Goal: Create a Masterpiece</h4>
+              <p style="font-size: 1.05rem; line-height: 1.6; color: #475569; max-width: 700px; margin-left: auto; margin-right: auto;">
+                "This textbook is trying to get you to make masterpieces—works of art that a GIS analyst can truly appreciate. When Dr. Sounny sees good GIS, for him it is like looking at good art. Hopefully, this textbook can help make the next GIS Van Gogh."
+              </p>
+            </div>
+
           </section>
 
           <section class="card">
@@ -492,6 +537,7 @@
                 referrerpolicy="strict-origin-when-cross-origin" 
                 allowfullscreen>
               </iframe>
+            </div>
             </div>
           </div>
 
@@ -640,7 +686,7 @@
         </div>
 
         <aside class="sidebar">
-          <div class="box-bio">
+          <div class="box-bio" style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 2rem;">
             <!-- Single Tab Bar -->
             <div class="sidebar-tabs">
                 <button class="tab-btn active" style="cursor: default; border-color: #7c3aed; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);">
@@ -653,26 +699,26 @@
                 GIS Hero
             </h3>
 
-            <div style="display: flex; gap: 1rem; align-items: flex-start; flex-direction: column;">
-              <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
-                <img src="../assets/img/people/gerardus_mercator.jpg" alt="Mercator" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid #ddd;">
+              <div style="display: flex; gap: 1rem; align-items: flex-start; flex-direction: column;">
+                <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+                  <img src="../assets/img/people/gerardus_mercator.jpg" alt="Mercator" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid #ddd;">
+                  <div>
+                     <h3 style="margin: 0; font-size: 1.1rem; color: #1e293b;">Gerardus Mercator</h3>
+                     <span class="bio-dates" style="color: #64748b; font-size: 0.85rem;">(1512–1594)</span>
+                  </div>
+                </div>
+                
                 <div>
-                   <h3 style="margin: 0; font-size: 1.1rem; color: #1e293b;">Gerardus Mercator</h3>
-                   <span class="bio-dates" style="color: #64748b; font-size: 0.85rem;">(1512–1594)</span>
+                  <p style="margin-top: 0; font-size: 0.9rem; line-height: 1.6;">
+                    A Flemish cartographer and geographer. In 1569, he introduced the Mercator projection, which became the standard for nautical navigation because it preserved constant bearings (rhumb lines). While controversial today for its area distortion, it remains the foundation of all web mapping (Web Mercator).
+                  </p>
+                  <div id="mercator-map" style="height: 180px; width: 100%; margin-top: 1rem; border-radius: 8px; border: 1px solid #ccc; z-index: 1;"></div>
+                  <p style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem; font-style: italic;">
+                    Interactive: This map uses the Web Mercator projection. Notice how Greenland appears larger than it is in reality due to distortion at the poles.
+                  </p>
                 </div>
               </div>
-              
-              <div>
-                <p style="margin-top: 0; font-size: 0.9rem; line-height: 1.6;">
-                  A Flemish cartographer and geographer. In 1569, he introduced the Mercator projection, which became the standard for nautical navigation because it preserved constant bearings (rhumb lines). While controversial today for its area distortion, it remains the foundation of all web mapping (Web Mercator).
-                </p>
-                <div id="mercator-map" style="height: 180px; width: 100%; margin-top: 1rem; border-radius: 8px; border: 1px solid #ccc; z-index: 1;"></div>
-                <p style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem; font-style: italic;">
-                  Interactive: This map uses the Web Mercator projection. Notice how Greenland appears larger than it is in reality due to distortion at the poles.
-                </p>
-              </div>
             </div>
-          </div>
 
 
 
@@ -733,18 +779,18 @@
             }
           </style>
 
-          <div class="sidebar-local-global">
+          <div class="sidebar-local-global" id="local-global-panel">
             <div class="sidebar-tabs">
-              <button class="tab-btn active" onclick="switchTab('texas')" title="Texas">
+              <button class="tab-btn active" onclick="switchTab('local-global-panel','texas')" title="Texas">
                 <img src="../assets/img/flags/texas.svg" alt="Texas">
               </button>
-              <button class="tab-btn" onclick="switchTab('florida')" title="Florida">
+              <button class="tab-btn" onclick="switchTab('local-global-panel','florida')" title="Florida">
                 <img src="../assets/img/flags/florida.svg" alt="Florida">
               </button>
-              <button class="tab-btn" onclick="switchTab('france')" title="France">
+              <button class="tab-btn" onclick="switchTab('local-global-panel','france')" title="France">
                 <img src="../assets/img/flags/france.svg" alt="France">
               </button>
-              <button class="tab-btn" onclick="switchTab('morocco')" title="Morocco">
+              <button class="tab-btn" onclick="switchTab('local-global-panel','morocco')" title="Morocco">
                 <img src="../assets/img/flags/morocco.svg" alt="Morocco">
               </button>
             </div>
@@ -768,10 +814,43 @@
                 <img src="../assets/img/flags/florida.svg" alt="Florida Flag" class="tab-flag-header"> 
                 Florida Connection
               </h3>
-              <p><strong>The Everglades Restoration Plan</strong></p>
+              <p><strong>The Comprehensive Everglades Restoration Plan (CERP)</strong></p>
               <p>
-                GIS plays a critical role in the Comprehensive Everglades Restoration Plan (CERP). Water managers use spatial models to simulate flow across the "River of Grass" to balance ecosystem health with the water needs of Miami's growing population.
+                In 2026, CERP continues to rely on GIS and advanced spatial modeling to execute the world’s largest ecological restoration project. These tools are essential for managing the complex hydrological needs of a 16-county, 18,000-square-mile area.
               </p>
+              
+              <figure style="margin: 1.5rem 0;">
+                <img src="../assets/img/florida_everglades_map.png" alt="Greater Everglades Ecosystem Map" style="width: 100%; border-radius: 8px; border: 1px solid #ddd;">
+                <figcaption style="font-size: 0.8rem; color: #64748b; margin-top: 0.5rem; text-align: center;">
+                  Figure 1: The Greater Everglades Ecosystem. GIS acts as the central nervous system for managing this vast 16-county region, balancing urban water demands with ecological preservation.
+                </figcaption>
+              </figure>
+
+              <h4 style="color: var(--primary); margin-top: 1.5rem;">Role of GIS and Spatial Models</h4>
+              <ul style="font-size: 0.9rem; margin-bottom: 1.5rem; padding-left: 1.2rem;">
+                <li><strong>Integrated Coordination:</strong> GIS serves as the "official map" for over 80 projects, managing critical data on boundaries and infrastructure.</li>
+                <li><strong>Regional Simulation Model (RSM):</strong> Managers use RSM to simulate surface and groundwater movement, predicting performance under various climate scenarios.</li>
+                <li><strong>Ecological Forecasting:</strong> Models like <em>EverForecast</em> use GIS vegetation data to predict species responses (e.g., wading birds, Florida panther).</li>
+                <li><strong>Sea Level Rise:</strong> Decision-support tools now factor in sea level rise to prevent saltwater intrusion into the freshwater Biscayne Aquifer.</li>
+              </ul>
+
+              <h4 style="color: var(--primary);">Balancing Ecosystem & Growth</h4>
+              <p style="font-size: 0.9rem;">
+                <strong>Restoring Sheet Flow:</strong> A primary goal is to redirect fresh water back into the "River of Grass" to revive dying ecosystems while maintaining flood protection.
+              </p>
+              
+              <figure style="margin: 1.5rem 0;">
+                <img src="../assets/img/florida_cerp_restoration.png" alt="Restoring the Flow Directions" style="width: 100%; border-radius: 8px; border: 1px solid #ddd;">
+                <figcaption style="font-size: 0.8rem; color: #64748b; margin-top: 0.5rem; text-align: center;">
+                  Figure 2: Restoring the Flow. GIS models simulate the critical transition from current disjointed drainage (center) back to a historical 'sheet flow' pattern (right) to restore ecosystem health.
+                </figcaption>
+              </figure>
+
+              <p style="font-size: 0.9rem;">
+                <strong>Managing Trade-offs:</strong> Spatial tools quantify trade-offs between species needs and urban water demands, guiding allocation during dry seasons.
+              </p>
+
+              <a href="https://www.sfwmd.gov/science-data/rsm-model" target="_blank" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem; width:100%; text-align:center;">View Real-Time Data (DBHYDRO)</a>
             </div>
 
             <!-- France Content -->
@@ -801,20 +880,31 @@
           </div>
 
           <script>
-            function switchTab(tabId) {
-              // Hide all contents
-              document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-              // Deactivate all buttons
-              document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            function switchTab(panelId, tabId) {
+              const panel = document.getElementById(panelId);
+              if (!panel) return;
+
+              // Deactivate all contents and buttons WITHIN this panel
+              panel.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+              panel.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
               
-              // Show selected content
-              document.getElementById('tab-' + tabId).classList.add('active');
-              // Activate button (find button by onclick attr for simplicity in this context)
-              const buttons = document.querySelectorAll('.tab-btn');
-              if(tabId === 'texas') buttons[0].classList.add('active');
-              if(tabId === 'florida') buttons[1].classList.add('active');
-              if(tabId === 'france') buttons[2].classList.add('active');
-              if(tabId === 'morocco') buttons[3].classList.add('active');
+              // Activate selected content
+              const content = panel.querySelector('#tab-' + tabId);
+              if (content) content.classList.add('active');
+              
+              // Activate the specific button clicked. 
+              // Since the onclick is on the button itself, we could pass 'this', but keeping it simple based on index for now
+              // Or better, finding the button that called this function if we passed 'this' would be cleaner, 
+              // but sticking to the index map logic requested or finding it by title matching.
+              // Actually, simply iterating buttons to find which one matches the tabId logic:
+              
+              const buttons = panel.querySelectorAll('.tab-btn');
+              // Simple mapping based on known order for this specific panel:
+              if (panelId === 'local-global-panel') {
+                   const indexMap = { texas: 0, florida: 1, france: 2, morocco: 3 };
+                   const idx = indexMap[tabId];
+                   if (idx !== undefined && buttons[idx]) buttons[idx].classList.add('active');
+              }
             }
           </script>
         </aside>
@@ -904,6 +994,75 @@
           feedback.innerHTML = "Not quite. A satellite photo is made of pixels (Raster). Vector data uses coordinates to define points, lines, or polygons.";
         }
       }
+    </script>
+    <!-- DYNAMIC NAV SCRIPT -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const navTitle = document.querySelector('.nav-current-title');
+        const defaultTitle = "Welcome to GIS";
+        const sections = document.querySelectorAll('main h2');
+        const navBar = document.querySelector('.sticky-chapter-bar');
+        const progressBar = document.querySelector('.nav-progress-bar');
+        
+        // 1. Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+          const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+          const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const scrolled = (winScroll / height) * 100;
+          progressBar.style.width = scrolled + "%";
+          
+          // Toggle minimized state if needed (optional styling hook)
+          if (window.scrollY > 400) {
+            navBar.classList.add('is-stuck');
+          } else {
+            navBar.classList.remove('is-stuck');
+          }
+        });
+
+        // 2. Section Observer for Dynamic Title
+        // Options: trigger when 20% of the heading is visible, or when it crosses a threshold
+        const observerOptions = {
+          root: null,
+          rootMargin: '-80px 0px -70% 0px', // Active when heading is near top
+          threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              // Smoothly fade out and in
+              navTitle.style.opacity = 0;
+              setTimeout(() => {
+                // Strip icons if present (simple regex to remove emoji/unicode chars at start)
+                let text = entry.target.innerText;
+                // Remove emoji chars often used in this book (optional cleanup)
+                // text = text.replace(/^[\p{Emoji}\u200d\uFE0F]+\s+/u, ''); 
+                
+                navTitle.textContent = text;
+                navTitle.style.opacity = 1;
+              }, 200);
+            }
+          });
+        }, observerOptions);
+
+        sections.forEach(section => {
+          observer.observe(section);
+        });
+        
+        // Reset to default when at very top
+        window.addEventListener('scroll', () => {
+          if (window.scrollY < 300) {
+             if (navTitle.textContent !== defaultTitle) {
+               navTitle.style.opacity = 0;
+               setTimeout(() => {
+                 navTitle.textContent = defaultTitle;
+                 navTitle.style.opacity = 1;
+               }, 200);
+             }
+          }
+        });
+
+      });
     </script>
   </body>
 </html>

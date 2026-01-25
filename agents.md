@@ -43,6 +43,26 @@ Every chapter must contain these non-negotiable pedagogical components to ensure
 - **Why:** Maps are power. A "best" book must teach responsibility.
 - **Implementation:** We do not shy away from "Bad Maps," Gerrymandering, or Privacy issues. We use tools like the **Ethics Simulator** (Ch 18) to force students to make difficult choices.
 
+### E. Navigation Standard (Sticky Bar)
+
+- **Why:** Deep, lengthy chapters need persistent context and easy navigation.
+- **Implementation:** Every Chapter and Lab page MUST include the standardized **Sticky Navigation Bar**.
+- **Specs:**
+  - Located immediately after the `<header>`.
+  - Uses the `.sticky-chapter-bar` class (defined in `style.css`).
+  - Contains: **Subject Badge** (Chapter #), **Dynamic Title** (updates via JS scroll observer), **Progress Bar** (bottom border), and **TOC Link**.
+  - **Do NOT** use legacy "Back to Dashboard" buttons floating in the header.
+- **Automation:** Use `scripts/update_navigation.py` (or similar logic) to maintain this pattern across the codebase.
+
+### F. The CPI Teaching Model (Pedagogical Arc)
+
+- **Philosophy:** Dr. Sounny prefers a specific narrative arc for teaching complex topics. Do not just dump information.
+- **The Structure:**
+  1.  **Concept (The Hook):** Explain the "What" and "Why" using relatable analogies (e.g., GIS as Art, Analysis as Medicine). Use clean, conceptual visuals.
+  2.  **Practice (The Reality):** Show the "How." Discuss the messy reality, the subjectivity, and the tools. Connect it to the "Medical Analogy" of defendable work.
+  3.  **Inspiration (The Call):** End sections by inspiring the student to do _more_. Show a "Masterpiece" (like Van Gogh) or a grand vision. Challenge them to be the next innovator.
+- **Example:** See Chapter 00's "Art of GIS" section.
+
 ## 3. The Lab Manual Protocol (Tri-Platform)
 
 We are building a robust Lab Manual that supports **ArcGIS Pro**, **QGIS**, and **Web GIS** simultaneously.

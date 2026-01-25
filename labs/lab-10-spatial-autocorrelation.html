@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 10: Spatial Autocorrelation | GIS Lab Manual</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/lab.css">
+</head>
+<body>
+
+    <header class="lab-header">
+        <div class="container">
+            <nav style="margin-bottom: 1rem;">
+                <a href="index.html" style="color: var(--primary); text-decoration: none; font-weight: 600;">&larr; Back to Lab Manual</a>
+            </nav>
+            <span class="lab-badge">Lab 10</span>
+            <h1>Spatial Autocorrelation</h1>
+            <p class="subtitle">Analyze patterns of clustering and dispersion using spatial statistics.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 1. Learning Objectives -->
+        <section class="card">
+            <h2>🎯 Learning Objectives</h2>
+            <ul>
+                <li>Calculate Global Moran's I</li>
+                <li>Identify hot spots and cold spots (LISA)</li>
+                <li>Interpret statistical significance in spatial patterns</li>
+            </ul>
+        </section>
+
+        <!-- 2. Scenario & Data -->
+        <section class="card">
+            <h2>📂 Scenario & Requirements</h2>
+            <p>Determine if crime incidents or disease outbreaks are clustered or randomly distributed.</p>
+            
+            <div class="data-download-card">
+                <div>
+                    <strong>Data Package:</strong> <code>lab-10-data.zip</code>
+                    <p style="margin:0; font-size: 0.85rem; color: #64748b;">Contains Statistical Datasets</p>
+                </div>
+                <a href="#" class="btn btn-primary">Download Data</a>
+            </div>
+        </section>
+
+        <!-- 3. Instructions (The Switcher) -->
+        <h2>🛠️ Step-by-Step Instructions</h2>
+        <p>Select your preferred GIS platform to view instructions:</p>
+
+        <nav class="platform-switcher">
+            <button class="tab-btn active" data-platform="arcgis">
+                <span class="icon">🟦</span> ArcGIS Pro
+            </button>
+            <button class="tab-btn" data-platform="qgis">
+                <span class="icon">🟩 QGIS</span>
+            </button>
+            <button class="tab-btn" data-platform="web">
+                <span class="icon">🟧 Web GIS</span>
+            </button>
+        </nav>
+
+        <!-- ArcGIS Pro Pane -->
+        <div class="instruction-pane active" data-platform="arcgis">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Spatial Statistics Tools</h3>
+                    <p>Instructions for ArcGIS Pro Autocorrelation...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- QGIS Pane -->
+        <div class="instruction-pane" data-platform="qgis">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Processing Toolbox</h3>
+                    <p>Instructions for QGIS Autocorrelation...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Web GIS Pane -->
+        <div class="instruction-pane" data-platform="web">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Analyze Patterns</h3>
+                    <p>Instructions for Web GIS Analysis...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Deliverables -->
+        <section class="card" style="margin-top: 4rem; border-top: 4px solid var(--accent);">
+            <h2>✅ Submission & Assessment</h2>
+            <p>To complete this lab, you must submit:</p>
+            <ul>
+                <li>The Global Moran's I Report</li>
+                <li>A Hot Spot Map</li>
+            </ul>
+            <div class="callout warning">
+                <strong>Quality Check:</strong> Ensure your map includes a Title, Legend, and North Arrow before exporting.
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine | GIS Lab Manual</p>
+        </div>
+    </footer>
+
+    <script src="js/lab-switcher.js"></script>
+</body>
+</html>

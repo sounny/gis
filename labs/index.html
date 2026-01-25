@@ -18,6 +18,25 @@
             <p class="subtitle">Practical exercises across ArcGIS Pro, QGIS, and Web GIS. Choose your platform, master the science.</p>
         </div>
     </header>
+    <!-- STICKY NAVIGATION BAR -->
+    <nav class="sticky-chapter-bar">
+      <div class="nav-container">
+        <div class="nav-left">
+          <span class="nav-chapter-num">Lab</span>
+        </div>
+        <div class="nav-center">
+          <span class="nav-current-title">GIS Lab Manual</span>
+        </div>
+        <div class="nav-right">
+          <a href="index.html" class="nav-toc-btn" title="Table of Contents">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            <span class="toc-text">TOC</span>
+          </a>
+        </div>
+      </div>
+      <div class="nav-progress-bar"></div>
+    </nav>
+
 
     <main class="container">
         
@@ -57,25 +76,31 @@
             </a>
             <a href="lab-05-georeferencing.html" class="chapter-item">
                 <span class="chapter-number">Lab 05</span>
-                <span class="chapter-title">Warping History</span>
+                <span class="chapter-title">Georeferencing & Warping History</span>
+            </a>
+            <a href="lab-06-geocoding.html" class="chapter-item">
+                <span class="chapter-number">Lab 06</span>
+                <span class="chapter-title">Geocoding Addresses</span>
+            </a>
+            <a href="lab-07-digitizing.html" class="chapter-item">
+                <span class="chapter-number">Lab 07</span>
+                <span class="chapter-title">Digitizing Data</span>
             </a>
             <a href="lab-08-site-selection.html" class="chapter-item">
                 <span class="chapter-number">Lab 08</span>
                 <span class="chapter-title">Suitability Modeling</span>
             </a>
+            <a href="lab-09-choropleth.html" class="chapter-item">
+                <span class="chapter-number">Lab 09</span>
+                <span class="chapter-title">Choropleth Mapping</span>
+            </a>
+            <a href="lab-10-spatial-autocorrelation.html" class="chapter-item">
+                <span class="chapter-number">Lab 10</span>
+                <span class="chapter-title">Spatial Autocorrelation</span>
+            </a>
         </div>
 
-        <h2>Resources</h2>
-        <div class="chapter-grid">
-            <a href="#" class="chapter-item">
-                <span class="chapter-number">DOC</span>
-                <span class="chapter-title">Lab Report Template</span>
-            </a>
-            <a href="#" class="chapter-item">
-                <span class="chapter-number">DATA</span>
-                <span class="chapter-title">Master Data Repository</span>
-            </a>
-        </div>
+
 
     </main>
 
@@ -84,6 +109,71 @@
             <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine</p>
         </div>
     </footer>
+
+
+    <!-- DYNAMIC NAV SCRIPT -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const navTitle = document.querySelector('.nav-current-title');
+        const defaultTitle = "GIS Lab Manual"; // Dynamic default
+        const sections = document.querySelectorAll('main h2');
+        const navBar = document.querySelector('.sticky-chapter-bar');
+        const progressBar = document.querySelector('.nav-progress-bar');
+        
+        // 1. Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+          const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+          const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const scrolled = (winScroll / height) * 100;
+          if (progressBar) progressBar.style.width = scrolled + "%";
+          
+          if (window.scrollY > 200) {
+            navBar.classList.add('is-stuck');
+          } else {
+            navBar.classList.remove('is-stuck');
+          }
+        });
+
+        // 2. Section Observer for Dynamic Title
+        const observerOptions = {
+          root: null,
+          rootMargin: '-80px 0px -70% 0px',
+          threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const newText = entry.target.innerText;
+              if (navTitle.textContent !== newText) {
+                  navTitle.style.opacity = 0;
+                  setTimeout(() => {
+                    navTitle.textContent = newText;
+                    navTitle.style.opacity = 1;
+                  }, 200);
+              }
+            }
+          });
+        }, observerOptions);
+
+        sections.forEach(section => {
+          observer.observe(section);
+        });
+        
+        // Reset to default
+        window.addEventListener('scroll', () => {
+          if (window.scrollY < 150) {
+             if (navTitle.textContent !== defaultTitle) {
+               navTitle.style.opacity = 0;
+               setTimeout(() => {
+                 navTitle.textContent = defaultTitle;
+                 navTitle.style.opacity = 1;
+               }, 200);
+             }
+          }
+        });
+      });
+    </script>
 
 </body>
 </html>

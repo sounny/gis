@@ -126,11 +126,28 @@
             <p class="subtitle">Seeing with light. Discover how LiDAR technology "digitally deforests" the planet to reveal hidden archaeology, flood risks, and forest structure.</p>
         </div>
     </header>
+    <!-- STICKY NAVIGATION BAR -->
+    <nav class="sticky-chapter-bar">
+      <div class="nav-container">
+        <div class="nav-left">
+          <span class="nav-chapter-num">Chapter 12</span>
+        </div>
+        <div class="nav-center">
+          <span class="nav-current-title">LiDAR & 3D Analysis</span>
+        </div>
+        <div class="nav-right">
+          <a href="../index.html" class="nav-toc-btn" title="Table of Contents">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            <span class="toc-text">TOC</span>
+          </a>
+        </div>
+      </div>
+      <div class="nav-progress-bar"></div>
+    </nav>
+
 
     <main class="container">
-        <nav style="margin: 2rem 0;">
-            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
-        </nav>
+        
 
 
         <section class="card learning-scaffold" aria-label="Learning scaffold">
@@ -262,6 +279,40 @@
                     <div class="callout warning" style="background: #f0fdf4; border-left: 5px solid #16a34a; color: #166534; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
                         <strong>Critical GIS: The Ethics of "Deforesting" Reality</strong>
                         <p>LiDAR's ability to "digitally deforest" the Amazon or the Mayan jungle is a scientific triumph, but it can also be a weapon. By revealing ancient ruins or indigenous trails that were previously protected by the canopy, do we expose them to looting and unwanted contact? Just because we <em>can</em> map everything, does it mean we <em>should</em>?</p>
+                    </div>
+                </section>
+
+                </section>
+
+                <section class="card">
+                    <h2 style="color: var(--accent); display: flex; align-items: center; gap: 0.5rem;">
+                        🔬 GIS in Action: Case Studies
+                    </h2>
+                    <p>To illustrate the versatility of asking "Where," consider this example of a creative GIS application:</p>
+                    
+                    <div class="case-study" style="margin-top: 2rem;">
+                        <h3>1. Sustainability: Are Solar Panels Enough?</h3>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: start;">
+                            <div>
+                                <p><strong>The Question:</strong> Do trendy solar installations on rooftops actually make economic and environmental sense?</p>
+                                <p><strong>The Approach:</strong> Using LiDAR (Light Detection and Ranging), we created specific "Digital Roof Models" for both University of Texas and Southwestern University. By combining slope, aspect, and tree canopy shadows (NDVI), we calculated the exact solar potential of every single rooftop.</p>
+                                <p><strong>The Finding?</strong> Subsidies are crucial. Without them, the "payback period" for many installs exceeded 30 years, making them environmentally friendly but not economically sustainable.</p>
+                            </div>
+                            <div>
+                                 <figure style="margin: 0;">
+                                    <img src="../assets/img/lidar_solar_panels.png" alt="University of Texas Solar Installation" style="width: 100%; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                                    <figcaption style="font-size: 0.85rem; color: #64748b; margin-top: 0.5rem; line-height: 1.4;">
+                                        The University of Texas at Austin's First Solar Photovoltaic installation on the main campus, installed as shading devices on the top of Manor Parking Garage. (Image Source: Fred C. Beach, Ph.D.)
+                                    </figcaption>
+                                </figure>
+                            </div>
+                        </div>
+                        <style>
+                            @media (min-width: 768px) {
+                                .case-study > div { grid-template-columns: 1fr 1fr !important; }
+                            }
+                        </style>
                     </div>
                 </section>
 
@@ -399,5 +450,70 @@
             }, 100);
         }
     </script>
+
+    <!-- DYNAMIC NAV SCRIPT -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const navTitle = document.querySelector('.nav-current-title');
+        const defaultTitle = "LiDAR & 3D Analysis"; // Dynamic default
+        const sections = document.querySelectorAll('main h2');
+        const navBar = document.querySelector('.sticky-chapter-bar');
+        const progressBar = document.querySelector('.nav-progress-bar');
+        
+        // 1. Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+          const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+          const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const scrolled = (winScroll / height) * 100;
+          if (progressBar) progressBar.style.width = scrolled + "%";
+          
+          if (window.scrollY > 200) {
+            navBar.classList.add('is-stuck');
+          } else {
+            navBar.classList.remove('is-stuck');
+          }
+        });
+
+        // 2. Section Observer for Dynamic Title
+        const observerOptions = {
+          root: null,
+          rootMargin: '-80px 0px -70% 0px',
+          threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const newText = entry.target.innerText;
+              if (navTitle.textContent !== newText) {
+                  navTitle.style.opacity = 0;
+                  setTimeout(() => {
+                    navTitle.textContent = newText;
+                    navTitle.style.opacity = 1;
+                  }, 200);
+              }
+            }
+          });
+        }, observerOptions);
+
+        sections.forEach(section => {
+          observer.observe(section);
+        });
+        
+        // Reset to default
+        window.addEventListener('scroll', () => {
+          if (window.scrollY < 150) {
+             if (navTitle.textContent !== defaultTitle) {
+               navTitle.style.opacity = 0;
+               setTimeout(() => {
+                 navTitle.textContent = defaultTitle;
+                 navTitle.style.opacity = 1;
+               }, 200);
+             }
+          }
+        });
+      });
+    </script>
+
 </body>
 </html>
