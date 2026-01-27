@@ -2,7 +2,26 @@ import glob
 import re
 import os
 
-files = glob.glob(os.path.join('c:\\Users\\sounn\\Git\\gis\\chapters', '*.html'))
+# Helper to find closing tag
+def find_closing_tag(full_text, start_idx, tag_name):
+    depth = 0
+    # Matches </tag> or <tag ... >
+    p = re.compile(r'(</?'+tag_name+r'\b[^>]*>)', re.IGNORECASE)
+    for m in p.finditer(full_text, start_idx):
+        tag = m.group(1)
+        is_close = tag.startswith('</')
+        is_self_closing = tag.endswith('/>')
+
+        if is_close:
+            depth -= 1
+        elif not is_self_closing:
+            depth += 1
+
+        if depth == 0:
+            return m.start(), m.end()
+    return None, None
+
+files = glob.glob(os.path.join(os.path.dirname(__file__), '../chapters', '*.html'))
 print(f"Found {len(files)} files.")
 
 for filepath in files:
@@ -25,25 +44,6 @@ for filepath in files:
 
         print(f"Processing {os.path.basename(filepath)}...")
         
-        # Helper to find closing tag
-        def find_closing_tag(full_text, start_idx, tag_name):
-            depth = 0
-            # Matches </tag> or <tag ... >
-            p = re.compile(r'(</?'+tag_name+r'\b[^>]*>)', re.IGNORECASE)
-            for m in p.finditer(full_text, start_idx):
-                tag = m.group(1)
-                is_close = tag.startswith('</')
-                is_self_closing = tag.endswith('/>')
-                
-                if is_close:
-                    depth -= 1
-                elif not is_self_closing:
-                    depth += 1
-                
-                if depth == 0:
-                    return m.start(), m.end()
-            return None, None
-
         # Find section end
         # Note: start_idx should be match_section.start() to count the opening tag itself as depth=1
         sec_close_start, sec_close_end = find_closing_tag(content, match_section.start(), 'section')
