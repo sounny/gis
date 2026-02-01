@@ -97,10 +97,9 @@ Source page: `C:/Users/sounn/Git/gis/chapters/chapter-06-digitizing.html`
 - `C:/Users/sounn/Git/gis/references/bok-mapping.md` (matches=1)
   Excerpt: | GP | GD | Field data used to validate/ground-truth imagery where possible. | II | 05 | Georeferencing | GD | GP, AM | Emphasize georeferencing imagery + residuals + accuracy reporting. | II | 06 | Digitizing Vector Data | GD | CV, AM | Digitize training/vali...
 
-## Proposed adaptation to the book (concrete next edits for another agent)
-- Interactive module candidates:
-  - Model picker: give 6 real questions (pipes, flood surface, landcover, parcels, temperature, crime points) and have students choose vector/raster + why; reveal tradeoffs (file size, topology, mixed pixels).
-  - AI map critique: show model output heatmap + threshold slider; students label failure modes (bias, overfit, spurious correlation).
-- Local-to-Global sidebar: search within the listed reference sources for a Texas anchor (Houston, Galveston, Austin, DFW, Rio Grande, Permian Basin) and write a 120-180 word sidebar that ends with a global parallel.
-- 'Important Persons' bio box: if any reference source includes an inventor/author tied to this topic, add a 1-paragraph bio + 3 bullets (impact, algorithm/idea, modern use).
-- Critical GIS prompt: add 1 dilemma question connected to the chapter's primary dataset choice (scale, privacy, bias, uncertainty) and ask for a written justification.
+## Completed Adaptations (February 2026)
+
+- [x] **Interactive Module:** "The Snapping Challenge" - interactive canvas where students practice snapping to nodes and understand snapping tolerance.
+- [x] **Local-to-Global Sidebar:** "Texas 9-1-1 Addressing" connects local emergency response digitization to the Commission on State Emergency Communications (CSEC) work with regional Councils of Government.
+- [x] **Important Persons:** Dr. Michael Goodchild featured with bio emphasizing his role in VGI (Volunteered Geographic Information) and spatial database accuracy.
+- [x] **Critical GIS Prompt:** "Regional Decision: Mapping the New Campus" ethical dilemma about partially obscured building corners and choosing between guessing, geometric inference, or waiting for better imagery.

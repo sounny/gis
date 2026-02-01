@@ -9,6 +9,65 @@
       content="Comprehensive open-access GIS & Remote Sensing textbook with interactive labs and tools."
     />
     <link rel="stylesheet" href="css/style.css" />
+    <style>
+      /* Hero with background image */
+      .hero {
+        background: linear-gradient(
+          135deg,
+          rgba(0, 85, 164, 0.65) 0%,
+          rgba(0, 56, 112, 0.55) 50%,
+          rgba(0, 85, 164, 0.70) 100%
+        ),
+        url("assets/hero-bg.png");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        padding: 6rem 2rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        border-radius: 0;
+        margin-bottom: 0;
+      }
+
+      .hero .container {
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        font-weight: 800;
+        background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        margin-bottom: 1rem;
+      }
+
+      .hero .author-attribution {
+        color: white;
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+      }
+
+      .hero .author-attribution a {
+        color: white;
+        text-decoration: none;
+        transition: opacity 0.2s;
+      }
+
+      .hero .author-attribution a:hover {
+        opacity: 0.8;
+      }
+
+      .hero p {
+        color: white;
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+      }
+    </style>
   </head>
   <body>
     <header class="hero">
@@ -20,15 +79,34 @@
           by <a href="https://sounny.github.io" target="_blank">Dr. Moulay Anwar Sounny-Slitine</a>
         </p>
         <div style="margin-bottom: 2rem; max-width: 800px; margin-left: auto; margin-right: auto;">
-          <p style="font-size: 1.8rem; font-weight: 800; color: var(--primary); margin-bottom: 0.5rem; line-height: 1.2;">
+          <p style="font-size: 1.8rem; font-weight: 800; color: white; margin-bottom: 0.5rem; line-height: 1.2; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);">
             Asking the Questions of "Where"
           </p>
-          <p style="font-size: 1.15rem; color: var(--text-muted); font-weight: 400;">
+          <p style="font-size: 1.15rem; color: white; font-weight: 400; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);">
             An interactive textbook exploring spatial thinking and analytical cartography.
           </p>
         </div>
       </div>
     </header>
+
+    <!-- STICKY NAVIGATION BAR -->
+    <nav class="sticky-chapter-bar">
+      <div class="nav-container">
+        <div class="nav-left">
+          <span class="nav-chapter-num">GIS Textbook</span>
+        </div>
+        <div class="nav-center">
+          <span class="nav-current-title">Table of Contents</span>
+        </div>
+        <div class="nav-right">
+          <a href="https://sounny.github.io" target="_blank" class="nav-toc-btn" title="About Dr. Sounny">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <span class="toc-text">About Dr. Sounny</span>
+          </a>
+        </div>
+      </div>
+      <div class="progress-bar"></div>
+    </nav>
 
     <main class="container">
       <section class="card">

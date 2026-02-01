@@ -31,6 +31,24 @@
         .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
         .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        
+        /* Decision Button Styles */
+        .decision-btn {
+            padding: 0.75rem 1rem;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+            font-weight: 500;
+            opacity: 0.7;
+        }
+        .decision-btn:hover { 
+            opacity: 1;
+            border-color: var(--accent);
+            background: #fffbeb;
+        }
     </style>
 </head>
 <body>
@@ -96,6 +114,55 @@
                 </div>
             </div>
         </section>
+
+        <!-- INTERACTIVE MODULE: Export Format Decision Tool -->
+        <section class="card">
+            <h2>Interactive: Format Selection Guide</h2>
+            <p>Choosing the right export format depends on your use case. Click the scenarios below to see which format is recommended and why.</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+                <button class="decision-btn" onclick="revealFormat(this, 'png', 'PNG preserves the map design and allows transparency without file size penalty.', 'Static web publication, social media sharing, presentations.')">Web Map Image</button>
+                <button class="decision-btn" onclick="revealFormat(this, 'pdf', 'PDF preserves exact layout and is universally readable. Best for print distribution.', 'Print maps, official documents, stakeholder presentations.')">Print Map</button>
+                <button class="decision-btn" onclick="revealFormat(this, 'geotiff', 'GeoTIFF embeds coordinate information, enabling re-use in other GIS software.', 'Long-term archival, scientific analysis, data sharing with colleagues.')">Data Archive</button>
+                <button class="decision-btn" onclick="revealFormat(this, 'svg', 'SVG is scalable, editable in design software, and perfect for interactive maps.', 'Interactive web maps, real-time dashboards, animated visualizations.')">Interactive Web Map</button>
+                <button class="decision-btn" onclick="revealFormat(this, 'jpeg', 'JPEG is highly compressed, small file size, but cannot be edited without quality loss.', 'Quick previews, thumbnails, low-bandwidth distribution.')">Mobile/Low Bandwidth</button>
+                <button class="decision-btn" onclick="revealFormat(this, 'shapefile', 'Shapefile exports preserve vector geometry and attributes for GIS processing.', 'Data interchange with other analysts, further GIS analysis.')">GIS Data Export</button>
+            </div>
+            
+            <div id="format-output" style="margin-top: 1.5rem; padding: 1rem; border-radius: 8px; background: #f8fafc; border: 1px dashed #cbd5e1; text-align: center; min-height: 80px;">
+                <em>Select a use case above to see the recommended export format and explanation.</em>
+            </div>
+        </section>
+
+        <!-- TEXAS CONNECTION & CRITICAL GIS SECTION -->
+        <section class="card">
+            <h2>The Politics and Ethics of Map Output</h2>
+            
+            <div style="background: #f0fdf4; border: 2px solid #10b981; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem;">
+                <h3 style="margin-top: 0;">🇺🇸 Texas Connection: The General Land Office Map Collections</h3>
+                <p><strong>Historical Context:</strong> Texas has one of the longest cartographic records in North America. The General Land Office (GLO) maintains over 2.5 million historical maps and documents. These include Spanish colonial maps, Anglo-American surveyor plats, and modern parcel maps.</p>
+                <p><strong>Format Challenges:</strong> The GLO faces a critical decision: How to preserve and share these maps? Some are fragile originals; others are digital scans. The agency must balance:</p>
+                <ul>
+                    <li><strong>Preservation:</strong> Archival TIFF formats with metadata and georeferencing for long-term survival.</li>
+                    <li><strong>Access:</strong> Web-friendly formats (PNG, JPEG) to enable online exploration via the Remonter le Temps project.</li>
+                    <li><strong>Accuracy:</strong> Vector transcription of historical boundaries for modern property disputes and legal research.</li>
+                    <li><strong>Privacy:</strong> Removing sensitive owner information from public digital releases.</li>
+                </ul>
+                <p><em>Global parallel: European national cadastral archives face identical challenges, especially in countries transitioning from paper to digital records.</em></p>
+            </div>
+
+            <div style="background: #fff1f2; border: 2px solid #f43f5e; border-radius: 8px; padding: 1.5rem;">
+                <h3 style="margin-top: 0; color: #991b1b;">⚠️ Critical GIS Dilemma: Public Maps & Privacy</h3>
+                <p><strong>The Scenario:</strong> You are a GIS analyst for a county planning department. A government transparency advocate requests all parcel maps for your county in high-resolution PDF format. However, the parcel maps include property owner names and valuations—sensitive information. The county attorney worries that public release could enable targeted theft or privacy violations.</p>
+                <p><strong>Your Decision:</strong> Which approach do you recommend?</p>
+                <ul>
+                    <li><strong>Option A:</strong> Publish the full-detail PDF maps. Transparency and public access are fundamental values.</li>
+                    <li><strong>Option B:</strong> Create two versions: a simplified public map (geometry only, no names) and a detailed version (for certified professionals with background checks).</li>
+                    <li><strong>Option C:</strong> Decline the request and keep all parcel data private. Protecting citizens' privacy is your primary duty.</li>
+                </ul>
+                <p><strong>What considerations guide your decision?</strong> How do you balance transparency, privacy, and public safety? How does the choice of output format itself become a political decision?</p>
+            </div>
+        </section>
     
 
         
@@ -154,6 +221,40 @@
 
     <!-- DYNAMIC NAV SCRIPT -->
     <script>
+      // INTERACTIVE MODULE: Format Selector
+      function revealFormat(btn, format, explanation, useCase) {
+        // Reset buttons
+        const allBtns = document.querySelectorAll('.decision-btn');
+        allBtns.forEach(b => {
+            b.style.opacity = '0.6';
+            b.style.borderColor = '#e2e8f0';
+        });
+
+        // Activate clicked
+        btn.style.opacity = '1';
+        btn.style.borderColor = '#fbbf24';
+        btn.style.background = '#fffbeb';
+
+        // Show output
+        const output = document.getElementById('format-output');
+        const formatNames = {
+            'png': 'PNG (Portable Network Graphics)',
+            'pdf': 'PDF (Portable Document Format)',
+            'geotiff': 'GeoTIFF (Georeferenced TIFF)',
+            'svg': 'SVG (Scalable Vector Graphics)',
+            'jpeg': 'JPEG (Joint Photographic Experts Group)',
+            'shapefile': 'Shapefile (ESRI Vector Format)'
+        };
+        
+        output.innerHTML = `
+            <h3 style="color: #b45309; margin-top:0;">📄 ${formatNames[format]}</h3>
+            <p style="margin: 0.5rem 0;"><strong>Why:</strong> ${explanation}</p>
+            <p style="margin: 0;"><strong>Best For:</strong> ${useCase}</p>
+        `;
+        output.style.borderColor = '#fbbf24';
+        output.style.background = '#fffbeb';
+      }
+
       document.addEventListener('DOMContentLoaded', () => {
         const navTitle = document.querySelector('.nav-current-title');
         const defaultTitle = "Map Output & Production"; // Dynamic default

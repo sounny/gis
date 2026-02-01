@@ -108,4 +108,6 @@ Source page: `C:/Users/sounn/Git/gis/chapters/chapter-10-remote-sensing.html`
 - [x] **Local-to-Global:** Added "Texas Connection: Monitoring the 2011 Drought" sidebar.
 - [x] **Important Persons:** Added Bio Box for Virginia T. Norwood (Mother of Landsat).
 - [x] **Critical GIS:** Added "The Privacy Pixel" callout regarding resolution and surveillance.
+- [x] **Theory Expansion:** Added "Passive vs. Active Sensors" section.
+- [x] **Theory Expansion:** Added "The Physics of Orbits" (Geo/Polar/Sun-Sync) section.
 - [ ] **Interactive module:** (Planned) Interactive Resolution Comparison (Slide to blur).

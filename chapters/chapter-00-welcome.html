@@ -11,11 +11,11 @@
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://d3js.org/topojson.v3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
       /* Chapter-specific styles */
       .hero-chapter {
@@ -33,10 +33,6 @@
         text-align: center;
         position: relative;
         overflow: hidden;
-      }
-
-      .hero-chapter::before {
-        display: none;
       }
 
       .hero-chapter .container {
@@ -65,7 +61,6 @@
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        /* Added shadow for better legibility against image */
         text-shadow: 0 4px 10px rgba(0,0,0,0.3);
       }
 
@@ -78,8 +73,6 @@
         text-shadow: 0 2px 4px rgba(0,0,0,0.3);
       }
       
-      /* .hero-globe-img removed */
-
       .objectives-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -181,6 +174,36 @@
       }
       .btn-quiz:hover { border-color: #3b82f6; background: #eff6ff; }
 
+      /* Interactive Decision Button Styles */
+      .decision-btn {
+        padding: 0.75rem 1rem;
+        background: white;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.2s ease;
+        font-weight: 500;
+        font-size: 0.9rem;
+        color: #1e293b;
+      }
+      .decision-btn:hover { 
+        border-color: #3b82f6; 
+        background: #eff6ff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      }
+      .decision-btn.active-vector {
+        border-color: #3b82f6;
+        background: #eff6ff;
+        color: #1e40af;
+      }
+      .decision-btn.active-raster {
+        border-color: #10b981;
+        background: #f0fdf4;
+        color: #065f46;
+      }
+
       .video-container {
         position: relative;
         padding-bottom: 56.25%;
@@ -239,6 +262,77 @@
         left: 0;
         color: #50c878;
         font-weight: bold;
+      }
+
+      .quiz-container { background: #f8fafc; padding: 2rem; border-radius: 16px; margin-top: 3rem; border: 1px solid #e2e8f0; }
+
+      /* Unified Sidebar Panel Styling */
+      .sidebar-local-global,
+      .sidebar-gis-hero,
+      .sidebar-questions-where {
+        background: white;
+        padding: 1.5rem;
+        padding-top: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        margin-bottom: 2rem;
+        position: relative;
+        border: 1px solid #e2e8f0;
+      }
+      .sidebar-local-global h3,
+      .sidebar-gis-hero h3,
+      .sidebar-questions-where h3 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+      }
+      .sidebar-local-global p,
+      .sidebar-gis-hero p,
+      .sidebar-questions-where p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 0.75rem;
+      }
+
+      /* GIS Hero Sidebar - Purple accent */
+      .sidebar-gis-hero {
+        border-color: #7c3aed;
+        border-width: 2px;
+      }
+      .sidebar-gis-hero .sidebar-tabs {
+        position: absolute;
+        top: -22px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 20px;
+        border: 2px solid #7c3aed;
+        margin-bottom: 0;
+      }
+      .sidebar-gis-hero .sidebar-tabs .tab-btn.active {
+        border-color: #7c3aed;
+        box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+      }
+
+      /* Questions of Where Sidebar - Orange accent */
+      .sidebar-questions-where {
+        border-color: #ea580c;
+        border-width: 2px;
+      }
+      .sidebar-questions-where .sidebar-tabs {
+        position: absolute;
+        top: -22px;
+        left: 1rem;
+        transform: none;
+        background: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 20px;
+        border: 2px solid #ea580c;
+        margin-bottom: 0;
+      }
+      .sidebar-questions-where .sidebar-tabs .tab-btn.active {
+        border-color: #ea580c;
+        box-shadow: 0 4px 12px rgba(234, 88, 12, 0.2);
       }
     </style>
   </head>
@@ -369,8 +463,16 @@
       <div class="layout-grid">
         <div class="content">
           <section class="card">
-            <h2>🎥 What is GIS?</h2>
+            <h2>What is GIS?</h2>
             <p>Before we dive into the technical details, let's explore the fundamental question: What exactly is GIS? Is it just a tool for making maps, a rigorous science, or something more?</p>
+            
+            <blockquote style="background: #f8fafc; border-left: 4px solid var(--primary); padding: 1rem 1.5rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0;">
+              <p style="margin: 0; font-style: italic; color: #475569;"><strong>GIS</strong> <em>noun</em> : a computer system designed to capture, store, manipulate, analyze, manage, and present spatial or geographic data.</p>
+              <cite style="display: block; margin-top: 0.5rem; font-size: 0.85rem; color: #64748b;">— <a href="https://www.merriam-webster.com/dictionary/GIS" target="_blank" style="color: var(--primary);">Merriam-Webster Dictionary</a></cite>
+            </blockquote>
+            
+            <p>While this dictionary definition captures the technical essence, it misses the bigger picture. GIS is not just a computer system—it's a way of thinking spatially, a scientific discipline, and increasingly, an art form for communicating complex information visually.</p>
+
             <div class="video-container">
               <iframe 
                 src="https://www.youtube.com/embed/XF9t-oQ1r0I" 
@@ -378,6 +480,114 @@
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                 allowfullscreen>
               </iframe>
+            </div>
+            
+            <h3>The Components of GIS</h3>
+            <p>A Geographic Information System is more than just software—it's an integrated system of interconnected components working together to capture, manage, analyze, and display spatial data. This classic definition, popularized by <a href="https://www.esri.com/en-us/what-is-gis/overview" target="_blank" style="color: var(--primary); text-decoration: underline;">Esri</a>, goes beyond the dictionary definition by including <strong>People</strong> and <strong>Apps/Methods</strong> (workflows) as essential components—recognizing that technology alone doesn't make a GIS; it's the human expertise and systematic processes that transform raw data into actionable insights.</p>
+            <figure style="margin: 1.5rem 0; text-align: center;">
+              <img src="../assets/img/components_of_gis.png" alt="The Components of GIS: Hardware, Software, Data, People, and Methods" style="width: 100%; max-width: 700px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+              <figcaption style="font-size: 0.85rem; color: #64748b; margin-top: 0.75rem;">
+                Figure: The five essential components of a GIS—Hardware, Software, Data, People, and Methods—all working together to transform raw geographic information into actionable insights.
+              </figcaption>
+            </figure>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+              <div style="background: #f0f9ff; padding: 1.25rem; border-radius: 10px; border-left: 4px solid #0284c7;">
+                <h4 style="margin: 0 0 0.5rem 0; color: #0369a1; font-size: 1rem;">💻 Hardware</h4>
+                <p style="margin: 0; font-size: 0.9rem; line-height: 1.5;">The physical equipment—computers, servers, GPS receivers, drones, and digitizers. Today this includes cloud infrastructure and mobile devices that bring GIS into the field.</p>
+              </div>
+              <div style="background: #fdf4ff; padding: 1.25rem; border-radius: 10px; border-left: 4px solid #a855f7;">
+                <h4 style="margin: 0 0 0.5rem 0; color: #7e22ce; font-size: 1rem;">🖥️ Software</h4>
+                <p style="margin: 0; font-size: 0.9rem; line-height: 1.5;">The programs that provide the functions and tools for spatial analysis. This course uses <strong>ArcGIS Pro</strong>, <strong>QGIS</strong>, and <strong>Web GIS</strong> to give you fluency across platforms.</p>
+              </div>
+              <div style="background: #f0fdf4; padding: 1.25rem; border-radius: 10px; border-left: 4px solid #22c55e;">
+                <h4 style="margin: 0 0 0.5rem 0; color: #15803d; font-size: 1rem;">🗂️ Data</h4>
+                <p style="margin: 0; font-size: 0.9rem; line-height: 1.5;">The foundation of any GIS. Data comes in two primary forms: <strong>vector</strong> (points, lines, polygons) and <strong>raster</strong> (grids of cells, like satellite imagery). Without quality data, even the best analysis fails.</p>
+              </div>
+            </div>
+
+            <!-- Shapefile Deep Dive -->
+            <div style="margin-top: 2rem; padding: 1.5rem; background: #f8fafc; border-radius: 12px; border: 2px solid #e2e8f0;">
+              <h3 style="margin-top: 0; color: #0f172a;">📁 The Shapefile: GIS's Most Common Vector Format</h3>
+              <p>When you download vector data, you'll almost always encounter the <strong>Shapefile</strong>—a format created by Esri in the 1990s that became the de facto standard for sharing GIS data. Despite its age, it remains ubiquitous.</p>
+              
+              <div style="display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap; margin-top: 1.5rem;">
+                <div style="flex: 1; min-width: 280px;">
+                  <img src="../assets/img/shapefiletable.png" alt="Components of a Shapefile showing the required files and their relationships" style="width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 1px solid #e2e8f0;">
+                  <p style="font-size: 0.8rem; color: #64748b; margin-top: 0.5rem; text-align: center;"><em>A shapefile is actually multiple files working together</em></p>
+                </div>
+                <div style="flex: 1.2; min-width: 300px;">
+                  <p style="margin-top: 0;"><strong>A shapefile is not a single file</strong>—it's a collection of files that must stay together:</p>
+                  
+                  <div style="display: grid; gap: 0.75rem; margin-top: 1rem;">
+                    <div style="background: #fff; padding: 0.75rem; border-radius: 6px; border-left: 4px solid #3b82f6;">
+                      <strong style="color: #1e40af;">.shp</strong> — <span style="font-size: 0.9rem;">The <strong>geometry</strong> (shapes): the actual coordinates of points, lines, or polygons.</span>
+                    </div>
+                    <div style="background: #fff; padding: 0.75rem; border-radius: 6px; border-left: 4px solid #22c55e;">
+                      <strong style="color: #15803d;">.dbf</strong> — <span style="font-size: 0.9rem;">The <strong>attribute table</strong> (dBASE format): all the data attached to each feature (names, IDs, measurements).</span>
+                    </div>
+                    <div style="background: #fff; padding: 0.75rem; border-radius: 6px; border-left: 4px solid #f59e0b;">
+                      <strong style="color: #b45309;">.shx</strong> — <span style="font-size: 0.9rem;">The <strong>index</strong>: links the geometry to the attributes for fast access.</span>
+                    </div>
+                    <div style="background: #fff; padding: 0.75rem; border-radius: 6px; border-left: 4px solid #a855f7;">
+                      <strong style="color: #7e22ce;">.prj</strong> — <span style="font-size: 0.9rem;">The <strong>projection</strong>: defines the coordinate reference system (CRS). Without this, the data may appear in the wrong place!</span>
+                    </div>
+                  </div>
+                  
+                  <div style="margin-top: 1rem; padding: 0.75rem; background: #fef3c7; border-radius: 6px; border: 1px solid #f59e0b;">
+                    <strong style="color: #92400e;">⚠️ Common Beginner Mistake:</strong>
+                    <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem; color: #78350f;">When copying or emailing shapefiles, you must include <strong>all</strong> the associated files. If you only send the .shp file, the recipient gets geometry with no attributes and no coordinate system—useless!</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div style="margin-top: 1.5rem; padding: 1rem; background: #eff6ff; border-radius: 8px; border: 1px solid #bfdbfe;">
+                <strong style="color: #1e40af;">💡 Modern Alternatives:</strong>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #1e3a8a;">While shapefiles remain common, newer formats address their limitations: <strong>GeoPackage (.gpkg)</strong> stores everything in a single file with no size limits; <strong>GeoJSON</strong> is ideal for web mapping; and <strong>File Geodatabase (.gdb)</strong> is Esri's modern proprietary format with advanced features.</p>
+              </div>
+            </div>
+
+            <div style="background: #fef2f2; padding: 1.25rem; border-radius: 10px; border-left: 4px solid #ef4444; margin-top: 1.5rem;">
+                <h4 style="margin: 0 0 0.5rem 0; color: #b91c1c; font-size: 1rem;">👥 People</h4>
+                <p style="margin: 0; font-size: 0.9rem; line-height: 1.5;">The most critical component. GIS professionals design databases, perform analysis, and interpret results. A GIS is only as good as the <em>spatial thinking</em> of the people operating it.</p>
+              </div>
+            
+              <div style="background: #fffbeb; padding: 1.25rem; border-radius: 10px; border-left: 4px solid #f59e0b; margin-top: 1rem;">
+                <h4 style="margin: 0 0 0.5rem 0; color: #b45309; font-size: 1rem;">📋 Methods</h4>
+                <p style="margin: 0; font-size: 0.9rem; line-height: 1.5;">The procedures and workflows that ensure consistency and reproducibility. Well-documented methods make your analysis <strong>defendable</strong>—a key theme throughout this book.</p>
+              </div>
+
+            <div class="callout info" style="margin-top: 1.5rem;">
+              <strong>The "People" Problem:</strong> Organizations often invest heavily in hardware and software but underestimate the need for trained personnel. Remember: technology is a tool, not a solution. The value of GIS comes from the spatial questions you ask and your ability to interpret the answers.
+            </div>
+
+            <div style="margin-top: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: 12px; border: 2px dashed #f59e0b;">
+              <h4 style="margin: 0 0 0.75rem 0; color: #92400e; font-size: 1.1rem;">💥 A Word of Warning (and Encouragement)</h4>
+              <p style="margin: 0; font-size: 0.95rem; line-height: 1.6; color: #78350f;">
+                <strong>GIS software will crash on you.</strong> It will freeze at 99% of a geoprocessing task. It will give you cryptic error messages like <em>"Error 999999: Something happened."</em> Your carefully crafted analysis will vanish because you forgot to save. This is not a bug—it's a rite of passage.
+              </p>
+              <p style="margin: 0.75rem 0 0 0; font-size: 0.95rem; line-height: 1.6; color: #78350f;">
+                <strong>The best GIS analysts are not the ones who never encounter errors—they're the ones who don't give up.</strong> Save often. Keep notes. Laugh at the absurdity. And remember: every professional you admire has rage-quit at least once. Welcome to the club. 🎉
+              </p>
+            </div>
+
+            <h3 style="margin-top: 2rem;">🤖 The Emerging 6th Component: AI Agents</h3>
+            <p>As we move deeper into the 2020s, a new component is emerging in the GIS ecosystem: <strong>AI Agents</strong>. Just as "People" were recognized as essential to GIS beyond mere technology, AI Agents are becoming increasingly integrated into spatial workflows.</p>
+            
+            <div style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0; color: white;">
+              <h4 style="margin: 0 0 1rem 0; color: #a5b4fc; font-size: 1.1rem;">🌐 GeoAI Agents in Action</h4>
+              <ul style="margin: 0; padding-left: 1.25rem; font-size: 0.95rem; line-height: 1.7;">
+                <li><strong>Big Tech Automation:</strong> Companies like Google, Microsoft, and Esri already use AI agents to automate massive data creation tasks—from building footprint extraction to road network updates from satellite imagery.</li>
+                <li><strong>Research Frontiers:</strong> Geographers and GIS researchers, including Dr. Sounny, are developing specialized <em>GeoAI Agents</em> that can reason spatially, answer geographic questions, and assist with complex analytical workflows.</li>
+                <li><strong>The Future Analyst:</strong> Tomorrow's GIS professional won't just operate software—they'll collaborate with AI agents, directing them to handle repetitive tasks while focusing human expertise on interpretation and decision-making.</li>
+              </ul>
+              <a href="https://sounny.github.io/geoaiagents/" target="_blank" style="display: inline-block; margin-top: 1rem; background: #6366f1; color: white; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: all 0.2s;">
+                🔬 Explore Humboldt AI — A GeoAI Agent Project
+              </a>
+            </div>
+
+            <div class="callout warning" style="margin-top: 1rem;">
+              <strong>Human + AI:</strong> AI Agents don't replace the "People" component—they augment it. Critical spatial thinking, ethical judgment, and domain expertise remain irreplaceable human skills. The best results come from humans and AI working together.
             </div>
           </section>
 
@@ -400,6 +610,16 @@
               forests, and elevations). We then apply tools to this knowledge to make decisions—whether it's urban planning, 
               conservation, or business intelligence.
             </p>
+
+            <div style="display: flex; gap: 2rem; align-items: center; flex-wrap: wrap; margin: 2rem 0; padding: 1.5rem; background: #f8fafc; border-radius: 12px; border: 2px solid #e2e8f0;">
+              <div style="flex: 1; min-width: 200px; max-width: 350px;">
+                <img src="../assets/gis_sandwich_handdrawn.png" alt="Hand-drawn illustration of GIS layers stacked like a sandwich" style="width: 100%; border-radius: 8px;">
+              </div>
+              <div style="flex: 1.5; min-width: 280px;">
+                <h3 style="margin-top: 0; color: #1e293b;">🥪 The GIS "Sandwich"</h3>
+                <p style="margin: 0; line-height: 1.7;">Think of GIS data like a sandwich. Each <strong>layer</strong> represents a different theme—roads, rivers, elevation, land use, buildings—all stacked on top of each other but sharing the same geographic space. Just like how the ingredients in a sandwich interact (cheese melts onto the meat, lettuce crunches against bread), GIS layers can be combined and analyzed to reveal relationships invisible when looking at each layer alone.</p>
+              </div>
+            </div>
           </section>
 
           <section class="card">
@@ -411,20 +631,20 @@
             <div style="text-align: center; margin: 2rem 0;">
               <img src="../assets/img/art_of_gis_analogy.png" alt="The Art of GIS: Data as Paint, Tools as Brushes, Platform as Canvas" style="width: 100%; max-width: 800px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
             </div>
-            <ul style="margin-top: 1rem; margin-bottom: 1.5rem; line-height: 1.8; list-style: none; padding-left: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
-              <li style="background: #f8fafc; padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
-                <strong style="color: var(--primary);">1. The Paint (Data):</strong><br>
-                Just as an artist needs pigment, a GIS analyst needs data—pixels, points, and lines that represent the raw material of reality.
-              </li>
-              <li style="background: #f8fafc; padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
-                <strong style="color: var(--accent);">2. The Brushes (Tools):</strong><br>
-                Buffers, overlays, and map algebra are your creative instruments. The skill lies in knowing which tool produces the desired effect.
-              </li>
-              <li style="background: #f8fafc; padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
-                <strong style="color: #10b981;">3. The Canvas (Platform):</strong><br>
-                Whether it's a printed PDF or an interactive web map, this is where your creative combination of data and tools comes to life.
-              </li>
-            </ul>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1rem; margin-bottom: 1.5rem;">
+              <div style="background: #eff6ff; padding: 1.25rem; border-radius: 10px; border-top: 4px solid var(--primary);">
+                <h4 style="margin: 0 0 0.5rem 0; color: var(--primary); font-size: 1rem;">🎨 1. The Paint (Data)</h4>
+                <p style="margin: 0; font-size: 0.9rem; line-height: 1.5;">Just as an artist needs pigment, a GIS analyst needs data: pixels, points, and lines that represent the raw material of reality.</p>
+              </div>
+              <div style="background: #fef2f2; padding: 1.25rem; border-radius: 10px; border-top: 4px solid var(--accent);">
+                <h4 style="margin: 0 0 0.5rem 0; color: var(--accent); font-size: 1rem;">🖌️ 2. The Brushes (Tools)</h4>
+                <p style="margin: 0; font-size: 0.9rem; line-height: 1.5;">Buffers, overlays, and map algebra are your creative instruments. The skill lies in knowing which tool produces the desired effect.</p>
+              </div>
+              <div style="background: #f0fdf4; padding: 1.25rem; border-radius: 10px; border-top: 4px solid #10b981;">
+                <h4 style="margin: 0 0 0.5rem 0; color: #10b981; font-size: 1rem;">🖼️ 3. The Canvas (Platform)</h4>
+                <p style="margin: 0; font-size: 0.9rem; line-height: 1.5;">Whether it's a printed PDF or an interactive web map, this is where your creative combination of data and tools comes to life.</p>
+              </div>
+            </div>
             <h3>The Medical Analogy: Why GIS is "Not Exact"</h3>
             <p>
               Consider the practice of Medicine. It is often described as an "art supported by science" rather than a rigid science like Physics. Why? Because a doctor rarely has 100% certainty. They work with a <em>mental model</em> of the human body, imperfect data (symptoms, test results), and the unique context of the patient. Consequently, three expert physicians might look at the same patient and suggest three different, equally valid courses of treatment.
@@ -440,10 +660,13 @@
             </div>
 
             <div style="text-align: center; margin-top: 3rem; margin-bottom: 2rem; border-top: 1px solid #eee; padding-top: 2rem;">
-              <img src="../assets/img/van_gogh_starry_night.jpg" alt="Vincent van Gogh's Starry Night" style="width: 100%; max-width: 600px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+              <img src="../assets/img/van_gogh_starry_night.jpg" alt="Vincent van Gogh's The Starry Night (1889)" style="width: 100%; max-width: 600px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+              <p style="font-size: 0.85rem; color: #64748b; margin-top: 0.75rem; font-style: italic;">
+                <strong>The Starry Night</strong> (1889) by Vincent van Gogh. On display at the <a href="https://www.moma.org/collection/works/79802" target="_blank" style="color: var(--primary);">Museum of Modern Art (MoMA)</a>, New York.
+              </p>
               <h4 style="margin-top: 1.5rem; color: var(--primary-dark);">The Goal: Create a Masterpiece</h4>
               <p style="font-size: 1.05rem; line-height: 1.6; color: #475569; max-width: 700px; margin-left: auto; margin-right: auto;">
-                "This textbook is trying to get you to make masterpieces—works of art that a GIS analyst can truly appreciate. When Dr. Sounny sees good GIS, for him it is like looking at good art. Hopefully, this textbook can help make the next GIS Van Gogh."
+                "This textbook is trying to get you to make masterpieces - works of art that a GIS analyst can truly appreciate. When Dr. Sounny sees good GIS, for him it is like looking at good art. Hopefully, this textbook can help make the next GIS Van Gogh."
               </p>
             </div>
 
@@ -509,21 +732,15 @@
             </div>
           </section>
 
-          <div class="sidebar-box" style="margin: 2rem 0; padding: 1.5rem; background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-            <!-- Single Tab Bar -->
+          <div class="sidebar-questions-where" id="questions-where-panel">
             <div class="sidebar-tabs">
-                <button class="tab-btn active" style="cursor: default; border-color: #ea580c; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.2);">
-                    <span style="font-size: 1.5rem;">🧐</span>
-                </button>
+              <button class="tab-btn active" title="Questions of Where">
+                <span style="font-size: 0.7rem; font-weight: 700; line-height: 1.1; text-align: center;">Questions<br>of Where</span>
+              </button>
             </div>
             
-            <h3 style="margin-top: 0;">
-                <span style="font-size: 1.25em; vertical-align: text-bottom; margin-right: 0.25rem;">🧐</span> 
-                Geographic Inquiry
-            </h3>
-            <p>
-              <strong>Asking the Questions of "Where"</strong>
-            </p>
+            <h3>Questions of Where</h3>
+            <p><strong>Asking the Questions of "Where"</strong></p>
             <p>
               Watch this video to explore a real-world example of how we formulate and answer spatial questions. 
               Key takeaways include the importance of context and the transition from simple location finding to complex spatial reasoning.
@@ -538,11 +755,10 @@
                 allowfullscreen>
               </iframe>
             </div>
-            </div>
           </div>
 
           <section class="card">
-            <h2> - ️ The GIS Learning Journey</h2>
+            <h2>The GIS Learning Journey</h2>
             <p>This textbook is designed as a progressive journey across six parts. Each module builds upon the previous one.</p>
             
             <div class="course-map">
@@ -592,7 +808,7 @@
           </section>
 
           <section class="card">
-            <h2>🧠 Spatial Thinking Pre-Check</h2>
+            <h2>Spatial Thinking Pre-Check</h2>
             <p>Test your natural spatial intuition before we begin.</p>
             
             <div id="quiz-container" style="background: #f8fafc; padding: 2rem; border-radius: 12px; margin-top: 1rem;">
@@ -625,6 +841,163 @@
                 <h3>Cartographic Design</h3>
                 <p>Create professional maps that communicate clearly.</p>
               </div>
+              <div class="objective-card">
+                <div class="objective-icon">🗄️</div>
+                <h3>GIS Data Management</h3>
+                <p>Organize, maintain, and query spatial databases for efficient workflows.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- INTERACTIVE MODULE 1: MODEL PICKER -->
+          <section class="card">
+            <h2>Interactive: The Data Model Decision Matrix</h2>
+            <p>As a GIS professional, your first decision is often choosing the right format. Click the scenarios below to see if they should be <strong>Vector</strong> or <strong>Raster</strong>.</p>
+            
+            <div class="decision-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+                <button class="decision-btn" onclick="revealDecision(this, 'vector', 'Water pipes form discrete linear networks with specific flow direction and connectivity.')">Water Pipes</button>
+                <button class="decision-btn" onclick="revealDecision(this, 'raster', 'Flood depth is a continuous surface that varies everywhere; water depth has no sharp boundaries.')">Flood Depth</button>
+                <button class="decision-btn" onclick="revealDecision(this, 'vector', 'Land parcels have legal boundaries and exact ownership attributes at precise coordinates.')">Land Parcels</button>
+                <button class="decision-btn" onclick="revealDecision(this, 'raster', 'Temperature is a continuous field phenomenon that exists at every location without stopping at a line.')">Air Temperature</button>
+                <button class="decision-btn" onclick="revealDecision(this, 'vector', 'Crime incidents are specific point events occurring at exact addresses with precise coordinates.')">Crime Locations</button>
+                <button class="decision-btn" onclick="revealDecision(this, 'raster', 'Satellite imagery is a regular grid of cells, each containing a digital number for reflected light.')">Aerial Photo</button>
+            </div>
+            
+            <div id="decision-output" style="margin-top: 1.5rem; padding: 1rem; border-radius: 8px; background: #f8fafc; border: 1px dashed #cbd5e1; text-align: center; min-height: 60px;">
+                <em>Select a scenario above to see the expert recommendation.</em>
+            </div>
+          </section>
+
+          <!-- INTERACTIVE MODULE 2: PROJECTION DISTORTION VIEWER -->
+          <section class="card">
+            <h2>Interactive: Projection Distortion Viewer</h2>
+            <p>Map projections always distort Earth's surface. Choose a projection to see how area and shape are affected across different latitudes, including Texas.</p>
+            
+            <div style="margin: 1.5rem 0;">
+              <label for="projection-select" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Select a Projection:</label>
+              <select id="projection-select" onchange="updateProjectionMap(this.value)" style="padding: 0.75rem; border: 2px solid #3b82f6; border-radius: 8px; font-size: 1rem; width: 100%; max-width: 300px;">
+                <option value="mercator">Web Mercator (Most Common)</option>
+                <option value="equal-area">Equal Area (Preserves Size)</option>
+                <option value="albers">Albers Equal Area (Texas Standard)</option>
+                <option value="robinson">Robinson (Balanced)</option>
+              </select>
+            </div>
+
+            <!-- D3 Interactive Map -->
+            <div id="projection-map-container" style="background: #f0f9ff; border: 2px solid #3b82f6; border-radius: 12px; padding: 1rem; margin: 1.5rem 0;">
+              <div id="projection-map" style="width: 100%; height: 350px; display: flex; align-items: center; justify-content: center;"></div>
+              <p style="text-align: center; font-size: 0.8rem; color: #64748b; margin: 0.5rem 0 0 0;">
+                <strong>Texas</strong> is highlighted in orange. Notice how its shape and size change with different projections.
+              </p>
+            </div>
+            
+            <div id="projection-info" style="background: #eff6ff; border: 2px solid #3b82f6; border-radius: 8px; padding: 1rem; margin-top: 1rem;">
+              <h4 style="margin-top: 0;">Web Mercator (Most Common)</h4>
+              <p><strong>Distortion:</strong> Extreme area distortion at poles. Greenland appears as large as Africa!</p>
+              <p><strong>Use Case:</strong> Web mapping (Google Maps, OpenStreetMap). Good for navigation and equal bearing angles.</p>
+              <p><strong>Texas Impact:</strong> Texas is slightly enlarged and shifted northward compared to equal-area projections.</p>
+              <p><em>Note: Tissot indicatrices (small circles) show distortion at different latitudes. Circle = no distortion; ellipse = some distortion.</em></p>
+            </div>
+
+            <div style="margin-top: 1rem; padding: 1rem; background: #f0fdf4; border-radius: 8px; border-left: 4px solid #10b981;">
+              <strong>📍 Texas Connection:</strong> Texas state agencies use the Texas Centric Albers Equal Area Conic projection for accurate land measurement and survey work. This projection minimizes distortion across Texas while preserving area relationships - critical for property assessment and resource management.
+            </div>
+          </section>
+
+          <!-- INTERACTIVE MODULE 3: SPECTRAL SLIDER -->
+          <section class="card">
+            <h2>Interactive: The Electromagnetic Spectrum</h2>
+            <p>Remote sensing satellites "see" beyond human vision. Drag the slider to explore different wavelengths and see how different land cover types reflect energy across the spectrum.</p>
+            
+            <!-- Spectral Signature Chart -->
+            <div style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
+              <div style="position: relative; height: 180px; width: 100%;">
+                <canvas id="spectral-chart"></canvas>
+              </div>
+              <div style="display: flex; justify-content: center; gap: 1.5rem; margin-top: 0.75rem; flex-wrap: wrap;">
+                <span style="display: flex; align-items: center; gap: 0.25rem; font-size: 0.85rem;">
+                  <span style="width: 16px; height: 16px; background: #22c55e; border-radius: 3px;"></span> Vegetation
+                </span>
+                <span style="display: flex; align-items: center; gap: 0.25rem; font-size: 0.85rem;">
+                  <span style="width: 16px; height: 16px; background: #3b82f6; border-radius: 3px;"></span> Water
+                </span>
+                <span style="display: flex; align-items: center; gap: 0.25rem; font-size: 0.85rem;">
+                  <span style="width: 16px; height: 16px; background: #a16207; border-radius: 3px;"></span> Bare Soil
+                </span>
+              </div>
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+              <label for="spectrum-slider" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Drag to Explore Wavelengths:</label>
+              <input type="range" id="spectrum-slider" min="400" max="2400" step="10" value="650" style="width: 100%; cursor: pointer; height: 8px; margin-bottom: 0.5rem;" oninput="updateSpectrumView(this.value)">
+              <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #64748b;">
+                <span>400nm (Violet)</span>
+                <span>700nm (Red)</span>
+                <span>1000nm (NIR)</span>
+                <span>2400nm (SWIR)</span>
+              </div>
+            </div>
+            
+            <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; background: #fff; padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+              <div id="spectrum-color" style="width: 60px; height: 60px; border-radius: 8px; border: 2px solid #ccc; background: rgb(255, 0, 0); flex-shrink: 0;"></div>
+              <div>
+                <p style="margin: 0;"><strong id="spectrum-label">Red Light (Visible)</strong></p>
+                <p style="margin: 0; font-size: 0.9rem; color: #64748b;" id="spectrum-wavelength">650 nanometers</p>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;" id="spectrum-description">Detects vegetation health and shallow water. Healthy plants reflect red light.</p>
+              </div>
+            </div>
+
+            <!-- Reflectance Values at Current Wavelength -->
+            <div id="reflectance-values" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.5rem;">
+              <div style="background: #f0fdf4; padding: 0.75rem; border-radius: 8px; text-align: center; border: 2px solid #22c55e;">
+                <p style="margin: 0; font-size: 0.8rem; color: #15803d;">Vegetation</p>
+                <p style="margin: 0; font-size: 1.25rem; font-weight: 700; color: #166534;" id="veg-reflectance">8%</p>
+              </div>
+              <div style="background: #eff6ff; padding: 0.75rem; border-radius: 8px; text-align: center; border: 2px solid #3b82f6;">
+                <p style="margin: 0; font-size: 0.8rem; color: #1d4ed8;">Water</p>
+                <p style="margin: 0; font-size: 1.25rem; font-weight: 700; color: #1e40af;" id="water-reflectance">3%</p>
+              </div>
+              <div style="background: #fefce8; padding: 0.75rem; border-radius: 8px; text-align: center; border: 2px solid #a16207;">
+                <p style="margin: 0; font-size: 0.8rem; color: #a16207;">Bare Soil</p>
+                <p style="margin: 0; font-size: 1.25rem; font-weight: 700; color: #854d0e;" id="soil-reflectance">15%</p>
+              </div>
+            </div>
+
+            <div style="margin-top: 1rem; padding: 1rem; background: #fef3c7; border-radius: 8px; border-left: 4px solid #f59e0b;">
+              <strong>🌾 Texas Application:</strong> <span id="texas-application">Agricultural monitoring in the Panhandle and Central Texas uses red light to detect crop stress and water availability. During droughts, vegetation reflectance changes, revealing which fields need irrigation.</span>
+            </div>
+          </section>
+
+          <!-- INTERACTIVE MODULE 4: AI MAP CRITIQUE -->
+          <section class="card">
+            <h2>Interactive: AI Map Bias Detection</h2>
+            <p>Modern GIS analysis uses AI to classify satellite imagery. But AI models can have hidden biases. Use this tool to identify potential failure modes in an AI land-use classification.</p>
+            
+            <div style="margin: 1.5rem 0;">
+              <label for="bias-threshold" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Adjust Confidence Threshold:</label>
+              <input type="range" id="bias-threshold" min="50" max="95" step="5" value="75" style="width: 100%; cursor: pointer;" oninput="updateBiasView(this.value)">
+              <p style="text-align: center; margin-top: 0.5rem; color: #64748b;">Threshold: <strong id="threshold-display">75%</strong></p>
+            </div>
+            
+            <div id="bias-heatmap" style="background: linear-gradient(90deg, #fee2e2 0%, #fecaca 25%, #fca5a5 50%, #f87171 75%, #ef4444 100%); height: 150px; border-radius: 8px; margin-bottom: 1rem; position: relative; overflow: hidden;">
+              <div style="position: absolute; left: calc(75% - 2px); top: 0; bottom: 0; width: 4px; background: #1e293b; z-index: 10;"></div>
+              <div style="position: absolute; left: 0; top: 0; bottom: 0; right: calc(25%); background: linear-gradient(to right, rgba(30, 41, 59, 0.1), rgba(30, 41, 59, 0.3)); display: flex; align-items: center; justify-content: center;">
+                <span style="color: white; font-weight: 600; font-size: 0.9rem; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">Low Confidence (Higher Risk)</span>
+              </div>
+            </div>
+
+            <div id="bias-findings" style="background: #fef2f2; border: 2px solid #ef4444; border-radius: 8px; padding: 1rem;">
+              <h4 style="margin-top: 0; color: #991b1b;">⚠️ Potential Issues at 75% Confidence:</h4>
+              <ul style="margin-bottom: 0; color: #7f1d1d;">
+                <li><strong>Overfitting:</strong> Model memorizes training data and fails on new urban areas in West Texas.</li>
+                <li><strong>Spatial Bias:</strong> Model was trained on imagery from humid East Texas; struggles with arid West Texas vegetation patterns.</li>
+                <li><strong>Temporal Bias:</strong> Model trained on summer imagery; misclassifies winter-dormant vegetation.</li>
+                <li><strong>Annotation Bias:</strong> Training data labeled by experts unfamiliar with Texas-specific land use patterns.</li>
+              </ul>
+            </div>
+
+            <div style="margin-top: 1rem; padding: 1rem; background: #ecfdf5; border-radius: 8px; border-left: 4px solid #10b981;">
+              <strong>🔍 Critical GIS Question:</strong> If you used this AI model to automatically reclassify land parcels for tax assessment across Texas, what ethical and legal risks would you need to address? How would you validate the model's accuracy in under-represented regions?
             </div>
           </section>
 
@@ -667,7 +1040,7 @@
           </section>
 
           <div class="section-glossary">
-            <h2>📚 Chapter Glossary</h2>
+            <h2>Chapter Glossary</h2>
             <div class="glossary-list">
               <div class="glossary-item">
                 <span class="glossary-term">Geographic Information System (GIS)</span>
@@ -686,39 +1059,34 @@
         </div>
 
         <aside class="sidebar">
-          <div class="box-bio" style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 2rem;">
-            <!-- Single Tab Bar -->
+          <div class="sidebar-gis-hero" id="gis-hero-panel">
             <div class="sidebar-tabs">
-                <button class="tab-btn active" style="cursor: default; border-color: #7c3aed; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);">
-                    <span style="font-size: 1.5rem;">🦸</span>
-                </button>
+              <button class="tab-btn active" title="GIS Hero">
+                <span style="font-size: 1.5rem;">🦸</span>
+              </button>
             </div>
             
             <h3>
-                <span style="font-size: 1.25em; vertical-align: text-bottom; margin-right: 0.25rem;">🦸</span> 
-                GIS Hero
+              <span style="font-size: 1.25em; vertical-align: text-bottom; margin-right: 0.25rem;">🦸</span>
+              GIS Hero
             </h3>
 
-              <div style="display: flex; gap: 1rem; align-items: flex-start; flex-direction: column;">
-                <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
-                  <img src="../assets/img/people/gerardus_mercator.jpg" alt="Mercator" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid #ddd;">
-                  <div>
-                     <h3 style="margin: 0; font-size: 1.1rem; color: #1e293b;">Gerardus Mercator</h3>
-                     <span class="bio-dates" style="color: #64748b; font-size: 0.85rem;">(1512–1594)</span>
-                  </div>
-                </div>
-                
-                <div>
-                  <p style="margin-top: 0; font-size: 0.9rem; line-height: 1.6;">
-                    A Flemish cartographer and geographer. In 1569, he introduced the Mercator projection, which became the standard for nautical navigation because it preserved constant bearings (rhumb lines). While controversial today for its area distortion, it remains the foundation of all web mapping (Web Mercator).
-                  </p>
-                  <div id="mercator-map" style="height: 180px; width: 100%; margin-top: 1rem; border-radius: 8px; border: 1px solid #ccc; z-index: 1;"></div>
-                  <p style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem; font-style: italic;">
-                    Interactive: This map uses the Web Mercator projection. Notice how Greenland appears larger than it is in reality due to distortion at the poles.
-                  </p>
-                </div>
+            <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+              <img src="../assets/img/people/gerardus_mercator.jpg" alt="Mercator" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid #ddd;">
+              <div>
+                <p style="margin: 0; font-weight: 600; font-size: 1.1rem; color: #1e293b;">Gerardus Mercator</p>
+                <span style="color: #64748b; font-size: 0.85rem;">(1512–1594)</span>
               </div>
             </div>
+            
+            <p style="margin-top: 0; font-size: 0.9rem; line-height: 1.6;">
+              A Flemish cartographer and geographer. In 1569, he introduced the Mercator projection, which became the standard for nautical navigation because it preserved constant bearings (rhumb lines). While controversial today for its area distortion, it remains the foundation of all web mapping (Web Mercator).
+            </p>
+            <div id="mercator-map" style="height: 180px; width: 100%; margin-top: 1rem; border-radius: 8px; border: 1px solid #ccc; z-index: 1;"></div>
+            <p style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem; font-style: italic;">
+              Interactive: This map uses the Web Mercator projection. Notice how Greenland appears larger than it is in reality due to distortion at the poles.
+            </p>
+          </div>
 
 
 
@@ -880,6 +1248,362 @@
           </div>
 
           <script>
+            // INTERACTIVE MODULE 1: Model Picker
+            function revealDecision(btn, type, explanation) {
+                // Reset buttons
+                const allBtns = document.querySelectorAll('.decision-btn');
+                allBtns.forEach(b => {
+                    b.classList.remove('active-vector', 'active-raster');
+                    b.style.opacity = '0.6';
+                });
+
+                // Activate clicked
+                btn.style.opacity = '1';
+                if(type === 'vector') btn.classList.add('active-vector');
+                if(type === 'raster') btn.classList.add('active-raster');
+
+                // Show output
+                const output = document.getElementById('decision-output');
+                const color = type === 'vector' ? '#3b82f6' : '#10b981';
+                const icon = type === 'vector' ? '✏️' : '▦';
+                
+                output.innerHTML = `
+                    <h3 style="color: ${color}; margin-top:0;">${icon} Best Choice: ${type.toUpperCase()}</h3>
+                    <p style="margin-bottom:0;">${explanation}</p>
+                `;
+                output.style.borderColor = color;
+                output.style.background = type === 'vector' ? '#eff6ff' : '#f0fdf4';
+            }
+
+            // INTERACTIVE MODULE 2: Projection Viewer
+            function updateProjectionView(projection) {
+                const infoDiv = document.getElementById('projection-info');
+                const projectionTexts = {
+                    'mercator': {
+                        title: 'Web Mercator (Most Common)',
+                        distortion: 'Extreme area distortion at poles. Greenland appears as large as Africa!',
+                        useCase: 'Web mapping (Google Maps, OpenStreetMap). Good for navigation and equal bearing angles.',
+                        texas: 'Texas is slightly enlarged and shifted northward compared to equal-area projections.'
+                    },
+                    'equal-area': {
+                        title: 'Equal Area Projection',
+                        distortion: 'Preserves relative area sizes accurately. No exaggeration of size relationships.',
+                        useCase: 'Thematic mapping, comparing regions. Essential for resource analysis and environmental studies.',
+                        texas: 'Texas appears its true size relative to other regions. Best for accurate area measurements.'
+                    },
+                    'albers': {
+                        title: 'Albers Equal Area Conic (Texas Standard)',
+                        distortion: 'Minimal distortion across Texas latitude range. Preserves area perfectly within Texas.',
+                        useCase: 'Official Texas state mapping, land surveys, and property assessment. Standard for TNRIS data.',
+                        texas: 'Texas state agencies use this projection for all official mapping work to ensure accuracy in land measurement.'
+                    },
+                    'robinson': {
+                        title: 'Robinson Projection (Balanced)',
+                        distortion: 'Balanced compromise: modest distortion in both area and shape. Aesthetically pleasing.',
+                        useCase: 'Educational maps, atlases, and general reference maps. Good for global overviews.',
+                        texas: 'Texas appears with minimal distortion in the global context. Good for continental-scale analysis.'
+                    }
+                };
+                
+                const data = projectionTexts[projection];
+                infoDiv.innerHTML = `
+                    <h4 style="margin-top: 0;">${data.title}</h4>
+                    <p><strong>Distortion:</strong> ${data.distortion}</p>
+                    <p><strong>Use Case:</strong> ${data.useCase}</p>
+                    <p><strong>Texas Impact:</strong> ${data.texas}</p>
+                    <p><em>Note: Tissot indicatrices (small circles) show distortion at different latitudes. Circle = no distortion; ellipse = some distortion.</em></p>
+                `;
+            }
+
+            // INTERACTIVE MODULE 3: Spectral Signature Chart
+            let spectralChart = null;
+
+            // Spectral signature data (approximate reflectance percentages)
+            const spectralData = {
+              wavelengths: [400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 1000, 1100, 1200, 1400, 1600, 1800, 2000, 2200, 2400],
+              vegetation: [3, 4, 5, 12, 8, 6, 5, 45, 50, 52, 50, 48, 45, 42, 15, 25, 20, 12, 8, 5],
+              water: [8, 7, 6, 5, 4, 3, 2, 1, 1, 0.5, 0.5, 0.2, 0.1, 0.1, 0.05, 0.02, 0.01, 0.01, 0.01, 0.01],
+              soil: [5, 8, 12, 15, 18, 22, 25, 28, 30, 32, 33, 35, 36, 37, 38, 40, 42, 43, 44, 45]
+            };
+
+            function initSpectralChart() {
+              const ctx = document.getElementById('spectral-chart');
+              if (!ctx) return;
+
+              // Convert data to x,y point format for proper annotation support
+              const vegPoints = spectralData.wavelengths.map((w, i) => ({x: w, y: spectralData.vegetation[i]}));
+              const waterPoints = spectralData.wavelengths.map((w, i) => ({x: w, y: spectralData.water[i]}));
+              const soilPoints = spectralData.wavelengths.map((w, i) => ({x: w, y: spectralData.soil[i]}));
+
+              spectralChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                  datasets: [
+                    {
+                      label: 'Vegetation',
+                      data: vegPoints,
+                      borderColor: '#22c55e',
+                      backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                      fill: true,
+                      tension: 0.4,
+                      pointRadius: 0,
+                      borderWidth: 3
+                    },
+                    {
+                      label: 'Water',
+                      data: waterPoints,
+                      borderColor: '#3b82f6',
+                      backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                      fill: true,
+                      tension: 0.4,
+                      pointRadius: 0,
+                      borderWidth: 3
+                    },
+                    {
+                      label: 'Bare Soil',
+                      data: soilPoints,
+                      borderColor: '#a16207',
+                      backgroundColor: 'rgba(161, 98, 7, 0.1)',
+                      fill: true,
+                      tension: 0.4,
+                      pointRadius: 0,
+                      borderWidth: 3
+                    }
+                  ]
+                },
+                options: {
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  interaction: {
+                    intersect: false,
+                    mode: 'index'
+                  },
+                  plugins: {
+                    legend: {
+                      display: false
+                    },
+                    tooltip: {
+                      enabled: true,
+                      callbacks: {
+                        title: (items) => items[0].raw.x + ' nm',
+                        label: (item) => item.dataset.label + ': ' + item.raw.y + '% reflectance'
+                      }
+                    },
+                    annotation: {
+                      annotations: {
+                        wavelengthLine: {
+                          type: 'line',
+                          xMin: 650,
+                          xMax: 650,
+                          borderColor: '#ef4444',
+                          borderWidth: 3,
+                          label: {
+                            display: true,
+                            content: '650 nm',
+                            position: 'start',
+                            backgroundColor: '#ef4444',
+                            color: '#fff',
+                            font: { size: 11, weight: 'bold' }
+                          }
+                        },
+                        visibleBand: {
+                          type: 'box',
+                          xMin: 400,
+                          xMax: 700,
+                          backgroundColor: 'rgba(255, 255, 0, 0.08)',
+                          borderWidth: 0
+                        },
+                        nirBand: {
+                          type: 'box',
+                          xMin: 700,
+                          xMax: 1300,
+                          backgroundColor: 'rgba(255, 100, 100, 0.05)',
+                          borderWidth: 0
+                        }
+                      }
+                    }
+                  },
+                  scales: {
+                    x: {
+                      type: 'linear',
+                      min: 400,
+                      max: 2400,
+                      title: {
+                        display: true,
+                        text: 'Wavelength (nm)',
+                        font: { weight: 'bold' }
+                      },
+                      grid: {
+                        color: 'rgba(0,0,0,0.05)'
+                      }
+                    },
+                    y: {
+                      title: {
+                        display: true,
+                        text: 'Reflectance (%)',
+                        font: { weight: 'bold' }
+                      },
+                      min: 0,
+                      max: 60,
+                      grid: {
+                        color: 'rgba(0,0,0,0.05)'
+                      }
+                    }
+                  }
+                }
+              });
+            }
+
+            // Helper function to interpolate reflectance values
+            function getReflectanceAt(wavelength, dataArray) {
+              const wavelengths = spectralData.wavelengths;
+              for (let i = 0; i < wavelengths.length - 1; i++) {
+                if (wavelength >= wavelengths[i] && wavelength <= wavelengths[i + 1]) {
+                  const t = (wavelength - wavelengths[i]) / (wavelengths[i + 1] - wavelengths[i]);
+                  return Math.round(dataArray[i] + t * (dataArray[i + 1] - dataArray[i]));
+                }
+              }
+              return dataArray[dataArray.length - 1];
+            }
+
+            function updateSpectrumView(value) {
+                const wavelength = parseInt(value);
+                const colorDiv = document.getElementById('spectrum-color');
+                const label = document.getElementById('spectrum-label');
+                const wavelengthText = document.getElementById('spectrum-wavelength');
+                const description = document.getElementById('spectrum-description');
+                const texasApp = document.getElementById('texas-application');
+                
+                // Update reflectance value displays
+                const vegRef = document.getElementById('veg-reflectance');
+                const waterRef = document.getElementById('water-reflectance');
+                const soilRef = document.getElementById('soil-reflectance');
+                
+                if (vegRef) vegRef.textContent = getReflectanceAt(wavelength, spectralData.vegetation) + '%';
+                if (waterRef) waterRef.textContent = getReflectanceAt(wavelength, spectralData.water) + '%';
+                if (soilRef) soilRef.textContent = getReflectanceAt(wavelength, spectralData.soil) + '%';
+
+                // Update chart annotation line
+                if (spectralChart && spectralChart.options.plugins.annotation) {
+                  spectralChart.options.plugins.annotation.annotations.wavelengthLine.xMin = wavelength;
+                  spectralChart.options.plugins.annotation.annotations.wavelengthLine.xMax = wavelength;
+                  spectralChart.options.plugins.annotation.annotations.wavelengthLine.label.content = wavelength + ' nm';
+                  spectralChart.update('none');
+                }
+                
+                let color, labelText, desc, texas;
+                
+                if (wavelength < 500) {
+                    color = `rgb(${Math.min(100, wavelength * 0.2)}, 0, ${Math.min(255, 300 - wavelength * 0.2)})`;
+                    labelText = 'Ultraviolet / Blue Light';
+                    desc = 'Detects aerosols, atmospheric particles, and cloud properties. Used for air quality monitoring.';
+                    texas = 'Air quality monitoring in Houston and Dallas uses blue wavelengths to track pollution and haze patterns.';
+                } else if (wavelength < 600) {
+                    color = `rgb(0, ${Math.min(255, (wavelength - 400) * 1.5)}, ${Math.max(0, 255 - (wavelength - 500) * 2)})`;
+                    labelText = 'Green Light (Visible)';
+                    desc = 'Detects vegetation vigor and water properties. Green wavelengths penetrate shallow water well. Notice the "green peak" in vegetation reflectance!';
+                    texas = 'Water quality surveys in Galveston Bay and coastal areas use green wavelengths to monitor algal blooms.';
+                } else if (wavelength < 700) {
+                    color = `rgb(255, ${Math.max(0, 255 - (wavelength - 600) * 2.5)}, 0)`;
+                    labelText = 'Red Light (Visible)';
+                    desc = 'Vegetation absorbs red light for photosynthesis - notice the low reflectance. This is why leaves appear green (they reflect green, absorb red and blue).';
+                    texas = 'Agricultural monitoring in the Panhandle and Central Texas uses red light to detect crop stress and water availability.';
+                } else if (wavelength < 1300) {
+                    color = `rgb(180, ${50 + (wavelength - 700) * 0.1}, ${50 + (wavelength - 700) * 0.05})`;
+                    labelText = 'Near-Infrared (NIR)';
+                    desc = 'The "red edge" - vegetation reflectance jumps dramatically! Healthy plants reflect up to 50% of NIR. This is the key to NDVI vegetation indices.';
+                    texas = 'NDVI (Normalized Difference Vegetation Index) calculated from NIR reveals which agricultural areas are stressed during Texas droughts.';
+                } else if (wavelength < 1800) {
+                    color = `rgb(150, 80, 60)`;
+                    labelText = 'Short-Wave Infrared (SWIR-1)';
+                    desc = 'Detects moisture content in vegetation and soil. Water absorption features cause dips in reflectance. Can identify burned areas.';
+                    texas = 'SWIR bands identify burned forest areas in East Texas and track soil moisture changes during drought conditions.';
+                } else {
+                    color = `rgb(120, 60, 40)`;
+                    labelText = 'Short-Wave Infrared (SWIR-2)';
+                    desc = 'Sensitive to soil and rock mineralogy. Used for geological mapping and identifying clay minerals. Water has near-zero reflectance here.';
+                    texas = 'Geological surveys in West Texas use SWIR-2 for mineral exploration and identifying different rock types in the Permian Basin.';
+                }
+                
+                colorDiv.style.background = color;
+                label.textContent = labelText;
+                wavelengthText.textContent = `${wavelength} nanometers`;
+                description.textContent = desc;
+                texasApp.textContent = texas;
+            }
+
+            // Initialize spectral chart when DOM is ready
+            if (document.getElementById('spectral-chart')) {
+              // Load Chart.js annotation plugin dynamically
+              const annotationScript = document.createElement('script');
+              annotationScript.src = 'https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.2.1/dist/chartjs-plugin-annotation.min.js';
+              annotationScript.onload = function() {
+                initSpectralChart();
+                updateSpectrumView(650);
+              };
+              document.head.appendChild(annotationScript);
+            }
+
+            // INTERACTIVE MODULE 4: Bias Threshold
+            function updateBiasView(value) {
+                const threshold = parseInt(value);
+                document.getElementById('threshold-display').textContent = threshold + '%';
+                
+                // Update heatmap threshold line position
+                const heatmap = document.getElementById('bias-heatmap');
+                const line = heatmap.querySelector('div:last-child');
+                const thresholdPercent = ((threshold - 50) / (95 - 50)) * 100;
+                line.style.left = `calc(${thresholdPercent}% - 2px)`;
+                
+                // Update findings based on threshold
+                const biasFindings = document.getElementById('bias-findings');
+                let findings = '';
+                
+                if (threshold <= 60) {
+                    findings = `
+                        <h4 style="margin-top: 0; color: #991b1b;">⚠️ Very High Risk at ${threshold}% Confidence:</h4>
+                        <ul style="margin-bottom: 0; color: #7f1d1d;">
+                            <li><strong>Overfitting:</strong> Model is extremely uncertain; many pixels are below your threshold.</li>
+                            <li><strong>Severe Spatial Bias:</strong> Model fails dramatically on unfamiliar terrain types.</li>
+                            <li><strong>Training Data Issues:</strong> Original training set was too small or homogeneous.</li>
+                            <li><strong>Recommendation:</strong> Do not use this model for critical decisions (property tax, environmental policy).</li>
+                        </ul>
+                    `;
+                } else if (threshold <= 75) {
+                    findings = `
+                        <h4 style="margin-top: 0; color: #991b1b;">⚠️ Potential Issues at ${threshold}% Confidence:</h4>
+                        <ul style="margin-bottom: 0; color: #7f1d1d;">
+                            <li><strong>Overfitting:</strong> Model memorizes training data and fails on new urban areas in West Texas.</li>
+                            <li><strong>Spatial Bias:</strong> Model trained on East Texas imagery; struggles with arid West Texas patterns.</li>
+                            <li><strong>Temporal Bias:</strong> Model trained on summer imagery; misclassifies winter-dormant vegetation.</li>
+                            <li><strong>Recommendation:</strong> Validate on independent test set; flag uncertain areas for manual review.</li>
+                        </ul>
+                    `;
+                } else if (threshold <= 85) {
+                    findings = `
+                        <h4 style="margin-top: 0; color: #b45309;">⚠️ Moderate Concerns at ${threshold}% Confidence:</h4>
+                        <ul style="margin-bottom: 0; color: #92400e;">
+                            <li><strong>Generalization:</strong> Model is more confident but still may miss regional variations.</li>
+                            <li><strong>Edge Cases:</strong> Mixed vegetation types and transitional areas may be misclassified.</li>
+                            <li><strong>Temporal Stability:</strong> Model performance may change seasonally or with climate variation.</li>
+                            <li><strong>Recommendation:</strong> Use with caution in high-stakes applications; include confidence bands in output maps.</li>
+                        </ul>
+                    `;
+                } else {
+                    findings = `
+                        <h4 style="margin-top: 0; color: #065f46;">✓ Reasonable Confidence at ${threshold}% Threshold:</h4>
+                        <ul style="margin-bottom: 0; color: #065f46;">
+                            <li><strong>Better Generalization:</strong> Model is more selective; only reports high-confidence predictions.</li>
+                            <li><strong>Lower False Positives:</strong> Fewer misclassified pixels in uncertain areas.</li>
+                            <li><strong>Transparency:</strong> Acknowledges uncertainty by excluding marginal predictions.</li>
+                            <li><strong>Recommendation:</strong> Use for general analysis; flag low-confidence areas separately and consider manual verification.</li>
+                        </ul>
+                    `;
+                }
+                
+                biasFindings.innerHTML = findings;
+            }
+
             function switchTab(panelId, tabId) {
               const panel = document.getElementById(panelId);
               if (!panel) return;
@@ -1063,6 +1787,185 @@
         });
 
       });
+      // Quiz Logic
+      function checkAnswer(el, isCorrect) {
+          const parent = el.parentElement;
+          const buttons = parent.querySelectorAll('.btn-quiz');
+          buttons.forEach(btn => {
+              btn.style.pointerEvents = 'none';
+              btn.style.opacity = '0.5';
+          });
+          
+          el.style.opacity = '1';
+          if(isCorrect) {
+              el.style.borderColor = 'var(--success)';
+              el.style.background = '#ecfdf5';
+              el.style.color = '#065f46';
+          } else {
+              el.style.borderColor = 'var(--danger)';
+              el.style.background = '#fef2f2';
+              el.style.color = '#991b1b';
+          }
+      }
+
+      // D3 Projection Map Interactive
+      (function() {
+        const container = document.getElementById('projection-map');
+        if (!container) return;
+
+        const width = container.clientWidth || 600;
+        const height = 350;
+
+        // Create SVG
+        const svg = d3.select('#projection-map')
+          .append('svg')
+          .attr('width', '100%')
+          .attr('height', height)
+          .attr('viewBox', `0 0 ${width} ${height}`)
+          .style('background', '#e0f2fe');
+
+        // US States GeoJSON URL (simplified)
+        const usStatesUrl = 'https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json';
+
+        // Projection configurations - centered on Texas (-99.5, 31.5)
+        const projections = {
+          mercator: () => d3.geoMercator().center([-99.5, 31.5]).scale(1600).translate([width / 2, height / 2]),
+          'equal-area': () => d3.geoAlbersUsa().scale(1400).translate([width / 2 + 80, height / 2 - 40]),
+          albers: () => d3.geoAlbers().center([0, 31.5]).rotate([99.5, 0]).parallels([27.5, 35]).scale(2400).translate([width / 2, height / 2]),
+          robinson: () => d3.geoRobinson().center([-99.5, 31.5]).scale(800).translate([width / 2, height / 2])
+        };
+
+        const projectionInfo = {
+          mercator: {
+            title: 'Web Mercator (Most Common)',
+            distortion: 'Extreme area distortion at poles. Greenland appears as large as Africa!',
+            useCase: 'Web mapping (Google Maps, OpenStreetMap). Good for navigation and equal bearing angles.',
+            texas: 'Texas is slightly enlarged and shifted northward compared to equal-area projections.'
+          },
+          'equal-area': {
+            title: 'Equal Area Projection',
+            distortion: 'Preserves relative area sizes accurately. No exaggeration of size relationships.',
+            useCase: 'Thematic mapping, comparing regions. Essential for resource analysis and environmental studies.',
+            texas: 'Texas appears its true size relative to other regions. Best for accurate area measurements.'
+          },
+          albers: {
+            title: 'Albers Equal Area Conic (Texas Standard)',
+            distortion: 'Minimal distortion across Texas latitude range. Preserves area perfectly within Texas.',
+            useCase: 'Official Texas state mapping, land surveys, and property assessment. Standard for TNRIS data.',
+            texas: 'This is THE projection for Texas work. Shape and area are both well-preserved across the state.'
+          },
+          robinson: {
+            title: 'Robinson (Balanced)',
+            distortion: 'Compromise projection - neither conformal nor equal-area. Balances multiple distortions.',
+            useCase: 'World maps in textbooks and atlases. Good "looks right" aesthetics for general audiences.',
+            texas: 'Texas appears reasonably accurate but this projection is designed for global, not regional, views.'
+          }
+        };
+
+        let currentProjection = 'mercator';
+        let usData = null;
+
+        // Load data and render
+        d3.json(usStatesUrl).then(function(us) {
+          usData = topojson.feature(us, us.objects.states);
+          renderMap(currentProjection);
+        }).catch(function(error) {
+          console.log('Error loading map data:', error);
+          svg.append('text')
+            .attr('x', width / 2)
+            .attr('y', height / 2)
+            .attr('text-anchor', 'middle')
+            .style('fill', '#64748b')
+            .text('Map data loading...');
+        });
+
+        function renderMap(projType) {
+          svg.selectAll('*').remove();
+
+          // Add ocean background
+          svg.append('rect')
+            .attr('width', width)
+            .attr('height', height)
+            .attr('fill', '#e0f2fe');
+
+          if (!usData) return;
+
+          const projection = projections[projType]();
+          projection.translate([width / 2, height / 2]);
+
+          const path = d3.geoPath().projection(projection);
+
+          // Draw states
+          svg.selectAll('path')
+            .data(usData.features)
+            .enter()
+            .append('path')
+            .attr('d', path)
+            .attr('fill', d => d.properties.name === 'Texas' ? '#ea580c' : '#cbd5e1')
+            .attr('stroke', '#fff')
+            .attr('stroke-width', 1)
+            .style('transition', 'fill 0.3s')
+            .on('mouseover', function(event, d) {
+              if (d.properties.name !== 'Texas') {
+                d3.select(this).attr('fill', '#94a3b8');
+              }
+            })
+            .on('mouseout', function(event, d) {
+              if (d.properties.name !== 'Texas') {
+                d3.select(this).attr('fill', '#cbd5e1');
+              }
+            });
+
+          // Add Texas label
+          const texasFeature = usData.features.find(f => f.properties.name === 'Texas');
+          if (texasFeature) {
+            const centroid = path.centroid(texasFeature);
+            if (centroid && !isNaN(centroid[0])) {
+              svg.append('text')
+                .attr('x', centroid[0])
+                .attr('y', centroid[1])
+                .attr('text-anchor', 'middle')
+                .attr('dy', '0.35em')
+                .style('font-size', '14px')
+                .style('font-weight', '700')
+                .style('fill', '#fff')
+                .style('text-shadow', '1px 1px 2px rgba(0,0,0,0.5)')
+                .text('TEXAS');
+            }
+          }
+
+          // Add projection label
+          svg.append('text')
+            .attr('x', 10)
+            .attr('y', 25)
+            .style('font-size', '12px')
+            .style('font-weight', '600')
+            .style('fill', '#1e40af')
+            .text(projectionInfo[projType].title);
+        }
+
+        // Update function called by select
+        window.updateProjectionMap = function(projType) {
+          currentProjection = projType;
+          renderMap(projType);
+
+          // Update info panel
+          const info = projectionInfo[projType];
+          const infoDiv = document.getElementById('projection-info');
+          infoDiv.innerHTML = `
+            <h4 style="margin-top: 0;">${info.title}</h4>
+            <p><strong>Distortion:</strong> ${info.distortion}</p>
+            <p><strong>Use Case:</strong> ${info.useCase}</p>
+            <p><strong>Texas Impact:</strong> ${info.texas}</p>
+            <p><em>Note: Tissot indicatrices (small circles) show distortion at different latitudes. Circle = no distortion; ellipse = some distortion.</em></p>
+          `;
+        };
+
+        // Handle resize
+        window.addEventListener('resize', function() {
+          renderMap(currentProjection);
+        });
+      })();
     </script>
   </body>
 </html>

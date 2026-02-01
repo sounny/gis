@@ -3,56 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 4: GNSS & Positioning | GIS Digital Textbook</title>
+    <title>Chapter 04: GNSS & Positioning | GIS Digital Textbook</title>
     <meta name="description" content="Explore Global Navigation Satellite Systems (GNSS). Learn how GPS works, the three segments of navigation, and how to improve positioning accuracy.">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #3b82f6;
-            --secondary: #64748b;
-            --accent: #f59e0b;
-            --success: #10b981;
-            --bg: #f8fafc;
-        }
-
+        /* Chapter-specific styles */
         .hero-chapter {
-            background: linear-gradient(rgba(30, 58, 138, 0.7), rgba(59, 130, 246, 0.8)), url('../assets/img/hero_chapter04.png');
+            background: linear-gradient(
+                135deg,
+                rgba(30, 58, 138, 0.9) 0%,
+                rgba(30, 58, 138, 0.8) 50%,
+                rgba(59, 130, 246, 0.9) 100%
+            ),
+            url("../assets/img/hero_chapter04.png");
             background-size: cover;
             background-position: center;
+            background-attachment: fixed;
             padding: 5rem 2rem;
             text-align: center;
-            color: white;
             position: relative;
             overflow: hidden;
         }
 
-        .hero-chapter::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
+        .hero-chapter .container {
+            position: relative;
+            z-index: 1;
         }
 
         .chapter-badge {
             display: inline-block;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(4px);
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+            color: white;
             padding: 0.5rem 1.5rem;
-            border-radius: 999px;
+            border-radius: 30px;
+            font-size: 0.9rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.15em;
             margin-bottom: 1.5rem;
-            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
         }
 
-        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
-        .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+        .hero-chapter h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, #a8d8ea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .hero-chapter .subtitle {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.7;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
 
         .layout-grid {
             display: grid;
@@ -65,52 +77,61 @@
             .layout-grid { grid-template-columns: 1fr; }
         }
 
-        .sidebar-box {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            border-top: 4px solid var(--primary);
-        }
-        .sidebar-box.local { border-top-color: var(--accent); }
-
-        .sidebar-box h3 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; }
-        .bio-img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
-
-        .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
-        
         /* GNSS Table */
         .gnss-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
         .gnss-table th, .gnss-table td { padding: 0.75rem; border-bottom: 1px solid #eee; text-align: left; font-size: 0.9rem; }
         .gnss-table th { background: #f8fafc; font-weight: 700; }
 
-        /* Accuracy Viz Container */
-        .viz-container { background: #0f172a; border-radius: 16px; padding: 2rem; color: #fff; margin: 2rem 0; text-align: center; }
-        #gpsCanvas { background: #000; border: 1px solid #334155; border-radius: 8px; max-width: 100%; height: auto; }
+        /* Elevation/Visualizer Styling */
+        .viz-container { 
+            background: #0f172a; 
+            border-radius: 16px; 
+            padding: 2rem; 
+            color: #fff; 
+            margin: 2rem 0; 
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        #gpsCanvas { 
+            background: #000; 
+            border: 1px solid #334155; 
+            border-radius: 8px; 
+            max-width: 100%; 
+            height: auto; 
+            cursor: crosshair;
+        }
 
-        /* Quiz Styles */
-        .quiz-container { background: #eff6ff; padding: 2rem; border-radius: 16px; margin-top: 3rem; }
-        .option { background: white; padding: 1rem; border-radius: 8px; border: 2px solid #e2e8f0; cursor: pointer; margin-bottom: 0.75rem; transition: 0.2s; color: #1e293b; }
-        .option:hover { border-color: var(--primary); }
-        .option.correct { border-color: var(--success); background: #ecfdf5; }
-        .option.wrong { border-color: #ef4444; background: #fff1f2; }
+        .quiz-container { background: #f8fafc; padding: 2rem; border-radius: 16px; margin-top: 3rem; border: 1px solid #e2e8f0; }
+        .btn-quiz {
+            padding: 0.75rem 1rem;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+        .btn-quiz:hover { border-color: #3b82f6; background: #eff6ff; }
     </style>
 </head>
 <body>
-
     <header class="hero-chapter">
         <div class="container">
-            <span class="chapter-badge">Chapter 4</span>
+            <span class="chapter-badge">Chapter 04</span>
             <h1>GNSS & Positioning</h1>
-            <p class="subtitle">Positioning on Earth. Discover the science behind Global Navigation Satellite Systems and the methods for achieving high-precision positioning across the globe.</p>
+            <p class="subtitle">
+                Positioning on Earth. Discover the science behind Global Navigation Satellite Systems and the methods for achieving high-precision positioning across the globe.
+            </p>
         </div>
     </header>
+
     <!-- STICKY NAVIGATION BAR -->
     <nav class="sticky-chapter-bar">
       <div class="nav-container">
         <div class="nav-left">
-          <span class="nav-chapter-num">Chapter 4</span>
+          <span class="nav-chapter-num">Chapter 04</span>
         </div>
         <div class="nav-center">
           <span class="nav-current-title">GNSS & Positioning</span>
@@ -125,103 +146,100 @@
       <div class="nav-progress-bar"></div>
     </nav>
 
-
     <main class="container">
-        
-
-
         <section class="card learning-scaffold" aria-label="Learning scaffold">
             <details class="learning-scaffold-details">
-  <summary>
-<div class="scaffold-head">
-                <h2>At a Glance</h2>
-                <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
-                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapter 03</span>
-                    <span class="scaffold-chip"><strong>Time:</strong> 20 min read + 20 min practice</span>
-                    <span class="scaffold-chip"><strong>Deliverable:</strong> Field collection plan</span>
-                </div>
-            </div>
-  </summary>
-
-            <div class="scaffold-grid">
-                <div class="scaffold-card">
-                    <h3>Learning outcomes</h3>
-                    <ul>
-                        <li>Explain how GNSS positioning works at a high level.</li>
-                        <li>Identify factors that reduce accuracy (multipath, poor geometry).</li>
-                        <li>Plan a basic field collection workflow for validation/GCPs.</li>
-                    </ul>
-                </div>
-
-                <div class="scaffold-card">
-                    <h3>Key terms</h3>
-                    <p>GNSS, trilateration, multipath, DOP, differential correction, datum</p>
-                </div>
-            </div>
-
-            <div class="scaffold-grid">
-                <div class="scaffold-card">
-                    <h3>Stop &amp; check</h3>
-                    <ol class="scaffold-qa">
-                        <li>
-                            <details>
-                                <summary>What usually causes multipath error?</summary>
-                                <div>
-                                    <p><strong>Answer:</strong> Signals reflecting off buildings/terrain before reaching the receiver.</p>
-                                    <p><strong>Why:</strong> Reflections increase path length and bias the range estimate.</p>
-                                    <p><strong>Common misconception:</strong> More satellites always guarantees better accuracy; geometry and environment matter.</p>
-                                </div>
-                            </details>
-                        </li>
-                        <li>
-                            <details>
-                                <summary>Why does CRS/datum matter for GNSS points?</summary>
-                                <div>
-                                    <p><strong>Answer:</strong> Because coordinates depend on the reference model used.</p>
-                                    <p><strong>Why:</strong> A mismatch can create consistent offsets between layers.</p>
-                                    <p><strong>Common misconception:</strong> Latitude/longitude is universal and automatically matches every map.</p>
-                                </div>
-                            </details>
-                        </li>
-                    </ol>
-                </div>
-
-                <div class="scaffold-card">
-                    <h3>Try it (5 minutes)</h3>
-                    <ol>
-                        <li>List 3 places on campus/city where GNSS accuracy would likely be poor.</li>
-                        <li>For each, write one mitigation (move, wait, repeat, use correction).</li>
-                    </ol>
-                </div>
-            </div>
-
-            <div class="scaffold-grid">
-                <div class="scaffold-card">
-                    <h3>Lab (Two Tracks)</h3>
-                    <p>Both tracks produce the same deliverable: a one-page plan describing the collection of validation points for an imagery analysis.</p>
-                    <div class="scaffold-two-track">
-                        <div class="scaffold-track">
-                            <h4>Desktop GIS Track (ArcGIS Pro / QGIS)</h4>
-                            <p>Design a point feature class or form schema (fields + domains). Define required metadata (time, accuracy, notes).</p>
+                <summary>
+                    <div class="scaffold-head">
+                        <h2>At a Glance</h2>
+                        <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
+                            <span class="scaffold-chip"><strong>Prereqs:</strong> Chapter 03</span>
+                            <span class="scaffold-chip"><strong>Time:</strong> 20 min read + 20 min practice</span>
+                            <span class="scaffold-chip"><strong>Deliverable:</strong> Field collection plan</span>
                         </div>
-                        <div class="scaffold-track">
-                            <h4>Remote Sensing Track (Google Earth Engine)</h4>
-                            <p>Define an AOI and draft a validation sampling plan (how many points per class and where you would collect them).</p>
-                        </div>
+                    </div>
+                </summary>
+
+                <div class="scaffold-grid">
+                    <div class="scaffold-card">
+                        <h3>Learning outcomes</h3>
+                        <ul>
+                            <li>Explain how GNSS positioning works at a high level.</li>
+                            <li>Identify factors that reduce accuracy (multipath, poor geometry).</li>
+                            <li>Plan a basic field collection workflow for validation/GCPs.</li>
+                        </ul>
+                    </div>
+
+                    <div class="scaffold-card">
+                        <h3>Key terms</h3>
+                        <p>GNSS, trilateration, multipath, DOP, differential correction, datum</p>
                     </div>
                 </div>
 
-                <div class="scaffold-card">
-                    <h3>Common mistakes</h3>
-                    <ul>
-                        <li>Collecting points with unknown CRS/datum or missing metadata.</li>
-                        <li>Taking one reading and assuming it is correct (no repeats).</li>
-                        <li>Collecting under tree canopy/near buildings without noting expected error.</li>
-                    </ul>
-                    <p><strong>Further reading:</strong> https://gistbok-ltb.ucgis.org/</p>
+                <div class="scaffold-grid">
+                    <div class="scaffold-card">
+                        <h3>Stop &amp; check</h3>
+                        <ol class="scaffold-qa">
+                            <li>
+                                <details>
+                                    <summary>What usually causes multipath error?</summary>
+                                    <div>
+                                        <p><strong>Answer:</strong> Signals reflecting off buildings/terrain before reaching the receiver.</p>
+                                        <p><strong>Why:</strong> Reflections increase path length and bias the range estimate.</p>
+                                        <p><strong>Common misconception:</strong> More satellites always guarantees better accuracy; geometry and environment matter.</p>
+                                    </div>
+                                </details>
+                            </li>
+                            <li>
+                                <details>
+                                    <summary>Why does CRS/datum matter for GNSS points?</summary>
+                                    <div>
+                                        <p><strong>Answer:</strong> Because coordinates depend on the reference model used.</p>
+                                        <p><strong>Why:</strong> A mismatch can create consistent offsets between layers.</p>
+                                        <p><strong>Common misconception:</strong> Latitude/longitude is universal and automatically matches every map.</p>
+                                    </div>
+                                </details>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="scaffold-card">
+                        <h3>Try it (5 minutes)</h3>
+                        <ol>
+                            <li>List 3 places on campus/city where GNSS accuracy would likely be poor.</li>
+                            <li>For each, write one mitigation (move, wait, repeat, use correction).</li>
+                        </ol>
+                    </div>
                 </div>
-            </div>
-        </details></section>
+
+                <div class="scaffold-grid">
+                    <div class="scaffold-card">
+                        <h3>Lab (Two Tracks)</h3>
+                        <p>Both tracks produce the same deliverable: a one-page plan describing the collection of validation points for an imagery analysis.</p>
+                        <div class="scaffold-two-track">
+                            <div class="scaffold-track">
+                                <h4>Desktop GIS Track (ArcGIS Pro / QGIS)</h4>
+                                <p>Design a point feature class or form schema (fields + domains). Define required metadata (time, accuracy, notes).</p>
+                            </div>
+                            <div class="scaffold-track">
+                                <h4>Remote Sensing Track (Google Earth Engine)</h4>
+                                <p>Define an AOI and draft a validation sampling plan (how many points per class and where you would collect them).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="scaffold-card">
+                        <h3>Common mistakes</h3>
+                        <ul>
+                            <li>Collecting points with unknown CRS/datum or missing metadata.</li>
+                            <li>Taking one reading and assuming it is correct (no repeats).</li>
+                            <li>Collecting under tree canopy/near buildings without noting expected error.</li>
+                        </ul>
+                        <p><strong>Further reading:</strong> https://gistbok-ltb.ucgis.org/</p>
+                    </div>
+                </div>
+            </details>
+        </section>
 
 
         <div class="layout-grid">
@@ -256,11 +274,57 @@
                     </ul>
                 </section>
 
+                <section class="card">
+                    <h2>⚠️ Why is GPS Inaccurate?</h2>
+                    <p>Standard smartphone GPS is accurate to about 4.9 meters (16 ft). Why isn't it perfect? The signal travels 20,000 km and faces several hurdles:</p>
+                    <div style="margin-top: 1rem;">
+                        <div style="margin-bottom: 1rem; border-left: 4px solid var(--accent); padding-left: 1rem;">
+                            <strong>1. Ionospheric Delay:</strong> Charged particles in the upper atmosphere slow down the radio waves. This is the biggest source of error.
+                        </div>
+                        <div style="margin-bottom: 1rem; border-left: 4px solid var(--accent); padding-left: 1rem;">
+                            <strong>2. Multipath:</strong> In cities, signals bounce off glass buildings before hitting your phone. Your device thinks the satellite is further away than it is, causing your "blue dot" to jump across the street.
+                        </div>
+                        <div style="border-left: 4px solid var(--accent); padding-left: 1rem;">
+                            <strong>3. Geometry (PDOP):</strong> If all visible satellites are clustered in one part of the sky, the triangulation is weak (high Dilution of Precision). You want them spread out.
+                        </div>
+                    </div>
+
+                    <!-- Urban Canyon / Limited Sky View Section -->
+                    <div style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: 12px; border: 2px solid #f59e0b;">
+                        <h3 style="margin-top: 0; color: #92400e;">🏙️ The "Urban Canyon" Problem</h3>
+                        <p style="color: #78350f;">When you're in a narrow canyon—natural or urban—buildings or cliffs block large portions of the sky. Your GPS receiver may still get a position fix, but all the visible satellites come from the same narrow slice of sky, creating terrible geometry.</p>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                            <div style="background: white; border-radius: 8px; padding: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                                <img src="../assets/img/Module7Pic1.png" alt="GPS receiver in canyon with limited sky view - satellites clustered in visible sky portion" style="width: 100%; border-radius: 6px; margin-bottom: 0.75rem;">
+                                <p style="margin: 0; font-size: 0.85rem; color: #78350f;"><strong>Limited Sky View:</strong> In a canyon, only a small portion of the sky is visible. All available satellites are clustered in this narrow window, leading to poor PDOP values.</p>
+                            </div>
+                            <div style="background: white; border-radius: 8px; padding: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                                <img src="../assets/img/Module7Pic2.png" alt="Effect of poor satellite geometry on GPS accuracy" style="width: 100%; border-radius: 6px; margin-bottom: 0.75rem;">
+                                <p style="margin: 0; font-size: 0.85rem; color: #78350f;"><strong>Poor Geometry = Poor Accuracy:</strong> Even though you may lock onto 4+ satellites, if they're all from the same part of the sky, the trilateration "intersection zone" becomes elongated and uncertain.</p>
+                            </div>
+                        </div>
+                        
+                        <p style="margin-top: 1rem; margin-bottom: 0; font-size: 0.9rem; color: #92400e;"><strong>💡 Real-World Example:</strong> This is why your phone's GPS often struggles in downtown Houston or Austin—the tall buildings create artificial canyons that limit sky visibility, just like being at the bottom of a natural canyon in Big Bend.</p>
+                    </div>
+                </section>
+
                 <section class="viz-container">
                     <h3>Accuracy Visualizer</h3>
                     <p style="color: #94a3b8; font-size: 0.8rem; margin-bottom: 1rem;">Reading satellite signals in real-time...</p>
                     <canvas id="gpsCanvas" width="400" height="300"></canvas>
                     <div style="margin-top: 1rem; font-family: monospace;" id="accuracy-readout">Accuracy: ±2.5m</div>
+                </section>
+
+                <section class="card">
+                    <h2>🎯 The Quest for the Centimeter (RTK)</h2>
+                    <p>For navigation, 5 meters is fine. For building a bridge, it is disastrous. Engineers use <strong>Real-Time Kinematic (RTK)</strong> to achieve 1 cm accuracy.</p>
+                    <p><strong>How it works:</strong></p>
+                    <ol>
+                        <li><strong>Base Station:</strong> A receiver sits on a known coordinate and never moves. It calculates exactly how much the atmosphere is delaying the signal right now.</li>
+                        <li><strong>Correction Signal:</strong> It broadcasts this "correction" via radio or internet.</li>
+                        <li><strong>Rover:</strong> The mobile unit applies the correction instantly, removing the error.</li>
+                    </ol>
                 </section>
 
                 <section class="card">
@@ -324,7 +388,7 @@
                 </div>
 
                 <div class="section-glossary">
-                    <h2>📚 Chapter Glossary</h2>
+                    <h2>Chapter Glossary</h2>
                     <div class="glossary-list">
                         <div class="glossary-item">
                             <span class="glossary-term">GNSS (Global Navigation Satellite System)</span>
@@ -360,7 +424,7 @@
                 </div>
 
                 <div class="sidebar-box" style="border-top-color: #64748b;">
-                    <h3>📺 Blast from the Past</h3>
+                    <h3>Blast from the Past</h3>
                     <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; margin-bottom: 1rem;">
                         <iframe 
                             src="https://www.youtube.com/embed/EpA8Lf8Gt1Q?si=88jEwlEQZqstHtMj" 
@@ -377,7 +441,7 @@
                 </div>
 
                 <div class="sidebar-local-global">
-                    <h3>🇨🇱 Texas Connection</h3>
+                    <h3>Texas Connection</h3>
                     <p><strong>GPS in the Permian Basin</strong></p>
                     <p>Texas is one of the world's leading energy producers. In the Permian Basin, GNSS is used for everything from the centimeter-precise placement of drilling rigs to tracking the fleets of trucks moving equipment across West Texas. Without high-precision GPS, the modern energy economy of Texas, and the global energy supply, would grind to a halt.</p>
                     <a href="https://www.txdot.gov/business/maintenance/precisionsurvey.html" target="_blank" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem; width:100%; text-align:center;">TxDOT Real-Time Network</a>
@@ -540,7 +604,47 @@
         }
         draw();
 
-        // Bonus: "Accuracy Visualizer" random walk (Keep it simpler elsewhere if needed, but we replaced it)
+        // Accuracy Visualizer Logic
+        const gpsCanvas = document.getElementById('gpsCanvas');
+        const gpsCtx = gpsCanvas.getContext('2d');
+        const readout = document.getElementById('accuracy-readout');
+        
+        let points = [];
+        let centerX = 200;
+        let centerY = 150;
+        
+        function drawAccuracy() {
+            gpsCtx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            gpsCtx.fillRect(0, 0, gpsCanvas.width, gpsCanvas.height);
+            
+            // Draw Target Rings
+            gpsCtx.strokeStyle = '#1e293b';
+            gpsCtx.beginPath(); gpsCtx.arc(centerX, centerY, 50, 0, Math.PI*2); gpsCtx.stroke();
+            gpsCtx.beginPath(); gpsCtx.arc(centerX, centerY, 100, 0, Math.PI*2); gpsCtx.stroke();
+            
+            // Generate Random Walk "Signal"
+            let error = 2 + Math.random() * 5;
+            let angle = Math.random() * Math.PI * 2;
+            let dist = Math.random() * error * 10;
+            
+            let x = centerX + Math.cos(angle) * dist;
+            let y = centerY + Math.sin(angle) * dist;
+            
+            points.push({x, y, alpha: 1});
+            if(points.length > 50) points.shift();
+            
+            points.forEach(p => {
+                gpsCtx.fillStyle = `rgba(59, 130, 246, ${p.alpha})`;
+                gpsCtx.beginPath();
+                gpsCtx.arc(p.x, p.y, 3, 0, Math.PI*2);
+                gpsCtx.fill();
+                p.alpha -= 0.02;
+            });
+            
+            readout.innerText = `Accuracy: ±${error.toFixed(2)}m`;
+            requestAnimationFrame(drawAccuracy);
+        }
+        drawAccuracy();
     </script>
 
     <!-- DYNAMIC NAV SCRIPT -->

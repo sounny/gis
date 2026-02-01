@@ -126,3 +126,6 @@ Source page: `C:/Users/sounn/Git/gis/chapters/chapter-15-spatial-modeling.html`
 - [x] **Local-to-Global:** Added "Modeling Texas Wildfires" sidebar.
 - [x] **Important Persons:** Added Bio Box for Dr. Jack Dangermond.
 - [x] **Critical GIS:** Added "The Illusion of Objectivity" callout regarding model bias.
+- [x] **Theory Expansion:** Added "Types of Spatial Models" (Static/Dynamic, Deterministic/Stochastic) section.
+- [x] **Skill Expansion:** Added "Beyond the Visual: Python & ArcPy" section.
+- [x] **Global Connection:** Added "Australian Bushfires" parallel to the Texas sidebar.

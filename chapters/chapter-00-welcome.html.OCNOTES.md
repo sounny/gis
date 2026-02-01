@@ -137,12 +137,12 @@ Source page: `C:/Users/sounn/Git/gis/chapters/chapter-00-welcome.html`
 - `C:/Users/sounn/Git/gis/references/ucgis-bok/topics/CV-04-042.md` (matches=6)
   Excerpt: e standards of effectiveness are defined specifically by the needs, desires, and goals of those who produced it. This may lead to the creation of maps that fall outside of traditional expectations of cartographic design, aesthetic, and function. However, such ...
 
-## Proposed adaptation to the book (concrete next edits for another agent)
-- Interactive module candidates:
-  - Model picker: give 6 real questions (pipes, flood surface, landcover, parcels, temperature, crime points) and have students choose vector/raster + why; reveal tradeoffs (file size, topology, mixed pixels).
-  - Projection distortion viewer: canvas globe with selectable projection; show Tissot indicatrices + area/shape distortion; compare Texas vs global.
-  - Spectral slider: move wavelength slider across EM spectrum and reveal what sensors 'see'; pair with a Texas target (Houston heat, coastal water, agriculture).
-  - AI map critique: show model output heatmap + threshold slider; students label failure modes (bias, overfit, spurious correlation).
-- Local-to-Global sidebar: search within the listed reference sources for a Texas anchor (Houston, Galveston, Austin, DFW, Rio Grande, Permian Basin) and write a 120-180 word sidebar that ends with a global parallel.
-- 'Important Persons' bio box: if any reference source includes an inventor/author tied to this topic, add a 1-paragraph bio + 3 bullets (impact, algorithm/idea, modern use).
-- Critical GIS prompt: add 1 dilemma question connected to the chapter's primary dataset choice (scale, privacy, bias, uncertainty) and ask for a written justification.
+## Completed Adaptations (February 2026)
+
+- [x] **Interactive Module 1:** Added "The Data Model Decision Matrix" with 6 real-world scenarios (Water Pipes, Flood Depth, Land Parcels, Air Temperature, Crime Locations, Aerial Photo) with vector/raster decision logic and explanations.
+- [x] **Interactive Module 2:** Added "Projection Distortion Viewer" with 4 projections (Web Mercator, Equal Area, Albers Equal Area, Robinson). Includes Texas-specific impact analysis and use cases.
+- [x] **Interactive Module 3:** Added "Electromagnetic Spectrum Slider" with wavelength range 400-2400nm, showing how different sensors see the Earth. Each band includes Texas agricultural and environmental applications.
+- [x] **Interactive Module 4:** Added "AI Map Bias Detection" with confidence threshold slider (50-95%), dynamic heatmap, and bias findings that change based on threshold. Includes critical GIS ethics prompt about automated land classification and validation challenges.
+- [x] **Local-to-Global Integration:** Texas Connection sidebars integrated into Projection Viewer (Texas Centric Albers projection), Spectral Slider (agricultural monitoring in Panhandle), and throughout interactive modules with references to Houston heat islands, Galveston Bay water quality, and Texas drought conditions.
+- [x] **Important Persons:** Gerardus Mercator bio box already present with discussion of Web Mercator projection invention, impact on navigation, and modern web mapping use.
+- [x] **Critical GIS Prompt:** Added ethical dilemma in AI Map Critique module asking about risks of automated land classification, bias validation, and equity concerns in under-represented regions.

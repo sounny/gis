@@ -261,6 +261,22 @@
                 </section>
 
                 <section class="card">
+                    <h2>🏗️ Types of Spatial Models</h2>
+                    <p>Not all models are created equal. Depending on the problem you are solving, you will choose different modeling approaches:</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.5rem;">
+                        <div>
+                            <h3 style="color: var(--primary); margin-bottom: 0.5rem;">Static vs. Dynamic</h3>
+                            <p style="font-size: 0.9rem;"><strong>Static models</strong> analyze a single point in time (e.g., "Where is the best place to build a store today?"). <strong>Dynamic models</strong> simulate change over time (e.g., "How will this fire spread over the next 12 hours?").</p>
+                        </div>
+                        <div>
+                            <h3 style="color: var(--primary); margin-bottom: 0.5rem;">Deterministic vs. Stochastic</h3>
+                            <p style="font-size: 0.9rem;"><strong>Deterministic models</strong> always produce the same output for a given input (e.g., <span style="font-family: monospace;">A + B = C</span>). <strong>Stochastic models</strong> include randomness (e.g., Monte Carlo simulations) to account for uncertainty in nature.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
                     <h2>📦 ModelBuilder: Visual Programming</h2>
                     <p>ArcGIS Pro's <strong>ModelBuilder</strong> is a visual programming language where you drag data (Blue Ellipses) and tools (Yellow Rectangles) onto a canvas to create a "Geoprocessing Chain."</p>
 
@@ -280,6 +296,23 @@
                         <div class="node data-node">Road Buffer</div>
                     </div>
                     <p style="color: #64748b; font-size: 0.8rem;">Data (Input) flows through a Tool to create new Data (Output).</p>
+                </section>
+
+                <section class="card">
+                    <h2>🐍 Beyond the Visual: Python & ArcPy</h2>
+                    <p>Visual programming (ModelBuilder) is excellent for designing workflows, but it has limits. For advanced automation—like processing 10,000 files or integrating with external web APIs—professionals turn to <strong>Python</strong>.</p>
+                    
+                    <div style="background: #1e293b; padding: 1.5rem; border-radius: 8px; margin-top: 1rem; color: #e2e8f0; font-family: monospace; font-size: 0.9rem; overflow-x: auto;">
+                        <span style="color: #94a3b8;"># A simple Python script (ArcPy) equivalent to the model above</span><br>
+                        <span style="color: #c084fc;">import</span> arcpy<br><br>
+                        <span style="color: #94a3b8;"># Set environments</span><br>
+                        arcpy.env.workspace = <span style="color: #a5f3fc;">"C:/GIS/Project_Data"</span><br><br>
+                        <span style="color: #94a3b8;"># Run the buffer tool</span><br>
+                        <span style="color: #c084fc;">if</span> arcpy.Exists(<span style="color: #a5f3fc;">"roads.shp"</span>):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;arcpy.Buffer_analysis(<span style="color: #a5f3fc;">"roads.shp"</span>, <span style="color: #a5f3fc;">"roads_buffer.shp"</span>, <span style="color: #a5f3fc;">"50 Meters"</span>)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #fca5a5;">print</span>(<span style="color: #a5f3fc;">"Buffer complete!"</span>)
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem;"><strong>Why learn Python?</strong> It allows you to use loops (<span style="font-family: monospace;">for file in folder:</span>) and conditional logic that is difficult to build visually. It is the industry standard for GIS automation.</p>
                 </section>
 
                 <section class="card">
@@ -339,6 +372,11 @@
                     <p>The <strong>Texas A&M Forest Service</strong> runs one of the most advanced spatial models in the country: the Texas Wildfire Risk Assessment Portal (TxWRAP). By chaining rasters for fuel load, slope, and weather conditions, the model predicts fire behavior in real-time.</p>
                     <p>This automated workflow runs daily, providing a "Fire Danger" index that local counties use to issue burn bans.</p>
                     <a href="https://texaswildfirerisk.com/" target="_blank" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem; width:100%; text-align:center;">View TxWRAP</a>
+
+                    <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                        <h4 style="margin-top: 0; color: var(--secondary);">Global Parallel: Australian Bushfires 🇦🇺</h4>
+                        <p style="font-size: 0.9rem;">In Australia, the <strong>McArthur Forest Fire Danger Index (FFDI)</strong> is the standard spatial model for predicting fire risk. Unlike Texas models which focus heavily on fuel load (vegetation), the Australian model heavily weights "Drought Factor" and wind speed, reflecting the unique climate challenges of the continent.</p>
+                    </div>
                 </div>
             </aside>
         </div>

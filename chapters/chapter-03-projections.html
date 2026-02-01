@@ -8,49 +8,63 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #6366f1;
-            --secondary: #64748b;
-            --accent: #f43f5e;
-            --success: #10b981;
-            --bg: #f8fafc;
-        }
-
+        /* Chapter-specific styles */
         .hero-chapter {
-            background: linear-gradient(rgba(30, 27, 75, 0.7), rgba(99, 102, 241, 0.8)), url('../assets/img/hero_chapter03.png');
+            background: linear-gradient(
+                135deg,
+                rgba(30, 27, 75, 0.9) 0%,
+                rgba(49, 46, 129, 0.8) 50%,
+                rgba(99, 102, 241, 0.9) 100%
+            ),
+            url("../assets/img/hero_chapter03.png");
             background-size: cover;
             background-position: center;
+            background-attachment: fixed;
             padding: 5rem 2rem;
             text-align: center;
-            color: white;
             position: relative;
             overflow: hidden;
         }
 
-        .hero-chapter::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: radial-gradient(circle at 50% 120%, rgba(255,255,255,0.1) 0%, transparent 60%);
+        .hero-chapter .container {
+            position: relative;
+            z-index: 1;
         }
 
         .chapter-badge {
             display: inline-block;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(4px);
+            background: linear-gradient(135deg, #6366f1, #818cf8);
+            color: white;
             padding: 0.5rem 1.5rem;
-            border-radius: 999px;
+            border-radius: 30px;
+            font-size: 0.9rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.15em;
             margin-bottom: 1.5rem;
-            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
         }
 
-        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+        .hero-chapter h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, #a8d8ea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .hero-chapter .subtitle {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.7;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
 
         .layout-grid {
             display: grid;
@@ -112,25 +126,33 @@
 
         /* General UI */
         .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
-        .callout { padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem; display: flex; gap: 1rem; align-items: start; background: #eff6ff; border-left: 5px solid #3b82f6; }
+        .callout { padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem; display: flex; gap: 1rem; align-items: flex-start; background: #eff6ff; border-left: 5px solid #3b82f6; }
 
         /* Quiz Styles */
-        .quiz-container { background: #f1f5f9; padding: 2rem; border-radius: 16px; margin-top: 3rem; }
-        .option { background: white; padding: 1rem; border-radius: 8px; border: 2px solid #e2e8f0; cursor: pointer; margin-bottom: 0.75rem; transition: 0.2s; }
-        .option:hover { border-color: var(--primary); }
-        .option.correct { border-color: var(--success); background: #ecfdf5; }
-        .option.wrong { border-color: var(--accent); background: #fff1f2; }
+        .quiz-container { background: #f8fafc; padding: 2rem; border-radius: 16px; margin-top: 3rem; border: 1px solid #e2e8f0; }
+        .btn-quiz {
+            padding: 0.75rem 1rem;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+        .btn-quiz:hover { border-color: #3b82f6; background: #eff6ff; }
     </style>
 </head>
 <body>
-
     <header class="hero-chapter">
         <div class="container">
             <span class="chapter-badge">Chapter 03</span>
             <h1>Geodesy & Projections</h1>
-            <p class="subtitle">Flattening a curved Earth is a mathematical impossibility. Learn why every map is a compromise and how to choose the right one for your work.</p>
+            <p class="subtitle">Flattening a curved Earth is a mathematical impossibility. Learn why every map is a compromise and how to choose the right one for your work. </p>
         </div>
     </header>
+
     <!-- STICKY NAVIGATION BAR -->
     <nav class="sticky-chapter-bar">
       <div class="nav-container">
@@ -252,7 +274,7 @@
         <div class="layout-grid">
             <div class="content">
                 <section class="card">
-                    <h2>🌍 The Fundamental Geodetic Challenge</h2>
+                    <h2>The Fundamental Geodetic Challenge</h2>
                     <p>The Earth is not a perfect sphere; it's an <strong>oblate spheroid</strong> (bulging at the equator) with a bumpy, <strong>geoid</strong> surface. To map it, we must first model it using a <strong>Datum</strong>.</p>
                     
                     <div class="video-container" style="margin: 2rem 0; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; box-shadow: var(--shadow-lg);">
@@ -310,7 +332,7 @@
 
                 <section class="card">
                     <h2>Projection Surfaces</h2>
-                    <p>How do we flatten the globe? Imagine wrapping a piece of paper around a lightbulb (the translucent Earth).</p>
+                    <p>How do we flatten the globe? Imagine wrapping a piece of paper around a lightbulb (the translucent Earth). Where the paper touches the globe, distortion is minimal. As you move away from the point of contact, distortion increases.</p>
                     <div style="margin: 1.5rem 0;">
                         <img src="../assets/img/diagrams/map_projection_surfaces.png" alt="Map Projection Surfaces" style="width: 100%; border-radius: 12px; box-shadow: var(--shadow-md);">
                     </div>
@@ -319,6 +341,32 @@
                         <li><strong>Conic:</strong> Paper formed as a cone (Good for Mid-Latitudes, e.g., US & Europe).</li>
                         <li><strong>Planar (Azimuthal):</strong> Paper touching one point (Good for Poles).</li>
                     </ul>
+
+                    <!-- Cylindrical Projection Deep Dive -->
+                    <div style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-radius: 12px; border: 2px solid #3b82f6;">
+                        <h3 style="margin-top: 0; color: #1e40af;">🔦 The Lightbulb Analogy: Cylindrical Projection</h3>
+                        <div style="display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap; margin-top: 1rem;">
+                            <div style="flex: 1; min-width: 280px;">
+                                <img src="../assets/img/cylindrical_projection_lightbulb.png" alt="Cylindrical projection shown as light from a bulb projecting through a globe onto a surrounding cylinder" style="width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 2px solid white;">
+                                <p style="font-size: 0.8rem; color: #64748b; margin-top: 0.5rem; text-align: center;"><em>A lightbulb inside a transparent globe projects features onto a surrounding cylinder</em></p>
+                            </div>
+                            <div style="flex: 1.2; min-width: 300px;">
+                                <p style="margin-top: 0;"><strong>How it works:</strong></p>
+                                <ol style="line-height: 1.8; margin-bottom: 1rem;">
+                                    <li>Imagine a <strong>transparent globe</strong> with continents drawn on it.</li>
+                                    <li>Place a <strong>lightbulb</strong> at the center of the globe.</li>
+                                    <li>Wrap a <strong>cylinder of paper</strong> around the globe, touching at the Equator.</li>
+                                    <li>The light <strong>projects the shadows</strong> of the continents onto the cylinder.</li>
+                                    <li><strong>Unroll the cylinder</strong>—you have a flat map!</li>
+                                </ol>
+                                
+                                <div style="background: white; padding: 1rem; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                                    <strong style="color: #b45309;">⚠️ The Catch:</strong>
+                                    <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">Notice how features near the <strong>Equator</strong> (where the cylinder touches) are projected accurately. But features near the <strong>poles</strong> are stretched dramatically—the light rays hit the cylinder at increasingly steep angles, causing massive distortion. This is why Greenland looks enormous on a Mercator map!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </section>
 
                 <section class="card">
@@ -391,18 +439,18 @@
                     <h2>Chapter 03 Checkpoint</h2>
                     <div class="question">
                         <p><strong>1. Which projection is the "standard" used by most web maps (Google Maps, Leaflet)?</strong></p>
-                        <div class="option" onclick="this.classList.add('correct')">Web Mercator</div>
-                        <div class="option" onclick="this.classList.add('wrong')">Robinson</div>
+                        <button class="btn-quiz" onclick="checkAnswer(this, true)">Web Mercator</button>
+                        <button class="btn-quiz" onclick="checkAnswer(this, false)">Robinson</button>
                     </div>
                     <div class="question">
                         <p><strong>2. If you are making a map of "Total Forest Cover" where comparing sizes is crucial, which type of projection should you use?</strong></p>
-                        <div class="option" onclick="this.classList.add('wrong')">Conformal</div>
-                        <div class="option" onclick="this.classList.add('correct')">Equal Area (Equivalent)</div>
+                        <button class="btn-quiz" onclick="checkAnswer(this, false)">Conformal</button>
+                        <button class="btn-quiz" onclick="checkAnswer(this, true)">Equal Area (Equivalent)</button>
                     </div>
                 </div>
 
                 <div class="section-glossary">
-                    <h2>📚 Chapter Glossary</h2>
+                    <h2>Chapter Glossary</h2>
                     <div class="glossary-list">
                         <div class="glossary-item">
                             <span class="glossary-term">Geoid</span>
@@ -431,7 +479,7 @@
                 </div>
 
                 <div class="sidebar-local-global">
-                    <h3>🇨🇱 Texas Connection</h3>
+                    <h3>Texas Connection</h3>
                     <p><strong>The Texas State Plane System</strong></p>
                     <p>Texas is massive. To minimize distortion for local surveying, the state is divided into <strong>5 zones</strong> (North, North Central, Central, South Central, South) within the State Plane Coordinate System (SPCS). Each zone uses a customized projection (Lambert Conformal Conic) centered on that area.</p>
                     <p>Surveyors in Austin use the <strong>Texas Central Zone</strong> (FIPS 4203) for maximum precision!</p>
@@ -543,6 +591,27 @@
             var s = document.getElementById("selector");
             document.getElementById("selector-prev").disabled = (s.selectedIndex == 0);
             document.getElementById("selector-next").disabled = (s.selectedIndex == s.options.length - 1);
+        }
+
+        // Quiz Logic
+        function checkAnswer(el, isCorrect) {
+            const parent = el.parentElement;
+            const buttons = parent.querySelectorAll('.btn-quiz');
+            buttons.forEach(btn => {
+                btn.style.pointerEvents = 'none';
+                btn.style.opacity = '0.5';
+            });
+            
+            el.style.opacity = '1';
+            if(isCorrect) {
+                el.style.borderColor = 'var(--success)';
+                el.style.background = '#ecfdf5';
+                el.style.color = '#065f46';
+            } else {
+                el.style.borderColor = 'var(--accent)';
+                el.style.background = '#fff1f2';
+                el.style.color = '#9f1239';
+            }
         }
     </script>
 

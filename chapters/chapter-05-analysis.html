@@ -8,52 +8,63 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #8b5cf6;
-            --secondary: #64748b;
-            --accent: #f43f5e;
-            --success: #10b981;
-            --bg: #f8fafc;
-        }
-
+        /* Chapter-specific styles */
         .hero-chapter {
-            background: linear-gradient(rgba(30, 27, 75, 0.8), rgba(99, 102, 241, 0.7)), url('../assets/img/hero_chapter05.png');
+            background: linear-gradient(
+                135deg,
+                rgba(30, 27, 75, 0.9) 0%,
+                rgba(76, 29, 149, 0.8) 50%,
+                rgba(139, 92, 246, 0.9) 100%
+            ),
+            url("../assets/img/hero_chapter05.png");
             background-size: cover;
             background-position: center;
+            background-attachment: fixed;
             padding: 5rem 2rem;
             text-align: center;
-            color: white;
             position: relative;
             overflow: hidden;
         }
 
-        .hero-chapter::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: 
-                linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 40px 40px;
+        .hero-chapter .container {
+            position: relative;
+            z-index: 1;
         }
 
         .chapter-badge {
             display: inline-block;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(4px);
+            background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+            color: white;
             padding: 0.5rem 1.5rem;
-            border-radius: 999px;
+            border-radius: 30px;
+            font-size: 0.9rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.15em;
             margin-bottom: 1.5rem;
-            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
         }
 
-        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; color: #ffffff; text-shadow: 0 4px 6px rgba(0,0,0,0.5); }
-        .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+        .hero-chapter h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, #a8d8ea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .hero-chapter .subtitle {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.7;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
 
         .layout-grid {
             display: grid;
@@ -67,7 +78,7 @@
         }
 
         .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
-        .callout { padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem; display: flex; gap: 1rem; align-items: start; background: #f5f3ff; border-left: 5px solid var(--primary); color: #4c1d95; }
+        .callout { padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem; display: flex; gap: 1rem; align-items: flex-start; background: #f5f3ff; border-left: 5px solid var(--primary); color: #4c1d95; }
         
         /* Analysis Icons Grid */
         .analysis-grid {
@@ -95,6 +106,21 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.05);
             border-top: 4px solid var(--primary);
         }
+
+        /* Quiz Styles */
+        .quiz-container { background: #f8fafc; padding: 2rem; border-radius: 16px; margin-top: 3rem; border: 1px solid #e2e8f0; }
+        .btn-quiz {
+            padding: 0.75rem 1rem;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+        .btn-quiz:hover { border-color: #3b82f6; background: #eff6ff; }
     </style>
     <script>
         function updateSuitability() {
@@ -311,6 +337,54 @@
                 </section>
 
                 <section class="card">
+                    <h2>Spatial Theory: Von Thünen's Isolated State</h2>
+                    <p>Before GIS existed, economists were already thinking spatially. <strong>Johann Heinrich von Thünen</strong> (1783–1850) was a German landowner who developed one of the first formal models of <strong>spatial economics</strong>—explaining how distance from a market affects land use.</p>
+                    
+                    <div style="display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap; margin-top: 1.5rem;">
+                        <div style="flex: 1; min-width: 300px;">
+                            <img src="../assets/img/vonthunen.png" alt="Von Thünen's Isolated State model showing concentric rings of land use around a central market, with modification along a river transportation corridor" style="width: 100%; border-radius: 12px; box-shadow: var(--shadow-md);">
+                            <p style="font-size: 0.8rem; color: #64748b; margin-top: 0.5rem; text-align: center;"><em>Von Thünen's model: Concentric rings modified by a navigable river</em></p>
+                        </div>
+                        <div style="flex: 1; min-width: 300px;">
+                            <h3 style="margin-top: 0;">The "Isolated State" Assumptions</h3>
+                            <p>Von Thünen imagined a perfectly isolated city-state with:</p>
+                            <ul style="line-height: 1.8;">
+                                <li>A single central <strong>market town</strong></li>
+                                <li>Uniform flat terrain (an isotropic plain)</li>
+                                <li>Equal soil fertility everywhere</li>
+                                <li>No roads—only horse-drawn carts radiating outward</li>
+                                <li>Farmers who maximize profit (economic rationality)</li>
+                            </ul>
+                            
+                            <h3>The Concentric Ring Pattern</h3>
+                            <p>Under these conditions, <strong>land use arranges itself in concentric rings</strong> based on transportation cost:</p>
+                            <ol style="line-height: 1.8;">
+                                <li><strong>Ring 1 (Closest):</strong> Intensive farming—dairy, vegetables, fruits. These are perishable and heavy, so transport cost is critical.</li>
+                                <li><strong>Ring 2:</strong> Forestry—wood for fuel and building is bulky and expensive to move.</li>
+                                <li><strong>Ring 3:</strong> Grain crops—less perishable, can travel farther economically.</li>
+                                <li><strong>Ring 4 (Farthest):</strong> Ranching/livestock—animals walk themselves to market!</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-radius: 12px; border-left: 5px solid #3b82f6;">
+                        <h3 style="margin-top: 0; color: #1e40af;">🚢 The Transportation Modification</h3>
+                        <p style="color: #1e3a8a;">Von Thünen recognized that his idealized rings would be <strong>distorted by transportation infrastructure</strong>. A navigable river or road extending from the city would:</p>
+                        <ul style="color: #1e3a8a; line-height: 1.8;">
+                            <li><strong>Lower transport costs</strong> along its corridor</li>
+                            <li><strong>Stretch the rings outward</strong> like pulling taffy—intensive uses extend farther from the city along the river</li>
+                            <li>Create a <strong>"wedge" or "finger"</strong> of inner-ring land uses penetrating into outer zones</li>
+                        </ul>
+                        <p style="color: #1e3a8a; margin-bottom: 0;"><strong>Modern Implication:</strong> This is why you see vegetable farms and dairies along highways and rail lines far from cities, while remote areas without good transportation remain as pasture or forest—exactly as Von Thünen predicted 200 years ago!</p>
+                    </div>
+
+                    <div class="callout" style="margin-top: 1.5rem;">
+                        <strong>🗺️ Why This Matters for GIS:</strong>
+                        <p style="margin-bottom: 0;">Von Thünen's model is the intellectual ancestor of <strong>cost-distance analysis</strong> and <strong>accessibility modeling</strong> in GIS. When you calculate "travel time to the nearest hospital" or model urban sprawl, you're applying the same logic: <em>distance (or travel cost) from a central point determines spatial patterns.</em> Modern GIS simply replaces his uniform plain with real terrain, real roads, and real friction surfaces.</p>
+                    </div>
+                </section>
+
+                <section class="card">
                     <h2>4. Neighborhoods & Proximity</h2>
                     <h3>Buffering</h3>
                     <p>Creating a zone of a specific distance around a feature. Useful for regulatory zones (e.g., "No drilling within 500ft of a house").</p>
@@ -326,6 +400,21 @@
                         <p>In the Suitability Studio above, you saw how changing weights changes the "best" site. In the real world, these weights are often decided by politicians or developers, not just data. If you weight "Property Value" higher than "Community Impact," your map will suggest gentrification. <strong>Algorithms are opinions embedded in code.</strong></p>
                     </div>
                 </section>
+
+                <div class="quiz-container">
+                    <h2>Chapter 05 Checkpoint</h2>
+                    <div class="question">
+                        <p><strong>1. Which vector operation results in a layer containing ONLY the shared area between two inputs?</strong></p>
+                        <button class="btn-quiz" onclick="checkAnswer(this, true)">Intersect</button>
+                        <button class="btn-quiz" onclick="checkAnswer(this, false)">Union</button>
+                        <button class="btn-quiz" onclick="checkAnswer(this, false)">Clip</button>
+                    </div>
+                    <div class="question">
+                        <p><strong>2. In a weighted suitability model, if "Slope" is weighted at 60%, what does that imply?</strong></p>
+                        <button class="btn-quiz" onclick="checkAnswer(this, true)">Slope is the most important factor in the model.</button>
+                        <button class="btn-quiz" onclick="checkAnswer(this, false)">Slope has a 60% chance of being accurate.</button>
+                    </div>
+                </div>
             </div>
 
             <aside class="sidebar">
@@ -336,7 +425,7 @@
                 </div>
 
                 <div class="sidebar-box">
-                    <h3>🇨🇱 Texas Connection</h3>
+                    <h3>Texas Connection</h3>
                     <p><strong>The Woodlands: A McHargian Design</strong></p>
                     <p>One of the most famous applications of Ian McHarg's ecological planning method is <strong>The Woodlands, Texas</strong>. In the 1970s, George Mitchell hired McHarg's firm to design a community north of Houston that respected the natural hydrology and forest cover. Instead of a concrete grid, they used suitability analysis to preserve drainage channels, resulting in a community that (mostly) withstands floods better than its neighbors.</p>
                 </div>
@@ -463,6 +552,27 @@
           }
         });
       });
+
+      // Quiz Logic
+      function checkAnswer(el, isCorrect) {
+          const parent = el.parentElement;
+          const buttons = parent.querySelectorAll('.btn-quiz');
+          buttons.forEach(btn => {
+              btn.style.pointerEvents = 'none';
+              btn.style.opacity = '0.5';
+          });
+          
+          el.style.opacity = '1';
+          if(isCorrect) {
+              el.style.borderColor = 'var(--success)';
+              el.style.background = '#ecfdf5';
+              el.style.color = '#065f46';
+          } else {
+              el.style.borderColor = 'var(--accent)';
+              el.style.background = '#fff1f2';
+              el.style.color = '#9f1239';
+          }
+      }
     </script>
 
 </body>

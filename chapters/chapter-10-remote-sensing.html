@@ -222,8 +222,19 @@
                     <h2>🛰️ What is Remote Sensing?</h2>
                     <p>Remote sensing is the process of gathering information about Earth from a distance, typically using satellites, aircraft, or drones. Instead of physically measuring a tree or a river, we measure the electromagnetic energy it reflects or emits.</p>
                     
-                    <div class="callout" style="background: #fef3c7; border-left: 5px solid #f59e0b; color: #92400e; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
-                        <strong>Key Concept:</strong> Remote sensing provides a synoptic (broad) view of the Earth, allowing us to monitor global patterns like climate change and deforestation that are invisible from the ground.
+                <section class="card">
+                    <h2>☀️ Passive vs. 🦇 Active Sensors</h2>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                        <div>
+                            <h3 style="color: var(--primary); margin-top: 0;">Passive Sensors</h3>
+                            <p>Like a camera or the human eye, <strong>passive sensors</strong> detect natural energy (sunlight) reflected off the Earth. They require daylight and clear skies to work.</p>
+                            <p><em>Examples: Landsat, Sentinel-2, Photography.</em></p>
+                        </div>
+                        <div style="background: #1e293b; color: white; padding: 1rem; border-radius: 8px;">
+                            <h3 style="color: var(--success); margin-top: 0;">Active Sensors</h3>
+                            <p>Like a bat using echolocation, <strong>active sensors</strong> emit their own pulse of energy and measure the return echo. They can "see" at night and through clouds.</p>
+                            <p><em>Examples: LiDAR (Laser), RADAR (Radio waves).</em></p>
+                        </div>
                     </div>
                 </section>
 
@@ -240,6 +251,29 @@
                     <div class="callout warning" style="background: #fff1f2; border-left: 5px solid #ef4444; color: #991b1b; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
                         <strong>Critical GIS: The "Privacy Pixel"</strong>
                         <p>We often celebrate higher spatial resolution, but is there a limit? At 30m (Landsat), we see forests. At 1m (commercial), we see cars. At 30cm (military grade), we can potentially identify people. As sensors improve, the line between <em>Earth observation</em> and <em>surveillance</em> blurs. Who owns your "spectral signature" when you are in your own backyard?</p>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>🔄 The Physics of Orbits</h2>
+                    <p>A satellite's path determines what it can see and how often. There are three main orbital types designed for different goals:</p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                        <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border-top: 3px solid var(--secondary);">
+                            <strong>1. Geostationary (GEO)</strong>
+                            <p style="font-size: 0.9rem;">Parks 36,000 km above the equator, matching Earth's rotation speed. It stares at the <strong>same spot continuously</strong>.</p>
+                            <p style="font-size: 0.8rem; color: #64748b;"><em>Best for: Weather monitoring (GOES).</em></p>
+                        </div>
+                        <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border-top: 3px solid var(--primary);">
+                            <strong>2. Polar Orbit</strong>
+                            <p style="font-size: 0.9rem;">Loops North-to-South while the Earth spins underneath. Covers the <strong>entire globe</strong> every 14 days or so.</p>
+                            <p style="font-size: 0.8rem; color: #64748b;"><em>Best for: Global mapping (Landsat).</em></p>
+                        </div>
+                        <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border-top: 3px solid var(--success);">
+                            <strong>3. Sun-Synchronous</strong>
+                            <p style="font-size: 0.9rem;">A special polar orbit that crosses the equator at the <strong>same local time</strong> (e.g., 10:30 AM) every pass. Ensures consistent shadow lengths.</p>
+                            <p style="font-size: 0.8rem; color: #64748b;"><em>Best for: Vegetation analysis.</em></p>
+                        </div>
                     </div>
                 </section>
 

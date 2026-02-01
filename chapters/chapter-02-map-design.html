@@ -3,59 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 02: Map Elements & Design | GIS Digital Textbook</title>
+    <title>Chapter 02: Map Design & Elements | GIS Digital Textbook</title>
     <meta name="description" content="Master the art of cartography. Learn about map elements, visual hierarchy, thematic mapping, and the Rule of 5-7.">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #4f46e5;
-            --secondary: #64748b;
-            --accent: #ec4899;
-            --success: #10b981;
-            --danger: #ef4444;
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --text: #1e293b;
-        }
-
+        /* Chapter-specific styles */
         .hero-chapter {
-            background: linear-gradient(135deg, #312e81 0%, #4f46e5 100%);
+            background: linear-gradient(
+                135deg,
+                rgba(49, 46, 129, 0.9) 0%,
+                rgba(67, 56, 202, 0.8) 50%,
+                rgba(79, 70, 229, 0.9) 100%
+            ),
+            url("../assets/img/hero_chapter02.png");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             padding: 5rem 2rem;
             text-align: center;
-            color: white;
             position: relative;
             overflow: hidden;
         }
 
-        .hero-chapter::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(236, 72, 153, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(79, 70, 229, 0.2) 0%, transparent 40%);
-        }
-
-        .chapter-badge {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(4px);
-            padding: 0.5rem 1.5rem;
-            border-radius: 999px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(255,255,255,0.3);
+        .hero-chapter .container {
             position: relative;
             z-index: 1;
         }
 
-        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; position: relative; z-index: 1; }
-        .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; position: relative; z-index: 1; }
+        .chapter-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #4f46e5, #818cf8);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+        }
+
+        .hero-chapter h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, #a8d8ea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .hero-chapter .subtitle {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.7;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
 
         .layout-grid {
             display: grid;
@@ -107,30 +116,23 @@
         }
 
         /* Quiz Styles */
-        .quiz-container {
-            background: #fff;
-            padding: 2rem;
-            border-radius: 16px;
-            margin-top: 3rem;
-            border: 1px solid #e2e8f0;
-        }
-
-        .option {
-            background: #f8fafc;
-            padding: 1rem;
-            border-radius: 8px;
+        .quiz-container { background: #f8fafc; padding: 2rem; border-radius: 16px; margin-top: 3rem; border: 1px solid #e2e8f0; }
+        .btn-quiz {
+            padding: 0.75rem 1rem;
+            background: white;
             border: 2px solid #e2e8f0;
+            border-radius: 8px;
             cursor: pointer;
+            text-align: left;
             transition: all 0.2s;
+            width: 100%;
             margin-bottom: 0.5rem;
         }
-        .option:hover { border-color: var(--primary); }
-        .option.correct { border-color: var(--success); background: #ecfdf5; color: #065f46; }
-        .option.wrong { border-color: var(--danger); background: #fef2f2; color: #991b1b; }
+        .btn-quiz:hover { border-color: #3b82f6; background: #eff6ff; }
 
         /* General UI */
         .card { background: white; padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border: 1px solid #f1f5f9; }
-        .callout { padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem; display: flex; gap: 1rem; align-items: start; }
+        .callout { padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem; display: flex; gap: 1rem; align-items: flex-start; }
         .callout.info { background: #eff6ff; color: #1e40af; border-left: 5px solid #3b82f6; }
         .callout.warning { background: #fffbeb; color: #92400e; border-left: 5px solid #f59e0b; }
 
@@ -402,7 +404,7 @@
         <div class="layout-grid">
             <div class="content">
                 <section class="card">
-                    <h2>📢 The Cartographic Communication Channel</h2>
+                    <h2>The Cartographic Communication Channel</h2>
                     <p>Cartography is the process of <strong>encoding</strong> geographic reality into an abstract graphic language. The user's job is to <strong>decode</strong> those symbols to build their own mental model of the world.</p>
                     
                     <div class="video-container" style="margin: 2rem 0; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; box-shadow: var(--shadow-lg);">
@@ -575,18 +577,18 @@
                     <h2>Chapter 02 Checkpoint</h2>
                     <div class="question">
                         <p><strong>1. Which color scheme would you use to map "Percent Unemployment by County"?</strong></p>
-                        <div class="option" onclick="this.classList.add('correct')">Sequential (Light to Dark)</div>
-                        <div class="option" onclick="this.classList.add('wrong')">Qualitative (Various Colors)</div>
+                        <button class="btn-quiz" onclick="checkAnswer(this, true)">Sequential (Light to Dark)</button>
+                        <button class="btn-quiz" onclick="checkAnswer(this, false)">Qualitative (Various Colors)</button>
                     </div>
                     <div class="question">
                         <p><strong>2. What does "TALLS" stand for in map design?</strong></p>
-                        <div class="option" onclick="this.classList.add('wrong')">Time, Area, Legend, Land, Scale</div>
-                        <div class="option" onclick="this.classList.add('correct')">Title, Author (Source), Legend, Locals (Orientation), Scale</div>
+                        <button class="btn-quiz" onclick="checkAnswer(this, false)">Time, Area, Legend, Land, Scale</button>
+                        <button class="btn-quiz" onclick="checkAnswer(this, true)">Title, Author (Source), Legend, Locals (Orientation), Scale</button>
                     </div>
                 </div>
 
                 <div class="section-glossary">
-                    <h2>📚 Chapter Glossary</h2>
+                    <h2>Chapter Glossary</h2>
                     <div class="glossary-list">
                         <div class="glossary-item">
                             <span class="glossary-term">Cartography</span>
@@ -618,7 +620,7 @@
                 </div>
 
                 <div class="sidebar-local-global">
-                    <h3>🇨🇱 Texas Connection</h3>
+                    <h3>Texas Connection</h3>
                     <p><strong>The Texas GLO Archive</strong></p>
                     <p>The Texas General Land Office maintains some of the state's oldest and most historically significant maps. From hand-drawn Spanish land grants to modern digital oil and gas maps, the GLO archives show how map elements like <em>Source</em> and <em>Title</em> have evolved over centuries.</p>
                     <p>Checking these records is crucial for modern property law and resource management.</p>
@@ -747,6 +749,27 @@
           }
         });
       });
+
+      // Quiz Logic
+      function checkAnswer(el, isCorrect) {
+          const parent = el.parentElement;
+          const buttons = parent.querySelectorAll('.btn-quiz');
+          buttons.forEach(btn => {
+              btn.style.pointerEvents = 'none';
+              btn.style.opacity = '0.5';
+          });
+          
+          el.style.opacity = '1';
+          if(isCorrect) {
+              el.style.borderColor = 'var(--success)';
+              el.style.background = '#ecfdf5';
+              el.style.color = '#065f46';
+          } else {
+              el.style.borderColor = 'var(--danger)';
+              el.style.background = '#fef2f2';
+              el.style.color = '#991b1b';
+          }
+      }
     </script>
 
 </body>
