@@ -326,13 +326,14 @@
                     <ul>
                         <li>Identify the essential elements of a clear map.</li>
                         <li>Choose a color scheme that matches the data and audience.</li>
+                        <li>Apply the six principles of good map design (Clarity, Order, Balance, Contrast, Unity, Harmony).</li>
                         <li>Critique a map for clarity, honesty, and accessibility.</li>
                     </ul>
                 </div>
 
                 <div class="scaffold-card">
                     <h3>Key terms</h3>
-                    <p>visual hierarchy, legend, symbology, classification, color ramp, accessibility</p>
+                    <p>visual hierarchy, legend, symbology, classification, color ramp, accessibility, clarity, order, balance, contrast, unity, harmony</p>
                 </div>
             </div>
 
@@ -560,6 +561,169 @@
                             <p style="font-size: 0.9rem; color: var(--secondary);">Dots randomly placed within polygons to show density (e.g., 1 dot = 500 people). Excellent for showing concentration.</p>
                             <div style="height: 100px; background-image: radial-gradient(circle, #333 1px, transparent 1px); background-size: 10px 10px; border-radius: 8px;"></div>
                         </div>
+                    </div>
+                </section>
+
+                <section class="card" id="good-map-design">
+                    <h2>Goals of Good Map Design</h2>
+                    <p>Six fundamental elements comprise what makes good map design. These principles often work together, but can sometimes conflict. The goal of a good map is to <strong>balance each of these elements</strong>. When conflict does occur, emphasize only those that are most important to the purpose of the map.</p>
+                    
+                    <div style="display: grid; gap: 1.5rem; margin-top: 2rem;">
+                        <!-- Clarity -->
+                        <div style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); padding: 1.5rem; border-radius: 12px; border-left: 5px solid #0284c7;">
+                            <h3 style="color: #0369a1; margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+                                <span style="font-size: 1.5rem;">👁️</span> 1. Clarity
+                            </h3>
+                            <p style="font-weight: 600; margin-bottom: 0.5rem;">The ability of the map to convey its message clearly.</p>
+                            <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.95rem;">
+                                <li>Fully examine the objectives of the map and emphasize the important points</li>
+                                <li>Avoid overloading with too many details that don't contribute to the overall objectives</li>
+                                <li>When considerable detail must be included, consider using tables for textual-type data</li>
+                                <li>Textual elements should take precedence over line work—break lines where text crosses</li>
+                                <li>Avoid breaking lines in areas involving multiple bends; use straight portions for text placement</li>
+                            </ul>
+                        </div>
+
+                        <!-- Order -->
+                        <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 1.5rem; border-radius: 12px; border-left: 5px solid #d97706;">
+                            <h3 style="color: #b45309; margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+                                <span style="font-size: 1.5rem;">🔢</span> 2. Order
+                            </h3>
+                            <p style="font-weight: 600; margin-bottom: 0.5rem;">The logic of the map; the path that the eye follows when viewing a map.</p>
+                            <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.95rem;">
+                                <li>Avoid areas on the map that are cluttered and confusing</li>
+                                <li>Avoid making auxiliary map elements (scale bars, north arrows, legends) too large or overly prominent—they are not the main subject</li>
+                                <li>Use line weights, colors, and font attributes to draw attention to important elements (e.g., title, index contours)</li>
+                                <li>Except in extreme situations, always align the edges of the map with the cardinal directions</li>
+                            </ul>
+                        </div>
+
+                        <!-- Balance -->
+                        <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 1.5rem; border-radius: 12px; border-left: 5px solid #16a34a;">
+                            <h3 style="color: #15803d; margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+                                <span style="font-size: 1.5rem;">⚖️</span> 3. Balance
+                            </h3>
+                            <p style="font-weight: 600; margin-bottom: 0.5rem;">Refers to the visual balance of the map layout.</p>
+                            <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.95rem;">
+                                <li>The <em>visual center</em> of the map is slightly <strong>above</strong> the physical center</li>
+                                <li>Try to center the subject of the map on the visual center</li>
+                                <li>Align the longer dimension of the subject area with the longer dimension of the map sheet</li>
+                                <li>Balance can be achieved using line weights, fonts, and colors:
+                                    <ul>
+                                        <li>Thicker lines appear heavier</li>
+                                        <li>Bold text makes elements feel heavier</li>
+                                        <li>Red text appears heavier than yellow</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Contrast -->
+                        <div style="background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); padding: 1.5rem; border-radius: 12px; border-left: 5px solid #9333ea;">
+                            <h3 style="color: #7e22ce; margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+                                <span style="font-size: 1.5rem;">◐</span> 4. Contrast
+                            </h3>
+                            <p style="font-weight: 600; margin-bottom: 0.5rem;">The use of line weights, font characteristics, and colors to differentiate elements.</p>
+                            <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.95rem;">
+                                <li>Contrast can enhance balance, order, and clarity</li>
+                                <li>Use larger, bold fonts for the title of the map</li>
+                                <li>Use yellow, thin lines to de-emphasize contours when required for legal purposes but not the main focus</li>
+                                <li>Index contours should be drawn with heavier lines and "heavier" colors than intermediate contours</li>
+                            </ul>
+                        </div>
+
+                        <!-- Unity -->
+                        <div style="background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%); padding: 1.5rem; border-radius: 12px; border-left: 5px solid #e11d48;">
+                            <h3 style="color: #be123c; margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+                                <span style="font-size: 1.5rem;">🔗</span> 5. Unity
+                            </h3>
+                            <p style="font-weight: 600; margin-bottom: 0.5rem;">The interrelationship between backgrounds, shading, font characteristics, and colors.</p>
+                            <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.95rem;">
+                                <li>Be aware that colors are subjective and inter-related</li>
+                                <li>Yellow text on a white background will <em>de-emphasize</em> the text</li>
+                                <li>Yellow text on a black background will <em>emphasize</em> the text</li>
+                                <li>All elements should feel like they belong to the same design system</li>
+                            </ul>
+                        </div>
+
+                        <!-- Harmony -->
+                        <div style="background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); padding: 1.5rem; border-radius: 12px; border-left: 5px solid #475569;">
+                            <h3 style="color: #334155; margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+                                <span style="font-size: 1.5rem;">🎵</span> 6. Harmony
+                            </h3>
+                            <p style="font-weight: 600; margin-bottom: 0.5rem;">The interrelationship between all elements on a map.</p>
+                            <p style="margin-bottom: 0.5rem;"><strong>Common errors that break harmony:</strong></p>
+                            <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.95rem;">
+                                <li>Use of too many font styles</li>
+                                <li>Use of too much color</li>
+                                <li>North arrows that are too large in comparison to other elements</li>
+                                <li>Graphical scales that are too large in comparison to other elements</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="callout info" style="margin-top: 2rem;">
+                        <strong>Remember:</strong> A good map has harmony between all elements. Think of your map as a symphony—every element should work together, with no single piece overpowering the others unless intentionally designed to draw attention.
+                    </div>
+                </section>
+
+                <section class="card" id="spot-the-problem">
+                    <h2>🔍 Spot the Problem: Real-World Bad Maps</h2>
+                    <p>The best way to learn good cartographic design is to study <strong>bad examples</strong>. Below are real maps found "in the wild" that violate one or more principles of good map design. Can you identify what's wrong with each one?</p>
+                    <p><em>Click on each map to reveal the answer, then think about which of the six design principles (Clarity, Order, Balance, Contrast, Unity, Harmony) were violated.</em></p>
+
+                    <div class="bad-maps-gallery" style="display: grid; gap: 2rem; margin-top: 2rem;">
+                        
+                        <!-- Bad Map 1: Mexico/South America -->
+                        <div class="bad-map-card" style="background: #f8fafc; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0;">
+                            <div style="padding: 1rem; background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); color: white;">
+                                <h3 style="margin: 0; font-size: 1.1rem;">🗺️ Example 1: Welcome Sign</h3>
+                            </div>
+                            <div style="padding: 1.5rem;">
+                                <img src="../assets/img/bad-maps/reddit_mall_mexico.0.jpg" alt="Welcome to Mexico sign showing South America" style="width: 100%; max-height: 400px; object-fit: contain; border-radius: 8px; border: 1px solid #e2e8f0; cursor: pointer;" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none';">
+                                <div class="answer-reveal" style="display: none; margin-top: 1rem; padding: 1rem; background: #fef2f2; border-radius: 8px; border-left: 4px solid #dc2626;">
+                                    <p style="margin: 0; font-weight: 700; color: #991b1b;">❌ The Problem:</p>
+                                    <p style="margin: 0.5rem 0 0 0;"><strong>Wrong Geography!</strong> This sign says "Welcome to Mexico" but displays the outline of <em>South America</em>, not Mexico!</p>
+                                    <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #7f1d1d;"><strong>Principles Violated:</strong> Clarity (the message is literally incorrect), Unity (the text doesn't match the graphic)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bad Map 2: Super Bowl Wins -->
+                        <div class="bad-map-card" style="background: #f8fafc; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0;">
+                            <div style="padding: 1rem; background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%); color: white;">
+                                <h3 style="margin: 0; font-size: 1.1rem;">🏈 Example 2: Super Bowl Wins by Country</h3>
+                            </div>
+                            <div style="padding: 1.5rem;">
+                                <img src="../assets/img/bad-maps/super_bowl_wins.0.png" alt="Super Bowl wins by country showing only USA colored" style="width: 100%; max-height: 400px; object-fit: contain; border-radius: 8px; border: 1px solid #e2e8f0; cursor: pointer;" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none';">
+                                <div class="answer-reveal" style="display: none; margin-top: 1rem; padding: 1rem; background: #f5f3ff; border-radius: 8px; border-left: 4px solid #7c3aed;">
+                                    <p style="margin: 0; font-weight: 700; color: #5b21b6;">❌ The Problem:</p>
+                                    <p style="margin: 0.5rem 0 0 0;"><strong>Misleading/Meaningless Data!</strong> This choropleth map shows "Super Bowl wins by country"—but the Super Bowl is exclusively an American football league! Of course only the USA has wins. This is technically accurate but completely useless as a geographic visualization.</p>
+                                    <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #5b21b6;"><strong>Principles Violated:</strong> Clarity (no meaningful insight), Order (the map serves no purpose)</p>
+                                    <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; font-style: italic;">💡 <strong>Lesson:</strong> Just because you <em>can</em> make a map doesn't mean you <em>should</em>. Ask: "Does this map tell a meaningful story?"</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bad Map 3: Whole Foods / Food Sources -->
+                        <div class="bad-map-card" style="background: #f8fafc; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0;">
+                            <div style="padding: 1rem; background: linear-gradient(135deg, #059669 0%, #047857 100%); color: white;">
+                                <h3 style="margin: 0; font-size: 1.1rem;">🥗 Example 3: Food Source Map</h3>
+                            </div>
+                            <div style="padding: 1.5rem;">
+                                <img src="../assets/img/bad-maps/whole_foods.0.jpg" alt="Whole Foods ingredient source map with mislabeled countries" style="width: 100%; max-height: 400px; object-fit: contain; border-radius: 8px; border: 1px solid #e2e8f0; cursor: pointer;" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none';">
+                                <div class="answer-reveal" style="display: none; margin-top: 1rem; padding: 1rem; background: #ecfdf5; border-radius: 8px; border-left: 4px solid #059669;">
+                                    <p style="margin: 0; font-weight: 700; color: #065f46;">❌ The Problem:</p>
+                                    <p style="margin: 0.5rem 0 0 0;"><strong>Mislabeled Geography!</strong> Several country labels point to the wrong locations. For example, the "West Bank" label points to a location that is geographically incorrect, and there are other misplacements that someone with basic geographic knowledge would catch.</p>
+                                    <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #065f46;"><strong>Principles Violated:</strong> Clarity (incorrect information), Harmony (the professional design clashes with amateur geography)</p>
+                                    <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; font-style: italic;">💡 <strong>Lesson:</strong> Always verify your geography! A beautiful design doesn't excuse incorrect data.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="callout warning" style="margin-top: 2rem;">
+                        <strong>Your Turn!</strong> For your next assignment, find a "bad map" in the wild (news media, social media, advertisements) and write a 3-sentence critique identifying: (1) The specific problem, (2) Which design principle(s) were violated, and (3) How you would fix it.
                     </div>
                 </section>
 
