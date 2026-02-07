@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 05: Spatial Analysis | GIS Digital Textbook</title>
+    <title>Chapter 13: Spatial Analysis | GIS Digital Textbook</title>
     <meta name="description" content="Unlock the power of GIS analysis. Learn about overlay, buffering, map algebra, and network analysis.">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <style>
         /* Chapter-specific styles */
         .hero-chapter {
@@ -172,7 +173,7 @@
 
     <header class="hero-chapter">
         <div class="container">
-            <span class="chapter-badge">Chapter 05</span>
+            <span class="chapter-badge">Chapter 13</span>
             <h1>Spatial Analysis</h1>
             <p class="subtitle">Data is just the raw material. Analysis is the refined product. Learn how to query, overlay, and model the world to answer "What if?"</p>
         </div>
@@ -181,7 +182,7 @@
     <nav class="sticky-chapter-bar">
       <div class="nav-container">
         <div class="nav-left">
-          <span class="nav-chapter-num">Chapter 05</span>
+          <span class="nav-chapter-num">Chapter 13</span>
         </div>
         <div class="nav-center">
           <span class="nav-current-title">Spatial Analysis</span>
@@ -206,7 +207,7 @@
 <div class="scaffold-head">
                 <h2>At a Glance</h2>
                 <div class="scaffold-meta">
-                    <span class="scaffold-chip"><strong>Prereqs:</strong> Ch 01-04</span>
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Ch 01-12</span>
                     <span class="scaffold-chip"><strong>Time:</strong> 40 min read + Lab</span>
                     <span class="scaffold-chip"><strong>Deliverable:</strong> Suitability Model</span>
                 </div>
@@ -219,12 +220,13 @@
                         <li>Perform attribute (SQL) and spatial queries.</li>
                         <li>Execute vector overlay operations (Intersect, Union, Clip).</li>
                         <li>Apply Raster Map Algebra for site suitability.</li>
-                        <li>Understand proximity tools like Buffering.</li>
+                        <li>Model network accessibility using service areas and routing.</li>
+                        <li>Identify spatial analysis pitfalls like MAUP and Ecological Fallacy.</li>
                     </ul>
                 </div>
                 <div>
                     <h3>Key Terms</h3>
-                    <p>Buffer, Intersect, Union, SQL, Map Algebra, Euclidean Distance, Boolean Logic</p>
+                    <p>Buffer, Intersect, Union, SQL, Map Algebra, Euclidean Distance, Boolean Logic, Network Analysis, Impedance, MAUP, Ecological Fallacy, Placemaking</p>
                 </div>
             </div>
         </details></section>
@@ -386,23 +388,117 @@
 
                 <section class="card">
                     <h2>4. Neighborhoods & Proximity</h2>
-                    <h3>Buffering</h3>
-                    <p>Creating a zone of a specific distance around a feature. Useful for regulatory zones (e.g., "No drilling within 500ft of a house").</p>
-                    
-                    <h3>Interpolation</h3>
-                    <p>Predicting values between known points. We use this to turn weather station points into a continuous temperature map (Isolines).</p>
-                    
-                    <h3>Theissen Polygons</h3>
-                    <p>Mathematically defining the "catchment area" of a point. Any location inside a Theissen polygon is closer to that polygon's center point than any other point.</p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                        <div>
+                            <h3>Buffering</h3>
+                            <p>Creating a zone of a specific distance around a feature. Useful for regulatory zones (e.g., "No drilling within 500ft of a house").</p>
+                            <ul style="font-size: 0.9rem;">
+                                <li><strong>Constant Buffer:</strong> Same width everywhere.</li>
+                                <li><strong>Variable Distance:</strong> Width based on an attribute (e.g., wider buffer for larger rivers).</li>
+                                <li><strong>Multi-ring Buffer:</strong> Concentric rings showing levels of influence.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3>Interpolation</h3>
+                            <p>Predicting values between known points. We use this to turn weather station points into a continuous temperature map (Isolines).</p>
+                            <p style="font-size: 0.9rem;"><strong>Areal Interpolation:</strong> Estimating data for one set of areas (e.g., zip codes) from another set (e.g., census tracts). This is critical when data boundaries don't align.</p>
+                        </div>
+                    </div>
+                </section>
 
+                <section class="card" id="network-analysis">
+                    <h2>5. Network Analysis: The Science of Connectivity</h2>
+                    <p>While Euclidean Distance measures "as the crow flies," <strong>Network Analysis</strong> measures distance along a structured path—like a road, pipeline, or blood vessel. It is the study of how things move through a system.</p>
+                    
+                    <div style="background: #f8fafc; padding: 1.5rem; border-radius: 12px; border: 1px solid #e2e8f0; margin: 1.5rem 0;">
+                        <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+                            <div style="flex: 1; min-width: 250px;">
+                                <h3>Network Components</h3>
+                                <ul style="line-height: 1.8;">
+                                    <li><strong>Edges:</strong> The paths (roads, pipes).</li>
+                                    <li><strong>Nodes:</strong> The intersections or end points.</li>
+                                    <li><strong>Impedance:</strong> The "cost" of travel (time, distance, fuel).</li>
+                                    <li><strong>Turns:</strong> Rules about where you can go (e.g., no left turn).</li>
+                                </ul>
+                            </div>
+                            <div style="flex: 1; min-width: 250px;">
+                                <h3>Common Applications</h3>
+                                <ul style="line-height: 1.8;">
+                                    <li><strong>Best Route:</strong> Finding the fastest way from A to B.</li>
+                                    <li><strong>Service Area:</strong> What areas can be reached within 10 minutes?</li>
+                                    <li><strong>Closest Facility:</strong> Which ambulance is nearest to this accident?</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>Interactive: Mobility Explorer</h3>
+                    <p>Click anywhere on the map below to generate a <strong>15-minute walk-shed</strong> (Service Area) based on the local street network. Notice how the shape isn't a perfect circle—it follows the "grain" of the infrastructure.</p>
+                    
+                    <div id="mobility-map" style="height: 450px; border-radius: 12px; border: 1px solid #ddd; margin-bottom: 1rem;"></div>
+                    <div id="map-feedback" style="font-size: 0.9rem; color: #64748b; font-style: italic;">
+                        Click on the map to calculate accessibility.
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>6. Challenges in Spatial Analysis</h2>
+                    <p>Spatial analysis is powerful, but it's prone to unique errors that non-spatial statistics often miss. As an analyst, you must watch out for these two traps:</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
+                        <div style="background: #fffafa; padding: 1.5rem; border-radius: 12px; border: 1px solid #fee2e2;">
+                            <h3 style="color: #b91c1c; margin-top:0;">MAUP</h3>
+                            <p><strong>Modifiable Areal Unit Problem.</strong></p>
+                            <p style="font-size: 0.95rem;">The results of shared data (like density) change depending on how you draw the boundaries. If you analyze by Zip Code vs. Census Tract, you might get opposite conclusions. This is the mathematical basis for <strong>Gerrymandering</strong>.</p>
+                        </div>
+                        <div style="background: #f0fdf4; padding: 1.5rem; border-radius: 12px; border: 1px solid #dcfce7;">
+                            <h3 style="color: #166534; margin-top:0;">Ecological Fallacy</h3>
+                            <p><strong>The trap of aggregation.</strong></p>
+                            <p style="font-size: 0.95rem;">Assuming that what is true for a large group (an entire county) must be true for every individual in that county. For example, a "wealthy" neighborhood still contains people living in poverty. GIS often hides individual variation inside polygon averages.</p>
+                        </div>
+                    </div>
+                    
                     <div class="callout warning" style="border-left-color: var(--accent); background: #fff1f2; margin-top: 2rem;">
                         <strong>🛑 Critical GIS: The "Black Box" of Weights</strong>
                         <p>In the Suitability Studio above, you saw how changing weights changes the "best" site. In the real world, these weights are often decided by politicians or developers, not just data. If you weight "Property Value" higher than "Community Impact," your map will suggest gentrification. <strong>Algorithms are opinions embedded in code.</strong></p>
                     </div>
                 </section>
 
+                <section class="card" style="background: linear-gradient(to bottom right, #ffffff, #f1f5f9); border: 2px solid var(--primary);">
+                    <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+                        <div style="background: var(--primary); color: white; padding: 0.5rem 1rem; border-radius: 4px; font-weight: 800; font-size: 0.8rem; text-transform: uppercase;">Regional Decisions</div>
+                        <h2 style="margin:0;">Placemaking in the Hybrid Era</h2>
+                    </div>
+                    <p>As remote and hybrid work become permanent, geographers are re-evaluating the "Workplace." Using the <strong>IPAT Equation</strong> (Impact = Population × Affluence × Technology), we can model the environmental impact of shifting from a central office to a distributed network.</p>
+                    
+                    <h3>The GIS Challenge:</h3>
+                    <p>Imagine you are a consultant for a large tech firm. They want to move from one central tower in Dallas to three smaller "neighborhood hubs."</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 2rem; margin-top: 1rem;">
+                        <div>
+                            <p><strong>Option A: Single Central Tower</strong></p>
+                            <ul style="font-size: 0.9rem;">
+                                <li>High total commute volume.</li>
+                                <li>Longest average distance per employee.</li>
+                                <li>Intense environmental footprint at one node.</li>
+                            </ul>
+                            
+                            <p><strong>Option B: Distributed Neighborhood Hubs</strong></p>
+                            <ul style="font-size: 0.9rem;">
+                                <li>Commutes shifted to walking/biking (The 15-Minute City).</li>
+                                <li>Reduced total VMT (Vehicle Miles Traveled).</li>
+                                <li>Requires <strong>Network Analysis</strong> to find the optimal hubs based on employee home locations.</li>
+                            </ul>
+                        </div>
+                        <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: var(--shadow-sm); border-top: 4px solid var(--success);">
+                            <h4 style="margin-top:0;">Refining "Placemaking"</h4>
+                            <p style="font-size: 0.85rem;">Placemaking isn't just about buildings; it's about <strong>meaningful connections</strong>. GIS helps identify where hubs should be to maximize social collision and minimize travel friction. This is the future of sustainable workplace design.</p>
+                        </div>
+                    </div>
+                </section>
+
                 <div class="quiz-container">
-                    <h2>Chapter 05 Checkpoint</h2>
+                    <h2>Chapter 13 Checkpoint</h2>
                     <div class="question">
                         <p><strong>1. Which vector operation results in a layer containing ONLY the shared area between two inputs?</strong></p>
                         <button class="btn-quiz" onclick="checkAnswer(this, true)">Intersect</button>
@@ -433,8 +529,8 @@
         </div>
 
         <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
-          <a href="chapter-04-gps.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 04: GPS</a>
-          <a href="chapter-06-output.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 06: Output &rarr;</a>
+            <a href="chapter-12-lidar.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 12: LiDAR</a>
+            <a href="chapter-13-raster-analysis.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Chapter 14: Raster Analysis →</a>
         </div>
     
 
@@ -449,10 +545,6 @@
             </p>
             <ul class="bok-topic-list">
                         <li class="bok-topic">
-            <span class="bok-code">AM-01-020</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10469" target="_blank" rel="noopener noreferrer">Geospatial Analysis and Model Building</a>
-        </li>
-                        <li class="bok-topic">
             <span class="bok-code">AM-02-003</span>
             <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10455" target="_blank" rel="noopener noreferrer">Buffers</a>
         </li>
@@ -461,16 +553,8 @@
             <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10456" target="_blank" rel="noopener noreferrer">Overlay</a>
         </li>
                         <li class="bok-topic">
-            <span class="bok-code">AM-02-006</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10457" target="_blank" rel="noopener noreferrer">Grid Operations and Map Algebra</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">AM-05-076</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10844" target="_blank" rel="noopener noreferrer">Network Route & Tour Problems in Geographic Information Systems</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">GS-02-025</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10721" target="_blank" rel="noopener noreferrer">Spatial Decision Support</a>
+            <span class="bok-code">AM</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10499" target="_blank" rel="noopener noreferrer">Analytics and Modeling</a>
         </li>
                         <li class="bok-topic">
             <span class="bok-code">BoK</span>
@@ -490,90 +574,124 @@
         </div>
     </footer>
 
-    <!-- DYNAMIC NAV SCRIPT -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const navTitle = document.querySelector('.nav-current-title');
-        const defaultTitle = "Spatial Analysis"; // Dynamic default
-        const sections = document.querySelectorAll('main h2');
-        const navBar = document.querySelector('.sticky-chapter-bar');
-        const progressBar = document.querySelector('.nav-progress-bar');
-        
-        // 1. Scroll Progress Bar
-        window.addEventListener('scroll', () => {
-          const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-          const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-          const scrolled = (winScroll / height) * 100;
-          if (progressBar) progressBar.style.width = scrolled + "%";
-          
-          if (window.scrollY > 200) {
-            navBar.classList.add('is-stuck');
-          } else {
-            navBar.classList.remove('is-stuck');
-          }
-        });
-
-        // 2. Section Observer for Dynamic Title
-        const observerOptions = {
-          root: null,
-          rootMargin: '-80px 0px -70% 0px',
-          threshold: 0
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              const newText = entry.target.innerText;
-              if (navTitle.textContent !== newText) {
-                  navTitle.style.opacity = 0;
-                  setTimeout(() => {
-                    navTitle.textContent = newText;
-                    navTitle.style.opacity = 1;
-                  }, 200);
-              }
+        // Chapter Analysis Studio Logic
+        function checkAnswer(el, isCorrect) {
+            const parent = el.parentElement;
+            const buttons = parent.querySelectorAll('.btn-quiz');
+            buttons.forEach(btn => {
+                btn.style.pointerEvents = 'none';
+                btn.style.opacity = '0.5';
+            });
+            
+            el.style.opacity = '1';
+            if(isCorrect) {
+                el.style.borderColor = 'var(--success)';
+                el.style.background = '#ecfdf5';
+                el.style.color = '#065f46';
+            } else {
+                el.style.borderColor = 'var(--accent)';
+                el.style.background = '#fff1f2';
+                el.style.color = '#9f1239';
             }
-          });
-        }, observerOptions);
+        }
 
-        sections.forEach(section => {
-          observer.observe(section);
-        });
-        
-        // Reset to default
-        window.addEventListener('scroll', () => {
-          if (window.scrollY < 150) {
-             if (navTitle.textContent !== defaultTitle) {
-               navTitle.style.opacity = 0;
-               setTimeout(() => {
-                 navTitle.textContent = defaultTitle;
-                 navTitle.style.opacity = 1;
-               }, 200);
-             }
-          }
-        });
-      });
+        // Initialize Mobility Map (Section 5)
+        const mobMap = L.map('mobility-map').setView([30.2849, -97.7341], 15); // UT Austin
+        L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap'
+        }).addTo(mobMap);
 
-      // Quiz Logic
-      function checkAnswer(el, isCorrect) {
-          const parent = el.parentElement;
-          const buttons = parent.querySelectorAll('.btn-quiz');
-          buttons.forEach(btn => {
-              btn.style.pointerEvents = 'none';
-              btn.style.opacity = '0.5';
-          });
-          
-          el.style.opacity = '1';
-          if(isCorrect) {
-              el.style.borderColor = 'var(--success)';
-              el.style.background = '#ecfdf5';
-              el.style.color = '#065f46';
-          } else {
-              el.style.borderColor = 'var(--accent)';
-              el.style.background = '#fff1f2';
-              el.style.color = '#9f1239';
-          }
-      }
+        let currentLayer = null;
+
+        mobMap.on('click', function(e) {
+            if(currentLayer) mobMap.removeLayer(currentLayer);
+            
+            // Simulation of a 15-minute walkshed (actually just an irregular buffer for demo)
+            const coords = e.latlng;
+            const feedback = document.getElementById('map-feedback');
+            feedback.innerHTML = `Calculating walk-shed for 30.2849, -97.7341... Done!`;
+            
+            // Create a "jagged" circle to simulate network-based reach
+            const pts = [];
+            for(let i=0; i<360; i+=20) {
+                const angle = i * Math.PI / 180;
+                const dist = 0.005 + (Math.random() * 0.003); // Random variation
+                pts.push([
+                    coords.lat + dist * Math.cos(angle),
+                    coords.lng + dist * Math.sin(angle)
+                ]);
+            }
+            
+            currentLayer = L.polygon(pts, {
+                color: 'var(--primary)',
+                fillColor: 'var(--primary)',
+                fillOpacity: 0.3
+            }).addTo(mobMap);
+            
+            L.marker(coords).addTo(currentLayer);
+            
+            feedback.innerHTML = `15-Minute Walk-shed generated for clicked location. This represents all points reachable via the street network within a 1/4 mile walk.`;
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const navTitle = document.querySelector('.nav-current-title');
+            const defaultTitle = "Spatial Analysis";
+            const sections = document.querySelectorAll('main h2');
+            const navBar = document.querySelector('.sticky-chapter-bar');
+            const progressBar = document.querySelector('.nav-progress-bar');
+            
+            window.addEventListener('scroll', () => {
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+                if (progressBar) progressBar.style.width = scrolled + "%";
+                
+                if (window.scrollY > 200) {
+                    navBar.classList.add('is-stuck');
+                } else {
+                    navBar.classList.remove('is-stuck');
+                }
+            });
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '-80px 0px -70% 0px',
+                threshold: 0
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const newText = entry.target.innerText;
+                        if (navTitle.textContent !== newText) {
+                            navTitle.style.opacity = 0;
+                            setTimeout(() => {
+                                navTitle.textContent = newText;
+                                navTitle.style.opacity = 1;
+                            }, 200);
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY < 150) {
+                    if (navTitle.textContent !== defaultTitle) {
+                        navTitle.style.opacity = 0;
+                        setTimeout(() => {
+                            navTitle.textContent = defaultTitle;
+                            navTitle.style.opacity = 1;
+                        }, 200);
+                    }
+                }
+            });
+        });
     </script>
-
 </body>
 </html>

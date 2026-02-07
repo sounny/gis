@@ -54,7 +54,7 @@
 <body>
     <header class="hero-chapter">
         <div class="container">
-            <span style="background: rgba(255,255,255,0.2); backdrop-filter: blur(4px); padding: 0.5rem 1.5rem; border-radius: 99px; font-weight: 700; text-transform: uppercase; margin-bottom: 2rem; display: inline-block;">Chapter 06</span>
+            <span style="background: rgba(255,255,255,0.2); backdrop-filter: blur(4px); padding: 0.5rem 1.5rem; border-radius: 99px; font-weight: 700; text-transform: uppercase; margin-bottom: 2rem; display: inline-block;">Chapter 08</span>
             <h1>Map Output & Production</h1>
             <p class="subtitle">A map is not finished until it is in the hands of the user. Learn the art of final production.</p>
         </div>
@@ -63,7 +63,7 @@
     <nav class="sticky-chapter-bar">
       <div class="nav-container">
         <div class="nav-left">
-          <span class="nav-chapter-num">Chapter</span>
+          <span class="nav-chapter-num">Chapter 08</span>
         </div>
         <div class="nav-center">
           <span class="nav-current-title">Map Output & Production</span>
@@ -80,6 +80,36 @@
 
 
     <main class="container" style="margin-top: 3rem;">
+
+        <section class="card learning-scaffold">
+            <details class="learning-scaffold-details" open>
+                <summary>
+                    <div class="scaffold-head">
+                        <h2>At a Glance</h2>
+                        <div class="scaffold-meta">
+                            <span class="scaffold-chip"><strong>Prereqs:</strong> Ch 01-07</span>
+                            <span class="scaffold-chip"><strong>Time:</strong> 25 min read</span>
+                            <span class="scaffold-chip"><strong>Deliverable:</strong> Interactive StoryMap</span>
+                        </div>
+                    </div>
+                </summary>
+                <div class="scaffold-grid">
+                    <div>
+                        <h3>Learning Outcomes</h3>
+                        <ul>
+                            <li>Distinguish between static and dynamic (interactive) outputs.</li>
+                            <li>Understand the components of a 'Slippy Map'.</li>
+                            <li>Evaluate the power of story-driven cartography.</li>
+                            <li>Choose appropriate export formats for various audiences.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Key Terms</h3>
+                        <p>Web Map, StoryMap, Interactive Map, Popups, TALLS, SVG, GeoTIFF, Narrative Cartography</p>
+                    </div>
+                </div>
+            </details>
+        </section>
         
 
         <section class="card">
@@ -94,7 +124,50 @@
 
         <section class="card">
             <h2>Layout Design</h2>
-            <p>For detailed design principles (TALLS, Visual Hierarchy), refer back to <strong><a href="chapter-02-map-design.html">Chapter 02: Map Design</a></strong>.</p>
+            <p>For detailed design principles (TALLS, Visual Hierarchy), refer back to <strong><a href="chapter-02-map-design.html">Chapter 02: Map Design</a></strong>. Remember that a professional layout must include: <strong>Title, Author, Legend, Location (Scale/North Arrow), and Source.</strong></p>
+        </section>
+
+        <section class="card">
+            <h2>Digital & Interactive Maps</h2>
+            <p>In the age of the internet, the map is no longer a static image; it is a software application. <strong>Interactive Maps</strong> allow users to explore data at their own pace, zooming in for detail or out for context.</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.5rem;">
+                <div>
+                    <h3>The 'Slippy Map'</h3>
+                    <p>Modern web maps (like Leaflet, Google Maps, or OpenStreetMap) use a "tiled" system. Instead of loading one giant high-res image, the browser loads thousands of small 256x256 pixel tiles as you move. This provides the smooth, "slippy" experience we expect today.</p>
+                </div>
+                <div>
+                    <h3>Interactivity Elements</h3>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Popups:</strong> Clicking a feature to see its hidden attribute data.</li>
+                        <li><strong>Hover Effects:</strong> Visual feedback when a mouse moves over a region.</li>
+                        <li><strong>Layer Toggles:</strong> Allowing users to turn data "on" or "off."</li>
+                        <li><strong>Dynamic Filtering:</strong> Sliders or search bars that change the map in real-time.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="callout info" style="background: #eff6ff; border-left: 5px solid #3b82f6; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;">
+                <strong>💡 Pro Tip:</strong> Less is more in interactive maps. Don't overwhelm the user with too many toggles. Guide their eyes to the most important story.
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>StoryMaps: Narrative Cartography</h2>
+            <p><strong>StoryMaps</strong> represent the fusion of web mapping and long-form journalism. They allow the cartographer to guide the reader through a linear narrative, where the map changes as the user scrolls.</p>
+            
+            <div style="display: flex; gap: 2rem; align-items: flex-start; margin-top: 1.5rem; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 300px; background: #fffbeb; border: 1px solid #fde68a; padding: 1.5rem; border-radius: 12px;">
+                    <h3 style="margin-top:0;">Why StoryMaps?</h3>
+                    <p>Data alone rarely changes minds. Stories do. By combining <strong>multimedia (video/photos)</strong>, <strong>text</strong>, and <strong>interactive maps</strong>, you can contextualize geographic data in a way that feels personal and urgent.</p>
+                    <p>Common uses include community outreach, research summaries, and environmental advocacy.</p>
+                </div>
+                <div style="flex: 1; min-width: 300px; border: 2px solid var(--primary); padding: 1.5rem; border-radius: 12px; text-align: center;">
+                    <h3 style="margin-top:0;">🚀 Learn More</h3>
+                    <p>Ready to build your own? Check out the comprehensive StoryMap workshop developed by Dr. Sounny:</p>
+                    <a href="https://sounny.github.io/storymap/" target="_blank" style="display: inline-block; background: var(--primary); color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 8px; font-weight: 800; margin-top: 1rem; box-shadow: 0 4px 10px rgba(251, 191, 36, 0.3);">Visit the StoryMap Workshop &rarr;</a>
+                </div>
+            </div>
         </section>
 
         <section class="card">
@@ -136,31 +209,24 @@
 
         <!-- TEXAS CONNECTION & CRITICAL GIS SECTION -->
         <section class="card">
-            <h2>The Politics and Ethics of Map Output</h2>
-            
-            <div style="background: #f0fdf4; border: 2px solid #10b981; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem;">
-                <h3 style="margin-top: 0;">🇺🇸 Texas Connection: The General Land Office Map Collections</h3>
-                <p><strong>Historical Context:</strong> Texas has one of the longest cartographic records in North America. The General Land Office (GLO) maintains over 2.5 million historical maps and documents. These include Spanish colonial maps, Anglo-American surveyor plats, and modern parcel maps.</p>
-                <p><strong>Format Challenges:</strong> The GLO faces a critical decision: How to preserve and share these maps? Some are fragile originals; others are digital scans. The agency must balance:</p>
-                <ul>
-                    <li><strong>Preservation:</strong> Archival TIFF formats with metadata and georeferencing for long-term survival.</li>
-                    <li><strong>Access:</strong> Web-friendly formats (PNG, JPEG) to enable online exploration via the Remonter le Temps project.</li>
-                    <li><strong>Accuracy:</strong> Vector transcription of historical boundaries for modern property disputes and legal research.</li>
-                    <li><strong>Privacy:</strong> Removing sensitive owner information from public digital releases.</li>
-                </ul>
-                <p><em>Global parallel: European national cadastral archives face identical challenges, especially in countries transitioning from paper to digital records.</em></p>
-            </div>
+            <h2>Summary of Big Ideas</h2>
+            <ul style="line-height: 1.8;">
+                <li><strong>Output is the bridge</strong> between GIS analysis and the human decision-maker.</li>
+                <li><strong>Static maps</strong> (PDF/Image) favor control and precision, while <strong>Interactive maps</strong> favor exploration.</li>
+                <li><strong>Layouts</strong> require the TALLS elements (Title, Author, Legend, Location, Source) to be credible.</li>
+                <li><strong>StoryMaps</strong> use narrative logic to make complex spatial data accessible to non-experts.</li>
+                <li><strong>Ethics</strong> in output involve balancing transparency with individual privacy.</li>
+            </ul>
+        </section>
 
-            <div style="background: #fff1f2; border: 2px solid #f43f5e; border-radius: 8px; padding: 1.5rem;">
-                <h3 style="margin-top: 0; color: #991b1b;">⚠️ Critical GIS Dilemma: Public Maps & Privacy</h3>
-                <p><strong>The Scenario:</strong> You are a GIS analyst for a county planning department. A government transparency advocate requests all parcel maps for your county in high-resolution PDF format. However, the parcel maps include property owner names and valuations—sensitive information. The county attorney worries that public release could enable targeted theft or privacy violations.</p>
-                <p><strong>Your Decision:</strong> Which approach do you recommend?</p>
-                <ul>
-                    <li><strong>Option A:</strong> Publish the full-detail PDF maps. Transparency and public access are fundamental values.</li>
-                    <li><strong>Option B:</strong> Create two versions: a simplified public map (geometry only, no names) and a detailed version (for certified professionals with background checks).</li>
-                    <li><strong>Option C:</strong> Decline the request and keep all parcel data private. Protecting citizens' privacy is your primary duty.</li>
-                </ul>
-                <p><strong>What considerations guide your decision?</strong> How do you balance transparency, privacy, and public safety? How does the choice of output format itself become a political decision?</p>
+        <section class="card">
+            <h2>Chapter Glossary</h2>
+            <div class="glossary-list" style="display: grid; gap: 1rem;">
+                <div><strong>Slippy Map:</strong> A web-based map that tile-loads for smooth panning and zooming.</div>
+                <div><strong>Popups:</strong> Small info boxes that appear when a user clicks a map feature.</div>
+                <div><strong>Visual Hierarchy:</strong> The order in which a reader's eye perceives elements on a map.</div>
+                <div><strong>GeoTIFF:</strong> A raster image file that includes internal georeferencing metadata.</div>
+                <div><strong>StoryMap:</strong> A web format that combines maps with narrative text and multimedia.</div>
             </div>
         </section>
     
@@ -176,28 +242,16 @@
             </p>
             <ul class="bok-topic-list">
                         <li class="bok-topic">
-            <span class="bok-code">CV-03</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10775" target="_blank" rel="noopener noreferrer">Map Design Fundamentals</a>
+            <span class="bok-code">CV-03-004</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10533" target="_blank" rel="noopener noreferrer">Scale and Generalization</a>
         </li>
                         <li class="bok-topic">
-            <span class="bok-code">CV-04</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10776" target="_blank" rel="noopener noreferrer">Map Design Techniques</a>
+            <span class="bok-code">CV-03-030</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10558" target="_blank" rel="noopener noreferrer">Map Production and Management</a>
         </li>
                         <li class="bok-topic">
             <span class="bok-code">CV-01-001</span>
             <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10531" target="_blank" rel="noopener noreferrer">Cartography and Science</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">CV-01-026</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10554" target="_blank" rel="noopener noreferrer">Cartography and Power</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">CV-04-018</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10547" target="_blank" rel="noopener noreferrer">Representing Uncertainty</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">CV-05-040</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10566" target="_blank" rel="noopener noreferrer">Mobile Maps and Responsive Design</a>
         </li>
                         <li class="bok-topic">
             <span class="bok-code">BoK</span>
@@ -207,8 +261,8 @@
         </section>
 
         <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
-            <a href="chapter-05-analysis.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 05: Analysis</a>
-            <a href="chapter-07-database-management.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Chapter 07: Database Mgmt →</a>
+            <a href="chapter-07-database-management.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 07: Database Mgmt</a>
+            <a href="chapter-10-remote-sensing.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Chapter 09: RS Foundations →</a>
         </div>
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">

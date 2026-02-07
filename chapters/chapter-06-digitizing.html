@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 06: Digitizing Vector Data | GIS Digital Textbook</title>
+    <title>Chapter 05: Digitizing Vector Data | GIS Digital Textbook</title>
     <meta name="description" content="Learn the art and precision of digitizing vector data. Mastering snapping, topology, and attribution to create high-quality geographic features.">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,7 +19,15 @@
         }
 
         .hero-chapter {
-            background: linear-gradient(135deg, #881337 0%, #f43f5e 100%);
+            background: linear-gradient(
+                135deg,
+                rgba(136, 19, 55, 0.9) 0%,
+                rgba(244, 63, 94, 0.8) 100%
+            ),
+            url("../assets/img/hero_chapter06.png");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             padding: 5rem 2rem;
             text-align: center;
             color: white;
@@ -114,7 +122,7 @@
 
     <header class="hero-chapter">
         <div class="container">
-            <span class="chapter-badge">Chapter 06</span>
+            <span class="chapter-badge">Chapter 05</span>
             <h1>Digitizing Vector Data</h1>
             <p class="subtitle">The art of precision. Learn how to convert geographic features into clean, accurate, and topologically sound vector data.</p>
         </div>
@@ -122,8 +130,8 @@
     <!-- STICKY NAVIGATION BAR -->
     <nav class="sticky-chapter-bar">
       <div class="nav-container">
-        <div class="nav-left">
-          <span class="nav-chapter-num">Chapter 06</span>
+         <div class="nav-left">
+          <span class="nav-chapter-num">Chapter 05</span>
         </div>
         <div class="nav-center">
           <span class="nav-current-title">Digitizing Vector Data</span>
@@ -149,7 +157,7 @@
 <div class="scaffold-head">
                 <h2>At a Glance</h2>
                 <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
-                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapters 01, 05</span>
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapters 01, 04</span>
                     <span class="scaffold-chip"><strong>Time:</strong> 25 min read + 30 min practice</span>
                     <span class="scaffold-chip"><strong>Deliverable:</strong> Digitized training polygons</span>
                 </div>
@@ -299,7 +307,7 @@
                 </section>
 
                 <div class="quiz-container">
-                    <h2>Chapter 06 Checkpoint</h2>
+                    <h2>Chapter 08 Checkpoint</h2>
                     <div class="question">
                         <p><strong>1. What tool should you ALWAYS use to ensure that two adjacent polygons share a perfect boundary?</strong></p>
                         <div class="option" onclick="this.classList.add('correct')">Snapping (and Auto-Complete Polygon tools)</div>
@@ -351,8 +359,8 @@
         </div>
 
         <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
-            <a href="chapter-05-analysis.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 05: Spatial Analysis</a>
-            <a href="chapter-07-database-management.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Database Management →</a>
+            <a href="chapter-04-gps.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 04: GPS</a>
+            <a href="chapter-08-georeferencing.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Chapter 06: Georeferencing →</a>
         </div>
     
 
@@ -367,28 +375,12 @@
             </p>
             <ul class="bok-topic-list">
                         <li class="bok-topic">
-            <span class="bok-code">DM-02-014</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10630" target="_blank" rel="noopener noreferrer">Classic vector data models</a>
+            <span class="bok-code">DM-01-028</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10638" target="_blank" rel="noopener noreferrer">Topological Relationships</a>
         </li>
                         <li class="bok-topic">
-            <span class="bok-code">CV-02-003</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10532" target="_blank" rel="noopener noreferrer">Vector Formats and Sources</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">DC-04-014</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10605" target="_blank" rel="noopener noreferrer">Feature Extraction from Satellite Imagery</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">DC-01-025</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10611" target="_blank" rel="noopener noreferrer">Changes in Geospatial Data Capture Over Time: Part 1, Technological Developments</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">DM-06-086</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10661" target="_blank" rel="noopener noreferrer">Vector-to-Raster and Raster-to-Vector Conversions</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">DC-06-009</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10602" target="_blank" rel="noopener noreferrer">Field Data Capture Technologies</a>
+            <span class="bok-code">DM-01-035</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10640" target="_blank" rel="noopener noreferrer">Logical Data Models</a>
         </li>
                         <li class="bok-topic">
             <span class="bok-code">BoK</span>
