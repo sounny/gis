@@ -205,8 +205,8 @@ def extract_concepts(html: str) -> list[str]:
     return out
 
 
-def load_reference_texts() -> dict[str, str]:
-    texts: dict[str, str] = {}
+def load_reference_texts() -> dict[str, tuple[str, str]]:
+    texts: dict[str, tuple[str, str]] = {}
     for p in REF_ROOT.rglob("*"):
         if not p.is_file() or p.suffix.lower() not in REF_EXTS:
             continue
@@ -216,11 +216,11 @@ def load_reference_texts() -> dict[str, str]:
             continue
         if len(txt) > MAX_REF_CHARS:
             txt = txt[:MAX_REF_CHARS]
-        texts[p.as_posix()] = txt
+        texts[p.as_posix()] = (txt, txt.lower())
     return texts
 
 
-def find_refs(ref_texts: dict[str, str], term: str, max_hits: int = 3) -> list[RefHit]:
+def find_refs(ref_texts: dict[str, tuple[str, str]], term: str, max_hits: int = 3) -> list[RefHit]:
     tl = term.lower().strip()
     if len(tl) < 4:
         return []
@@ -228,15 +228,16 @@ def find_refs(ref_texts: dict[str, str], term: str, max_hits: int = 3) -> list[R
         return []
 
     scores: list[tuple[int, str, str]] = []
-    for path, txt in ref_texts.items():
-        cnt = txt.lower().count(tl)
+    for path, (txt, txt_lower) in ref_texts.items():
+        cnt = txt_lower.count(tl)
         if cnt:
             scores.append((cnt, path, txt))
     scores.sort(reverse=True, key=lambda x: x[0])
 
     hits: list[RefHit] = []
     for cnt, path, txt in scores[:max_hits]:
-        idx = txt.lower().find(tl)
+        txt_lower = ref_texts[path][1]
+        idx = txt_lower.find(tl)
         excerpt = ""
         if idx != -1:
             start = max(0, idx - 200)
@@ -246,7 +247,7 @@ def find_refs(ref_texts: dict[str, str], term: str, max_hits: int = 3) -> list[R
     return hits
 
 
-def best_overall_sources(ref_texts: dict[str, str], concepts: Iterable[str], cap: int = 12) -> list[tuple[str, int]]:
+def best_overall_sources(ref_texts: dict[str, tuple[str, str]], concepts: Iterable[str], cap: int = 12) -> list[tuple[str, int]]:
     tally: dict[str, int] = {}
     for c in concepts:
         for h in find_refs(ref_texts, c, max_hits=6):
@@ -289,7 +290,7 @@ def iter_pages() -> list[Path]:
     return pages
 
 
-def write_notes(ref_texts: dict[str, str], page: Path) -> None:
+def write_notes(ref_texts: dict[str, tuple[str, str]], page: Path) -> None:
     html = page.read_text(encoding="utf-8", errors="ignore")
     title = extract_title(html)
     concepts = extract_concepts(html)
@@ -298,7 +299,10 @@ def write_notes(ref_texts: dict[str, str], page: Path) -> None:
 
     candidate_excerpts: list[tuple[str, str]] = []
     for path, _score in sources[:6]:
-        txt = ref_texts.get(path, "").strip()
+        entry = ref_texts.get(path)
+        if not entry:
+            continue
+        txt = entry[0].strip()
         if not txt:
             continue
         snippet = re.sub(r"\s+", " ", txt)[:420]
