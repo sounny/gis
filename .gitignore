@@ -20,3 +20,5 @@ references/
 
 # OCSIDEBARs are intentional, shareable sidebar drafts
 !*.OCSIDEBARs.md
+__pycache__/
+*.pyc

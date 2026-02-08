@@ -30,6 +30,11 @@ MAX_REF_CHARS = 250_000
 
 TAG_RE = re.compile(r"<[^>]+>")
 
+TITLE_RE = re.compile(r"<title>(.*?)</title>", re.I | re.S)
+KEY_TERMS_RE = re.compile(r"<h3>\s*Key terms\s*</h3>\s*<p>(.*?)</p>", re.I | re.S)
+GLOSSARY_RE = re.compile(r"<span class=\"glossary-term\">\s*(.*?)\s*</span>", re.I | re.S)
+HEADINGS_RE = re.compile(r"<h[1-3][^>]*>(.*?)</h[1-3]>", re.I | re.S)
+
 STOP_EXACT = {
     "At a Glance",
     "Learning outcomes",
@@ -155,7 +160,7 @@ def _clean_text(raw: str) -> str:
 
 
 def extract_title(html: str) -> str:
-    m = re.search(r"<title>(.*?)</title>", html, re.I | re.S)
+    m = TITLE_RE.search(html)
     return _clean_text(m.group(1)) if m else ""
 
 
@@ -163,7 +168,7 @@ def extract_concepts(html: str) -> list[str]:
     concepts: list[str] = []
 
     # Key terms scaffold
-    km = re.search(r"<h3>\s*Key terms\s*</h3>\s*<p>(.*?)</p>", html, re.I | re.S)
+    km = KEY_TERMS_RE.search(html)
     if km:
         kt = _clean_text(km.group(1))
         for part in kt.split(","):
@@ -172,13 +177,13 @@ def extract_concepts(html: str) -> list[str]:
                 concepts.append(term)
 
     # Glossary terms
-    for m in re.finditer(r"<span class=\"glossary-term\">\s*(.*?)\s*</span>", html, re.I | re.S):
+    for m in GLOSSARY_RE.finditer(html):
         term = _clean_text(m.group(1))
         if term:
             concepts.append(term)
 
     # Headings
-    for m in re.finditer(r"<h[1-3][^>]*>(.*?)</h[1-3]>", html, re.I | re.S):
+    for m in HEADINGS_RE.finditer(html):
         t = _clean_text(m.group(1))
         if not t:
             continue
