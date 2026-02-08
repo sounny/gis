@@ -30,6 +30,10 @@ REF_EXTS = {".md", ".txt", ".html", ".htm"}
 MAX_REF_CHARS = 250_000
 
 TAG_RE = re.compile(r"<[^>]+>")
+WHITESPACE_RE = re.compile(r"\s+")
+TITLE_RE = re.compile(r"<title>(.*?)</title>", re.I | re.S)
+KEY_TERMS_RE = re.compile(r"<h3>\s*Key terms\s*</h3>\s*<p>(.*?)</p>", re.I | re.S)
+HEADING_RE = re.compile(r"<h[23][^>]*>(.*?)</h[23]>", re.I | re.S)
 
 TEXAS_TERMS = [
     "texas",
@@ -58,7 +62,7 @@ class RefHit:
 def clean_text(raw: str) -> str:
     txt = TAG_RE.sub("", raw)
     txt = txt.replace("\xa0", " ")
-    txt = re.sub(r"\s+", " ", txt)
+    txt = WHITESPACE_RE.sub(" ", txt)
     return to_ascii(txt).strip()
 
 
@@ -73,7 +77,7 @@ def to_ascii(s: str) -> str:
 
 
 def extract_title(html: str) -> str:
-    m = re.search(r"<title>(.*?)</title>", html, re.I | re.S)
+    m = TITLE_RE.search(html)
     return clean_text(m.group(1)) if m else ""
 
 
@@ -81,7 +85,7 @@ def extract_concepts(html: str) -> list[str]:
     concepts: list[str] = []
 
     # Key terms scaffold
-    km = re.search(r"<h3>\s*Key terms\s*</h3>\s*<p>(.*?)</p>", html, re.I | re.S)
+    km = KEY_TERMS_RE.search(html)
     if km:
         kt = clean_text(km.group(1))
         for part in kt.split(","):
@@ -90,7 +94,7 @@ def extract_concepts(html: str) -> list[str]:
                 concepts.append(term)
 
     # H2/H3 headings
-    for m in re.finditer(r"<h[23][^>]*>(.*?)</h[23]>", html, re.I | re.S):
+    for m in HEADING_RE.finditer(html):
         h = clean_text(m.group(1))
         if not h:
             continue
@@ -165,7 +169,7 @@ def excerpt_around(txt: str, needle: str, window: int = 220) -> str:
     start = max(0, idx - window)
     end = min(len(txt), idx + window)
     ex = txt[start:end].replace("\n", " ")
-    ex = re.sub(r"\s+", " ", ex).strip()
+    ex = WHITESPACE_RE.sub(" ", ex).strip()
     return to_ascii(ex)
 
 
