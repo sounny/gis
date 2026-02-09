@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 02: Coordinate Systems & Projections | GIS Lab Manual</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/lab.css">
+</head>
+<body>
+
+    <header class="lab-header">
+        <div class="container">
+            <nav style="margin-bottom: 1rem;">
+                <a href="index.html" style="color: var(--primary); text-decoration: none; font-weight: 600;">&larr; Back to Lab Manual</a>
+            </nav>
+            <span class="lab-badge">Lab 02</span>
+            <h1>Coordinate Systems & Projections</h1>
+            <p class="subtitle">Understand the distortion of the Earth and how to manage Coordinate Reference Systems (CRS) in GIS software.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 1. Learning Objectives -->
+        <section class="card">
+            <h2>🎯 Learning Objectives</h2>
+            <ul>
+                <li>Differentiate between Geographic (GCS) and Projected (PCS) coordinate systems.</li>
+                <li>Identify the correct EPSG code for a specific region (e.g., Texas State Plane).</li>
+                <li>Perform a permanent "Project" operation to transform data from WGS84 to NAD83.</li>
+                <li>Visualize distortion using the <strong>Interactive Projection Explorer</strong>.</li>
+            </ul>
+        </section>
+
+        <!-- 2. Tool Integration -->
+        <section class="card" style="background: #fdf4ff; border-left: 5px solid #d946ef;">
+            <h2>🧪 Interactive Tool: The Projection Explorer</h2>
+            <p>Before opening your GIS software, use this tool to visualize how different projections distort the size and shape of continents.</p>
+            <div style="margin-top: 1rem;">
+                <!-- Embedding content from Chapter 03 directly or linking to it -->
+                <iframe src="../chapters/chapter-03-projections.html#tool-panel" style="width: 100%; height: 500px; border: 1px solid #ddd; border-radius: 8px;"></iframe>
+                <p style="text-align: center; font-size: 0.9rem; margin-top: 0.5rem;">
+                    <a href="../chapters/chapter-03-projections.html" target="_blank" class="btn btn-sm">Open Full Tool in New Tab</a>
+                </p>
+            </div>
+        </section>
+
+        <!-- 3. Scenario & Data -->
+        <section class="card">
+            <h2>📂 Scenario: The Texas Measurement Problem</h2>
+            <p>You are a GIS Technician for the Texas Department of Transportation (TxDOT). You receive a shapefile of road incidents in <strong>WGS 1984</strong> (Latitude/Longitude). Your boss asks you to calculate the total length of road repairs needed in <strong>Feet</strong>.</p>
+            
+            <div class="callout warning">
+                <strong>The Problem:</strong> You cannot calculate accurate distances in a Geographic Coordinate System (Degrees). You must project the data into a planar system (State Plane).
+            </div>
+
+            <div class="data-download-card">
+                <div>
+                    <strong>Data Package:</strong> <code>lab02_projections_data.zip</code>
+                    <p style="margin:0; font-size: 0.85rem; color: #64748b;">Contains: <code>tx_roads.geojson</code> (WGS84), <code>tx_counties.shp</code> (NAD83)</p>
+                </div>
+                <a href="#" class="btn btn-primary" onclick="alert('Demo Mode: Imagine downloading data here!')">Download Data</a>
+            </div>
+        </section>
+
+        <!-- 4. Instructions (The Switcher) -->
+        <h2>🛠️ Step-by-Step Instructions</h2>
+        <p>Select your preferred GIS platform to view instructions:</p>
+
+        <div class="platform-tabs">
+            <button class="tab-btn active" onclick="switchTab('arcgis')">🟦 ArcGIS Pro</button>
+            <button class="tab-btn" onclick="switchTab('qgis')">🟩 QGIS</button>
+            <button class="tab-btn" onclick="switchTab('web')">🟧 Web GIS (AGOL)</button>
+        </div>
+
+        <!-- ArcGIS Pro Pane -->
+        <div id="arcgis" class="instruction-pane active">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Check the Coordinate System</h3>
+                    <p>1. Add <code>tx_roads.geojson</code> to the map.<br>
+                       2. Right-click the layer in the Contents pane > <strong>Properties</strong> > <strong>Source</strong>.<br>
+                       3. Expand <strong>Spatial Reference</strong>. Note that it says "GCS_WGS_1984". This is unprojected.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Set the Map Frame CRS</h3>
+                    <p>1. Right-click "Map" in the Contents pane > <strong>Properties</strong> > <strong>Coordinate Systems</strong>.<br>
+                       2. Search for <code>4203</code> (NAD 1983 Texas Centric Mapping System Albers).<br>
+                       3. Click OK. Notice how the map "warps" to appear flatter? This is "On-the-fly" projection.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Permanent Projection</h3>
+                    <p>1. Open the <strong>Geoprocessing Pane</strong>.<br>
+                       2. Search for the <strong>Project</strong> tool (Data Management).<br>
+                       3. <strong>Input Dataset:</strong> tx_roads<br>
+                       4. <strong>Output Dataset:</strong> tx_roads_projected<br>
+                       5. <strong>Output Coordinate System:</strong> Select your "Current Map" (Texas Centric).<br>
+                       6. Run the tool. The new layer is now permanently in feet.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- QGIS Pane -->
+        <div id="qgis" class="instruction-pane" style="display:none;">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Check Layer CRS</h3>
+                    <p>1. Drag <code>tx_roads.geojson</code> into QGIS.<br>
+                       2. Right-click the layer > <strong>Properties</strong> > <strong>Information</strong>.<br>
+                       3. Look for "CRS". It should be <code>EPSG:4326 - WGS 84</code>.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Reproject Layer</h3>
+                    <p>1. Right-click the layer > <strong>Export</strong> > <strong>Save Features As...</strong><br>
+                       2. <strong>Format:</strong> GeoPackage<br>
+                       3. <strong>CRS:</strong> Click the globe icon and search for <code>3081</code> (NAD83 / Texas Centric).<br>
+                       4. Save as <code>tx_roads_projected.gpkg</code>.<br>
+                       5. Add the new layer to the map.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Web GIS Pane -->
+        <div id="web" class="instruction-pane" style="display:none;">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Web Maps are Mercator</h3>
+                    <p>Most web maps (ArcGIS Online, Google Maps) use <strong>Web Mercator (EPSG:3857)</strong>. This projection distorts area significantly at the poles but preserves local angles.</p>
+                    <div class="callout warning">
+                        Web GIS usually reprojects data automatically. You often cannot "force" a specific projection like Texas State Plane unless you publish a custom tiled service.
+                    </div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Visualizing Distortion</h3>
+                    <p>1. Use the "Measure" tool in ArcGIS Online Map Viewer.<br>
+                       2. Notice that it calculates "Geodesic" distance (accounting for curvature) rather than "Planar" distance. Web GIS handles this math behind the scenes!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Deliverables -->
+        <section class="card" style="margin-top: 4rem; border-top: 4px solid var(--accent);">
+            <h2>✅ Submission & Assessment</h2>
+            <p>To complete this lab, you must submit:</p>
+            <ul>
+                <li><strong>Screenshot:</strong> The "Properties" window showing your NEW Projected Layer with the correct Coordinate System (Texas Centric).</li>
+                <li><strong>Answer:</strong> Why did the shape of Texas change when you switched from WGS84 to the Texas projection?</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine | GIS Lab Manual</p>
+        </div>
+    </footer>
+
+    <script>
+        function switchTab(platform) {
+            // Hide all panes
+            document.querySelectorAll('.instruction-pane').forEach(el => el.style.display = 'none');
+            // Deactivate all buttons
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            // Show selected pane
+            document.getElementById(platform).style.display = 'block';
+            // Activate selected button
+            // Note: In a real implementation we'd target the specific button, but for simplicity:
+            event.target.classList.add('active'); 
+        }
+    </script>
+</body>
+</html>

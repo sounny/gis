@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 08: Network Analysis | GIS Lab Manual</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/lab.css">
+</head>
+<body>
+
+    <header class="lab-header" style="background: linear-gradient(rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9)), url('../assets/img/hero_lab08.jpg');">
+        <div class="container">
+            <nav style="margin-bottom: 1rem;">
+                <a href="index.html" style="color: white; text-decoration: none; font-weight: 600;">&larr; Back to Lab Manual</a>
+            </nav>
+            <span class="lab-badge">Lab 08</span>
+            <h1 style="color:white;">Network Analysis: The Pulse of the City</h1>
+            <p class="subtitle" style="color:#cbd5e1;">It's not about distance; it's about time. Calculate drive times, find optimal routes, and allocate resources efficiently.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 1. Learning Objectives -->
+        <section class="card">
+            <h2>🎯 Learning Objectives</h2>
+            <ul>
+                <li>Understand the difference between <strong>Euclidean Distance</strong> and <strong>Network Distance</strong>.</li>
+                <li>Build or use a <strong>Network Dataset</strong> with impedance (Time/Speed Limits).</li>
+                <li>Calculate <strong>Service Areas</strong> (e.g., 5, 10, 15-minute drive times).</li>
+                <li>Perform <strong>Location-Allocation</strong> to choose the most efficient facility locations.</li>
+            </ul>
+        </section>
+
+        <!-- 2. Scenario & Data -->
+        <section class="card">
+            <h2>📂 Scenario: The Golden Hour</h2>
+            <p>In emergency medicine, the "Golden Hour" is the critical period for trauma patients. You are analyzing ambulance coverage in Harris County. Which neighborhoods are outside the 10-minute response zone?</p>
+            
+            <div class="data-download-card">
+                <div>
+                    <strong>Data Package:</strong> <code>lab08_network.zip</code>
+                    <p style="margin:0; font-size: 0.85rem; color: #64748b;">Contains: <code>Streets_Network.gdb</code>, <code>Hospitals.shp</code>, <code>Population_Blocks.shp</code></p>
+                </div>
+                <a href="#" class="btn btn-primary" onclick="alert('Demo Mode: Imagine downloading network data here!')">Download Data</a>
+            </div>
+        </section>
+
+        <!-- 3. Instructions (The Switcher) -->
+        <h2>🛠️ Step-by-Step Instructions</h2>
+        <p>Select your preferred GIS platform to view instructions:</p>
+
+        <div class="platform-tabs">
+            <button class="tab-btn active" onclick="switchTab('arcgis')">🟦 ArcGIS Pro</button>
+            <button class="tab-btn" onclick="switchTab('qgis')">🟩 QGIS</button>
+            <button class="tab-btn" onclick="switchTab('web')">🟧 Web GIS (AGOL)</button>
+        </div>
+
+        <!-- ArcGIS Pro Pane -->
+        <div id="arcgis" class="instruction-pane active">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Create Network Analysis Layer</h3>
+                    <p>1. Go to <strong>Analysis</strong> tab > <strong>Network Analysis</strong> > <strong>Service Area</strong>.<br>
+                       2. Ensure your <code>Streets_Network</code> is the active network data source.<br>
+                       3. A new group layer "Service Area" appears in Contents.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Load Facilities</h3>
+                    <p>1. In the Service Area tab, click <strong>Import Facilities</strong>.<br>
+                       2. Input Locations: <code>Hospitals</code>.<br>
+                       3. Run. The hospitals are now "Facilities" in the network solver.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Solve Polygons</h3>
+                    <p>1. In the Service Area tab settings, set Cutoffs to: <code>5, 10, 15</code> (Minutes).<br>
+                       2. Direction: <strong>Away from Facilities</strong>.<br>
+                       3. Click <strong>Run</strong>.<br>
+                       4. Result: Colorful polygons showing how far an ambulance can drive in each time window.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- QGIS Pane -->
+        <div id="qgis" class="instruction-pane" style="display:none;">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>QGIS Network Analysis</h3>
+                    <p>1. Open <strong>Processing Toolbox > Network Analysis > Service Area (From Layer)</strong>.<br>
+                       2. Vector layer representing network: <code>Streets</code>.<br>
+                       3. Vector layer with start points: <code>Hospitals</code>.<br>
+                       4. Travel cost: 5, 10, 15 (run 3 times or look for batch plugins like ORS Tools).</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Using ORS Tools (Plugin)</h3>
+                    <p>1. Install <strong>ORS Tools</strong> plugin (OpenRouteService).<br>
+                       2. Sign up for a free API key.<br>
+                       3. Run <strong>Isochrones from Layer</strong>.<br>
+                       4. Ranges: 5, 10, 15 min.<br>
+                       5. This uses OpenStreetMap data via the API, saving you from building a local graph!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Web GIS Pane -->
+        <div id="web" class="instruction-pane" style="display:none;">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Create Drive-Time Areas</h3>
+                    <p>1. Open Map Viewer Classic > Analysis > <strong>Use Proximity > Create Drive-Time Areas</strong>.<br>
+                       2. Choose Point Layer: <code>Hospitals</code>.<br>
+                       3. Measure: <strong>Driving Time</strong>.<br>
+                       4. Times: <code>5 10 15</code> (separate by spaces).<br>
+                       5. Run Analysis. *Consumes credits*.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Enrich Layer</h3>
+                    <p>1. Taking it further: Use <strong>Data Enrichment > Enrich Layer</strong>.<br>
+                       2. Choose your 10-minute polygon.<br>
+                       3. Add variable: "2025 Total Population".<br>
+                       4. Result: The exact number of people living within 10 minutes of a hospital.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Deliverables -->
+        <section class="card" style="margin-top: 4rem; border-top: 4px solid var(--accent);">
+            <h2>✅ Submission & Assessment</h2>
+            <p>To complete this lab, you must submit:</p>
+            <ul>
+                <li><strong>Service Area Map:</strong> Showing the 5, 10, and 15-minute zones centered on hospitals.</li>
+                <li><strong>Gap Analysis:</strong> A paragraph describing which neighborhoods are OUTSIDE the 15-minute zone (Service Gaps).</li>
+                <li><strong>Population Count:</strong> How many people live in the "Gap" areas? (Use Select by Location or Intersection).</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine | GIS Lab Manual</p>
+        </div>
+    </footer>
+
+    <script>
+        function switchTab(platform) {
+            document.querySelectorAll('.instruction-pane').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(platform).style.display = 'block';
+            
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                if(btn.textContent.toLowerCase().includes(platform === 'web' || platform === 'gee' ? (platform === 'gee' ? 'google' : 'web') : platform)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

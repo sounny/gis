@@ -564,6 +564,69 @@
                     </div>
                 </section>
 
+                <section class="card" style="border-top: 4px solid #3b82f6;">
+                  <h2>The "Blueberry in Tomato Soup" Myth</h2>
+                  <p>
+                    Maps shape political reality. For years, the cartographic standard for U.S.
+                    election maps painted entire counties "Red" or "Blue" based on the majority
+                    vote.
+                  </p>
+
+                  <div style="display: flex; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 300px;">
+                      <h3>The Visual Lie</h3>
+                      <p>
+                        Texas Governor Rick Perry once famously described Austin as a
+                        <strong>"Blueberry in a bowl of Tomato Soup."</strong>
+                      </p>
+                      <p>
+                        Why? Because on a standard map, the large rural counties (Red) dominate
+                        the visual area, while the dense urban center of Austin (Blue) appears
+                        as a tiny dot. It creates the illusion that the state is 90% Republican,
+                        even if the <em>population</em> split is much closer (e.g., 52% vs 48%).
+                      </p>
+                    </div>
+                    <div style="flex: 1; min-width: 300px; background: #f8fafc; padding: 1rem; border-radius: 8px;">
+                      <h3>The Cartographer's Fix: "Purple America"</h3>
+                      <p>
+                        To tell the truth, we must stop thinking in binary (Red vs. Blue). By
+                        using <strong>Continuous Gradation</strong> (mixing red and blue based
+                        on vote % to create shades of purple), a very different map emerges. We
+                        see that there is no such thing as a "Red State" or "Blue State"—just
+                        specific urban cores and rural gradients.
+                      </p>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="card" style="border-left: 5px solid var(--danger);">
+                  <h2>The Tornado Trap: Why You Must Normalize</h2>
+                  <p>
+                    Imagine you are a Senator wanting to build a
+                    <strong>National Tornado Research Center</strong>. You look at a map of
+                    "Total Tornadoes by County."
+                  </p>
+
+                  <div class="callout warning">
+                    <strong>The Bad Map:</strong> Harris County (Houston), Texas lights up
+                    bright red! It has the most tornadoes! <br />
+                    <strong>The Reality:</strong> Harris County is just <em>huge</em>. It's
+                    bigger than the state of Rhode Island.
+                  </div>
+
+                  <p>
+                    Because it covers more land, it captures more tornadoes. This is the
+                    <strong>MAUP</strong> (Modifiable Areal Unit Problem) striking again. If you
+                    don't <strong>Normalize</strong> your data (e.g., "Tornadoes per Square
+                    Mile"), you are simply making a map of "Where the Big Counties Are" or
+                    "Where People Live."
+                  </p>
+                  <p>
+                    <strong>The Fix:</strong> Always divide your count by Area (Density) or
+                    Population (Per Capita) before mapping!
+                  </p>
+                </section>
+
                 <section class="card" id="good-map-design">
                     <h2>Goals of Good Map Design</h2>
                     <p>Six fundamental elements comprise what makes good map design. These principles often work together, but can sometimes conflict. The goal of a good map is to <strong>balance each of these elements</strong>. When conflict does occur, emphasize only those that are most important to the purpose of the map.</p>
@@ -717,6 +780,22 @@
                                     <p style="margin: 0.5rem 0 0 0;"><strong>Mislabeled Geography & Physical Errors!</strong> Several country labels point to the wrong locations (e.g., the "West Bank" label). Furthermore, the map shows <strong>Europe and Africa touching at Algeria</strong>, creating a land bridge between the continents that does not exist in reality.</p>
                                     <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #065f46;"><strong>Principles Violated:</strong> Clarity (factually incorrect information), Harmony (the professional aesthetic is undermined by fundamental geographic errors)</p>
                                     <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; font-style: italic;">💡 <strong>Lesson:</strong> Always verify your geography! A beautiful graphic design can be completely invalidated by sloppy cartographic data.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <!-- Bad Map 4: Blue Background -->
+                        <div class="bad-map-card" style="background: #f8fafc; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0;">
+                            <div style="padding: 1rem; background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%); color: white;">
+                                <h3 style="margin: 0; font-size: 1.1rem;">🌊 Example 4: The Blue Background</h3>
+                            </div>
+                            <div style="padding: 1.5rem;">
+                                <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 1rem;"><em>(Imagine a map of exploration routes where the land is beige but the background is a deep, ocean blue...)</em></p>
+                                <div class="answer-reveal" style="display: block; margin-top: 1rem; padding: 1rem; background: #eff6ff; border-radius: 8px; border-left: 4px solid #1e3a8a;">
+                                    <p style="margin: 0; font-weight: 700; color: #1e3a8a;">❌ The Problem:</p>
+                                    <p style="margin: 0.5rem 0 0 0;"><strong>Figure-Ground Confusion!</strong> A textbook publisher once printed a history map on a dark blue background to look "cool." To a reader, <strong>Blue = Water</strong>. The students thought the continents were oceans and the oceans were land. It was a cognitive disaster.</p>
+                                    <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #1e3a8a;"><strong>Principles Violated:</strong> Clarity (convention requires blue for water), Contrast (background overpowered foreground)</p>
                                 </div>
                             </div>
                         </div>

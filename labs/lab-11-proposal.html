@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 11: The Research Proposal | GIS Lab Manual</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/lab.css">
+</head>
+<body>
+
+    <header class="lab-header" style="background: linear-gradient(rgba(79, 70, 229, 0.9), rgba(55, 48, 163, 0.9)), url('../assets/img/hero_lab10.jpg');">
+        <div class="container">
+            <nav style="margin-bottom: 1rem;">
+                <a href="index.html" style="color: white; text-decoration: none; font-weight: 600;">&larr; Back to Lab Manual</a>
+            </nav>
+            <span class="lab-badge">Lab 11</span>
+            <h1 style="color: white;">The Research Proposal</h1>
+            <p class="subtitle" style="color: #e0e7ff;">Transition from student to researcher. Design a rigorous geographic inquiry project and prove its feasibility.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 1. Learning Objectives -->
+        <section class="card">
+            <h2>🎯 Learning Objectives</h2>
+            <ul>
+                <li>Formulate a specific, measurable, and spatial research question.</li>
+                <li>Conduct a preliminary <strong>Literature Review</strong> to identify gaps in knowledge.</li>
+                <li>Source and validate at least two datasets (Vector & Raster).</li>
+                <li>Perform a "Pilot Test" to ensure data interoperability.</li>
+            </ul>
+        </section>
+
+        <!-- 2. Workflow Tool -->
+        <section class="card" style="background: #eef2ff; border-left: 5px solid #4338ca;">
+            <h2>🧠 Design Tool: The Inquiry Cycle</h2>
+            <p>Every good project follows this cycle. Where are you starting?</p>
+            <div style="display: flex; justify-content: space-around; padding: 2rem; text-align: center;">
+                <div>
+                    <div style="font-size: 2rem;">❓</div>
+                    <strong>1. Ask</strong><br>Define the problem.
+                </div>
+                <div>
+                    <div style="font-size: 2rem;">📚</div>
+                    <strong>2. Acquire</strong><br>Find the data.
+                </div>
+                <div>
+                    <div style="font-size: 2rem;">🔍</div>
+                    <strong>3. Analyze</strong><br>Process the data.
+                </div>
+                <div>
+                    <div style="font-size: 2rem;">📢</div>
+                    <strong>4. Act</strong><br>Present results.
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 1rem;">
+                <a href="../chapters/chapter-20-research-in-gis.html" target="_blank" class="btn btn-sm">Read Chapter 20: Research Methods</a>
+            </p>
+        </section>
+
+        <!-- 3. Scenario & Data -->
+        <section class="card">
+            <h2>📂 Scenario: The Grant Application</h2>
+            <p>You are applying for a "mini-grant" (your grade) to conduct independent research. The review board (your instructor) will not approve a project without proof that it is feasible.</p>
+            
+            <div class="callout warning">
+                <strong>Feasibility Check:</strong> The #1 reason projects fail is lack of data. You must prove you have the data <em>in hand</em> before starting.
+            </div>
+        </section>
+
+        <!-- 4. Instructions (Workflow) -->
+        <h2>🛠️ Proposal Steps</h2>
+        <p>Follow these steps to build your proposal document.</p>
+
+        <div class="instruction-pane active" style="display:block;">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>The Question</h3>
+                    <p>Draft a question that asks "Where" or "Why there?"<br>
+                       <strong>Bad:</strong> "Map of crime in Chicago." (This is a statement, not a question)<br>
+                       <strong>Good:</strong> "Does the density of streetlights correlate with nighttime robbery rates in Chicago?"</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>The Lit Review</h3>
+                    <p>Find 3 academic sources. Use <a href="https://scholar.google.com" target="_blank">Google Scholar</a>.<br>
+                       <strong>Task:</strong> Summarize each in 2 sentences. What did they find? What did they miss?</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Data Acquisition & Pilot</h3>
+                    <p>Download your proposed data. Open it in ArcGIS/QGIS.<br>
+                       <strong>Check:</strong><br>
+                       - Does it open?<br>
+                       - Is it in a known coordinate system?<br>
+                       - Does it cover your study area?<br>
+                       <em>Take a screenshot of the data loaded in software. This is your proof of life.</em></p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <h3>Methodology Draft</h3>
+                    <p>List the specific GIS tools you will use.<br>
+                       Example: <em>"I will use 'Kernel Density' to map hotspots and 'Zonal Statistics' to aggregate them to neighborhoods."</em></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Deliverables -->
+        <section class="card" style="margin-top: 4rem; border-top: 4px solid var(--accent);">
+            <h2>✅ Submission & Assessment</h2>
+            <p>To complete this lab, you must submit a **2-Page Proposal PDF** containing:</p>
+            <ul>
+                <li><strong>Title & Question:</strong> Clear and concise.</li>
+                <li><strong>Lit Review:</strong> 3 sources summarized.</li>
+                <li><strong>Data Dictionary:</strong> List of datasets, sources, and year.</li>
+                <li><strong>Pilot Screenshot:</strong> Evidence that you have opened the data.</li>
+                <li><strong>Methods Flowchart:</strong> A simple diagram of your planned steps.</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine | GIS Lab Manual</p>
+        </div>
+    </footer>
+</body>
+</html>

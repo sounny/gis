@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 03: Creating Data | GIS Lab Manual</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/lab.css">
+</head>
+<body>
+
+    <header class="lab-header" style="background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(51, 65, 85, 0.9)), url('../assets/img/hero_lab03.jpg');">
+        <div class="container">
+            <nav style="margin-bottom: 1rem;">
+                <a href="index.html" style="color: white; text-decoration: none; font-weight: 600;">&larr; Back to Lab Manual</a>
+            </nav>
+            <span class="lab-badge">Lab 03</span>
+            <h1 style="color:white;">Creating Data: Digitizing & Georeferencing</h1>
+            <p class="subtitle" style="color:#e2e8f0;">Learn the art of creating vector data from raw imagery. Turn a historic paper map into a digital spatial asset.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 1. Learning Objectives -->
+        <section class="card">
+            <h2>🎯 Learning Objectives</h2>
+            <ul>
+                <li><strong>Georeference</strong> a scanned paper map or aerial image to align it with the real world.</li>
+                <li>Create empty <strong>Vector Datasets</strong> (Shapefiles/Feature Classes) with specific attribute fields.</li>
+                <li><strong>Digitize</strong> points, lines, and polygons by tracing features.</li>
+                <li>Understand <strong>Snapping</strong> to ensure topological connectivity.</li>
+            </ul>
+        </section>
+
+        <!-- 2. Scenario & Data -->
+        <section class="card">
+            <h2>📂 Scenario: The Historic Campus</h2>
+            <p>The University Archives has provided a scanned map of the campus from 1950. It is just a JPEG image with no coordinates. Your task is to align it to the modern satellite basemap and digitize the footprints of the original buildings to calculate how much the campus has expanded.</p>
+            
+            <div class="data-download-card">
+                <div>
+                    <strong>Data Package:</strong> <code>lab03_digitizing.zip</code>
+                    <p style="margin:0; font-size: 0.85rem; color: #64748b;">Contains: <code>campus_1950.jpg</code> (Unreferenced Image)</p>
+                </div>
+                <a href="#" class="btn btn-primary" onclick="alert('Demo Mode: Imagine downloading historical map here!')">Download Data</a>
+            </div>
+            
+            <div class="callout warning">
+                <strong>Concept Check:</strong> You cannot digitize accurately if your background map is floating in the ocean. You MUST Georeference first!
+            </div>
+        </section>
+
+        <!-- 3. Instructions (The Switcher) -->
+        <h2>🛠️ Step-by-Step Instructions</h2>
+        <p>Select your preferred GIS platform to view instructions:</p>
+
+        <div class="platform-tabs">
+            <button class="tab-btn active" onclick="switchTab('arcgis')">🟦 ArcGIS Pro</button>
+            <button class="tab-btn" onclick="switchTab('qgis')">🟩 QGIS</button>
+            <button class="tab-btn" onclick="switchTab('web')">🟧 Web GIS (Mapbox/AGOL)</button>
+        </div>
+
+        <!-- ArcGIS Pro Pane -->
+        <div id="arcgis" class="instruction-pane active">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Georeferencing</h3>
+                    <p>1. Add <code>campus_1950.jpg</code> to the map. It will ask to "Build Pyramids" (Yes).<br>
+                       2. Go to <strong>Imagery</strong> tab > <strong>Georeference</strong>.<br>
+                       3. Use the "Fit to Display" tool to bring the image roughly into view.<br>
+                       4. Add <strong>Control Points</strong>: Click a building corner on the JPEG, then click the <em>same</em> building corner on the Basemap.<br>
+                       5. Add at least 4 points. Click <strong>Save</strong> to burn in the coordinates.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Create Feature Class</h3>
+                    <p>1. In the Catalog Pane, right-click your Geodatabase > <strong>New > Feature Class</strong>.<br>
+                       2. Name: <code>Historic_Buildings</code>. Type: <strong>Polygon</strong>.<br>
+                       3. Add a Text field called <code>Building_Name</code>.<br>
+                       4. Click Finish.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Digitizing & Snapping</h3>
+                    <p>1. Go to <strong>Edit</strong> tab > <strong>Create</strong>.<br>
+                       2. Enable <strong>Snapping</strong> (the magnet icon).<br>
+                       3. Select the "Polygon" construction tool.<br>
+                       4. Trace the buildings from the 1950 map. Double-click to finish a shape.<br>
+                       5. Open the Attribute Table and type the names.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- QGIS Pane -->
+        <div id="qgis" class="instruction-pane" style="display:none;">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Georeferencer Plugin</h3>
+                    <p>1. Go to <strong>Layer > Georeferencer</strong>.<br>
+                       2. Open <code>campus_1950.jpg</code>.<br>
+                       3. Click a point on the image, then choose "From Map Canvas" to click the corresponding point on the OpenStreetMap basemap.<br>
+                       4. Add 4+ points.<br>
+                       5. Click the "Play" (Start Georeferencing) button. Choose "Helmert" transformation.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>New GeoPackage Layer</h3>
+                    <p>1. <strong>Layer > Create Layer > New GeoPackage Layer</strong>.<br>
+                       2. Database: <code>lab03.gpkg</code>. Table: <code>Historic_Buildings</code>.<br>
+                       3. Geometry: <strong>Polygon</strong>.<br>
+                       4. New Field: <code>Name</code> (Text). Add to Fields list.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Toggle Editing</h3>
+                    <p>1. Right-click the new layer > <strong>Toggle Editing</strong> (Pencil icon).<br>
+                       2. Click "Add Polygon Feature".<br>
+                       3. Trace the buildings. Right-click to close a polygon.<br>
+                       4. Enter the Name in the popup form.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Web GIS Pane -->
+        <div id="web" class="instruction-pane" style="display:none;">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Web Georeferencing</h3>
+                    <p>Standard Web GIS limits image rectification. We will use the custom <strong>Web Georeferencer</strong> tool.</p>
+                    <div style="background: #fdf2f8; padding: 1rem; border-left: 4px solid #db2777; margin-bottom: 1rem;">
+                        <strong>Tool Link:</strong> <a href="https://sounny.github.io/georef/" target="_blank">Launch Web Georeferencer</a>
+                    </div>
+                    <p>1. <strong>Load Image:</strong> Upload your <code>campus_1950.jpg</code>.<br>
+                       2. <strong>Set Control Points:</strong> Click a point on your image (Left Panel), then find the same location on the satellite map (Right Panel). Repeat for 4 corners.<br>
+                       3. <strong>Warp:</strong> Click "Georeference Image".<br>
+                       4. <strong>Export:</strong> Download the result as a GeoTIFF or copy the Tile URL to use in AGOL.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Digitizing in Map Viewer</h3>
+                    <p>1. Create a "Sketch" layer in ArcGIS Online.<br>
+                       2. Choose the "Polygon" tool.<br>
+                       3. Trace features over the Imagery basemap.<br>
+                       4. <em>Limitation:</em> Sketch layers are not true databases. To create real data, you must publish a "Hosted Feature Layer" first.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Deliverables -->
+        <section class="card" style="margin-top: 4rem; border-top: 4px solid var(--accent);">
+            <h2>✅ Submission & Assessment</h2>
+            <p>To complete this lab, you must submit:</p>
+            <ul>
+                <li><strong>Screenshot 1:</strong> Your Georeferenced 1950 map overlaid on the modern basemap (set transparency to 50% to show alignment).</li>
+                <li><strong>Screenshot 2:</strong> Your digitized polygons with a label showing the "Building_Name".</li>
+                <li><strong>Bonus:</strong> Calculate the area of the "Old Main" building in square feet.</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine | GIS Lab Manual</p>
+        </div>
+    </footer>
+
+    <script>
+        function switchTab(platform) {
+            document.querySelectorAll('.instruction-pane').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(platform).style.display = 'block';
+            
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                if(btn.textContent.toLowerCase().includes(platform === 'web' || platform === 'gee' ? (platform === 'gee' ? 'google' : 'web') : platform)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

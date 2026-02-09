@@ -273,6 +273,24 @@
                         <li><strong>Unsupervised:</strong> The computer groups similar pixels into clusters automatically. The analyst later identifies what those clusters actually represent.</li>
                         <li><strong>Supervised:</strong> The analyst provides <em>Training Samples</em> (examples) for each class first, and the computer maps the rest of the image based on those samples.</li>
                     </ul>
+
+                    <div style="margin-top: 2rem; border-top: 1px solid #e2e8f0; padding-top: 2rem;">
+                        <h3>Teaching the Machine: The "Shape Sorter" Analogy</h3>
+                        <p>We often talk about "AI" as if it's magic. It's not. It's just a baby with a shape-sorter toy.</p>
+    
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 1.5rem;">
+                            <div style="background: #eff6ff; padding: 1.5rem; border-radius: 12px; border: 1px solid #bfdbfe;">
+                                <h4 style="color: #1e40af; margin-top: 0;">Supervised Classification</h4>
+                                <p><strong>The Method:</strong> You (the parent) hold up a square block and say "This is a SQUARE." You hold up a circle and say "This is a CIRCLE." Then you let the baby (AI) sort the rest based on your rules.</p>
+                                <p><strong>The Risk:</strong> If you accidentally call a pentagon a "square," the baby will force every pentagon into the square hole forever. This is <strong>Human Bias</strong>.</p>
+                            </div>
+                            <div style="background: #f0fdf4; padding: 1.5rem; border-radius: 12px; border: 1px solid #bbf7d0;">
+                                <h4 style="color: #166534; margin-top: 0;">Unsupervised Classification</h4>
+                                <p><strong>The Method:</strong> You dump the toys on the floor and walk away. The baby looks at them and says, "These look similar, I'll put them in a pile. These others look weird, I'll put them in another pile."</p>
+                                <p><strong>The Result:</strong> The computer groups pixels purely by <strong>Spectral Similarity</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
                 </section>
 
                 <section class="classification-container">
