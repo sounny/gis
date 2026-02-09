@@ -30,6 +30,11 @@ MAX_REF_CHARS = 250_000
 
 TAG_RE = re.compile(r"<[^>]+>")
 
+TITLE_RE = re.compile(r"<title>(.*?)</title>", re.I | re.S)
+KEY_TERMS_RE = re.compile(r"<h3>\s*Key terms\s*</h3>\s*<p>(.*?)</p>", re.I | re.S)
+GLOSSARY_RE = re.compile(r"<span class=\"glossary-term\">\s*(.*?)\s*</span>", re.I | re.S)
+HEADINGS_RE = re.compile(r"<h[1-3][^>]*>(.*?)</h[1-3]>", re.I | re.S)
+
 STOP_EXACT = {
     "At a Glance",
     "Learning outcomes",
@@ -155,7 +160,7 @@ def _clean_text(raw: str) -> str:
 
 
 def extract_title(html: str) -> str:
-    m = re.search(r"<title>(.*?)</title>", html, re.I | re.S)
+    m = TITLE_RE.search(html)
     return _clean_text(m.group(1)) if m else ""
 
 
@@ -163,7 +168,7 @@ def extract_concepts(html: str) -> list[str]:
     concepts: list[str] = []
 
     # Key terms scaffold
-    km = re.search(r"<h3>\s*Key terms\s*</h3>\s*<p>(.*?)</p>", html, re.I | re.S)
+    km = KEY_TERMS_RE.search(html)
     if km:
         kt = _clean_text(km.group(1))
         for part in kt.split(","):
@@ -172,13 +177,13 @@ def extract_concepts(html: str) -> list[str]:
                 concepts.append(term)
 
     # Glossary terms
-    for m in re.finditer(r"<span class=\"glossary-term\">\s*(.*?)\s*</span>", html, re.I | re.S):
+    for m in GLOSSARY_RE.finditer(html):
         term = _clean_text(m.group(1))
         if term:
             concepts.append(term)
 
     # Headings
-    for m in re.finditer(r"<h[1-3][^>]*>(.*?)</h[1-3]>", html, re.I | re.S):
+    for m in HEADINGS_RE.finditer(html):
         t = _clean_text(m.group(1))
         if not t:
             continue
@@ -205,8 +210,8 @@ def extract_concepts(html: str) -> list[str]:
     return out
 
 
-def load_reference_texts() -> dict[str, str]:
-    texts: dict[str, str] = {}
+def load_reference_texts() -> dict[str, tuple[str, str]]:
+    texts: dict[str, tuple[str, str]] = {}
     for p in REF_ROOT.rglob("*"):
         if not p.is_file() or p.suffix.lower() not in REF_EXTS:
             continue
@@ -216,11 +221,11 @@ def load_reference_texts() -> dict[str, str]:
             continue
         if len(txt) > MAX_REF_CHARS:
             txt = txt[:MAX_REF_CHARS]
-        texts[p.as_posix()] = txt
+        texts[p.as_posix()] = (txt, txt.lower())
     return texts
 
 
-def find_refs(ref_texts: dict[str, str], term: str, max_hits: int = 3) -> list[RefHit]:
+def find_refs(ref_texts: dict[str, tuple[str, str]], term: str, max_hits: int = 3) -> list[RefHit]:
     tl = term.lower().strip()
     if len(tl) < 4:
         return []
@@ -228,15 +233,16 @@ def find_refs(ref_texts: dict[str, str], term: str, max_hits: int = 3) -> list[R
         return []
 
     scores: list[tuple[int, str, str]] = []
-    for path, txt in ref_texts.items():
-        cnt = txt.lower().count(tl)
+    for path, (txt, txt_lower) in ref_texts.items():
+        cnt = txt_lower.count(tl)
         if cnt:
             scores.append((cnt, path, txt))
     scores.sort(reverse=True, key=lambda x: x[0])
 
     hits: list[RefHit] = []
     for cnt, path, txt in scores[:max_hits]:
-        idx = txt.lower().find(tl)
+        txt_lower = ref_texts[path][1]
+        idx = txt_lower.find(tl)
         excerpt = ""
         if idx != -1:
             start = max(0, idx - 200)
@@ -246,7 +252,7 @@ def find_refs(ref_texts: dict[str, str], term: str, max_hits: int = 3) -> list[R
     return hits
 
 
-def best_overall_sources(ref_texts: dict[str, str], concepts: Iterable[str], cap: int = 12) -> list[tuple[str, int]]:
+def best_overall_sources(ref_texts: dict[str, tuple[str, str]], concepts: Iterable[str], cap: int = 12) -> list[tuple[str, int]]:
     tally: dict[str, int] = {}
     for c in concepts:
         for h in find_refs(ref_texts, c, max_hits=6):
@@ -289,7 +295,7 @@ def iter_pages() -> list[Path]:
     return pages
 
 
-def write_notes(ref_texts: dict[str, str], page: Path) -> None:
+def write_notes(ref_texts: dict[str, tuple[str, str]], page: Path) -> None:
     html = page.read_text(encoding="utf-8", errors="ignore")
     title = extract_title(html)
     concepts = extract_concepts(html)
@@ -298,7 +304,10 @@ def write_notes(ref_texts: dict[str, str], page: Path) -> None:
 
     candidate_excerpts: list[tuple[str, str]] = []
     for path, _score in sources[:6]:
-        txt = ref_texts.get(path, "").strip()
+        entry = ref_texts.get(path)
+        if not entry:
+            continue
+        txt = entry[0].strip()
         if not txt:
             continue
         snippet = re.sub(r"\s+", " ", txt)[:420]

@@ -1,4 +1,5 @@
 import argparse
+import concurrent.futures
 import json
 import os
 import re
@@ -6,6 +7,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from typing import Optional, Dict, Any
 
 
 DEFAULT_BASE = "https://ucgis-bok-default-rtdb.firebaseio.com"
@@ -78,6 +80,34 @@ def _topic_to_markdown(topic: dict) -> str:
     return text
 
 
+def _fetch_and_process_topic(key: str, base_url: str, out_dir: str, fmt: str) -> Optional[Dict[str, Any]]:
+    topic_url = f"{base_url}/current/concepts/{urllib.parse.quote(str(key))}.json"
+    try:
+        topic = _http_get_json(topic_url)
+    except Exception as e:
+        print(f"Failed to fetch topic {key}: {e}")
+        return None
+
+    if not isinstance(topic, dict):
+        return None
+
+    code = topic.get("code") or str(key)
+    safe = _safe_filename(code)
+
+    if fmt in ("json", "both"):
+        _write_json(os.path.join(out_dir, f"{safe}.json"), topic)
+    if fmt in ("md", "both"):
+        _write_text(os.path.join(out_dir, f"{safe}.md"), _topic_to_markdown(topic))
+
+    return {
+        "key": key,
+        "code": topic.get("code"),
+        "name": topic.get("name"),
+        "link": topic.get("link"),
+        "out_base": os.path.join(out_dir, safe),
+    }
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(
         description="Export UCGIS BoK topics (Firebase RTDB) to local files"
@@ -104,7 +134,7 @@ def main() -> int:
         "--sleep",
         type=float,
         default=0.05,
-        help="Sleep seconds between topic requests",
+        help="Sleep seconds between topic requests (ignored in concurrent mode)",
     )
     args = ap.parse_args()
 
@@ -126,36 +156,36 @@ def main() -> int:
     }
 
     # 2) Fetch each topic
-    for i, key in enumerate(keys, 1):
-        topic_url = f"{args.base}/current/concepts/{urllib.parse.quote(str(key))}.json"
-        topic = _http_get_json(topic_url)
-        if not isinstance(topic, dict):
-            continue
+    # Using 10 workers as a reasonable default for I/O bound operations against a public API
+    max_workers = 10
 
-        code = topic.get("code") or str(key)
-        name = topic.get("name") or ""
-        safe = _safe_filename(code)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
+        futures = {
+            executor.submit(
+                _fetch_and_process_topic, key, args.base, args.out, args.format
+            ): key
+            for key in keys
+        }
 
-        if args.format in ("json", "both"):
-            _write_json(os.path.join(args.out, f"{safe}.json"), topic)
-        if args.format in ("md", "both"):
-            _write_text(os.path.join(args.out, f"{safe}.md"), _topic_to_markdown(topic))
+        completed_count = 0
+        total = len(keys)
 
-        manifest["topics"].append(
-            {
-                "key": key,
-                "code": topic.get("code"),
-                "name": topic.get("name"),
-                "link": topic.get("link"),
-                "out_base": os.path.join(args.out, safe),
-            }
-        )
-        manifest["count"] = len(manifest["topics"])
+        for future in concurrent.futures.as_completed(futures):
+            key = futures[future]
+            try:
+                result = future.result()
+                if result:
+                    manifest["topics"].append(result)
+            except Exception as exc:
+                print(f"Topic {key} generated an exception: {exc}")
 
-        if args.sleep:
-            time.sleep(args.sleep)
-        if i % 25 == 0:
-            print(f"Fetched {i}/{len(keys)}")
+            completed_count += 1
+            if completed_count % 25 == 0:
+                print(f"Fetched {completed_count}/{total}")
+
+    # Sort topics to maintain deterministic output order
+    manifest["topics"].sort(key=lambda t: int(t["key"]) if str(t["key"]).isdigit() else str(t["key"]))
+    manifest["count"] = len(manifest["topics"])
 
     _write_json(os.path.join(args.out, "manifest.json"), manifest)
     print(f"Done. Exported {manifest['count']} topics to {args.out}")
