@@ -9,6 +9,10 @@ references/
 # conductor/
 !conductor/
 
+# Python compiled files
+__pycache__/
+*.pyc
+
 # Development documentation (markdown files)
 *.md
 !conductor/**/*.md
