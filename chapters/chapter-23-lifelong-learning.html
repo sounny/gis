@@ -19,7 +19,9 @@
         }
 
         .hero-chapter {
-            background: linear-gradient(135deg, #0369a1 0%, #0ea5e9 100%);
+            background: linear-gradient(rgba(3, 105, 161, 0.8), rgba(14, 165, 233, 0.7)), url('../assets/img/hero_chapter23.png');
+            background-size: cover;
+            background-position: center;
             padding: 5rem 2rem;
             text-align: center;
             color: white;
@@ -50,7 +52,7 @@
             border: 1px solid rgba(255,255,255,0.3);
         }
 
-        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; color: #ffffff; text-shadow: 0 4px 6px rgba(0,0,0,0.5); }
         .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
 
         .layout-grid {
@@ -124,16 +126,33 @@
 
     <header class="hero-chapter">
         <div class="container">
-            <span class="chapter-badge">Chapter 23</span>
+            <span class="chapter-badge">Chapter 24</span>
             <h1>Lifelong Learning</h1>
             <p class="subtitle">The map is never finished. Discover specific resources, communities, and advanced topics to continue your growth as a geospatial professional.</p>
         </div>
     </header>
+    <!-- STICKY NAVIGATION BAR -->
+    <nav class="sticky-chapter-bar">
+      <div class="nav-container">
+        <div class="nav-left">
+          <span class="nav-chapter-num">Chapter 24</span>
+        </div>
+        <div class="nav-center">
+          <span class="nav-current-title">Lifelong Learning</span>
+        </div>
+        <div class="nav-right">
+          <a href="../index.html" class="nav-toc-btn" title="Table of Contents">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            <span class="toc-text">TOC</span>
+          </a>
+        </div>
+      </div>
+      <div class="nav-progress-bar"></div>
+    </nav>
+
 
     <main class="container">
-        <nav style="margin: 2rem 0;">
-            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
-        </nav>
+        
 
         <section class="card learning-scaffold" aria-label="Learning scaffold">
             <details class="learning-scaffold-details">
@@ -166,6 +185,22 @@
                     <h2>🚀 Keeping Up with the Tech</h2>
                     <p>Geospatial technology evolves rapidly. While current methods are powerful, software and hardware will inevitably change. Proficiency in the field requires a commitment to "Lifelong Learning," which involves the continuous exploration of new software, sensors, and techniques.</p>
                 </section>
+
+                <div class="callout secondary" style="background: #fdf2f8; border-left: 5px solid #db2777; color: #831843; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0;">
+                    <h3 style="margin-top: 0; color: #9d174d;">🎨 GIS as an Art: Building Your Portfolio</h3>
+                    <p>Your portfolio is your gallery. Don't just show screenshots of software; tell the story of your design process. Curate your best work, explain the decisions you made, and treat every map as a piece of art that represents your personal brand as a geographer.</p>
+                </div>
+
+                <div class="callout secondary" style="background: #fff7ed; border-left: 5px solid #f97316; color: #7c2d12; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0;">
+                    <h3 style="margin-top: 0; color: #9a3412;">Geographic Inquiry: Asking Questions of Where</h3>
+                    <p>Before ever opening software, a GIS analyst starts with a question. "Where" is not just a coordinate; it is a relationship.</p>
+                    <ul>
+                        <li><strong>Concentration:</strong> Where is the phenomenon clustered?</li>
+                        <li><strong>Boundary:</strong> Where does it change sharply vs. gradually?</li>
+                        <li><strong>Uncertainty:</strong> Where is the data missing or biased?</li>
+                        <li><strong>Verification:</strong> Where would you stand on the ground to prove it?</li>
+                    </ul>
+                </div>
 
                 <section class="card">
                     <h2>📚 Recommended Resources</h2>
@@ -257,6 +292,11 @@
                     </div>
                 </section>
 
+                <div class="callout secondary" style="background: #f0fdf4; border-left: 5px solid #16a34a; color: #14532d; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0;">
+                    <h3 style="margin-top: 0; color: #15803d;">🤝 Interdisciplinary GIS: Education</h3>
+                    <p>Teaching is the highest form of learning. "Geo-Education" is a field that studies how people learn spatial thinking. By mentoring a junior analyst or presenting at a conference, you are not just sharing facts; you are engaging in the cognitive science of how we transmit spatial knowledge.</p>
+                </div>
+
                 <section class="card">
                     <h2>Certifications & Career</h2>
                     <p>Advancing in the profession often involves validating expertise through professional certifications:</p>
@@ -264,6 +304,11 @@
                         <li><strong>GISP (Certified GIS Professional):</strong> Administered by the GISCI, this portfolio-based certification requires education, experience, and contributions to the field.</li>
                         <li><strong>Esri Technical Certifications:</strong> Exam-based certifications that prove proficiency in specific ArcGIS software.</li>
                     </ul>
+
+                    <div class="callout warning" style="background: #eef2ff; border-left: 5px solid #bd2777; color: #831843; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                        <strong>Critical GIS: The Ethics of Automation</strong>
+                        <p>As we build better tools (AI, scripts, models), we risk automating inequality. If a "lifelong learner" only learns the <em>how</em> and not the <em>why</em>, they become a dangerous technician. Your duty as a geographer is not just to make the map faster, but to ensure the map tells the truth.</p>
+                    </div>
                 </section>
 
                 <div class="quiz-container">
@@ -298,8 +343,8 @@
         </div>
 
         <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
-          <a href="chapter-22-vgi.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 22: VGI & NeoGeography</a>
-          <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Back to Dashboard &rarr;</a>
+            <a href="chapter-22-vgi.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 23: VGI & NeoGeography</a>
+            <a href="../index.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Table of Contents →</a>
         </div>
     
 
@@ -314,20 +359,8 @@
             </p>
             <ul class="bok-topic-list">
                         <li class="bok-topic">
-            <span class="bok-code">KE-01-023</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10727" target="_blank" rel="noopener noreferrer">GIS&T Workforce Development</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">KE-01-025</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10729" target="_blank" rel="noopener noreferrer">GIS&T Education and Training</a>
-        </li>
-                        <li class="bok-topic">
             <span class="bok-code">KE-01-031</span>
             <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10730" target="_blank" rel="noopener noreferrer">Professional Certification</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">GS-02-012</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10712" target="_blank" rel="noopener noreferrer">Ethics for Certified Geospatial Professionals</a>
         </li>
                         <li class="bok-topic">
             <span class="bok-code">BoK</span>
@@ -341,7 +374,75 @@
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">
             <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #64748b;">
+                Made with ❤️ by <a href="https://sounny.github.io" target="_blank" style="color: #64748b; text-decoration: underline;">Dr. Sounny</a>
+            </p>
         </div>
     </footer>
+
+    <!-- DYNAMIC NAV SCRIPT -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const navTitle = document.querySelector('.nav-current-title');
+        const defaultTitle = "Lifelong Learning"; // Dynamic default
+        const sections = document.querySelectorAll('main h2');
+        const navBar = document.querySelector('.sticky-chapter-bar');
+        const progressBar = document.querySelector('.nav-progress-bar');
+        
+        // 1. Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+          const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+          const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const scrolled = (winScroll / height) * 100;
+          if (progressBar) progressBar.style.width = scrolled + "%";
+          
+          if (window.scrollY > 200) {
+            navBar.classList.add('is-stuck');
+          } else {
+            navBar.classList.remove('is-stuck');
+          }
+        });
+
+        // 2. Section Observer for Dynamic Title
+        const observerOptions = {
+          root: null,
+          rootMargin: '-80px 0px -70% 0px',
+          threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const newText = entry.target.innerText;
+              if (navTitle.textContent !== newText) {
+                  navTitle.style.opacity = 0;
+                  setTimeout(() => {
+                    navTitle.textContent = newText;
+                    navTitle.style.opacity = 1;
+                  }, 200);
+              }
+            }
+          });
+        }, observerOptions);
+
+        sections.forEach(section => {
+          observer.observe(section);
+        });
+        
+        // Reset to default
+        window.addEventListener('scroll', () => {
+          if (window.scrollY < 150) {
+             if (navTitle.textContent !== defaultTitle) {
+               navTitle.style.opacity = 0;
+               setTimeout(() => {
+                 navTitle.textContent = defaultTitle;
+                 navTitle.style.opacity = 1;
+               }, 200);
+             }
+          }
+        });
+      });
+    </script>
+
 </body>
 </html>

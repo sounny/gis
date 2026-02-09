@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lab [NUM]: [TITLE] | GIS Lab Manual</title>
+    <title>Lab 06: Geocoding Addresses | GIS Lab Manual</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="css/lab.css">
 </head>
@@ -14,9 +14,9 @@
             <nav style="margin-bottom: 1rem;">
                 <a href="index.html" style="color: var(--primary); text-decoration: none; font-weight: 600;">&larr; Back to Lab Manual</a>
             </nav>
-            <span class="lab-badge">Lab [NUM]</span>
-            <h1>[LAB TITLE]</h1>
-            <p class="subtitle">[Brief 1-sentence mission statement for the lab]</p>
+            <span class="lab-badge">Lab 06</span>
+            <h1>Geocoding Addresses</h1>
+            <p class="subtitle">Convert address lists into spatial data points.</p>
         </div>
     </header>
 
@@ -25,21 +25,21 @@
         <section class="card">
             <h2>🎯 Learning Objectives</h2>
             <ul>
-                <li>[Objective 1]</li>
-                <li>[Objective 2]</li>
-                <li>[Objective 3]</li>
+                <li>Understand the concept of Geocoding</li>
+                <li>Clean address data for processing</li>
+                <li>Map locations from CSV files</li>
             </ul>
         </section>
 
         <!-- 2. Scenario & Data -->
         <section class="card">
             <h2>📂 Scenario & Requirements</h2>
-            <p>[Describe the real-world problem or research question]</p>
+            <p>You have a list of customer addresses that need to be mapped for a delivery route analysis.</p>
             
             <div class="data-download-card">
                 <div>
-                    <strong>Data Package:</strong> <code>[filename].zip</code>
-                    <p style="margin:0; font-size: 0.85rem; color: #64748b;">Contains Shapefiles, GeoJSON, and CSV</p>
+                    <strong>Data Package:</strong> <code>lab-06-data.zip</code>
+                    <p style="margin:0; font-size: 0.85rem; color: #64748b;">Contains CSV Address Lists</p>
                 </div>
                 <a href="#" class="btn btn-primary">Download Data</a>
             </div>
@@ -66,11 +66,10 @@
             <div class="step">
                 <div class="step-num">1</div>
                 <div class="step-content">
-                    <h3>Setting up the Project</h3>
-                    <p>Open ArcGIS Pro and create a new Map project. Extract your downloaded data to your project folder...</p>
+                    <h3>Locate the Geocoding Service</h3>
+                    <p>Instructions for ArcGIS Pro Geocoding...</p>
                 </div>
             </div>
-            <!-- Add more steps -->
         </div>
 
         <!-- QGIS Pane -->
@@ -78,11 +77,10 @@
             <div class="step">
                 <div class="step-num">1</div>
                 <div class="step-content">
-                    <h3>Importing Data</h3>
-                    <p>Open QGIS. Drag and drop the GeoJSON files into the layers panel...</p>
+                    <h3>Install MMQGIS Plugin</h3>
+                    <p>Instructions for QGIS Geocoding...</p>
                 </div>
             </div>
-            <!-- Add more steps -->
         </div>
 
         <!-- Web GIS Pane -->
@@ -90,11 +88,10 @@
             <div class="step">
                 <div class="step-num">1</div>
                 <div class="step-content">
-                    <h3>ArcGIS Online Setup</h3>
-                    <p>Log in to your ArcGIS Public Account. Click 'Map' to open the classic Map Viewer...</p>
+                    <h3>Drag and Drop CSV</h3>
+                    <p>Instructions for Web GIS Geocoding...</p>
                 </div>
             </div>
-            <!-- Add more steps -->
         </div>
 
         <!-- 4. Deliverables -->
@@ -102,8 +99,8 @@
             <h2>✅ Submission & Assessment</h2>
             <p>To complete this lab, you must submit:</p>
             <ul>
-                <li>[Deliverable 1: e.g. A screenshot of your final map]</li>
-                <li>[Deliverable 2: e.g. A CSV of your calculated statistics]</li>
+                <li>A map showing the geocoded points</li>
+                <li>A report on match rates and errors</li>
             </ul>
             <div class="callout warning">
                 <strong>Quality Check:</strong> Ensure your map includes a Title, Legend, and North Arrow before exporting.

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 15: Spatial Modeling | GIS Digital Textbook</title>
+    <title>Chapter 16: Spatial Modeling | GIS Digital Textbook</title>
     <meta name="description" content="Learn to automate your GIS workflows. Master ModelBuilder, Python scripting (ArcPy), and how to chain geoprocessing tools together to solve complex geographic problems.">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,7 +19,9 @@
         }
 
         .hero-chapter {
-            background: linear-gradient(135deg, #4c1d95 0%, #8b5cf6 100%);
+            background: linear-gradient(rgba(76, 29, 149, 0.8), rgba(139, 92, 246, 0.7)), url('../assets/img/hero_chapter15.png');
+            background-size: cover;
+            background-position: center;
             padding: 5rem 2rem;
             text-align: center;
             color: white;
@@ -49,7 +51,7 @@
             border: 1px solid rgba(255,255,255,0.3);
         }
 
-        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; color: #ffffff; text-shadow: 0 4px 6px rgba(0,0,0,0.5); }
         .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
 
         .layout-grid {
@@ -124,16 +126,33 @@
 
     <header class="hero-chapter">
         <div class="container">
-            <span class="chapter-badge">Chapter 15</span>
+            <span class="chapter-badge">Chapter 16</span>
             <h1>Spatial Modeling</h1>
             <p class="subtitle">Workflow automation. Learn how to chain geoprocessing tools together using ModelBuilder and Python to solve complex, real-world spatial problems.</p>
         </div>
     </header>
+    <!-- STICKY NAVIGATION BAR -->
+    <nav class="sticky-chapter-bar">
+      <div class="nav-container">
+        <div class="nav-left">
+          <span class="nav-chapter-num">Chapter 16</span>
+        </div>
+        <div class="nav-center">
+          <span class="nav-current-title">Spatial Modeling</span>
+        </div>
+        <div class="nav-right">
+          <a href="../index.html" class="nav-toc-btn" title="Table of Contents">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            <span class="toc-text">TOC</span>
+          </a>
+        </div>
+      </div>
+      <div class="nav-progress-bar"></div>
+    </nav>
+
 
     <main class="container">
-        <nav style="margin: 2rem 0;">
-            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
-        </nav>
+        
 
 
         <section class="card learning-scaffold" aria-label="Learning scaffold">
@@ -142,7 +161,7 @@
 <div class="scaffold-head">
                 <h2>At a Glance</h2>
                 <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
-                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapters 13-14</span>
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapters 13-15</span>
                     <span class="scaffold-chip"><strong>Time:</strong> 30 min read + 40 min build</span>
                     <span class="scaffold-chip"><strong>Deliverable:</strong> Model workflow diagram</span>
                 </div>
@@ -242,8 +261,29 @@
                 </section>
 
                 <section class="card">
+                    <h2>🏗️ Types of Spatial Models</h2>
+                    <p>Not all models are created equal. Depending on the problem you are solving, you will choose different modeling approaches:</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.5rem;">
+                        <div>
+                            <h3 style="color: var(--primary); margin-bottom: 0.5rem;">Static vs. Dynamic</h3>
+                            <p style="font-size: 0.9rem;"><strong>Static models</strong> analyze a single point in time (e.g., "Where is the best place to build a store today?"). <strong>Dynamic models</strong> simulate change over time (e.g., "How will this fire spread over the next 12 hours?").</p>
+                        </div>
+                        <div>
+                            <h3 style="color: var(--primary); margin-bottom: 0.5rem;">Deterministic vs. Stochastic</h3>
+                            <p style="font-size: 0.9rem;"><strong>Deterministic models</strong> always produce the same output for a given input (e.g., <span style="font-family: monospace;">A + B = C</span>). <strong>Stochastic models</strong> include randomness (e.g., Monte Carlo simulations) to account for uncertainty in nature.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
                     <h2>📦 ModelBuilder: Visual Programming</h2>
                     <p>ArcGIS Pro's <strong>ModelBuilder</strong> is a visual programming language where you drag data (Blue Ellipses) and tools (Yellow Rectangles) onto a canvas to create a "Geoprocessing Chain."</p>
+
+                    <div class="callout warning" style="background: #fffcdb; border-left: 5px solid #f59e0b; color: #78350f; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                        <strong>Critical GIS: The Illusion of Objectivity</strong>
+                        <p>When we wrap a decision into a "Model," it gains an aura of objective truth. "The computer decided" becomes a shield against criticism. But every model is just a frozen set of human assumptions. If your input data is biased (e.g., historical crime data), your automated model will simply scale that bias. Automation is not neutral; it optimizes for whatever goal the programmer defines.</p>
+                    </div>
                 </section>
 
                 <section class="modelbuilder-sandbox">
@@ -259,6 +299,23 @@
                 </section>
 
                 <section class="card">
+                    <h2>🐍 Beyond the Visual: Python & ArcPy</h2>
+                    <p>Visual programming (ModelBuilder) is excellent for designing workflows, but it has limits. For advanced automation—like processing 10,000 files or integrating with external web APIs—professionals turn to <strong>Python</strong>.</p>
+                    
+                    <div style="background: #1e293b; padding: 1.5rem; border-radius: 8px; margin-top: 1rem; color: #e2e8f0; font-family: monospace; font-size: 0.9rem; overflow-x: auto;">
+                        <span style="color: #94a3b8;"># A simple Python script (ArcPy) equivalent to the model above</span><br>
+                        <span style="color: #c084fc;">import</span> arcpy<br><br>
+                        <span style="color: #94a3b8;"># Set environments</span><br>
+                        arcpy.env.workspace = <span style="color: #a5f3fc;">"C:/GIS/Project_Data"</span><br><br>
+                        <span style="color: #94a3b8;"># Run the buffer tool</span><br>
+                        <span style="color: #c084fc;">if</span> arcpy.Exists(<span style="color: #a5f3fc;">"roads.shp"</span>):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;arcpy.Buffer_analysis(<span style="color: #a5f3fc;">"roads.shp"</span>, <span style="color: #a5f3fc;">"roads_buffer.shp"</span>, <span style="color: #a5f3fc;">"50 Meters"</span>)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #fca5a5;">print</span>(<span style="color: #a5f3fc;">"Buffer complete!"</span>)
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem;"><strong>Why learn Python?</strong> It allows you to use loops (<span style="font-family: monospace;">for file in folder:</span>) and conditional logic that is difficult to build visually. It is the industry standard for GIS automation.</p>
+                </section>
+
+                <section class="card">
                     <h2>Summary of Big Ideas</h2>
                     <ul style="line-height: 1.8;">
                         <li><strong>Recursive Processing:</strong> Models can handle loops and iterations (e.g., process all files in a folder).</li>
@@ -268,7 +325,7 @@
                 </section>
 
                 <div class="quiz-container">
-                    <h2>Chapter 15 Checkpoint</h2>
+                    <h2>Chapter 16 Checkpoint</h2>
                     <div class="question">
                         <p><strong>1. In ModelBuilder, what does a Blue Ellipse represent?</strong></p>
                         <div class="option" onclick="this.classList.add('correct')">Data (Input or Output)</div>
@@ -315,13 +372,18 @@
                     <p>The <strong>Texas A&M Forest Service</strong> runs one of the most advanced spatial models in the country: the Texas Wildfire Risk Assessment Portal (TxWRAP). By chaining rasters for fuel load, slope, and weather conditions, the model predicts fire behavior in real-time.</p>
                     <p>This automated workflow runs daily, providing a "Fire Danger" index that local counties use to issue burn bans.</p>
                     <a href="https://texaswildfirerisk.com/" target="_blank" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem; width:100%; text-align:center;">View TxWRAP</a>
+
+                    <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                        <h4 style="margin-top: 0; color: var(--secondary);">Global Parallel: Australian Bushfires 🇦🇺</h4>
+                        <p style="font-size: 0.9rem;">In Australia, the <strong>McArthur Forest Fire Danger Index (FFDI)</strong> is the standard spatial model for predicting fire risk. Unlike Texas models which focus heavily on fuel load (vegetation), the Australian model heavily weights "Drought Factor" and wind speed, reflecting the unique climate challenges of the continent.</p>
+                    </div>
                 </div>
             </aside>
         </div>
 
         <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
-          <a href="chapter-14-vector-analysis.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 14: Vector Analysis</a>
-          <a href="chapter-16-mobile-gis.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 16: Mobile GIS &rarr;</a>
+            <a href="chapter-14-vector-analysis.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 15: Vector Analysis</a>
+            <a href="chapter-16-mobile-gis.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Chapter 17: Mobile GIS →</a>
         </div>
     
 
@@ -336,28 +398,16 @@
             </p>
             <ul class="bok-topic-list">
                         <li class="bok-topic">
-            <span class="bok-code">AM-01-020</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10469" target="_blank" rel="noopener noreferrer">Geospatial Analysis and Model Building</a>
+            <span class="bok-code">AM-03-012</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10465" target="_blank" rel="noopener noreferrer">Cartographic Modeling</a>
         </li>
                         <li class="bok-topic">
-            <span class="bok-code">GS-02-025</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10721" target="_blank" rel="noopener noreferrer">Spatial Decision Support</a>
+            <span class="bok-code">AM-03-013</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10466" target="_blank" rel="noopener noreferrer">Multi-Criteria Evaluation</a>
         </li>
                         <li class="bok-topic">
-            <span class="bok-code">PD-02-025</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10817" target="_blank" rel="noopener noreferrer">Verification & Validation of Applied GIS Research</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">AM-09-107</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10464" target="_blank" rel="noopener noreferrer">Spatial Data Uncertainty</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">AM-09-106</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10463" target="_blank" rel="noopener noreferrer">Error-based Uncertainty</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">AM-03-019</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10468" target="_blank" rel="noopener noreferrer">Exploratory Spatial Data Analysis (ESDA)</a>
+            <span class="bok-code">AM-07-084</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10493" target="_blank" rel="noopener noreferrer">Simulation Modeling</a>
         </li>
                         <li class="bok-topic">
             <span class="bok-code">BoK</span>
@@ -371,7 +421,75 @@
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">
             <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #64748b;">
+                Made with ❤️ by <a href="https://sounny.github.io" target="_blank" style="color: #64748b; text-decoration: underline;">Dr. Sounny</a>
+            </p>
         </div>
     </footer>
+
+    <!-- DYNAMIC NAV SCRIPT -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const navTitle = document.querySelector('.nav-current-title');
+        const defaultTitle = "Spatial Modeling"; // Dynamic default
+        const sections = document.querySelectorAll('main h2');
+        const navBar = document.querySelector('.sticky-chapter-bar');
+        const progressBar = document.querySelector('.nav-progress-bar');
+        
+        // 1. Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+          const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+          const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const scrolled = (winScroll / height) * 100;
+          if (progressBar) progressBar.style.width = scrolled + "%";
+          
+          if (window.scrollY > 200) {
+            navBar.classList.add('is-stuck');
+          } else {
+            navBar.classList.remove('is-stuck');
+          }
+        });
+
+        // 2. Section Observer for Dynamic Title
+        const observerOptions = {
+          root: null,
+          rootMargin: '-80px 0px -70% 0px',
+          threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const newText = entry.target.innerText;
+              if (navTitle.textContent !== newText) {
+                  navTitle.style.opacity = 0;
+                  setTimeout(() => {
+                    navTitle.textContent = newText;
+                    navTitle.style.opacity = 1;
+                  }, 200);
+              }
+            }
+          });
+        }, observerOptions);
+
+        sections.forEach(section => {
+          observer.observe(section);
+        });
+        
+        // Reset to default
+        window.addEventListener('scroll', () => {
+          if (window.scrollY < 150) {
+             if (navTitle.textContent !== defaultTitle) {
+               navTitle.style.opacity = 0;
+               setTimeout(() => {
+                 navTitle.textContent = defaultTitle;
+                 navTitle.style.opacity = 1;
+               }, 200);
+             }
+          }
+        });
+      });
+    </script>
+
 </body>
 </html>

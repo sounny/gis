@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 04: Cartographic Design | GIS Lab Manual</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/lab.css">
+</head>
+<body>
+
+    <header class="lab-header" style="background: linear-gradient(rgba(236, 72, 153, 0.9), rgba(190, 24, 93, 0.9)), url('../assets/img/hero_lab04.jpg');">
+        <div class="container">
+            <nav style="margin-bottom: 1rem;">
+                <a href="index.html" style="color: white; text-decoration: none; font-weight: 600;">&larr; Back to Lab Manual</a>
+            </nav>
+            <span class="lab-badge">Lab 04</span>
+            <h1 style="color: white;">Cartographic Design & Layouts</h1>
+            <p class="subtitle" style="color: #fce7f3;">Making maps that don't look like defaults. Learn the art of visual hierarchy, effective labeling, and print-ready layouts.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 1. Learning Objectives -->
+        <section class="card">
+            <h2>🎯 Learning Objectives</h2>
+            <ul>
+                <li>Apply <strong>Symbology Rules</strong> to create visual hierarchy (e.g., thicker lines for major boundaries).</li>
+                <li>Design a professional <strong>Print Layout</strong> with all essential map elements (Title, Scale, Legend, North Arrow).</li>
+                <li>Download external data from authoritative sources like <strong>GADM</strong>.</li>
+                <li>Export high-resolution PDFs for publication.</li>
+            </ul>
+        </section>
+
+        <!-- 2. Scenario & Data -->
+        <section class="card">
+            <h2>📂 Scenario: The Country Report</h2>
+            <p>You work for an international NGO. They need a clean, professional reference map of the administrative divisions of a specific country for their annual report. You cannot just take a screenshot of Google Maps; it must be a custom vector map.</p>
+            
+            <div class="data-download-card">
+                <div>
+                    <strong>Data Source:</strong> <code>GADM.org</code> (Global Administrative Areas)
+                    <p style="margin:0; font-size: 0.85rem; color: #64748b;">You will download your own country data.</p>
+                </div>
+                <a href="https://gadm.org/download_country.html" target="_blank" class="btn btn-primary">Go to GADM Data &rarr;</a>
+            </div>
+        </section>
+
+        <!-- 3. Instructions (The Switcher) -->
+        <h2>🛠️ Step-by-Step Instructions</h2>
+        <p>Select your preferred GIS platform to view instructions:</p>
+
+        <div class="platform-tabs">
+            <button class="tab-btn active" onclick="switchTab('arcgis')">🟦 ArcGIS Pro</button>
+            <button class="tab-btn" onclick="switchTab('qgis')">🟩 QGIS</button>
+            <button class="tab-btn" onclick="switchTab('web')">🟧 Web GIS (AGOL)</button>
+        </div>
+
+        <!-- ArcGIS Pro Pane -->
+        <div id="arcgis" class="instruction-pane active">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Download & Import</h3>
+                    <p>1. Download the Shapefile ZIP for a country (e.g., Ireland, Costa Rica) from GADM.<br>
+                       2. Unzip it.<br>
+                       3. Add layers ending in <code>_0</code> (National), <code>_1</code> (State/Province), and <code>_2</code> (County/District).<br>
+                       4. Put <code>_0</code> on top, then <code>_1</code>, then <code>_2</code>.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Symbology: Visual Hierarchy</h3>
+                    <p>1. <strong>ADM2 (Bottom):</strong> Fill: No Color. Outline: 0.5pt Gray.<br>
+                       2. <strong>ADM1 (Middle):</strong> Fill: No Color. Outline: 1.5pt Darker Gray.<br>
+                       3. <strong>ADM0 (Top):</strong> Fill: No Color. Outline: 3.0pt Black.<br>
+                       <em>Result:</em> The eye naturally sees the country border first, then regions, then districts.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Layout View</h3>
+                    <p>1. <strong>Insert > New Layout > Letter (8.5 x 11)</strong>.<br>
+                       2. <strong>Insert > Map Frame</strong>. Draw a box to place your map.<br>
+                       3. Add <strong>Dynamic Text > Title</strong>.<br>
+                       4. Insert <strong>Legend, Scale Bar, North Arrow</strong>.<br>
+                       5. <strong>Share > Export Layout > PDF</strong>.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- QGIS Pane -->
+        <div id="qgis" class="instruction-pane" style="display:none;">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Data Setup</h3>
+                    <p>1. Download "Geopackage" format from GADM (easier for QGIS).<br>
+                       2. Drag the .gpkg into QGIS. Select layers 0, 1, and 2.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Styling</h3>
+                    <p>1. Open Layer Styling Panel (F7).<br>
+                       2. <strong>Layer 2:</strong> Stroke width 0.1 mm, Light Gray.<br>
+                       3. <strong>Layer 1:</strong> Stroke width 0.4 mm, Dark Gray.<br>
+                       4. <strong>Layer 0:</strong> Stroke width 0.8 mm, Black.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Print Layout</h3>
+                    <p>1. <strong>Project > New Print Layout</strong>. Name it "Lab 04".<br>
+                       2. <strong>Add Map</strong> button (draw box).<br>
+                       3. <strong>Add Label</strong> for Title.<br>
+                       4. <strong>Add Legend</strong> & <strong>Scale Bar</strong>.<br>
+                       5. <strong>Layout > Export as PDF</strong>.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Web GIS Pane -->
+        <div id="web" class="instruction-pane" style="display:none;">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Upload to AGOL</h3>
+                    <p>1. Download the Shapefile version from GADM.<br>
+                       2. <strong>Crucial:</strong> Choose a SMALL country (e.g., Jamaica). Large files fail on free accounts.<br>
+                       3. Re-zip the specific files for one layer (e.g., <code>JAM_adm1.shp/shx/dbf/prj</code>) into <code>Jamaica_L1.zip</code>.<br>
+                       4. Upload zip to Map Viewer.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Web Cartography</h3>
+                    <p>1. Use the "Styles" pane.<br>
+                       2. Set "Fill Transparency" to 100% (See-through).<br>
+                       3. Adjust Stroke Widths to mimic the hierarchy (Thick black for nation, thin gray for parishes).</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Printing</h3>
+                    <p>1. Use the <strong>Print</strong> tool in the Map Viewer toolbar.<br>
+                       2. Set Title and Format (PDF).<br>
+                       3. Export.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Deliverables -->
+        <section class="card" style="margin-top: 4rem; border-top: 4px solid var(--accent);">
+            <h2>✅ Submission & Assessment</h2>
+            <p>To complete this lab, you must submit:</p>
+            <ul>
+                <li><strong>The PDF Map:</strong> A professional map of your chosen country.</li>
+                <li><strong>Design Checklist:</strong> Does it have a clear hierarchy? Is the title descriptive? Is the scale bar rounded and readable?</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine | GIS Lab Manual</p>
+        </div>
+    </footer>
+
+    <script>
+        function switchTab(platform) {
+            document.querySelectorAll('.instruction-pane').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(platform).style.display = 'block';
+            
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                if(btn.textContent.toLowerCase().includes(platform === 'web' || platform === 'gee' ? (platform === 'gee' ? 'google' : 'web') : platform)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

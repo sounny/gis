@@ -19,7 +19,9 @@
         }
 
         .hero-chapter {
-            background: linear-gradient(135deg, #065f46 0%, #10b981 100%);
+            background: linear-gradient(rgba(4, 120, 87, 0.8), rgba(16, 185, 129, 0.7)), url('../assets/img/hero_chapter22.png');
+            background-size: cover;
+            background-position: center;
             padding: 5rem 2rem;
             text-align: center;
             color: white;
@@ -47,7 +49,7 @@
             border: 1px solid rgba(255,255,255,0.3);
         }
 
-        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; color: #ffffff; text-shadow: 0 4px 6px rgba(0,0,0,0.5); }
         .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
 
         .layout-grid {
@@ -112,16 +114,33 @@
 
     <header class="hero-chapter">
         <div class="container">
-            <span class="chapter-badge">Chapter 22</span>
+            <span class="chapter-badge">Chapter 23</span>
             <h1>VGI & NeoGeography</h1>
             <p class="subtitle">The power of the crowd. Learn how volunteered geographic information and open-source mapping are democratizing the GIS industry.</p>
         </div>
     </header>
+    <!-- STICKY NAVIGATION BAR -->
+    <nav class="sticky-chapter-bar">
+      <div class="nav-container">
+        <div class="nav-left">
+          <span class="nav-chapter-num">Chapter 23</span>
+        </div>
+        <div class="nav-center">
+          <span class="nav-current-title">VGI & NeoGeography</span>
+        </div>
+        <div class="nav-right">
+          <a href="../index.html" class="nav-toc-btn" title="Table of Contents">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            <span class="toc-text">TOC</span>
+          </a>
+        </div>
+      </div>
+      <div class="nav-progress-bar"></div>
+    </nav>
+
 
     <main class="container">
-        <nav style="margin: 2rem 0;">
-            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
-        </nav>
+        
 
 
         <section class="card learning-scaffold" aria-label="Learning scaffold">
@@ -130,7 +149,7 @@
 <div class="scaffold-head">
                 <h2>At a Glance</h2>
                 <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
-                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapters 01, 06</span>
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapters 01, 05</span>
                     <span class="scaffold-chip"><strong>Time:</strong> 20 min read + 25 min practice</span>
                     <span class="scaffold-chip"><strong>Deliverable:</strong> VGI quality critique</span>
                 </div>
@@ -229,9 +248,25 @@
                     </div>
                 </section>
 
+                <div class="callout secondary" style="background: #fdf2f8; border-left: 5px solid #db2777; color: #831843; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0;">
+                    <h3 style="margin-top: 0; color: #9d174d;">🎨 GIS as an Art: The Participatory Canvas</h3>
+                    <p>In VGI, the map is not a finished painting controlled by a single artist; it is a collaborative mural. Like street art, it is dynamic, sometimes messy, and deeply personal. The "art" is in the coordination—how thousands of individual strokes (edits) come together to form a coherent picture of the world.</p>
+                </div>
+
                 <section class="card">
                     <h2>OpenStreetMap (OSM)</h2>
                     <p>OpenStreetMap is the greatest example of VGI. It is a free, editable map of the whole world being built by volunteers. In humanitarian crises, OSM often provides more up-to-date information than any official government source.</p>
+                    
+                    <div class="callout secondary" style="background: #fff7ed; border-left: 5px solid #f97316; color: #7c2d12; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0;">
+                        <h3 style="margin-top: 0; color: #9a3412;">Geographic Inquiry: Asking Questions of Where</h3>
+                        <p>Before ever opening software, a GIS analyst starts with a question. "Where" is not just a coordinate; it is a relationship.</p>
+                        <ul>
+                            <li><strong>Concentration:</strong> Where is the phenomenon clustered?</li>
+                            <li><strong>Boundary:</strong> Where does it change sharply vs. gradually?</li>
+                            <li><strong>Uncertainty:</strong> Where is the data missing or biased?</li>
+                            <li><strong>Verification:</strong> Where would you stand on the ground to prove it?</li>
+                        </ul>
+                    </div>
                     
                     <div class="video-container" style="margin: 2rem 0; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; box-shadow: var(--shadow-lg);">
                         <iframe 
@@ -243,6 +278,11 @@
                         </iframe>
                     </div>
                 </section>
+
+                <div class="callout secondary" style="background: #f0fdf4; border-left: 5px solid #16a34a; color: #14532d; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0;">
+                    <h3 style="margin-top: 0; color: #15803d;">🤝 Interdisciplinary GIS: Political Science</h3>
+                    <p>VGI disrupts the traditional power structures of mapping (a core theme in Political Science). By allowing citizens to map their own neighborhoods (counter-mapping), we challenge state-sponsored views of territory. This has huge implications for democracy, as "who controls the map controls the narrative."</p>
+                </div>
 
                 <section class="crowdmap-sim">
                     <h3>Interactive: Crowdsourced Mapping</h3>
@@ -276,6 +316,11 @@
                         <li><strong>NeoGeography:</strong> The use of digital maps by non-experts for personal, social, or humanitarian goals.</li>
                         <li><strong>Quality Control</strong> in VGI is maintained through "Linus's Law"—the idea that with enough eyes, all data errors are shallow.</li>
                     </ul>
+
+                    <div class="callout warning" style="background: #fdf2f8; border-left: 5px solid #db2777; color: #831843; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                        <strong>Critical GIS: The Participation Gap</strong>
+                        <p>VGI is often touted as "democratizing" mapping, but who actually has the time and technology to volunteer? Studies show the vast majority of OpenStreetMap contributors are young, male, wealthier, and from the Global North. This results in highly detailed maps of European cities but empty spaces in developing nations. "Crowdsourcing" is only as diverse as the crowd.</p>
+                    </div>
                 </section>
 
                 <div class="quiz-container">
@@ -335,8 +380,8 @@
         </div>
 
         <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
-            <a href="chapter-21-artificial-intelligence.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 21: Artificial Intelligence</a>
-            <a href="chapter-23-lifelong-learning.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Chapter 23: Lifelong Learning →</a>
+            <a href="chapter-21-artificial-intelligence.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 22: AI</a>
+            <a href="chapter-23-lifelong-learning.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Chapter 24: Lifelong Learning →</a>
         </div>
     
 
@@ -349,24 +394,16 @@
             </p>
             <ul class="bok-topic-list">
                         <li class="bok-topic">
-            <span class="bok-code">DC-02-029</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10615" target="_blank" rel="noopener noreferrer">Volunteered Geographic Information</a>
+            <span class="bok-code">CV-04-042</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10567" target="_blank" rel="noopener noreferrer">Collaborative Cartography</a>
         </li>
                         <li class="bok-topic">
-            <span class="bok-code">GS-02-024</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10720" target="_blank" rel="noopener noreferrer">Citizen Science with GIS&T</a>
+            <span class="bok-code">FC-02-035</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10673" target="_blank" rel="noopener noreferrer">Openness</a>
         </li>
                         <li class="bok-topic">
-            <span class="bok-code">GS-02-028</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10724" target="_blank" rel="noopener noreferrer">GIS&T and Community Engagement</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">DM-02-071</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10655" target="_blank" rel="noopener noreferrer">Geospatial Data Conflation</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">GS-01-004</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10708" target="_blank" rel="noopener noreferrer">Location Privacy</a>
+            <span class="bok-code">FC-01-029</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10667" target="_blank" rel="noopener noreferrer">Public and Private Sector Origins</a>
         </li>
                         <li class="bok-topic">
             <span class="bok-code">BoK</span>
@@ -380,6 +417,9 @@
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">
             <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #64748b;">
+                Made with ❤️ by <a href="https://sounny.github.io" target="_blank" style="color: #64748b; text-decoration: underline;">Dr. Sounny</a>
+            </p>
         </div>
     </footer>
 
@@ -401,5 +441,70 @@
             document.getElementById('count').textContent = count;
         }
     </script>
+
+    <!-- DYNAMIC NAV SCRIPT -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const navTitle = document.querySelector('.nav-current-title');
+        const defaultTitle = "VGI & NeoGeography"; // Dynamic default
+        const sections = document.querySelectorAll('main h2');
+        const navBar = document.querySelector('.sticky-chapter-bar');
+        const progressBar = document.querySelector('.nav-progress-bar');
+        
+        // 1. Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+          const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+          const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const scrolled = (winScroll / height) * 100;
+          if (progressBar) progressBar.style.width = scrolled + "%";
+          
+          if (window.scrollY > 200) {
+            navBar.classList.add('is-stuck');
+          } else {
+            navBar.classList.remove('is-stuck');
+          }
+        });
+
+        // 2. Section Observer for Dynamic Title
+        const observerOptions = {
+          root: null,
+          rootMargin: '-80px 0px -70% 0px',
+          threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const newText = entry.target.innerText;
+              if (navTitle.textContent !== newText) {
+                  navTitle.style.opacity = 0;
+                  setTimeout(() => {
+                    navTitle.textContent = newText;
+                    navTitle.style.opacity = 1;
+                  }, 200);
+              }
+            }
+          });
+        }, observerOptions);
+
+        sections.forEach(section => {
+          observer.observe(section);
+        });
+        
+        // Reset to default
+        window.addEventListener('scroll', () => {
+          if (window.scrollY < 150) {
+             if (navTitle.textContent !== defaultTitle) {
+               navTitle.style.opacity = 0;
+               setTimeout(() => {
+                 navTitle.textContent = defaultTitle;
+                 navTitle.style.opacity = 1;
+               }, 200);
+             }
+          }
+        });
+      });
+    </script>
+
 </body>
 </html>

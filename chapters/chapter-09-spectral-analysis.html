@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 09: Spectral Analysis | GIS Digital Textbook</title>
+    <title>Chapter 10: Spectral Analysis & Visualization | GIS Digital Textbook</title>
     <meta name="description" content="Explore the science of light and satellite imagery. Learn how different surfaces reflect energy across the electromagnetic spectrum.">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,7 +19,9 @@
         }
 
         .hero-chapter {
-            background: linear-gradient(135deg, #4c1d95 0%, #8b5cf6 100%);
+            background: linear-gradient(rgba(76, 29, 149, 0.8), rgba(139, 92, 246, 0.7)), url('../assets/img/hero_chapter09.png');
+            background-size: cover;
+            background-position: center;
             padding: 5rem 2rem;
             text-align: center;
             color: white;
@@ -48,7 +50,7 @@
             border: 1px solid rgba(255,255,255,0.3);
         }
 
-        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; color: #ffffff; text-shadow: 0 4px 6px rgba(0,0,0,0.5); }
         .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
 
         .layout-grid {
@@ -158,16 +160,33 @@
 
     <header class="hero-chapter">
         <div class="container">
-            <span class="chapter-badge">Chapter 09</span>
+            <span class="chapter-badge">Chapter 10</span>
             <h1>Spectral Analysis</h1>
             <p class="subtitle">Seeing beyond the visible. Learn how satellites capture unique "fingerprints" of Earth's surfaces across the electromagnetic spectrum.</p>
         </div>
     </header>
+    <!-- STICKY NAVIGATION BAR -->
+    <nav class="sticky-chapter-bar">
+      <div class="nav-container">
+        <div class="nav-left">
+          <span class="nav-chapter-num">Chapter 10</span>
+        </div>
+        <div class="nav-center">
+          <span class="nav-current-title">Spectral Analysis & Visualization</span>
+        </div>
+        <div class="nav-right">
+          <a href="../index.html" class="nav-toc-btn" title="Table of Contents">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            <span class="toc-text">TOC</span>
+          </a>
+        </div>
+      </div>
+      <div class="nav-progress-bar"></div>
+    </nav>
+
 
     <main class="container">
-        <nav style="margin: 2rem 0;">
-            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
-        </nav>
+        
 
 
         <section class="card learning-scaffold" aria-label="Learning scaffold">
@@ -176,7 +195,7 @@
 <div class="scaffold-head">
                 <h2>At a Glance</h2>
                 <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
-                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapters 01, 07</span>
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapters 01, 09</span>
                     <span class="scaffold-chip"><strong>Time:</strong> 25 min read + 25 min practice</span>
                     <span class="scaffold-chip"><strong>Deliverable:</strong> Index interpretation note</span>
                 </div>
@@ -271,6 +290,68 @@
                     <p>Every object on Earth's surface reflects, absorbs, and transmits light differently depending on its physical properties. By measuring these unique <strong>spectral signatures</strong>, remote sensing can distinguish between healthy vegetation, dry soil, and urban concrete—even when they look identical to our eyes.</p>
                 </section>
 
+                <section class="card" style="border-top: 4px solid #8b5cf6;">
+                    <h2>The "Wheel of Fortune" Analogy</h2>
+                    <p>How do we identify objects from space when we can't see them clearly? It's like playing <em>Wheel of Fortune</em>.</p>
+                    
+                    <div style="display: flex; gap: 2rem; margin-top: 1rem; align-items: center; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 300px;">
+                            <p>Imagine you have a name with 8 letters. You don't know the name, but you reveal the first letter is <strong>J</strong> and the fourth is <strong>L</strong>.</p>
+                            <p><strong>Result:</strong> Your brain instantly guesses "JULIANA" because it fits the pattern. You didn't need all the letters to know the identity.</p>
+                        </div>
+                        <div style="flex: 1; min-width: 300px; background: #f3f4f6; padding: 1.5rem; border-radius: 12px; border: 1px solid #d1d5db;">
+                            <h3 style="margin-top:0; font-size:1.1rem;">Satellite Translation</h3>
+                            <ul style="margin-bottom:0;">
+                                <li><strong>The Letters:</strong> These are the <strong>Spectral Bands</strong> (Red, Green, Blue, NIR).</li>
+                                <li><strong>The Name:</strong> This is the <strong>Feature</strong> (Tree, Water, Concrete).</li>
+                                <li><strong>The Game:</strong> Satellites only "see" a few points on the spectrum. If a pixel is bright in NIR and dark in Red, the algorithm guesses "Vegetation."</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card" id="ndvi-deep-dive">
+                  <h2>The Math of Life: NDVI</h2>
+                  <p>
+                    How do we know if a plant is alive from space? We use the
+                    <strong>Normalized Difference Vegetation Index (NDVI)</strong>. It takes
+                    advantage of a unique biological trait: plants <em>absorb</em> Red light
+                    (for energy) but <em>reflect</em> Near-Infrared (to avoid overheating).
+                  </p>
+
+                  <div style="background: #1e293b; color: white; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0; text-align: center;">
+                    <h3 style="margin-top:0; color: #94a3b8; font-size: 0.9rem; text-transform: uppercase;">
+                      The Formula
+                    </h3>
+                    <p style="font-size: 1.5rem; font-family: monospace;">
+                      NDVI = (NIR - Red) / (NIR + Red)
+                    </p>
+                  </div>
+
+                  <h3>Interpreting the Score (-1.0 to +1.0)</h3>
+                  <ul style="line-height: 1.8;">
+                    <li>
+                      <strong>> 0.6 (High):</strong> Dense, healthy vegetation (Rainforest,
+                      crops).
+                    </li>
+                    <li>
+                      <strong>0.2 to 0.4 (Moderate):</strong> Shrub, grassland, or senescing
+                      (dying) crops.
+                    </li>
+                    <li>
+                      <strong>0.0 to 0.1 (Low):</strong> Bare soil, concrete, or dead grass.
+                    </li>
+                    <li><strong>Negative (< 0):</strong> Water, clouds, or snow.</li>
+                  </ul>
+
+                  <div class="callout warning">
+                    <strong>⚠️ Careful with Water!</strong> Water absorbs almost all IR light,
+                    often resulting in deeply negative NDVI values. However, algae blooms (which
+                    contain chlorophyll) can push water into positive territory, confusing
+                    algorithms into thinking the ocean is a forest!
+                  </div>
+                </section>
+
                 <section class="spectrum-analyzer">
                     <h3>Interactive: Spectral Explorer</h3>
                     <p>Select an object and slide across the spectrum to see how its reflectance changes across different bands.</p>
@@ -304,7 +385,7 @@
                 </section>
 
                 <div class="quiz-container">
-                    <h2>Chapter 09 Checkpoint</h2>
+                    <h2>Chapter 10 Checkpoint</h2>
                     <div class="question">
                         <p><strong>1. Why does healthy vegetation look so bright in Near-Infrared (NIR) imagery?</strong></p>
                         <div class="option" onclick="this.classList.add('correct')">Because the cellular structure of healthy leaves reflects NIR light very strongly.</div>
@@ -385,6 +466,11 @@
                         <strong>Active Composite: True Color (4,3,2)</strong><br>
                         This combination uses the visible bands. It looks like what the human eye would see from space.
                     </div>
+
+                    <div class="callout warning" style="background: #fffcdb; border-left: 5px solid #f59e0b; color: #78350f; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                        <strong>Critical GIS: The Politics of the Spectrum</strong>
+                        <p>Spectral analysis can reveal things the naked eye cannot—like unauthorized crops, hidden military bunkers, or mass graves. While invaluable for human rights monitoring (e.g., Amnesty International using satellite data), this same "X-ray vision" raises questions about sovereignty. Does a nation have the right to hide its activities from orbiting sensors owned by foreign corporations?</p>
+                    </div>
                 </section>
 
                 <style>
@@ -459,8 +545,8 @@
         </div>
 
         <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
-            <a href="chapter-08-georeferencing.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 08: Georeferencing</a>
-            <a href="chapter-10-remote-sensing.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Remote Sensing →</a>
+            <a href="chapter-10-remote-sensing.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 09: RS Foundations</a>
+            <a href="chapter-11-image-classification.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Chapter 11: Image Classification →</a>
         </div>
     
 
@@ -475,24 +561,16 @@
             </p>
             <ul class="bok-topic-list">
                         <li class="bok-topic">
-            <span class="bok-code">DC-03-016</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10606" target="_blank" rel="noopener noreferrer">Nature of Multispectral Image Data</a>
-        </li>
-                        <li class="bok-topic">
             <span class="bok-code">DC-04-035</span>
             <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10793" target="_blank" rel="noopener noreferrer">Spectral Properties of Earth's Surface</a>
         </li>
                         <li class="bok-topic">
-            <span class="bok-code">DC-03-031</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10789" target="_blank" rel="noopener noreferrer">Hyperspectral Remote Sensing</a>
+            <span class="bok-code">DC-04</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10782" target="_blank" rel="noopener noreferrer">Processing Remotely-Sensed Data</a>
         </li>
                         <li class="bok-topic">
             <span class="bok-code">DC-03-026</span>
             <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10612" target="_blank" rel="noopener noreferrer">Remote Sensing Platforms</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">FC-05-021</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10693" target="_blank" rel="noopener noreferrer">Resolution</a>
         </li>
                         <li class="bok-topic">
             <span class="bok-code">BoK</span>
@@ -506,6 +584,9 @@
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">
             <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #64748b;">
+                Made with ❤️ by <a href="https://sounny.github.io" target="_blank" style="color: #64748b; text-decoration: underline;">Dr. Sounny</a>
+            </p>
         </div>
     </footer>
 
@@ -578,5 +659,70 @@
 
         initGraph();
     </script>
+
+    <!-- DYNAMIC NAV SCRIPT -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const navTitle = document.querySelector('.nav-current-title');
+        const defaultTitle = "Spectral Analysis"; // Dynamic default
+        const sections = document.querySelectorAll('main h2');
+        const navBar = document.querySelector('.sticky-chapter-bar');
+        const progressBar = document.querySelector('.nav-progress-bar');
+        
+        // 1. Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+          const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+          const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const scrolled = (winScroll / height) * 100;
+          if (progressBar) progressBar.style.width = scrolled + "%";
+          
+          if (window.scrollY > 200) {
+            navBar.classList.add('is-stuck');
+          } else {
+            navBar.classList.remove('is-stuck');
+          }
+        });
+
+        // 2. Section Observer for Dynamic Title
+        const observerOptions = {
+          root: null,
+          rootMargin: '-80px 0px -70% 0px',
+          threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const newText = entry.target.innerText;
+              if (navTitle.textContent !== newText) {
+                  navTitle.style.opacity = 0;
+                  setTimeout(() => {
+                    navTitle.textContent = newText;
+                    navTitle.style.opacity = 1;
+                  }, 200);
+              }
+            }
+          });
+        }, observerOptions);
+
+        sections.forEach(section => {
+          observer.observe(section);
+        });
+        
+        // Reset to default
+        window.addEventListener('scroll', () => {
+          if (window.scrollY < 150) {
+             if (navTitle.textContent !== defaultTitle) {
+               navTitle.style.opacity = 0;
+               setTimeout(() => {
+                 navTitle.textContent = defaultTitle;
+                 navTitle.style.opacity = 1;
+               }, 200);
+             }
+          }
+        });
+      });
+    </script>
+
 </body>
 </html>

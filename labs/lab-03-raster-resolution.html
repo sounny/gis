@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 03: Raster Resolution | GIS Lab Manual</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/lab.css">
+</head>
+<body>
+
+    <header class="lab-header">
+        <div class="container">
+            
+            <span class="lab-badge">Lab 03</span>
+            <h1>Raster Resolution & Imagery</h1>
+            <p class="subtitle">Zoom in until the world breaks. Learn to download, visualize, and measure the pixels of aerial photography.</p>
+        </div>
+    </header>
+    <!-- STICKY NAVIGATION BAR -->
+    <nav class="sticky-chapter-bar">
+      <div class="nav-container">
+        <div class="nav-left">
+          <span class="nav-chapter-num">Lab 03</span>
+        </div>
+        <div class="nav-center">
+          <span class="nav-current-title">Raster Resolution & Imagery</span>
+        </div>
+        <div class="nav-right">
+          <a href="index.html" class="nav-toc-btn" title="Table of Contents">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            <span class="toc-text">TOC</span>
+          </a>
+        </div>
+      </div>
+      <div class="nav-progress-bar"></div>
+    </nav>
+
+
+    <main class="container">
+        <!-- 1. Learning Objectives -->
+        <section class="card">
+            <h2>🎯 Learning Objectives</h2>
+            <ul>
+                <li>Search for and download high-resolution raster imagery from <strong>OpenAerialMap</strong> (or similar simple repository).</li>
+                <li>Distinguish between <strong>Spatial Resolution</strong> (pixel size) and Extent.</li>
+                <li>Use GIS measurement tools to manually verify pixel size.</li>
+                <li>Understand the trade-off between file size and resolution.</li>
+            </ul>
+        </section>
+
+        <!-- 2. Scenario & Data -->
+        <section class="card">
+            <h2>📂 Scenario & Sources</h2>
+            <p>
+                A client wants to count cars in a parking lot to estimate traffic. They handed you a satellite image, but it's blurry.
+                Your task is to find a better, higher-resolution image of a specific area, download it, and determine if it is sharp enough (has a small enough <strong>Ground Sample Distance</strong>) to see individual vehicles.
+            </p>
+            
+            <div class="data-download-card">
+                <div>
+                    <strong>Primary Source:</strong> <code>OpenAerialMap.org</code>
+                    <p style="margin:0; font-size: 0.85rem; color: #64748b;">Community-contributed drone and aerial imagery.</p>
+                </div>
+                <a href="https://openaerialmap.org/" target="_blank" class="btn btn-primary">Open OAM Browser &rarr;</a>
+            </div>
+        </section>
+
+        <!-- 3. Instructions (The Switcher) -->
+        <h2>🛠️ Step-by-Step Instructions</h2>
+        <p>Select your preferred GIS platform:</p>
+
+        <nav class="platform-switcher">
+            <button class="tab-btn active" data-platform="arcgis">
+                <span class="icon">🟦</span> ArcGIS Pro
+            </button>
+            <button class="tab-btn" data-platform="qgis">
+                <span class="icon">🟩 QGIS</span>
+            </button>
+            <button class="tab-btn" data-platform="web">
+                <span class="icon">🟧 ArcGIS Online</span>
+            </button>
+        </nav>
+
+        <!-- ArcGIS Pro Pane -->
+        <div class="instruction-pane active" data-platform="arcgis">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Find & Download Data</h3>
+                    <ol>
+                        <li>Go to <a href="https://map.openaerialmap.org/" target="_blank">OpenAerialMap Browser</a>.</li>
+                        <li>Pan to an interesting area (e.g., a tropical island, a city center, or a disaster zone).</li>
+                        <li>Click on a square in the grid to select an image. Look for "Resolution" in the sidebar (aim for <strong>5cm - 50cm</strong>).</li>
+                        <li>Click the <strong>Download</strong> button (it usually downloads a <code>.tif</code>).</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Import Raster</h3>
+                    <p>Open ArcGIS Pro. Drag the downloaded <code>.tif</code> file from your Catalog or File Explorer onto the map.</p>
+                    <p><em>(Click "Yes" if it asks to build Pyramids/Statistics)</em>.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Inspect the Pixels</h3>
+                    <p>Zoom in very close to a specific object (like a car, a tree, or a roof).</p>
+                    <p>Keep zooming until the image clearly becomes "blocky" or pixelated. You are now seeing the raw data cells.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <h3>Measure Resolution</h3>
+                    <p>Go to the <strong>Map Tab &rarr; Measure Tool &rarr; Measure Distance</strong>.</p>
+                    <p>Carefully click on the left edge of <strong>one single pixel</strong>, then click on the right edge.</p>
+                    <p>What is the distance? (e.g., 0.15 meters). This is the <strong>Spatial Resolution</strong>.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- QGIS Pane -->
+        <div class="instruction-pane" data-platform="qgis">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Find & Download Data</h3>
+                    <ol>
+                        <li>Go to <a href="https://map.openaerialmap.org/" target="_blank">OpenAerialMap Browser</a>.</li>
+                        <li>Select an image with good resolution (low Ground Sample Distance).</li>
+                        <li>Download the <code>.tif</code> file.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Load Raster</h3>
+                    <p>Drag the <code>.tif</code> file into the QGIS canvas.</p>
+                    <p>If it looks dark or weird, right-click the layer &rarr; <strong>Properties &rarr; Symbology</strong>. Ensure it is set to "Multiband Color" (Red=B1, Green=B2, Blue=B3).</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Zoom & Measure</h3>
+                    <p>Zoom in until you see individual square pixels.</p>
+                    <p>Use the <strong>Measure Line</strong> tool (ruler icon). Change measurement units to "Meters" or "Centimeters" if needed.</p>
+                    <p>Measure the width of one pixel.</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <h3>Verify Metadata</h3>
+                    <p>Right-click the layer &rarr; <strong>Properties &rarr; Information</strong>.</p>
+                    <p>Look for "Pixel Size". It might be in degrees or meters depending on the CRS. Does it match your measurement?</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Web GIS Pane -->
+        <div class="instruction-pane" data-platform="web">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Limitations of Web GIS</h3>
+                    <p><strong>Note:</strong> Uploading large TIFFs (GeoTIFFs) to a free ArcGIS Online account is often restricted or consumes many credits. For this lab, we will use a <strong>pre-hosted</strong> high-res layer from the Living Atlas.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Add Imagery Layer</h3>
+                    <p>Open Map Viewer. Click <strong>Add &rarr; Browse Living Atlas</strong>.</p>
+                    <p>Search for: <code>"NAIP Imagery"</code> (USA) or <code>"World Imagery"</code>.</p>
+                    <p>Add it to the map.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Zoom & Measure</h3>
+                    <p>Zoom in as far as the browser allows.</p>
+                    <p>Use the <strong>Measure</strong> tool (ruler icon, right toolbar). Select "Distance" and units "Meters".</p>
+                    <p>Try to measure the width of a small object (like a car windshield).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Deliverables -->
+        <section class="card" style="margin-top: 4rem; border-top: 4px solid var(--accent);">
+            <h2>✅ Submission</h2>
+            <p>Submit a short Lab Report (PDF) containing:</p>
+            <ol>
+                <li><strong>Screenshot:</strong> The image zoomed in so pixels are clearly visible, identifying an object (e.g., "This blobd is a car").</li>
+                <li><strong>Measurement:</strong> "I measured one pixel to be X cm/meters."</li>
+                <li><strong>Reflection:</strong> Based on this resolution, could you identify the <em>make and model</em> o the car? Why or why not?</li>
+            </ol>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine | GIS Lab Manual</p>
+        </div>
+    </footer>
+
+    <script src="js/lab-switcher.js"></script>
+
+    <!-- DYNAMIC NAV SCRIPT -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const navTitle = document.querySelector('.nav-current-title');
+        const defaultTitle = "Raster Resolution & Imagery"; // Dynamic default
+        const sections = document.querySelectorAll('main h2');
+        const navBar = document.querySelector('.sticky-chapter-bar');
+        const progressBar = document.querySelector('.nav-progress-bar');
+        
+        // 1. Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+          const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+          const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const scrolled = (winScroll / height) * 100;
+          if (progressBar) progressBar.style.width = scrolled + "%";
+          
+          if (window.scrollY > 200) {
+            navBar.classList.add('is-stuck');
+          } else {
+            navBar.classList.remove('is-stuck');
+          }
+        });
+
+        // 2. Section Observer for Dynamic Title
+        const observerOptions = {
+          root: null,
+          rootMargin: '-80px 0px -70% 0px',
+          threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const newText = entry.target.innerText;
+              if (navTitle.textContent !== newText) {
+                  navTitle.style.opacity = 0;
+                  setTimeout(() => {
+                    navTitle.textContent = newText;
+                    navTitle.style.opacity = 1;
+                  }, 200);
+              }
+            }
+          });
+        }, observerOptions);
+
+        sections.forEach(section => {
+          observer.observe(section);
+        });
+        
+        // Reset to default
+        window.addEventListener('scroll', () => {
+          if (window.scrollY < 150) {
+             if (navTitle.textContent !== defaultTitle) {
+               navTitle.style.opacity = 0;
+               setTimeout(() => {
+                 navTitle.textContent = defaultTitle;
+                 navTitle.style.opacity = 1;
+               }, 200);
+             }
+          }
+        });
+      });
+    </script>
+
+</body>
+</html>

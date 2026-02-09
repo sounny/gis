@@ -19,7 +19,9 @@
         }
 
         .hero-chapter {
-            background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+            background: linear-gradient(rgba(30, 41, 59, 0.8), rgba(71, 85, 105, 0.7)), url('../assets/img/hero_chapter19.png');
+            background-size: cover;
+            background-position: center;
             padding: 5rem 2rem;
             text-align: center;
             color: white;
@@ -50,7 +52,7 @@
             border: 1px solid rgba(255,255,255,0.3);
         }
 
-        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; color: #ffffff; text-shadow: 0 4px 6px rgba(0,0,0,0.5); }
         .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
 
         .layout-grid {
@@ -108,16 +110,33 @@
 
     <header class="hero-chapter">
         <div class="container">
-            <span class="chapter-badge">Chapter 19</span>
+            <span class="chapter-badge">Chapter 20</span>
             <h1>Research Data Management</h1>
             <p class="subtitle">Architecture for science. Learn how to structure your GIS projects to ensure that your analysis is reproducible, authoritative, and built to last.</p>
         </div>
     </header>
+    <!-- STICKY NAVIGATION BAR -->
+    <nav class="sticky-chapter-bar">
+      <div class="nav-container">
+        <div class="nav-left">
+          <span class="nav-chapter-num">Chapter 20</span>
+        </div>
+        <div class="nav-center">
+          <span class="nav-current-title">Research Data Management</span>
+        </div>
+        <div class="nav-right">
+          <a href="../index.html" class="nav-toc-btn" title="Table of Contents">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            <span class="toc-text">TOC</span>
+          </a>
+        </div>
+      </div>
+      <div class="nav-progress-bar"></div>
+    </nav>
+
 
     <main class="container">
-        <nav style="margin: 2rem 0;">
-            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
-        </nav>
+        
 
 
         <section class="card learning-scaffold" aria-label="Learning scaffold">
@@ -126,7 +145,7 @@
 <div class="scaffold-head">
                 <h2>At a Glance</h2>
                 <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
-                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapters 15 - 18</span>
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapters 16 - 19</span>
                     <span class="scaffold-chip"><strong>Time:</strong> 25 min read + 35 min cleanup</span>
                     <span class="scaffold-chip"><strong>Deliverable:</strong> Project README + metadata</span>
                 </div>
@@ -221,6 +240,22 @@
                     <p>Professional GIS analysts spend up to 80% of their time on data management. If your folder structure is a mess, your analysis will likely be a mess too. <strong>Research Data Management (RDM)</strong> is the practice of architecting your files and metadata to survive for the long term.</p>
                 </section>
 
+                <div class="callout secondary" style="background: #fdf2f8; border-left: 5px solid #db2777; color: #831843; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0;">
+                    <h3 style="margin-top: 0; color: #9d174d;">🎨 GIS as an Art: Elegant Architecture</h3>
+                    <p>"Code is poetry," and a well-structured file system is a form of functional art. When you open a project folder and everything is perfectly named, nested, and documented, it creates a sense of calm and clarity. This "elegance" isn't just aesthetic; it reduces cognitive load and makes the science better.</p>
+                </div>
+
+                <div class="callout secondary" style="background: #fff7ed; border-left: 5px solid #f97316; color: #7c2d12; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0;">
+                    <h3 style="margin-top: 0; color: #9a3412;">Geographic Inquiry: Asking Questions of Where</h3>
+                    <p>Before ever opening software, a GIS analyst starts with a question. "Where" is not just a coordinate; it is a relationship.</p>
+                    <ul>
+                        <li><strong>Concentration:</strong> Where is the phenomenon clustered?</li>
+                        <li><strong>Boundary:</strong> Where does it change sharply vs. gradually?</li>
+                        <li><strong>Uncertainty:</strong> Where is the data missing or biased?</li>
+                        <li><strong>Verification:</strong> Where would you stand on the ground to prove it?</li>
+                    </ul>
+                </div>
+
                 <section class="card">
                     <h3>📂 The Standard Project Structure</h3>
                     <p>A professional GIS project should move from left to right: from Raw Data to the Final Product.</p>
@@ -230,7 +265,17 @@
                         <li><strong>03_Analysis:</strong> Your Geodatabases and processing models.</li>
                         <li><strong>04_Final_Map:</strong> Only the authoritative maps for the client.</li>
                     </ul>
+
+                    <div class="callout warning" style="background: #fffcdb; border-left: 5px solid #d97706; color: #92400e; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                        <strong>Critical GIS: The Cost of "Open"</strong>
+                        <p>The Open Data movement has democratized science, but it also creates risks. Poachers use open tracking data to hunt endangered species. Looters use open archaeological maps to find sites. "Open by Default" is not always ethical. Sometimes, data must be closed or obfuscated to protect the vulnerable.</p>
+                    </div>
                 </section>
+
+                <div class="callout secondary" style="background: #f0fdf4; border-left: 5px solid #16a34a; color: #14532d; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0;">
+                    <h3 style="margin-top: 0; color: #15803d;">🤝 Interdisciplinary GIS: Library Science</h3>
+                    <p>Research Data Management is where GIS meets <strong>Library Science</strong>. We act as digital librarians, curating spatial data, assigning DOIs (Digital Object Identifiers), and ensuring metadata standards (like ISO 19115) are met. Without these library skills, our maps would be unfindable in the vast digital ocean.</p>
+                </div>
 
                 <section class="card">
                     <h2>Summary of Big Ideas</h2>
@@ -295,8 +340,8 @@
         </div>
 
         <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
-          <a href="chapter-18-gis-ethics.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 18: GIS Ethics</a>
-          <a href="chapter-20-research-in-gis.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 20: Research in GIS &rarr;</a>
+            <a href="chapter-18-gis-ethics.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 19: GIS Ethics</a>
+            <a href="chapter-20-research-in-gis.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Chapter 21: Research in GIS →</a>
         </div>
     
 
@@ -319,22 +364,6 @@
             <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10650" target="_blank" rel="noopener noreferrer">Spatial Data Infrastructures</a>
         </li>
                         <li class="bok-topic">
-            <span class="bok-code">GS-01-023</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10719" target="_blank" rel="noopener noreferrer">Legal Mechanisms for Sharing Geospatial Information</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">PD-02-022</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10816" target="_blank" rel="noopener noreferrer">Licensing of GIS Applications</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">PD-05-033</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10769" target="_blank" rel="noopener noreferrer">GDAL/OGR and Geospatial Data IO Libraries</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">AM-09-107</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10464" target="_blank" rel="noopener noreferrer">Spatial Data Uncertainty</a>
-        </li>
-                        <li class="bok-topic">
             <span class="bok-code">BoK</span>
             <a href="https://gistbok-ltb.ucgis.org/" target="_blank" rel="noopener noreferrer">UCGIS GIS&T Body of Knowledge (Living Textbook)</a>
         </li>
@@ -346,7 +375,75 @@
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">
             <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #64748b;">
+                Made with ❤️ by <a href="https://sounny.github.io" target="_blank" style="color: #64748b; text-decoration: underline;">Dr. Sounny</a>
+            </p>
         </div>
     </footer>
+
+    <!-- DYNAMIC NAV SCRIPT -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const navTitle = document.querySelector('.nav-current-title');
+        const defaultTitle = "Research Data Management"; // Dynamic default
+        const sections = document.querySelectorAll('main h2');
+        const navBar = document.querySelector('.sticky-chapter-bar');
+        const progressBar = document.querySelector('.nav-progress-bar');
+        
+        // 1. Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+          const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+          const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const scrolled = (winScroll / height) * 100;
+          if (progressBar) progressBar.style.width = scrolled + "%";
+          
+          if (window.scrollY > 200) {
+            navBar.classList.add('is-stuck');
+          } else {
+            navBar.classList.remove('is-stuck');
+          }
+        });
+
+        // 2. Section Observer for Dynamic Title
+        const observerOptions = {
+          root: null,
+          rootMargin: '-80px 0px -70% 0px',
+          threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const newText = entry.target.innerText;
+              if (navTitle.textContent !== newText) {
+                  navTitle.style.opacity = 0;
+                  setTimeout(() => {
+                    navTitle.textContent = newText;
+                    navTitle.style.opacity = 1;
+                  }, 200);
+              }
+            }
+          });
+        }, observerOptions);
+
+        sections.forEach(section => {
+          observer.observe(section);
+        });
+        
+        // Reset to default
+        window.addEventListener('scroll', () => {
+          if (window.scrollY < 150) {
+             if (navTitle.textContent !== defaultTitle) {
+               navTitle.style.opacity = 0;
+               setTimeout(() => {
+                 navTitle.textContent = defaultTitle;
+                 navTitle.style.opacity = 1;
+               }, 200);
+             }
+          }
+        });
+      });
+    </script>
+
 </body>
 </html>

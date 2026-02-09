@@ -19,7 +19,9 @@
         }
 
         .hero-chapter {
-            background: linear-gradient(135deg, #4c1d95 0%, #8b5cf6 100%);
+            background: linear-gradient(rgba(76, 29, 149, 0.8), rgba(139, 92, 246, 0.7)), url('../assets/img/hero_chapter21.png');
+            background-size: cover;
+            background-position: center;
             padding: 5rem 2rem;
             text-align: center;
             color: white;
@@ -51,7 +53,7 @@
             border: 1px solid rgba(255,255,255,0.3);
         }
 
-        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; color: #ffffff; text-shadow: 0 4px 6px rgba(0,0,0,0.5); }
         .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
 
         .layout-grid {
@@ -133,16 +135,33 @@
 
     <header class="hero-chapter">
         <div class="container">
-            <span class="chapter-badge">Chapter 21</span>
+            <span class="chapter-badge">Chapter 22</span>
             <h1>Artificial Intelligence in Geography</h1>
             <p class="subtitle">From pixels to patterns. Discover how Deep Learning and Computer Vision are automating the analysis of the planet at scale.</p>
         </div>
     </header>
+    <!-- STICKY NAVIGATION BAR -->
+    <nav class="sticky-chapter-bar">
+      <div class="nav-container">
+        <div class="nav-left">
+          <span class="nav-chapter-num">Chapter 22</span>
+        </div>
+        <div class="nav-center">
+          <span class="nav-current-title">Artificial Intelligence in Geography</span>
+        </div>
+        <div class="nav-right">
+          <a href="../index.html" class="nav-toc-btn" title="Table of Contents">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            <span class="toc-text">TOC</span>
+          </a>
+        </div>
+      </div>
+      <div class="nav-progress-bar"></div>
+    </nav>
+
 
     <main class="container">
-        <nav style="margin: 2rem 0;">
-            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
-        </nav>
+        
 
 
         <section class="card learning-scaffold" aria-label="Learning scaffold">
@@ -247,7 +266,23 @@
                 <section class="card">
                     <h2>Computer Vision & CNNs</h2>
                     <p>The breakthrough in modern AI is the <strong>Convolutional Neural Network (CNN)</strong>. This type of algorithm looks at an image like a human eye does—scanning for edges, shapes, and textures to identify objects. It powers everything from self-driving cars to satellite analysis of crop health.</p>
+                
+                    <div class="callout secondary" style="background: #fff7ed; border-left: 5px solid #f97316; color: #7c2d12; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0;">
+                        <h3 style="margin-top: 0; color: #9a3412;">Geographic Inquiry: Asking Questions of Where</h3>
+                        <p>Before ever opening software, a GIS analyst starts with a question. "Where" is not just a coordinate; it is a relationship.</p>
+                        <ul>
+                            <li><strong>Concentration:</strong> Where is the phenomenon clustered?</li>
+                            <li><strong>Boundary:</strong> Where does it change sharply vs. gradually?</li>
+                            <li><strong>Uncertainty:</strong> Where is the data missing or biased?</li>
+                            <li><strong>Verification:</strong> Where would you stand on the ground to prove it?</li>
+                        </ul>
+                    </div>
                 </section>
+
+                <div class="callout secondary" style="background: #fdf2f8; border-left: 5px solid #db2777; color: #831843; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0;">
+                    <h3 style="margin-top: 0; color: #9d174d;">🎨 GIS as an Art: Generative AI</h3>
+                    <p>Beyond analysis, AI is now creating art. Styles like "Neural Style Transfer" allow cartographers to re-render a satellite image of New York City in the style of Van Gogh's <em>Starry Night</em>. This blurring of lines between data and expression challenges our definition of what a map is.</p>
+                </div>
 
                 <section class="ai-demo">
                     <h3>👁️ Interactive: Object Detection</h3>
@@ -296,6 +331,11 @@
                     </div>
                 </section>
 
+                <div class="callout secondary" style="background: #f0fdf4; border-left: 5px solid #16a34a; color: #14532d; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0;">
+                    <h3 style="margin-top: 0; color: #15803d;">🤝 Interdisciplinary GIS: Computer Science</h3>
+                    <p>GeoAI is the ultimate interdisciplinary field. It requires the spatial theory of Geography ("Tober's First Law") combined with the raw computational power of Computer Science. A modern GeoAI analyst must be fluent in both projection systems (EPSG codes) and tensor calculus (Python/PyTorch).</p>
+                </div>
+
                 <section class="card">
                     <h2>The GeoAI Advantage</h2>
                     <p>Why are organizations switching from manual mapping to AI-assisted workflows? It comes down to five key factors:</p>
@@ -315,6 +355,11 @@
                         <li><strong>Training Data:</strong> AI is only as good as the examples you give it. Garbage in, garbage out.</li>
                         <li><strong>Validation:</strong> Because AI makes statistical guesses, human verification (QA/QC) is absolutely essential.</li>
                     </ul>
+
+                    <div class="callout warning" style="background: #fdf4ff; border-left: 5px solid #d946ef; color: #701a75; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                        <strong>Critical GIS: Algorithmic Bias in Space</strong>
+                        <p>AI models are only as good as their training data. If a model is trained to recognize "houses" using only images of American suburbs, it will fail to recognize informal settlements in Rio de Janeiro or thatched roofs in Kenya. This "bias" makes millions of people invisible to disaster relief algorithms. We must ask: who trained the model, and on what data?</p>
+                    </div>
                 </section>
 
                 <div class="quiz-container">
@@ -369,8 +414,8 @@
         </div>
 
         <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
-          <a href="chapter-20-research-in-gis.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 20: Research in GIS</a>
-          <a href="chapter-22-vgi.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 22: VGI & NeoGeography &rarr;</a>
+            <a href="chapter-20-research-in-gis.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 21: Research in GIS</a>
+            <a href="chapter-22-vgi.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Chapter 23: VGI →</a>
         </div>
     
 
@@ -393,20 +438,8 @@
             <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10497" target="_blank" rel="noopener noreferrer">Machine Learning Approaches</a>
         </li>
                         <li class="bok-topic">
-            <span class="bok-code">AM-08-038</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10478" target="_blank" rel="noopener noreferrer">Pattern Recognition and Matching</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">CP-04-004</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10518" target="_blank" rel="noopener noreferrer">Artificial Intelligence Tools and Platforms for GIS</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">AM-02-009</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10461" target="_blank" rel="noopener noreferrer">Classification and Clustering</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">DC-04-014</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10605" target="_blank" rel="noopener noreferrer">Feature Extraction from Satellite Imagery</a>
+            <span class="bok-code">AM-08-108</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10868" target="_blank" rel="noopener noreferrer">Explainable AI Applications in GIS</a>
         </li>
                         <li class="bok-topic">
             <span class="bok-code">BoK</span>
@@ -420,6 +453,9 @@
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">
             <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #64748b;">
+                Made with ❤️ by <a href="https://sounny.github.io" target="_blank" style="color: #64748b; text-decoration: underline;">Dr. Sounny</a>
+            </p>
         </div>
     </footer>
 
@@ -434,5 +470,70 @@
             document.querySelectorAll('.bounding-box').forEach(b => b.style.opacity = 0);
         }
     </script>
+
+    <!-- DYNAMIC NAV SCRIPT -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const navTitle = document.querySelector('.nav-current-title');
+        const defaultTitle = "Artificial Intelligence in Geography"; // Dynamic default
+        const sections = document.querySelectorAll('main h2');
+        const navBar = document.querySelector('.sticky-chapter-bar');
+        const progressBar = document.querySelector('.nav-progress-bar');
+        
+        // 1. Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+          const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+          const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const scrolled = (winScroll / height) * 100;
+          if (progressBar) progressBar.style.width = scrolled + "%";
+          
+          if (window.scrollY > 200) {
+            navBar.classList.add('is-stuck');
+          } else {
+            navBar.classList.remove('is-stuck');
+          }
+        });
+
+        // 2. Section Observer for Dynamic Title
+        const observerOptions = {
+          root: null,
+          rootMargin: '-80px 0px -70% 0px',
+          threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const newText = entry.target.innerText;
+              if (navTitle.textContent !== newText) {
+                  navTitle.style.opacity = 0;
+                  setTimeout(() => {
+                    navTitle.textContent = newText;
+                    navTitle.style.opacity = 1;
+                  }, 200);
+              }
+            }
+          });
+        }, observerOptions);
+
+        sections.forEach(section => {
+          observer.observe(section);
+        });
+        
+        // Reset to default
+        window.addEventListener('scroll', () => {
+          if (window.scrollY < 150) {
+             if (navTitle.textContent !== defaultTitle) {
+               navTitle.style.opacity = 0;
+               setTimeout(() => {
+                 navTitle.textContent = defaultTitle;
+                 navTitle.style.opacity = 1;
+               }, 200);
+             }
+          }
+        });
+      });
+    </script>
+
 </body>
 </html>

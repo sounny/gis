@@ -19,7 +19,9 @@
         }
 
         .hero-chapter {
-            background: linear-gradient(135deg, #312e81 0%, #4338ca 100%);
+            background: linear-gradient(rgba(49, 46, 129, 0.8), rgba(67, 56, 202, 0.7)), url('../assets/img/hero_chapter20.png');
+            background-size: cover;
+            background-position: center;
             padding: 5rem 2rem;
             text-align: center;
             color: white;
@@ -47,7 +49,7 @@
             border: 1px solid rgba(255,255,255,0.3);
         }
 
-        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; color: #ffffff; text-shadow: 0 4px 6px rgba(0,0,0,0.5); }
         .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
 
         .layout-grid {
@@ -100,16 +102,33 @@
 
     <header class="hero-chapter">
         <div class="container">
-            <span class="chapter-badge">Chapter 20</span>
+            <span class="chapter-badge">Chapter 21</span>
             <h1>Research in GIS</h1>
             <p class="subtitle">From knowledge consumer to creator. Discover how to use your GIS skills to solve novel problems and contribute to the global community of Geographic Science.</p>
         </div>
     </header>
+    <!-- STICKY NAVIGATION BAR -->
+    <nav class="sticky-chapter-bar">
+      <div class="nav-container">
+        <div class="nav-left">
+          <span class="nav-chapter-num">Chapter 21</span>
+        </div>
+        <div class="nav-center">
+          <span class="nav-current-title">Research in GIS</span>
+        </div>
+        <div class="nav-right">
+          <a href="../index.html" class="nav-toc-btn" title="Table of Contents">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            <span class="toc-text">TOC</span>
+          </a>
+        </div>
+      </div>
+      <div class="nav-progress-bar"></div>
+    </nav>
+
 
     <main class="container">
-        <nav style="margin: 2rem 0;">
-            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
-        </nav>
+        
 
 
         <section class="card learning-scaffold" aria-label="Learning scaffold">
@@ -118,7 +137,7 @@
 <div class="scaffold-head">
                 <h2>At a Glance</h2>
                 <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
-                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapter 19</span>
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapter 20</span>
                     <span class="scaffold-chip"><strong>Time:</strong> 30 min read + 45 min draft</span>
                     <span class="scaffold-chip"><strong>Deliverable:</strong> Mini research proposal</span>
                 </div>
@@ -208,6 +227,17 @@
 
         <div class="layout-grid">
             <div class="content">
+                <div class="callout secondary" style="background: #fff7ed; border-left: 5px solid #f97316; color: #7c2d12; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0;">
+                    <h3 style="margin-top: 0; color: #9a3412;">Geographic Inquiry: Asking Questions of Where</h3>
+                    <p>Before ever opening software, a GIS analyst starts with a question. "Where" is not just a coordinate; it is a relationship.</p>
+                    <ul>
+                        <li><strong>Concentration:</strong> Where is the phenomenon clustered?</li>
+                        <li><strong>Boundary:</strong> Where does it change sharply vs. gradually?</li>
+                        <li><strong>Uncertainty:</strong> Where is the data missing or biased?</li>
+                        <li><strong>Verification:</strong> Where would you stand on the ground to prove it?</li>
+                    </ul>
+                </div>
+
                 <section class="card">
                     <h2>🚀 The Scientific Method in GIS</h2>
                     <p>GIS is more than just a tool for making maps; it is a methodology for discovery. When you move from "how to" to "why," you become a researcher. Geographic research follows a rigorous cycle of inquiry.</p>
@@ -230,17 +260,47 @@
                             <p style="font-size: 0.8rem; margin-top: 5px;">Publish your results.</p>
                         </div>
                     </div>
+
+                    <div class="callout warning" style="background: #eef2ff; border-left: 5px solid #4338ca; color: #312e81; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                        <strong>Critical GIS: Parachute Science</strong>
+                        <p>Historically, researchers from wealthy nations have flown into developing regions, collected data (mined the field), and flown back to publish their results. This "parachute science" gives back nothing to the local community. True geographic research builds local capacity and partnerships. Don't just extract data; share the knowledge.</p>
+                    </div>
                 </section>
 
-                <section class="card">
-                    <h2>🏢 Case Study: Placemaking at Work</h2>
-                    <p>How do we create meaningful and sustainable workplaces in the age of remote work? This is a major theme in modern geographic research (and the focus of Dr. Sounny's dissertation).</p>
-                    <ul style="line-height: 2; margin-top: 1rem;">
-                        <li><strong>Taylorism vs. Holism:</strong> Tracking the shift from rigid efficiency to holistic well-being in office design.</li>
-                        <li><strong>The IPAT Equation:</strong> Calculating the environmental impact (Impact = Population  -  Affluence  -  Technology) of shifting to hybrid work models.</li>
-                        <li><strong>Smart Buildings:</strong> How IoT and GIS work together to create "responsive" environments that save energy.</li>
-                    </ul>
-                </section>
+                <div class="callout secondary" style="background: #fdf2f8; border-left: 5px solid #db2777; color: #831843; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0;">
+                    <h3 style="margin-top: 0; color: #9d174d;">🎨 GIS as an Art: The Scientific Visualization</h3>
+                    <p>Presenting research results is an art. You must distill complex statistical relationships into a single, intuitive graphic. A good research map balances info-density with legibility, using "Graphic Design" principles to highlight the signal and hide the noise. It is where data meets design.</p>
+                </div>
+
+                <div class="callout secondary" style="background: #f0fdf4; border-left: 5px solid #16a34a; color: #14532d; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0;">
+                    <h3 style="margin-top: 0; color: #15803d;">🤝 Interdisciplinary GIS: Sociology</h3>
+                    <p>Qualitative research methods (interviews, ethnographies) are merging with quantitative GIS in a field called "Geo-Humanities." Researchers now map "feelings" (fear, safety, happiness) alongside hard infrastructure, proving that the human experience of space is just as mappable as the physical road network.</p>
+                </div>
+
+                <div class="callout secondary" style="background: #ecfeff; border-left: 5px solid #06b6d4; color: #155e75; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0;">
+                  <h3 style="margin-top: 0; color: #0e7490;">
+                    🦠 Interdisciplinary GIS: Microbiology (Biofilms)
+                  </h3>
+                  <p>
+                    Can you map a single centimeter?
+                    <strong>Yes.</strong>
+                  </p>
+                  <p>
+                    A student research group applied GIS principles to
+                    <strong>Biofilms</strong> (slime layers of bacteria). Instead of mapping
+                    cities, they treated microscopic clusters of bacteria as "Islands" and the
+                    empty space as "Oceans."
+                  </p>
+                  <p>
+                    <strong>The Discovery:</strong> By running standard landscape metrics (like
+                    "Patch Density" and "Connectivity"), they proved that bacteria behave
+                    exactly like animals in a forest. When the "habitat" (slime) is fragmented,
+                    the bacteria struggle to communicate.
+                    <em>The laws of geography apply at every scale.</em>
+                  </p>
+                </div>
+
+
 
                 <section class="card">
                     <h2>Summary of Big Ideas</h2>
@@ -259,28 +319,18 @@
                         <div class="option" onclick="this.classList.add('correct')">Asking a spatial question or defining a problem.</div>
                         <div class="option" onclick="this.classList.add('wrong')">Digitizing the first polygon.</div>
                     </div>
-                    <div class="question">
-                        <p><strong>2. In the IPAT equation (I = PAT), what does the "P" stand for?</strong></p>
-                        <div class="option" onclick="this.classList.add('wrong')">Pressure</div>
-                        <div class="option" onclick="this.classList.add('correct')">Population</div>
-                    </div>
+
                 </div>
 
                 <div class="section-glossary">
                     <h2>📚 Chapter Glossary</h2>
                     <div class="glossary-list">
-                        <div class="glossary-item">
-                            <span class="glossary-term">IPAT Equation</span>
-                            <span class="glossary-def">A conceptual formula used to analyze environmental impact: Impact = Population  -  Affluence  -  Technology.</span>
-                        </div>
+
                         <div class="glossary-item">
                             <span class="glossary-term">Literature Review</span>
                             <span class="glossary-def">A comprehensive survey of scholarly sources on a specific topic. It provides an overview of current knowledge and identifies gaps for new research.</span>
                         </div>
-                        <div class="glossary-item">
-                            <span class="glossary-term">Placemaking</span>
-                            <span class="glossary-def">A multi-faceted approach to the planning, design, and management of public spaces. It capitalizes on a local community's assets to create spaces that promote health, happiness, and well-being.</span>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -305,8 +355,8 @@
         </div>
 
         <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
-            <a href="chapter-19-research-data-management.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">&larr; Chapter 19: Research Data Mgmt</a>
-            <a href="chapter-21-artificial-intelligence.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Chapter 21: Artificial Intelligence &rarr;</a>
+            <a href="chapter-19-research-data-management.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 20: Research Data Mgmt</a>
+            <a href="chapter-21-artificial-intelligence.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Chapter 22: AI →</a>
         </div>
     
 
@@ -356,7 +406,75 @@
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">
             <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #64748b;">
+                Made with ❤️ by <a href="https://sounny.github.io" target="_blank" style="color: #64748b; text-decoration: underline;">Dr. Sounny</a>
+            </p>
         </div>
     </footer>
+
+    <!-- DYNAMIC NAV SCRIPT -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const navTitle = document.querySelector('.nav-current-title');
+        const defaultTitle = "Research in GIS"; // Dynamic default
+        const sections = document.querySelectorAll('main h2');
+        const navBar = document.querySelector('.sticky-chapter-bar');
+        const progressBar = document.querySelector('.nav-progress-bar');
+        
+        // 1. Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+          const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+          const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const scrolled = (winScroll / height) * 100;
+          if (progressBar) progressBar.style.width = scrolled + "%";
+          
+          if (window.scrollY > 200) {
+            navBar.classList.add('is-stuck');
+          } else {
+            navBar.classList.remove('is-stuck');
+          }
+        });
+
+        // 2. Section Observer for Dynamic Title
+        const observerOptions = {
+          root: null,
+          rootMargin: '-80px 0px -70% 0px',
+          threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const newText = entry.target.innerText;
+              if (navTitle.textContent !== newText) {
+                  navTitle.style.opacity = 0;
+                  setTimeout(() => {
+                    navTitle.textContent = newText;
+                    navTitle.style.opacity = 1;
+                  }, 200);
+              }
+            }
+          });
+        }, observerOptions);
+
+        sections.forEach(section => {
+          observer.observe(section);
+        });
+        
+        // Reset to default
+        window.addEventListener('scroll', () => {
+          if (window.scrollY < 150) {
+             if (navTitle.textContent !== defaultTitle) {
+               navTitle.style.opacity = 0;
+               setTimeout(() => {
+                 navTitle.textContent = defaultTitle;
+                 navTitle.style.opacity = 1;
+               }, 200);
+             }
+          }
+        });
+      });
+    </script>
+
 </body>
 </html>

@@ -19,7 +19,9 @@
         }
 
         .hero-chapter {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            background: linear-gradient(rgba(30, 58, 138, 0.8), rgba(59, 130, 246, 0.7)), url('../assets/img/hero_chapter07.png');
+            background-size: cover;
+            background-position: center;
             padding: 5rem 2rem;
             text-align: center;
             color: white;
@@ -47,7 +49,7 @@
             border: 1px solid rgba(255,255,255,0.3);
         }
 
-        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; color: #ffffff; text-shadow: 0 4px 6px rgba(0,0,0,0.5); }
         .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
 
         .layout-grid {
@@ -99,11 +101,28 @@
             <p class="subtitle">The engine of GIS. Learn how to organize spatial information, perform complex queries, and link tables together through relational joins.</p>
         </div>
     </header>
+    <!-- STICKY NAVIGATION BAR -->
+    <nav class="sticky-chapter-bar">
+      <div class="nav-container">
+        <div class="nav-left">
+          <span class="nav-chapter-num">Chapter 07</span>
+        </div>
+        <div class="nav-center">
+          <span class="nav-current-title">Database Management</span>
+        </div>
+        <div class="nav-right">
+          <a href="../index.html" class="nav-toc-btn" title="Table of Contents">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            <span class="toc-text">TOC</span>
+          </a>
+        </div>
+      </div>
+      <div class="nav-progress-bar"></div>
+    </nav>
+
 
     <main class="container">
-        <nav style="margin: 2rem 0;">
-            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
-        </nav>
+        
 
 
         <section class="card learning-scaffold" aria-label="Learning scaffold">
@@ -112,7 +131,7 @@
 <div class="scaffold-head">
                 <h2>At a Glance</h2>
                 <div class="scaffold-meta" aria-label="Prerequisites and time estimate">
-                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapter 06</span>
+                    <span class="scaffold-chip"><strong>Prereqs:</strong> Chapter 05</span>
                     <span class="scaffold-chip"><strong>Time:</strong> 25 min read + 30 min practice</span>
                     <span class="scaffold-chip"><strong>Deliverable:</strong> Joined table + short interpretation</span>
                 </div>
@@ -216,6 +235,27 @@
                     <p>One of the most powerful tasks in GIS is a <strong>Join</strong>. By matching a common field (the "foreign key") in two different tables, we can temporarily append information from a standalone table to our spatial features. This is how we map things like Census data or health statistics.</p>
                 </section>
 
+                <section class="card">
+                    <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+                        <div style="background: #ef4444; color: white; padding: 0.5rem 1rem; border-radius: 4px; font-weight: 800; font-size: 0.8rem; text-transform: uppercase;">Professor's Warning</div>
+                        <h2 style="margin:0;">The "Data Trap": Managing Legacy Files</h2>
+                    </div>
+                    <p>In the professional world, you will inevitably encounter the "Shapefile." It is the dinosaur of GIS formats—ancient, clumsy, but somehow still alive.</p>
+                    
+                    <div class="callout warning" style="background: #fff1f2; border-left: 5px solid #ef4444; color: #991b1b;">
+                        <strong>⚠️ The "One File" Myth</strong>
+                        <p>A "Shapefile" is not a single file. It is a mandatory collection of at least three files (<code>.shp</code>, <code>.shx</code>, <code>.dbf</code>) and often many more (<code>.prj</code>, <code>.xml</code>). <br><br>
+                        <strong>The Trap:</strong> New analysts often email just the <code>.shp</code> file to a client. The client tries to open it, and it fails. This is the fastest way to look like an amateur. Always zip the entire folder!</p>
+                    </div>
+
+                    <h3>The Future is Text</h3>
+                    <p>While Shapefiles dominated the massive desktop computers of the 90s, the modern web (and AI!) runs on text. Formats like <strong>GeoJSON</strong> and <strong>CSV</strong> are just simple text files that can be read by any computer, phone, or website. They don't require specialized drivers; they just need to be read.</p>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Shapefile:</strong> Binary blobs, 10-character limit on column names (from 1980s dBASE standards!), easy to corrupt.</li>
+                        <li><strong>GeoJSON:</strong> Human-readable text, web-native, flexible structure. <em>"Just add 'Geo' to JSON."</em></li>
+                    </ul>
+                </section>
+
                 <section class="sql-sandbox">
                     <div class="console-label">-- SPATIAL DATABASE CONSOLE --</div>
                     <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 1rem;">Available Table: `Cities` (City, State, Population)</p>
@@ -249,6 +289,11 @@
                     </ul>
                     <div class="callout success" style="margin-top:1rem;">
                         <strong>Expert Insight:</strong> Choose <strong>Option B</strong>. While it takes more effort to set up, it creates a <em>dynamic link</em>. If the survey data is updated next year, you simply swap the CSV, and your map updates automatically. This is "Data Normalization."
+                    </div>
+
+                    <div class="callout warning" style="border-left-color: var(--accent); background: #fff1f2; margin-top: 2rem;">
+                        <strong>🛑 Critical GIS: The Danger of NULL</strong>
+                        <p>In a database, <code>NULL</code> means "unknown." It is NOT the same as <code>0</code>. If you average a column where half the values are NULL, the computer ignores them. If you treat them as 0, you drag the average down artificially. <br><em>Example:</em> If a neighborhood doesn't report crime data (NULL), a heatmap might show it as "Safe" (0 crimes). This is a common source of algorithmic bias.</p>
                     </div>
                 </div>
 
@@ -318,8 +363,8 @@
         </div>
 
         <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
-            <a href="chapter-06-digitizing.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 06</a>
-            <a href="chapter-08-georeferencing.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Chapter 08: Georeferencing →</a>
+            <a href="chapter-08-georeferencing.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 06: Georeferencing</a>
+            <a href="chapter-06-output.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Chapter 08: Map Output →</a>
         </div>
     
 
@@ -334,28 +379,16 @@
             </p>
             <ul class="bok-topic-list">
                         <li class="bok-topic">
-            <span class="bok-code">DM-01-001</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10622" target="_blank" rel="noopener noreferrer">Spatial Database Management Systems</a>
+            <span class="bok-code">DM-01-003</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10624" target="_blank" rel="noopener noreferrer">Relational DBMS and their Spatial Extensions</a>
         </li>
                         <li class="bok-topic">
             <span class="bok-code">DM-01-004</span>
             <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10797" target="_blank" rel="noopener noreferrer">Geodatabases</a>
         </li>
                         <li class="bok-topic">
-            <span class="bok-code">FC-06-012</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10700" target="_blank" rel="noopener noreferrer">Structured Query Language (SQL) and attribute queries</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">DM-01-062</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10651" target="_blank" rel="noopener noreferrer">Database Administration</a>
-        </li>
-                        <li class="bok-topic">
             <span class="bok-code">DM-01-070</span>
             <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10654" target="_blank" rel="noopener noreferrer">Problems of Large Spatial Databases</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">DM-07-060</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10650" target="_blank" rel="noopener noreferrer">Spatial Data Infrastructures</a>
         </li>
                         <li class="bok-topic">
             <span class="bok-code">BoK</span>
@@ -369,6 +402,9 @@
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">
             <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #64748b;">
+                Made with ❤️ by <a href="https://sounny.github.io" target="_blank" style="color: #64748b; text-decoration: underline;">Dr. Sounny</a>
+            </p>
         </div>
     </footer>
 
@@ -400,5 +436,70 @@
         }
         runQuery();
     </script>
+
+    <!-- DYNAMIC NAV SCRIPT -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const navTitle = document.querySelector('.nav-current-title');
+        const defaultTitle = "Database Management"; // Dynamic default
+        const sections = document.querySelectorAll('main h2');
+        const navBar = document.querySelector('.sticky-chapter-bar');
+        const progressBar = document.querySelector('.nav-progress-bar');
+        
+        // 1. Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+          const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+          const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const scrolled = (winScroll / height) * 100;
+          if (progressBar) progressBar.style.width = scrolled + "%";
+          
+          if (window.scrollY > 200) {
+            navBar.classList.add('is-stuck');
+          } else {
+            navBar.classList.remove('is-stuck');
+          }
+        });
+
+        // 2. Section Observer for Dynamic Title
+        const observerOptions = {
+          root: null,
+          rootMargin: '-80px 0px -70% 0px',
+          threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const newText = entry.target.innerText;
+              if (navTitle.textContent !== newText) {
+                  navTitle.style.opacity = 0;
+                  setTimeout(() => {
+                    navTitle.textContent = newText;
+                    navTitle.style.opacity = 1;
+                  }, 200);
+              }
+            }
+          });
+        }, observerOptions);
+
+        sections.forEach(section => {
+          observer.observe(section);
+        });
+        
+        // Reset to default
+        window.addEventListener('scroll', () => {
+          if (window.scrollY < 150) {
+             if (navTitle.textContent !== defaultTitle) {
+               navTitle.style.opacity = 0;
+               setTimeout(() => {
+                 navTitle.textContent = defaultTitle;
+                 navTitle.style.opacity = 1;
+               }, 200);
+             }
+          }
+        });
+      });
+    </script>
+
 </body>
 </html>

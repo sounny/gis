@@ -19,7 +19,9 @@
         }
 
         .hero-chapter {
-            background: linear-gradient(135deg, #064e3b 0%, #10b981 100%);
+            background: linear-gradient(rgba(6, 78, 59, 0.8), rgba(16, 185, 129, 0.7)), url('../assets/img/hero_chapter11.png');
+            background-size: cover;
+            background-position: center;
             padding: 5rem 2rem;
             text-align: center;
             color: white;
@@ -47,7 +49,7 @@
             border: 1px solid rgba(255,255,255,0.3);
         }
 
-        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; color: #ffffff; text-shadow: 0 4px 6px rgba(0,0,0,0.5); }
         .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
 
         .layout-grid {
@@ -130,11 +132,28 @@
             <p class="subtitle">Turning pixels into information. Learn how computer algorithms categorize satellite data to track urbanization, deforestation, and water resources.</p>
         </div>
     </header>
+    <!-- STICKY NAVIGATION BAR -->
+    <nav class="sticky-chapter-bar">
+      <div class="nav-container">
+        <div class="nav-left">
+          <span class="nav-chapter-num">Chapter 11</span>
+        </div>
+        <div class="nav-center">
+          <span class="nav-current-title">Image Classification</span>
+        </div>
+        <div class="nav-right">
+          <a href="../index.html" class="nav-toc-btn" title="Table of Contents">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            <span class="toc-text">TOC</span>
+          </a>
+        </div>
+      </div>
+      <div class="nav-progress-bar"></div>
+    </nav>
+
 
     <main class="container">
-        <nav style="margin: 2rem 0;">
-            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
-        </nav>
+        
 
 
         <section class="card learning-scaffold" aria-label="Learning scaffold">
@@ -240,6 +259,11 @@
                     <div class="callout" style="background: #eff6ff; border-left: 5px solid #3b82f6; color: #1e40af; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
                         <strong>Key Lesson:</strong> We classify based on <em>spectral similarities</em>. If a rooftop and a highway reflect light the same way, the computer will likely put them in the same class unless we provide extra context.
                     </div>
+
+                    <div class="callout warning" style="background: #fdf2f8; border-left: 5px solid #db2777; color: #831843; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                        <strong>Critical GIS: The Power of Categories</strong>
+                        <p>Classification is an act of power. When an algorithm labels a neighborhood as "Slum" versus "Informal Settlement," it affects property rights and policy. A computer doesn't know "context"—it only knows the samples we teach it. If our training data is biased (e.g., only sampling wealthy neighborhoods), the resulting map will codify that bias into "data."</p>
+                    </div>
                 </section>
 
                 <section class="card">
@@ -249,6 +273,24 @@
                         <li><strong>Unsupervised:</strong> The computer groups similar pixels into clusters automatically. The analyst later identifies what those clusters actually represent.</li>
                         <li><strong>Supervised:</strong> The analyst provides <em>Training Samples</em> (examples) for each class first, and the computer maps the rest of the image based on those samples.</li>
                     </ul>
+
+                    <div style="margin-top: 2rem; border-top: 1px solid #e2e8f0; padding-top: 2rem;">
+                        <h3>Teaching the Machine: The "Shape Sorter" Analogy</h3>
+                        <p>We often talk about "AI" as if it's magic. It's not. It's just a baby with a shape-sorter toy.</p>
+    
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 1.5rem;">
+                            <div style="background: #eff6ff; padding: 1.5rem; border-radius: 12px; border: 1px solid #bfdbfe;">
+                                <h4 style="color: #1e40af; margin-top: 0;">Supervised Classification</h4>
+                                <p><strong>The Method:</strong> You (the parent) hold up a square block and say "This is a SQUARE." You hold up a circle and say "This is a CIRCLE." Then you let the baby (AI) sort the rest based on your rules.</p>
+                                <p><strong>The Risk:</strong> If you accidentally call a pentagon a "square," the baby will force every pentagon into the square hole forever. This is <strong>Human Bias</strong>.</p>
+                            </div>
+                            <div style="background: #f0fdf4; padding: 1.5rem; border-radius: 12px; border: 1px solid #bbf7d0;">
+                                <h4 style="color: #166534; margin-top: 0;">Unsupervised Classification</h4>
+                                <p><strong>The Method:</strong> You dump the toys on the floor and walk away. The baby looks at them and says, "These look similar, I'll put them in a pile. These others look weird, I'll put them in another pile."</p>
+                                <p><strong>The Result:</strong> The computer groups pixels purely by <strong>Spectral Similarity</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
                 </section>
 
                 <section class="classification-container">
@@ -329,8 +371,8 @@
         </div>
 
         <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
-          <a href="chapter-10-remote-sensing.html" style="text-decoration: none; color: var(--secondary);">&larr; Chapter 10: Remote Sensing</a>
-          <a href="chapter-12-lidar.html" style="text-decoration: none; color: var(--primary); font-weight: 700;">Chapter 12: LiDAR &rarr;</a>
+            <a href="chapter-09-spectral-analysis.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 10: Spectral Analysis</a>
+            <a href="chapter-12-lidar.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Chapter 12: LiDAR →</a>
         </div>
     
 
@@ -353,18 +395,6 @@
             <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10605" target="_blank" rel="noopener noreferrer">Feature Extraction from Satellite Imagery</a>
         </li>
                         <li class="bok-topic">
-            <span class="bok-code">DC-03-016</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10606" target="_blank" rel="noopener noreferrer">Nature of Multispectral Image Data</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">AM-03-026</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10473" target="_blank" rel="noopener noreferrer">Spatial Sampling for Spatial Analysis</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">DC-04-019</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10607" target="_blank" rel="noopener noreferrer">Ground Verification and Accuracy Assessment</a>
-        </li>
-                        <li class="bok-topic">
             <span class="bok-code">AM-09-104</span>
             <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10460" target="_blank" rel="noopener noreferrer">Thematic Accuracy Assessment</a>
         </li>
@@ -380,6 +410,9 @@
     <footer style="margin-top: 4rem; padding: 3rem 0; background: #f1f5f9; text-align: center;">
         <div class="container">
             <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #64748b;">
+                Made with ❤️ by <a href="https://sounny.github.io" target="_blank" style="color: #64748b; text-decoration: underline;">Dr. Sounny</a>
+            </p>
         </div>
     </footer>
 
@@ -419,5 +452,70 @@
             canvas.innerHTML = '<div style="position: absolute; inset: 0; background: linear-gradient(to right, #1e3a8a 30%, #065f46 30%, #065f46 70%, #1e293b 70%); opacity: 1;"></div><div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white;">CLASSIFIED MAP</div>';
         }
     </script>
+
+    <!-- DYNAMIC NAV SCRIPT -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const navTitle = document.querySelector('.nav-current-title');
+        const defaultTitle = "Image Classification"; // Dynamic default
+        const sections = document.querySelectorAll('main h2');
+        const navBar = document.querySelector('.sticky-chapter-bar');
+        const progressBar = document.querySelector('.nav-progress-bar');
+        
+        // 1. Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+          const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+          const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const scrolled = (winScroll / height) * 100;
+          if (progressBar) progressBar.style.width = scrolled + "%";
+          
+          if (window.scrollY > 200) {
+            navBar.classList.add('is-stuck');
+          } else {
+            navBar.classList.remove('is-stuck');
+          }
+        });
+
+        // 2. Section Observer for Dynamic Title
+        const observerOptions = {
+          root: null,
+          rootMargin: '-80px 0px -70% 0px',
+          threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const newText = entry.target.innerText;
+              if (navTitle.textContent !== newText) {
+                  navTitle.style.opacity = 0;
+                  setTimeout(() => {
+                    navTitle.textContent = newText;
+                    navTitle.style.opacity = 1;
+                  }, 200);
+              }
+            }
+          });
+        }, observerOptions);
+
+        sections.forEach(section => {
+          observer.observe(section);
+        });
+        
+        // Reset to default
+        window.addEventListener('scroll', () => {
+          if (window.scrollY < 150) {
+             if (navTitle.textContent !== defaultTitle) {
+               navTitle.style.opacity = 0;
+               setTimeout(() => {
+                 navTitle.textContent = defaultTitle;
+                 navTitle.style.opacity = 1;
+               }, 200);
+             }
+          }
+        });
+      });
+    </script>
+
 </body>
 </html>

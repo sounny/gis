@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 10: Spatial Statistics (John Snow) | GIS Lab Manual</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/lab.css">
+</head>
+<body>
+
+    <header class="lab-header" style="background: linear-gradient(rgba(0,0,0, 0.7), rgba(0,0,0, 0.9)), url('../assets/img/hero_lab10_snow.jpg');">
+        <div class="container">
+            <nav style="margin-bottom: 1rem;">
+                <a href="index.html" style="color: white; text-decoration: none; font-weight: 600;">&larr; Back to Lab Manual</a>
+            </nav>
+            <span class="lab-badge">Lab 10</span>
+            <h1 style="color:white;">Spatial Statistics: The Ghost of John Snow</h1>
+            <p class="subtitle" style="color:#e2e8f0;">Travel back to 1854 London to solve the Cholera outbreak. Use modern spatial statistics (Mean Center, Kernel Density) to prove the water pump theory.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 1. Learning Objectives -->
+        <section class="card">
+            <h2>🎯 Learning Objectives</h2>
+            <ul>
+                <li>Calculate <strong>Central Tendency</strong> (Mean Center, Median Center) of a point distribution.</li>
+                <li>Perform <strong>Kernel Density Estimation (KDE)</strong> to visualize "Hot Spots" of disease.</li>
+                <li>Use <strong>Directional Distribution</strong> (Standard Deviational Ellipse) to see if the outbreak is trending in a specific direction.</li>
+                <li>Prove causality using proximity analysis (Buffer).</li>
+            </ul>
+        </section>
+
+        <!-- 2. Scenario & Data -->
+        <section class="card">
+            <h2>📂 Scenario: The Blue Death</h2>
+            <p>It is 1854. People in Soho, London are dying of Cholera. The prevailing theory is "Miasma" (bad air). Dr. John Snow believes it is the water.</p>
+            <p>You have two datasets: The locations of deaths, and the locations of water pumps. Your job is to statistically prove that the <strong>Broad Street Pump</strong> is the killer.</p>
+            
+            <div class="data-download-card">
+                <div>
+                    <strong>Data Package:</strong> <code>lab10_john_snow.zip</code>
+                    <p style="margin:0; font-size: 0.85rem; color: #64748b;">Contains: <code>Cholera_Deaths.shp</code>, <code>Pumps.shp</code>, <code>Soho_Streets.shp</code></p>
+                </div>
+                <a href="#" class="btn btn-primary" onclick="alert('Demo Mode: Imagine downloading historical data here!')">Download Data</a>
+            </div>
+        </section>
+
+        <!-- 3. Instructions (The Switcher) -->
+        <h2>🛠️ Step-by-Step Instructions</h2>
+        <p>Select your preferred GIS platform to view instructions:</p>
+
+        <div class="platform-tabs">
+            <button class="tab-btn active" onclick="switchTab('arcgis')">🟦 ArcGIS Pro</button>
+            <button class="tab-btn" onclick="switchTab('qgis')">🟩 QGIS</button>
+            <button class="tab-btn" onclick="switchTab('web')">🟧 Web GIS (AGOL)</button>
+        </div>
+
+        <!-- ArcGIS Pro Pane -->
+        <div id="arcgis" class="instruction-pane active">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Mean Center</h3>
+                    <p>1. Open <strong>Geoprocessing > Mean Center</strong>.<br>
+                       2. Input: <code>Cholera_Deaths</code>.<br>
+                       3. Weight Field: <code>Count</code> (if aggregated) or None (if individual points).<br>
+                       4. Run. Does the center land near a pump?</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Kernel Density (Heat Map)</h3>
+                    <p>1. Search for <strong>Kernel Density</strong> (Spatial Analyst).<br>
+                       2. Input: <code>Cholera_Deaths</code>.<br>
+                       3. Search Radius: try <strong>50 Meters</strong> (we are looking at a neighborhood scale).<br>
+                       4. Run. Symbolize from Blue (Low) to Red (High).</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Standard Deviational Ellipse</h3>
+                    <p>1. Search for <strong>Directional Distribution</strong>.<br>
+                       2. Input: <code>Cholera_Deaths</code>.<br>
+                       3. Size: <strong>1 Standard Deviation</strong>.<br>
+                       4. Run. This shows the "core" area containing ~68% of deaths.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- QGIS Pane -->
+        <div id="qgis" class="instruction-pane" style="display:none;">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Mean Coordinate</h3>
+                    <p>1. <strong>Vector > Analysis Tools > Mean Coordinate</strong>.<br>
+                       2. Input: <code>Cholera_Deaths</code>.<br>
+                       3. Run. A new point layer is created.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Heatmap (Kernel Density)</h3>
+                    <p>1. Open <strong>Processing Toolbox > Interpolation > Heatmap (Kernel Density Estimation)</strong>.<br>
+                       2. Radius: <strong>50 meters</strong>.<br>
+                       3. Pixel size: <strong>1 meter</strong>.<br>
+                       4. Run. Style with "Singleband Pseudocolor" (Reds).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Web GIS Pane -->
+        <div id="web" class="instruction-pane" style="display:none;">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Heat Map Style</h3>
+                    <p>1. Add <code>Cholera_Deaths</code> to Map Viewer.<br>
+                       2. Go to <strong>Styles</strong> (Shapes icon).<br>
+                       3. Choose <strong>Heat Map</strong> as the drawing style.<br>
+                       4. Adjust the "Area of Influence" slider until hotspots appear localized around Broad Street.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Find Nearest</h3>
+                    <p>1. <strong>Analysis > Use Proximity > Find Nearest</strong>.<br>
+                       2. Find nearest <strong>Pump</strong> for each <strong>Death</strong>.<br>
+                       3. Limit to nearest 1.<br>
+                       4. Result: Connecting lines showing which pump was closest for every victim.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Deliverables -->
+        <section class="card" style="margin-top: 4rem; border-top: 4px solid var(--accent);">
+            <h2>✅ Submission & Assessment</h2>
+            <p>To complete this lab, you must submit:</p>
+            <ul>
+                <li><strong>The Evidence Map:</strong> A layout showing the Heat Map, the Mean Center, and the labeled Broad Street Pump.</li>
+                <li><strong>The Verdict:</strong> A short paragraph explaining why the statistical evidence points to the pump (and not the air).</li>
+                <li><strong>Bonus:</strong> Identify the "Anomaly" - the brewery workers who didn't die. Why?</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine | GIS Lab Manual</p>
+        </div>
+    </footer>
+
+    <script>
+        function switchTab(platform) {
+            document.querySelectorAll('.instruction-pane').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(platform).style.display = 'block';
+            
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                if(btn.textContent.toLowerCase().includes(platform === 'web' || platform === 'gee' ? (platform === 'gee' ? 'google' : 'web') : platform)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

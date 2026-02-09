@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 06: Raster Analysis | GIS Lab Manual</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/lab.css">
+</head>
+<body>
+
+    <header class="lab-header" style="background: linear-gradient(rgba(234, 88, 12, 0.9), rgba(154, 52, 18, 0.9)), url('../assets/img/hero_lab06.jpg');">
+        <div class="container">
+            <nav style="margin-bottom: 1rem;">
+                <a href="index.html" style="color: white; text-decoration: none; font-weight: 600;">&larr; Back to Lab Manual</a>
+            </nav>
+            <span class="lab-badge">Lab 06</span>
+            <h1 style="color:white;">Raster Analysis: Suitability Modeling</h1>
+            <p class="subtitle" style="color:#ffedd5;">Where is the "Best" place? Use Weighted Overlay and Map Algebra to find optimal locations.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 1. Learning Objectives -->
+        <section class="card">
+            <h2>🎯 Learning Objectives</h2>
+            <ul>
+                <li>Derive new surfaces from a DEM (Slope, Aspect).</li>
+                <li>Calculate <strong>Euclidean Distance</strong> from vector features.</li>
+                <li><strong>Reclassify</strong> different data types into a common scale (1-10).</li>
+                <li>Perform a <strong>Weighted Overlay</strong> to combine factors into a final suitability map.</li>
+            </ul>
+        </section>
+
+        <!-- 2. Tool Integration -->
+        <section class="card" style="background: #fff7ed; border-left: 5px solid #ea580c;">
+            <h2>🧪 Interactive Tool: Map Algebra Playground</h2>
+            <p>Raster analysis is just math. Use this tool to add two grids together pixel-by-pixel before trying it in Pro.</p>
+            <div style="margin-top: 1rem;">
+                <!-- Embedding content from Chapter 13 directly or linking to it -->
+                <iframe src="../chapters/chapter-13-raster-analysis.html#tool-panel" style="width: 100%; height: 500px; border: 1px solid #ddd; border-radius: 8px;"></iframe>
+                <p style="text-align: center; font-size: 0.9rem; margin-top: 0.5rem;">
+                    <a href="../chapters/chapter-13-raster-analysis.html" target="_blank" class="btn btn-sm">Open Full Tool in New Tab</a>
+                </p>
+            </div>
+        </section>
+
+        <!-- 3. Scenario & Data -->
+        <section class="card">
+            <h2>📂 Scenario: The New Fire Station</h2>
+            <p>The city needs to build a new fire station in the mountains. You have been tasked with finding the best site based on three criteria:</p>
+            <div class="callout info">
+                <strong>Site Criteria:</strong>
+                <ol>
+                    <li><strong>Slope:</strong> Must be flat (flatter is better).</li>
+                    <li><strong>Road Access:</strong> Must be close to existing roads (closer is better).</li>
+                    <li><strong>Land Cover:</strong> Must not be on water or protected forest.</li>
+                </ol>
+            </div>
+            
+            <div class="data-download-card">
+                <div>
+                    <strong>Data Package:</strong> <code>lab06_suitability.zip</code>
+                    <p style="margin:0; font-size: 0.85rem; color: #64748b;">Contains: <code>DEM.tif</code>, <code>Roads.shp</code>, <code>LandUse.tif</code></p>
+                </div>
+                <a href="#" class="btn btn-primary" onclick="alert('Demo Mode: Imagine downloading raster data here!')">Download Data</a>
+            </div>
+        </section>
+
+        <!-- 3. Instructions (The Switcher) -->
+        <h2>🛠️ Step-by-Step Instructions</h2>
+        <p>Select your preferred GIS platform to view instructions:</p>
+
+        <div class="platform-tabs">
+            <button class="tab-btn active" onclick="switchTab('arcgis')">🟦 ArcGIS Pro</button>
+            <button class="tab-btn" onclick="switchTab('qgis')">🟩 QGIS</button>
+            <button class="tab-btn" onclick="switchTab('web')">🟧 Web GIS (AGOL)</button>
+        </div>
+
+        <!-- ArcGIS Pro Pane -->
+        <div id="arcgis" class="instruction-pane active">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Derive Surfaces</h3>
+                    <p>1. Open <strong>Geoprocessing > Slope</strong>.<br>
+                       2. Input: <code>DEM.tif</code>.<br>
+                       3. Output: <code>Slope_Map</code>.<br>
+                       4. Run. The output shows steepness in degrees.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Euclidean Distance</h3>
+                    <p>1. Search for <strong>Euclidean Distance</strong> (Spatial Analyst).<br>
+                       2. Input: <code>Roads.shp</code>.<br>
+                       3. Output: <code>Distance_Roads</code>.<br>
+                       4. Run. The output is a raster where every pixel value is the distance to the nearest road.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Reclassify</h3>
+                    <p>We need to compare "Degrees of Slope" (0-90) with "Meters of Distance" (0-5000). To do this, we reclassify both to a 1-10 scale.<br>
+                       1. <strong>Reclassify</strong> tool.<br>
+                       2. Input: <code>Slope_Map</code>.<br>
+                       3. Remap: 0-5 deg = 10 (Best), >30 deg = 1 (Worst).<br>
+                       4. Repeat for <code>Distance_Roads</code> (0-100m = 10, >1000m = 1).</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <h3>Weighted Overlay</h3>
+                    <p>1. Search for <strong>Weighted Overlay</strong>.<br>
+                       2. Add your Reclassified Slope and Reclassified Distance layers.<br>
+                       3. Assign weights (e.g., Slope 50%, Roads 50%).<br>
+                       4. Run. The result is your final Suitability Map.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- QGIS Pane -->
+        <div id="qgis" class="instruction-pane" style="display:none;">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Slope</h3>
+                    <p>1. <strong>Raster > Analysis > Slope</strong>.<br>
+                       2. Input: <code>DEM.tif</code>.<br>
+                       3. Run.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Proximity (Raster Distance)</h3>
+                    <p>1. <strong>Raster > Analysis > Proximity (Raster Distance)</strong>.<br>
+                       2. <em>Note:</em> You may need to rasterize vector roads first.<br>
+                       3. Run to get distance raster.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Raster Calculator (Normalization)</h3>
+                    <p>QGIS does not have a simple "Weighted Overlay" wizard. We use math.<br>
+                       1. Normalize Slope to 0-1: <code>1 - ("Slope" / MaxSlope)</code>.<br>
+                       2. Normalize Distance to 0-1: <code>1 - ("Distance" / MaxDist)</code>.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <h3>Final Map Algebra</h3>
+                    <p>1. <strong>Raster > Raster Calculator</strong>.<br>
+                       2. Formula: <code>("NormSlope" * 0.5) + ("NormDist" * 0.5)</code>.<br>
+                       3. The result is a 0-1 suitability score.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Web GIS Pane -->
+        <div id="web" class="instruction-pane" style="display:none;">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Suitability Modeler (AGOL)</h3>
+                    <p>1. ArcGIS Online Map Viewer has a dedicated <strong>Sketch Suitability</strong> widget in some apps, or use the <strong>Analysis > Summarize Data</strong> tools.<br>
+                       2. <em>Note:</em> Full raster processing usually requires Image Server extensions. Integrating pre-processed layers is easier.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Enrich Layer</h3>
+                    <p>Alternatively, use vector grid cells.<br>
+                       1. Create a Hexbin grid.<br>
+                       2. <strong>Enrich Layer</strong> with Slope and Distance attributes.<br>
+                       3. Use "Smart Mapping" styles to visualize the average score.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Deliverables -->
+        <section class="card" style="margin-top: 4rem; border-top: 4px solid var(--accent);">
+            <h2>✅ Submission & Assessment</h2>
+            <p>To complete this lab, you must submit:</p>
+            <ul>
+                <li><strong>Suitability Map:</strong> Color-coded from Red (Bad) to Green (Good).</li>
+                <li><strong>Site Recommendation:</strong> Identify one specific area (lat/long) that has a score of 9 or 10.</li>
+                <li><strong>Written Justification:</strong> Why did you choose the weights you did? (e.g. Is slope more important than road access?)</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine | GIS Lab Manual</p>
+        </div>
+    </footer>
+
+    <script>
+        function switchTab(platform) {
+            document.querySelectorAll('.instruction-pane').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(platform).style.display = 'block';
+            
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                if(btn.textContent.toLowerCase().includes(platform === 'web' || platform === 'gee' ? (platform === 'gee' ? 'google' : 'web') : platform)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

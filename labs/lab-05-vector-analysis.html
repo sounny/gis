@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 05: Vector Analysis | GIS Lab Manual</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/lab.css">
+</head>
+<body>
+
+    <header class="lab-header" style="background: linear-gradient(rgba(220, 38, 38, 0.9), rgba(153, 27, 27, 0.9)), url('../assets/img/hero_lab05.jpg');">
+        <div class="container">
+            <nav style="margin-bottom: 1rem;">
+                <a href="index.html" style="color: white; text-decoration: none; font-weight: 600;">&larr; Back to Lab Manual</a>
+            </nav>
+            <span class="lab-badge">Lab 05</span>
+            <h1 style="color:white;">Vector Analysis: Overlay & Proximity</h1>
+            <p class="subtitle" style="color:#fee2e2;">Ask spatial questions. Use Buffer, Clip, and Intersect to find out <em>what is near what</em>.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 1. Learning Objectives -->
+        <section class="card">
+            <h2>🎯 Learning Objectives</h2>
+            <ul>
+                <li>Create <strong>Buffers</strong> to represent zones of influence or danger.</li>
+                <li>Perform <strong>Overlay Operations</strong> (Intersect, Clip) to combine multiple datasets.</li>
+                <li>Calculate <strong>Geometry Attributes</strong> (Area/Length) of the new features.</li>
+                <li>Solve a multi-step spatial problem: "How many schools are in the danger zone?"</li>
+            </ul>
+        </section>
+
+        <!-- 2. Scenario & Data -->
+        <section class="card">
+            <h2>📂 Scenario: The Chemical Spill</h2>
+            <p>A tanker truck has overturned on Highway 290, spilling hazardous chemicals. The Emergency Response Team estimates a danger zone of <strong>1 mile</strong> radius around the crash site. You must identify all schools and hospitals within this zone.</p>
+            
+            <div class="data-download-card">
+                <div>
+                    <strong>Data Package:</strong> <code>lab05_vector_analysis.zip</code>
+                    <p style="margin:0; font-size: 0.85rem; color: #64748b;">Contains: <code>Crash_Site.shp</code>, <code>Schools.shp</code>, <code>City_Parcels.shp</code></p>
+                </div>
+                <a href="#" class="btn btn-primary" onclick="alert('Demo Mode: Imagine downloading analysis data here!')">Download Data</a>
+            </div>
+        </section>
+
+        <!-- 3. Instructions (The Switcher) -->
+        <h2>🛠️ Step-by-Step Instructions</h2>
+        <p>Select your preferred GIS platform to view instructions:</p>
+
+        <div class="platform-tabs">
+            <button class="tab-btn active" onclick="switchTab('arcgis')">🟦 ArcGIS Pro</button>
+            <button class="tab-btn" onclick="switchTab('qgis')">🟩 QGIS</button>
+            <button class="tab-btn" onclick="switchTab('web')">🟧 Web GIS (AGOL)</button>
+        </div>
+
+        <!-- ArcGIS Pro Pane -->
+        <div id="arcgis" class="instruction-pane active">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Buffer Zone</h3>
+                    <p>1. Open the <strong>Geoprocessing Pane</strong>.<br>
+                       2. Search for <strong>Buffer</strong> (Analysis Tools).<br>
+                       3. Input: <code>Crash_Site</code>.<br>
+                       4. Distance: <strong>1 Mile</strong>. Dissolve: No Dissolve needed.<br>
+                       5. Run. You now have a circle layer.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Select by Location</h3>
+                    <p>1. Go to <strong>Map tab > Select by Location</strong>.<br>
+                       2. Input Features: <code>Schools</code>.<br>
+                       3. Relationship: <strong>Intersect</strong>.<br>
+                       4. Selecting Features: <code>Crash_Buffer</code>.<br>
+                       5. Click OK. The schools inside the circle turn blue.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Clip Parcels</h3>
+                    <p>1. Search for <strong>Clip</strong> tool.<br>
+                       2. Input Features: <code>City_Parcels</code>.<br>
+                       3. Clip Features: <code>Crash_Buffer</code>.<br>
+                       4. Output: <code>Impacted_Parcels</code>.<br>
+                       5. Run. This creates a new dataset of ONLY the land inside the zone.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- QGIS Pane -->
+        <div id="qgis" class="instruction-pane" style="display:none;">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Fixed Distance Buffer</h3>
+                    <p>1. <strong>Vector > Geoprocessing Tools > Buffer</strong>.<br>
+                       2. Input: <code>Crash_Site</code>.<br>
+                       3. Distance: <code>1609</code> meters (approx 1 mile) or set units to degrees if using WGS84 (warning!).<br>
+                       4. Run.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Select by Location</h3>
+                    <p>1. <strong>Vector > Research Tools > Select by Location</strong>.<br>
+                       2. Select features from: <code>Schools</code>.<br>
+                       3. Predicate: <strong>Intersect</strong>.<br>
+                       4. By comparing to: <code>Buffered</code>.<br>
+                       5. Run. Selected features highlight yellow.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Clip</h3>
+                    <p>1. <strong>Vector > Geoprocessing Tools > Clip</strong>.<br>
+                       2. Input layer: <code>City_Parcels</code>.<br>
+                       3. Overlay layer: <code>Buffered</code>.<br>
+                       4. Run to create the new clipped layer.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Web GIS Pane -->
+        <div id="web" class="instruction-pane" style="display:none;">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Analysis Tools</h3>
+                    <p>1. In Map Viewer Classic, click standard <strong>Analysis</strong> button.<br>
+                       2. <strong>Use Proximity > Create Buffers</strong>.<br>
+                       3. Set distance to 1 Mile.<br>
+                       4. Result layer is a temporary feature collection.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Find Locations</h3>
+                    <p>1. <strong>Find Locations > Find Existing Locations</strong>.<br>
+                       2. Query formulation: "Schools where Schools <strong>intersects</strong> Crash_Buffer".<br>
+                       3. Run Analysis. AGOL charges credits for these operations!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Deliverables -->
+        <section class="card" style="margin-top: 4rem; border-top: 4px solid var(--accent);">
+            <h2>✅ Submission & Assessment</h2>
+            <p>To complete this lab, you must submit:</p>
+            <ul>
+                <li><strong>List:</strong> The names of the schools falling within the danger zone.</li>
+                <li><strong>Number:</strong> The total area (in acres) of the <code>Impacted_Parcels</code>.</li>
+                <li><strong>Map:</strong> A layout showing the Buffer, the Impacted Parcels, and the identified schools.</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine | GIS Lab Manual</p>
+        </div>
+    </footer>
+
+    <script>
+        function switchTab(platform) {
+            document.querySelectorAll('.instruction-pane').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(platform).style.display = 'block';
+            
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                if(btn.textContent.toLowerCase().includes(platform === 'web' || platform === 'gee' ? (platform === 'gee' ? 'google' : 'web') : platform)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

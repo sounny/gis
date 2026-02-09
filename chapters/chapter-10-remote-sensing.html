@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 10: Foundations of Remote Sensing | GIS Digital Textbook</title>
+    <title>Chapter 09: Foundations of Remote Sensing | GIS Digital Textbook</title>
     <meta name="description" content="Explore the foundations of Earth Observation. Learn about satellite platforms, sensor resolutions, and how we monitor global change from space.">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,7 +19,9 @@
         }
 
         .hero-chapter {
-            background: linear-gradient(135deg, #78350f 0%, #f59e0b 100%);
+            background: linear-gradient(rgba(120, 53, 15, 0.8), rgba(245, 158, 11, 0.7)), url('../assets/img/hero_chapter10.jpg');
+            background-size: cover;
+            background-position: center;
             padding: 5rem 2rem;
             text-align: center;
             color: white;
@@ -47,7 +49,7 @@
             border: 1px solid rgba(255,255,255,0.3);
         }
 
-        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; color: #ffffff; text-shadow: 0 4px 6px rgba(0,0,0,0.5); }
         .subtitle { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
 
         .layout-grid {
@@ -93,16 +95,33 @@
 
     <header class="hero-chapter">
         <div class="container">
-            <span class="chapter-badge">Chapter 10</span>
+            <span class="chapter-badge">Chapter 09</span>
             <h1>Foundations of Remote Sensing</h1>
             <p class="subtitle">Observing the Earth from above. Learn about satellite platforms, orbits, and the four types of resolution that define every sensor.</p>
         </div>
     </header>
+    <!-- STICKY NAVIGATION BAR -->
+    <nav class="sticky-chapter-bar">
+      <div class="nav-container">
+        <div class="nav-left">
+          <span class="nav-chapter-num">Chapter 09</span>
+        </div>
+        <div class="nav-center">
+          <span class="nav-current-title">Foundations of Remote Sensing</span>
+        </div>
+        <div class="nav-right">
+          <a href="../index.html" class="nav-toc-btn" title="Table of Contents">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            <span class="toc-text">TOC</span>
+          </a>
+        </div>
+      </div>
+      <div class="nav-progress-bar"></div>
+    </nav>
+
 
     <main class="container">
-        <nav style="margin: 2rem 0;">
-            <a href="../index.html" style="text-decoration: none; color: var(--primary); font-weight: 600;">&larr; Back to Dashboard</a>
-        </nav>
+        
 
         <section class="card learning-scaffold" aria-label="Learning scaffold">
             <details class="learning-scaffold-details">
@@ -203,8 +222,31 @@
                     <h2>🛰️ What is Remote Sensing?</h2>
                     <p>Remote sensing is the process of gathering information about Earth from a distance, typically using satellites, aircraft, or drones. Instead of physically measuring a tree or a river, we measure the electromagnetic energy it reflects or emits.</p>
                     
-                    <div class="callout" style="background: #fef3c7; border-left: 5px solid #f59e0b; color: #92400e; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
-                        <strong>Key Concept:</strong> Remote sensing provides a synoptic (broad) view of the Earth, allowing us to monitor global patterns like climate change and deforestation that are invisible from the ground.
+                <section class="card" style="background: #fafafa; border-left: 5px solid #18181b;">
+                    <h2>Is Remote Sensing a Science?</h2>
+                    <p>We build models. We take a continuous, complex reality (the Earth), abstract it into pixels, filter it through atmospheric noise, and apply algorithms written by humans with biases.</p>
+                    
+                    <blockquote style="font-size: 1.1rem; border-left: 4px solid #71717a; padding-left: 1rem; margin: 1.5rem 0; color: #27272a;">
+                        "Don't trick yourself to think when you're doing remote sensing that you're being a rational person... You're actually not being rational, you're being an artist and you don't realize it."
+                    </blockquote>
+
+                    <p>Like a painter, you choose your "paint" (the bands), your "brush" (the algorithm), and you interpret the result. Two scientists can map Amazon deforestation and get two different numbers. <strong>The "Truth" is not in the pixel; it is in the interpretation.</strong></p>
+                </section>
+                    
+                <section class="card">
+                    <h2>☀️ Passive vs. 🦇 Active Sensors</h2>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                        <div>
+                            <h3 style="color: var(--primary); margin-top: 0;">Passive Sensors</h3>
+                            <p>Like a camera or the human eye, <strong>passive sensors</strong> detect natural energy (sunlight) reflected off the Earth. They require daylight and clear skies to work.</p>
+                            <p><em>Examples: Landsat, Sentinel-2, Photography.</em></p>
+                        </div>
+                        <div style="background: #1e293b; color: white; padding: 1rem; border-radius: 8px;">
+                            <h3 style="color: #4ade80; margin-top: 0;">Active Sensors</h3>
+                            <p>Think of a <strong>Camera with a Flash</strong>. It doesn't wait for the sun; it brings its own light.</p>
+                            <p>Like a bat using echolocation, <strong>active sensors</strong> emit a pulse of energy and measure the return echo. They can "see" at night and through clouds.</p>
+                            <p><em>Examples: LiDAR (Laser), RADAR (Radio waves).</em></p>
+                        </div>
                     </div>
                 </section>
 
@@ -217,6 +259,34 @@
                         <li><strong>Temporal Resolution:</strong> How often the satellite revisits the same spot (e.g., every 16 days).</li>
                         <li><strong>Radiometric Resolution:</strong> The sensitivity of the sensor to small differences in energy (often measured in "bits").</li>
                     </ul>
+
+                    <div class="callout warning" style="background: #fff1f2; border-left: 5px solid #ef4444; color: #991b1b; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                        <strong>Critical GIS: The "Privacy Pixel"</strong>
+                        <p>We often celebrate higher spatial resolution, but is there a limit? At 30m (Landsat), we see forests. At 1m (commercial), we see cars. At 30cm (military grade), we can potentially identify people. As sensors improve, the line between <em>Earth observation</em> and <em>surveillance</em> blurs. Who owns your "spectral signature" when you are in your own backyard?</p>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>🔄 The Physics of Orbits</h2>
+                    <p>A satellite's path determines what it can see and how often. There are three main orbital types designed for different goals:</p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                        <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border-top: 3px solid var(--secondary);">
+                            <strong>1. Geostationary (GEO)</strong>
+                            <p style="font-size: 0.9rem;">Parks 36,000 km above the equator, matching Earth's rotation speed. It stares at the <strong>same spot continuously</strong>.</p>
+                            <p style="font-size: 0.8rem; color: #64748b;"><em>Best for: Weather monitoring (GOES).</em></p>
+                        </div>
+                        <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border-top: 3px solid var(--primary);">
+                            <strong>2. Polar Orbit</strong>
+                            <p style="font-size: 0.9rem;">Loops North-to-South while the Earth spins underneath. Covers the <strong>entire globe</strong> every 14 days or so.</p>
+                            <p style="font-size: 0.8rem; color: #64748b;"><em>Best for: Global mapping (Landsat).</em></p>
+                        </div>
+                        <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border-top: 3px solid var(--success);">
+                            <strong>3. Sun-Synchronous</strong>
+                            <p style="font-size: 0.9rem;">A special polar orbit that crosses the equator at the <strong>same local time</strong> (e.g., 10:30 AM) every pass. Ensures consistent shadow lengths.</p>
+                            <p style="font-size: 0.8rem; color: #64748b;"><em>Best for: Vegetation analysis.</em></p>
+                        </div>
+                    </div>
                 </section>
 
                 <section class="card">
@@ -238,6 +308,46 @@
                     </div>
                 </section>
 
+                <section class="card" style="border-top: 4px solid #ea580c;">
+                  <h2>Living Off the Land: The Logic of Regolith</h2>
+                  <p>
+                    In traditional geography, we map resources to <em>extract</em> and
+                    <em>move</em> them. In space exploration, the cost of moving things is too
+                    high. This forces a shift to
+                    <strong>In-Situ Resource Utilization (ISRU)</strong>.
+                  </p>
+
+                  <div style="display: flex; gap: 1.5rem; margin-top: 1rem; align-items: center;">
+                    <div style="flex: 2;">
+                      <h3>The Problem: The Supply Chain Breaks</h3>
+                      <p>
+                        You cannot email a screwdriver to Mars. As one student group noted:
+                        <em
+                          >"We can't keep telling Earth, 'Please send us a resupply ship.' We
+                          need to produce on the fly."</em
+                        >
+                      </p>
+                      <p>
+                        <strong>The Solution:</strong> 3D Printing with
+                        <strong>Regolith</strong> (loose lunar/Martian soil). Instead of
+                        shipping concrete from Earth, robots scan the local terrain, identify
+                        suitable sediment, and "print" habitats or tools. This changes the map
+                        from a "Treasure Map" (where is the gold?) to a "Utility Map" (where is
+                        the printable dirt?).
+                      </p>
+                    </div>
+                    <div style="flex: 1; background: #fff7ed; padding: 1rem; border-radius: 8px; border: 1px solid #fed7aa; text-align: center;">
+                      <p>
+                        <strong>Geography Concept:</strong><br /><em>Friction of Distance</em>
+                      </p>
+                      <p style="font-size: 0.9rem;">
+                        When the "cost" of transport becomes infinite (space travel), local
+                        geography becomes the <em>only</em> geography.
+                      </p>
+                    </div>
+                  </div>
+                </section>
+
                 <section class="card">
                     <h2>Summary of Big Ideas</h2>
                     <ul style="line-height: 1.8;">
@@ -248,7 +358,7 @@
                 </section>
 
                 <div class="quiz-container">
-                    <h2>Chapter 10 Checkpoint</h2>
+                    <h2>Chapter 09 Checkpoint</h2>
                     <div class="question">
                         <p><strong>1. A satellite that revisits the same location every 16 days is said to have a 16-day:</strong></p>
                         <div class="option" onclick="this.classList.add('correct')">Temporal Resolution</div>
@@ -310,8 +420,8 @@
         </div>
 
         <div class="chapter-nav" style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd;">
-            <a href="chapter-09-spectral-analysis.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 09</a>
-            <a href="chapter-11-image-classification.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Image Classification →</a>
+            <a href="chapter-06-output.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">← Chapter 08: Map Output</a>
+            <a href="chapter-09-spectral-analysis.html" style="text-decoration: none; padding: 1rem 2rem; border-radius: 8px; background: #eee; color: #333;">Next: Chapter 10: Spectral Analysis →</a>
         </div>
 
     
@@ -331,20 +441,8 @@
             <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10612" target="_blank" rel="noopener noreferrer">Remote Sensing Platforms</a>
         </li>
                         <li class="bok-topic">
-            <span class="bok-code">DC-03-016</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10606" target="_blank" rel="noopener noreferrer">Nature of Multispectral Image Data</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">FC-05-021</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10693" target="_blank" rel="noopener noreferrer">Resolution</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">DC-03</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10781" target="_blank" rel="noopener noreferrer">Remote Sensing Platforms and Sensors</a>
-        </li>
-                        <li class="bok-topic">
-            <span class="bok-code">DC-04-014</span>
-            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10605" target="_blank" rel="noopener noreferrer">Feature Extraction from Satellite Imagery</a>
+            <span class="bok-code">DC-04-012</span>
+            <a href="https://gistbok-ltb.ucgis.org/page/34/concept/10792" target="_blank" rel="noopener noreferrer">Fundamentals of Aerial Photo Interpretation</a>
         </li>
                         <li class="bok-topic">
             <span class="bok-code">BoK</span>
@@ -360,5 +458,70 @@
             <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine. All Rights Reserved.</p>
         </div>
     </footer>
+
+    <!-- DYNAMIC NAV SCRIPT -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const navTitle = document.querySelector('.nav-current-title');
+        const defaultTitle = "Foundations of Remote Sensing"; // Dynamic default
+        const sections = document.querySelectorAll('main h2');
+        const navBar = document.querySelector('.sticky-chapter-bar');
+        const progressBar = document.querySelector('.nav-progress-bar');
+        
+        // 1. Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+          const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+          const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const scrolled = (winScroll / height) * 100;
+          if (progressBar) progressBar.style.width = scrolled + "%";
+          
+          if (window.scrollY > 200) {
+            navBar.classList.add('is-stuck');
+          } else {
+            navBar.classList.remove('is-stuck');
+          }
+        });
+
+        // 2. Section Observer for Dynamic Title
+        const observerOptions = {
+          root: null,
+          rootMargin: '-80px 0px -70% 0px',
+          threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const newText = entry.target.innerText;
+              if (navTitle.textContent !== newText) {
+                  navTitle.style.opacity = 0;
+                  setTimeout(() => {
+                    navTitle.textContent = newText;
+                    navTitle.style.opacity = 1;
+                  }, 200);
+              }
+            }
+          });
+        }, observerOptions);
+
+        sections.forEach(section => {
+          observer.observe(section);
+        });
+        
+        // Reset to default
+        window.addEventListener('scroll', () => {
+          if (window.scrollY < 150) {
+             if (navTitle.textContent !== defaultTitle) {
+               navTitle.style.opacity = 0;
+               setTimeout(() => {
+                 navTitle.textContent = defaultTitle;
+                 navTitle.style.opacity = 1;
+               }, 200);
+             }
+          }
+        });
+      });
+    </script>
+
 </body>
 </html>
