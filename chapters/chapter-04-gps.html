@@ -309,6 +309,32 @@
                     </div>
                 </section>
 
+                <section class="card" style="border-left: 5px solid #64748b;">
+                  <h2>The 20-Minute Gap: Autonomy vs. Control</h2>
+                  <p>
+                    In GIS, we are used to real-time data. Google Maps updates traffic
+                    instantly. But deep space reintroduces the <strong>Time Lag</strong>.
+                  </p>
+
+                  <p>
+                    <strong>The "Mars Delay":</strong> It takes up to 20 minutes for a radio
+                    signal to reach Mars. That means a 40-minute round trip for a "Yes/No"
+                    question.
+                  </p>
+
+                  <blockquote style="background: #e2e8f0; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                    "We can't rely on 'Ground Control' to read the test results. The device must
+                    be autonomous."
+                  </blockquote>
+
+                  <p>
+                    This forces a shift from <strong>Remote Control</strong> (Earth driving the
+                    rover) to <strong>Edge Computing</strong> (the rover driving itself). In the
+                    future of GIS, our sensors must be smart enough to analyze data
+                    <em>before</em> sending it home.
+                  </p>
+                </section>
+
                 <section class="viz-container">
                     <h3>Accuracy Visualizer</h3>
                     <p style="color: #94a3b8; font-size: 0.8rem; margin-bottom: 1rem;">Reading satellite signals in real-time...</p>
@@ -361,6 +387,43 @@
                             </div>
                         </div>
                     </div>
+                </section>
+
+                <section class="card" style="background: #eff6ff; border: 2px solid #1d4ed8;">
+                  <h2 style="color: #1e3a8a;">⚠️ The Billion-Dollar Typo: The Negative Sign</h2>
+                  <p>
+                    Computers hate Degrees/Minutes/Seconds (DMS). They want
+                    <strong>Decimal Degrees (DD)</strong>.
+                  </p>
+
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 1.5rem 0;">
+                    <div>
+                      <h3>The Conversion Math</h3>
+                      <p style="font-family: monospace; background: white; padding: 0.5rem;">
+                        DD = Degrees + (Minutes/60) + (Seconds/3600)
+                      </p>
+                      <p>Simple, right? You do the math, you get <code>97.51°</code>.</p>
+                    </div>
+                    <div>
+                      <h3 style="color: var(--danger);">The Trap</h3>
+                      <p>
+                        If you upload <code>97.51, 30.26</code> to a GIS, you will land in
+                        <strong>China</strong>.
+                      </p>
+                      <p>
+                        <strong>The Rule:</strong> The Western Hemisphere (North & South
+                        America) is <strong>NEGATIVE</strong> Longitude. <br />The Southern
+                        Hemisphere is <strong>NEGATIVE</strong> Latitude.
+                      </p>
+                    </div>
+                  </div>
+
+                  <p style="text-align: center; font-weight: bold; font-size: 1.1rem;">
+                    You must manually add the (-). The calculator won't do it for you!
+                  </p>
+                  <p style="text-align: center;">
+                    Correct Coordinate: <code>-97.51, 30.26</code> (Austin, Texas)
+                  </p>
                 </section>
 
                 <section class="card">

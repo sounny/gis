@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 09: Spatial Pattern Analysis (Hot Spots) | GIS Lab Manual</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/lab.css">
+</head>
+<body>
+
+    <header class="lab-header" style="background: linear-gradient(rgba(185, 28, 28, 0.9), rgba(127, 29, 29, 0.9)), url('../assets/img/hero_lab09.jpg');">
+        <div class="container">
+            <nav style="margin-bottom: 1rem;">
+                <a href="index.html" style="color: white; text-decoration: none; font-weight: 600;">&larr; Back to Lab Manual</a>
+            </nav>
+            <span class="lab-badge">Lab 09</span>
+            <h1 style="color:white;">Spatial Pattern Analysis: Hot Spots</h1>
+            <p class="subtitle" style="color:#fee2e2;">Move beyond visual inspection. Use statistics to scientifically define where clusters exist.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 1. Learning Objectives -->
+        <section class="card">
+            <h2>🎯 Learning Objectives</h2>
+            <ul>
+                <li>Calculate <strong>Global Moran's I</strong> to determine if data is clustered, dispersed, or random.</li>
+                <li>Perform <strong>Hot Spot Analysis (Getis-Ord Gi*)</strong> to map statistically significant clusters.</li>
+                <li>Understand the concept of <strong>Z-Scores</strong> and <strong>P-Values</strong> in a spatial context.</li>
+                <li>Compare raw density maps vs. statistical significance maps.</li>
+            </ul>
+        </section>
+
+        <!-- 2. Scenario & Data -->
+        <section class="card">
+            <h2>📂 Scenario: The Crime Wave</h2>
+            <p>The Mayor claims that crime is "out of control everywhere." You, the GIS Analyst for the Police Department, know that crime is usually concentrated in specific hotspots. You need to prove statistically where the 911 calls are clustering to allocate patrol patrols effectively.</p>
+            
+            <div class="data-download-card">
+                <div>
+                    <strong>Data Package:</strong> <code>lab09_hotspots.zip</code>
+                    <p style="margin:0; font-size: 0.85rem; color: #64748b;">Contains: <code>911_Calls.shp</code>, <code>City_Boundaries.shp</code>, <code>Census_Blocks.shp</code></p>
+                </div>
+                <a href="#" class="btn btn-primary" onclick="alert('Demo Mode: Imagine downloading crime data here!')">Download Data</a>
+            </div>
+        </section>
+
+        <!-- 3. Instructions (The Switcher) -->
+        <h2>🛠️ Step-by-Step Instructions</h2>
+        <p>Select your preferred GIS platform to view instructions:</p>
+
+        <div class="platform-tabs">
+            <button class="tab-btn active" onclick="switchTab('arcgis')">🟦 ArcGIS Pro</button>
+            <button class="tab-btn" onclick="switchTab('qgis')">🟩 QGIS</button>
+            <button class="tab-btn" onclick="switchTab('web')">🟧 Web GIS (AGOL)</button>
+        </div>
+
+        <!-- ArcGIS Pro Pane -->
+        <div id="arcgis" class="instruction-pane active">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Spatial Join (prep)</h3>
+                    <p>Hot Spot analysis works best on polygons (counts), not just points.<br>
+                       1. <strong>Spatial Join</strong> <code>911_Calls</code> (Join Features) to <code>Census_Blocks</code> (Target Features).<br>
+                       2. Output: <code>Blocks_with_Crime_Count</code>.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Global Moran's I</h3>
+                    <p>1. Search for <strong>Spatial Autocorrelation (Moran's I)</strong>.<br>
+                       2. Input: <code>Blocks_with_Crime_Count</code>.<br>
+                       3. Input Field: <code>Join_Count</code>.<br>
+                       4. Run. View the HTML Report. Is the Z-score high (> 2.58)? Then it is clustered.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Hot Spot Analysis (Gi*)</h3>
+                    <p>1. Search for <strong>Hot Spot Analysis (Getis-Ord Gi*)</strong>.<br>
+                       2. Input: <code>Blocks_with_Crime_Count</code>.<br>
+                       3. Input Field: <code>Join_Count</code>.<br>
+                       4. Run. The map will colorize statistically significant Hot Spots (Red) and Cold Spots (Blue).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- QGIS Pane -->
+        <div id="qgis" class="instruction-pane" style="display:none;">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Count Points in Polygon</h3>
+                    <p>1. <strong>Vector > Analysis Tools > Count Points in Polygon</strong>.<br>
+                       2. Polygons: <code>Census_Blocks</code>. Points: <code>911_Calls</code>.<br>
+                       3. New field name: <code>Crime_Count</code>.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Hot Spot Analysis (Plugin)</h3>
+                    <p>QGIS requires the <strong>Hotspot Analysis</strong> plugin or standard LISA tools in Processing.<br>
+                       1. Open <strong>Processing Toolbox > SAGA > Spatial Statistics > Local Moran's I</strong> (closest equivalent).<br>
+                       2. Or install the "Hotspot Analysis" plugin to calculate Gi*.<br>
+                       3. Map the Z-Scores.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Web GIS Pane -->
+        <div id="web" class="instruction-pane" style="display:none;">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Find Hot Spots</h3>
+                    <p>1. Add <code>911_Calls</code> to Map Viewer Analysis.<br>
+                       2. <strong>Analyze Patterns > Find Hot Spots</strong>.<br>
+                       3. Choose layer: <code>911_Calls</code>.<br>
+                       4. "Count points within hexagons" (Aggregation).<br>
+                       5. Run Analysis. AGOL handles the aggregation and statistics automatically!</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Interpret</h3>
+                    <p>Look at the resulting legend.<br>
+                       - Red Hexagons = 99% Confidence Hot Spot.<br>
+                       - White Hexagons = Not Significant (Random noise).<br>
+                       - Blue Hexagons = Cold Spots.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Deliverables -->
+        <section class="card" style="margin-top: 4rem; border-top: 4px solid var(--accent);">
+            <h2>✅ Submission & Assessment</h2>
+            <p>To complete this lab, you must submit:</p>
+            <ul>
+                <li><strong>Report Screenshot:</strong> The Moran's I report showing a high Z-Score.</li>
+                <li><strong>Hot Spot Map:</strong> Clearly showing the Red/Blue clusters.</li>
+                <li><strong>Write-up:</strong> Explain the difference between a "Heat Map" (Density) and a "Hot Spot Map" (Significance). Why is the Hot Spot map better for the Mayor?</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Dr. Moulay Anwar Sounny-Slitine | GIS Lab Manual</p>
+        </div>
+    </footer>
+
+    <script>
+        function switchTab(platform) {
+            document.querySelectorAll('.instruction-pane').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(platform).style.display = 'block';
+            
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                if(btn.textContent.toLowerCase().includes(platform === 'web' || platform === 'gee' ? (platform === 'gee' ? 'google' : 'web') : platform)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

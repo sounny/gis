@@ -231,6 +231,36 @@
             </div>
         </details></section>
 
+        <section class="card" style="border-left: 5px solid var(--primary);">
+          <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+            <div style="background: var(--primary); color: white; padding: 0.5rem 1rem; border-radius: 4px; font-weight: 800; font-size: 0.8rem; text-transform: uppercase;">
+              The First Law
+            </div>
+            <h2 style="margin:0;">Tobler's Law of Geography</h2>
+          </div>
+          <p>
+            In 1970, Waldo Tobler coined the single most important rule in spatial
+            analysis. It is the "Gravity" of our field:
+          </p>
+
+          <blockquote style="font-size: 1.2rem; font-style: italic; color: #1e3a8a; border-left: 4px solid #93c5fd; padding-left: 1rem; margin: 1.5rem 0;">
+            "Everything is related to everything else, but near things are more related
+            than distant things."
+          </blockquote>
+
+          <div class="callout info">
+            <strong>Why this matters:</strong>
+            <p>
+              If this law wasn't true, we couldn't make maps. <br />If temperature
+              didn't follow this law, a thermometer reading at the airport would tell
+              you nothing about the temperature at your house 5 miles away. Because
+              <strong>spatial autocorrelation</strong> exists (near things are similar),
+              we can interpolate surfaces, predict traffic, and model disease spread. It
+              is the foundation of all spatial statistics.
+            </p>
+          </div>
+        </section>
+
         <div class="layout-grid">
             <div class="content">
                 <section class="card">
@@ -286,6 +316,28 @@
                         <div style="text-align: center;">
                             <div style="height: 100px; background: #e0e7ff; border: 2px solid #6366f1; border-radius: 8px; display: flex; align-items: center; justify-content: center;"><strong>Clip</strong></div>
                             <p style="font-size: 0.9rem; margin-top: 0.5rem;">Cookie Cutter (Input cut by Boundary)</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card" style="border-top: 4px solid var(--primary);">
+                    <h2>Case Study: Do Bars Cause Crime?</h2>
+                    <p>A classic application of the <strong>Spatial Join</strong> is connecting social behaviors to location. A graduate student researcher once asked: <em>"Does the density of alcohol licenses in a neighborhood correlate with the cost of policing that neighborhood?"</em></p>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.5rem;">
+                        <div>
+                            <h3>The Data Problem</h3>
+                            <p>She had two incompatible datasets:</p>
+                            <ol>
+                                <li><strong>Alcohol Licenses (Points):</strong> A spreadsheet from the Texas government with addresses of every bar and liquor store.</li>
+                                <li><strong>Crime Reports (Polygons/Points):</strong> Police data summarized by patrol districts.</li>
+                            </ol>
+                            <p>You cannot simply open these in Excel and comparing them. They share no common ID. They only share <strong>Location</strong>.</p>
+                        </div>
+                        <div style="background: #f8fafc; padding: 1.5rem; border-radius: 12px; border: 1px solid #e2e8f0;">
+                            <h3>The GIS Solution: Spatial Join</h3>
+                            <p>By performing a <strong>Point-in-Polygon</strong> join, she summed the number of alcohol licenses falling inside each police district.</p>
+                            <p><strong>The Result:</strong> A strong linear correlation ($R^2 > 0.7$). She was able to calculate a "Societal Cost" per license. This allowed policymakers to argue that alcohol permit fees should be raised to cover the specific police costs they generate. That is the power of turning <em>where</em> into <em>how much</em>.</p>
                         </div>
                     </div>
                 </section>
@@ -442,6 +494,62 @@
                 </section>
 
                 <section class="card">
+                  <h2>Spatial Solutions: The "Pixie" Mobile Pharmacy</h2>
+                  <p>
+                    How do you deliver healthcare when there is no hospital? A student team
+                    designed "Pixie," an automated medication dispenser for Mars, but found a
+                    critical use case on Earth: <strong>Rural Accessibility</strong>.
+                  </p>
+
+                  <div class="feature-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.5rem;">
+                    <div>
+                      <h3>The Space Problem</h3>
+                      <p>
+                        On a 3-year Mars mission, drugs degrade due to radiation. You need an
+                        automated, AI-driven inventory system to synthesize or dispense doses
+                        without a pharmacist.
+                      </p>
+                    </div>
+                    <div>
+                      <h3>The Earth Application</h3>
+                      <p>
+                        <strong>"Medical Deserts":</strong> Many rural regions are hours from a
+                        CVS or hospital. A "Mobile Pixie" van could use
+                        <strong>Network Analysis</strong> to route itself to isolated
+                        communities, dispensing prescriptions like an ice cream truck for
+                        health.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="callout info" style="margin-top: 1.5rem;">
+                    <strong>GIS connection:</strong> This is a classic
+                    <em>Location-Allocation</em> problem. Where do you place these mobile units
+                    to minimize travel time for the maximum number of people?
+                  </div>
+                </section>
+
+                <section class="card" style="border-left: 5px solid var(--success);">
+                    <h2>Geographic Inquiry: The "Food Mile" Paradox</h2>
+                    <p>We often assume "Organic" and "Local" are synonyms for "Sustainable." But geography teaches us to measure, not assume. Using <strong>Network Analysis</strong>, students in Texas tracked the origin of produce to test this hypothesis.</p>
+                    
+                    <h3>The Experiment</h3>
+                    <p>They calculated the <strong>network distance</strong> (road miles) for apples, eggs, and milk at three types of stores:
+                    <ul style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; list-style: none; padding: 0; margin-top: 1rem;">
+                        <li style="background: #f0fdf4; padding: 1rem; border-radius: 8px; text-align: center;"><strong>Farmer's Markets</strong><br><small>("Local")</small></li>
+                        <li style="background: #f8fafc; padding: 1rem; border-radius: 8px; text-align: center;"><strong>Grocery Chains</strong><br><small>(H-E-B)</small></li>
+                        <li style="background: #fffbeb; padding: 1rem; border-radius: 8px; text-align: center;"><strong>Natural Stores</strong><br><small>(Whole Foods)</small></li>
+                    </ul>
+                    </p>
+
+                    <div class="callout info" style="background: #fff; border: 1px solid #e2e8f0; border-left: 4px solid var(--primary);">
+                        <strong>The Findings:</strong>
+                        <p>Ironically, the "Natural" stores often had the <strong>highest</strong> food miles. Why? To stock 100% organic produce year-round, they had to source from global networks. Conventional stores stuck to regional distribution hubs. <br><br>
+                        <strong>The Gentrification Signal:</strong> By mapping the <strong>catchment areas</strong> (where customers come from), they found that conventional stores had small, local catchments. The downtown Farmer's Market, however, pulled customers from the entire city. In urban studies, the arrival of a Farmer's Market is now considered a <strong>Leading Indicator of Gentrification</strong>—signaling a demographic shift often before property values even spike.</p>
+                    </div>
+                </section>
+
+                <section class="card">
                     <h2>6. Challenges in Spatial Analysis</h2>
                     <p>Spatial analysis is powerful, but it's prone to unique errors that non-spatial statistics often miss. As an analyst, you must watch out for these two traps:</p>
                     
@@ -456,6 +564,44 @@
                             <p><strong>The trap of aggregation.</strong></p>
                             <p style="font-size: 0.95rem;">Assuming that what is true for a large group (an entire county) must be true for every individual in that county. For example, a "wealthy" neighborhood still contains people living in poverty. GIS often hides individual variation inside polygon averages.</p>
                         </div>
+                    </div>
+
+                    <div style="margin-top: 3rem; border-top: 1px solid #e2e8f0; padding-top: 2rem;">
+                        <h3 style="color: #b91c1c;">Deep Dive: The Gerrymandering Trap</h3>
+                        <p>
+                            MAUP states that <strong>results change depending on how you draw the boundaries</strong>.
+                        </p>
+
+                        <div style="display: flex; gap: 2rem; margin-top: 1.5rem; align-items: center;">
+                            <div style="flex: 2;">
+                            <p>Imagine a state that is 60% Blue voters and 40% Red voters.</p>
+                            <ul>
+                                <li>
+                                <strong>Scenario A:</strong> Divide it into 5 vertical strips? Blue
+                                wins all 5.
+                                </li>
+                                <li>
+                                <strong>Scenario B:</strong> Divide it into specific shapes? Red could
+                                win 3 of 5.
+                                </li>
+                            </ul>
+                            <p>
+                                The underlying people (the data) never changed. Only the
+                                <em>aggregation units</em> changed. 
+                            </p>
+                            </div>
+                            <div style="flex: 1; background: #fee2e2; padding: 1rem; border-radius: 8px; text-align: center;">
+                            <p style="font-weight: bold; color: #b91c1c; margin: 0;">
+                                "Is there a solution?"
+                            </p>
+                            <p style="font-size: 2rem; margin: 0.5rem 0;">NO.</p>
+                            <p style="font-size: 0.9rem;">
+                                It is an inherent property of aggregating spatial data. You can only
+                                declare your boundaries and defend your choice.
+                            </p>
+                            </div>
+                        </div>
+                    </div>
                     </div>
                     
                     <div class="callout warning" style="border-left-color: var(--accent); background: #fff1f2; margin-top: 2rem;">

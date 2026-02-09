@@ -290,6 +290,68 @@
                     <p>Every object on Earth's surface reflects, absorbs, and transmits light differently depending on its physical properties. By measuring these unique <strong>spectral signatures</strong>, remote sensing can distinguish between healthy vegetation, dry soil, and urban concrete—even when they look identical to our eyes.</p>
                 </section>
 
+                <section class="card" style="border-top: 4px solid #8b5cf6;">
+                    <h2>The "Wheel of Fortune" Analogy</h2>
+                    <p>How do we identify objects from space when we can't see them clearly? It's like playing <em>Wheel of Fortune</em>.</p>
+                    
+                    <div style="display: flex; gap: 2rem; margin-top: 1rem; align-items: center; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 300px;">
+                            <p>Imagine you have a name with 8 letters. You don't know the name, but you reveal the first letter is <strong>J</strong> and the fourth is <strong>L</strong>.</p>
+                            <p><strong>Result:</strong> Your brain instantly guesses "JULIANA" because it fits the pattern. You didn't need all the letters to know the identity.</p>
+                        </div>
+                        <div style="flex: 1; min-width: 300px; background: #f3f4f6; padding: 1.5rem; border-radius: 12px; border: 1px solid #d1d5db;">
+                            <h3 style="margin-top:0; font-size:1.1rem;">Satellite Translation</h3>
+                            <ul style="margin-bottom:0;">
+                                <li><strong>The Letters:</strong> These are the <strong>Spectral Bands</strong> (Red, Green, Blue, NIR).</li>
+                                <li><strong>The Name:</strong> This is the <strong>Feature</strong> (Tree, Water, Concrete).</li>
+                                <li><strong>The Game:</strong> Satellites only "see" a few points on the spectrum. If a pixel is bright in NIR and dark in Red, the algorithm guesses "Vegetation."</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card" id="ndvi-deep-dive">
+                  <h2>The Math of Life: NDVI</h2>
+                  <p>
+                    How do we know if a plant is alive from space? We use the
+                    <strong>Normalized Difference Vegetation Index (NDVI)</strong>. It takes
+                    advantage of a unique biological trait: plants <em>absorb</em> Red light
+                    (for energy) but <em>reflect</em> Near-Infrared (to avoid overheating).
+                  </p>
+
+                  <div style="background: #1e293b; color: white; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0; text-align: center;">
+                    <h3 style="margin-top:0; color: #94a3b8; font-size: 0.9rem; text-transform: uppercase;">
+                      The Formula
+                    </h3>
+                    <p style="font-size: 1.5rem; font-family: monospace;">
+                      NDVI = (NIR - Red) / (NIR + Red)
+                    </p>
+                  </div>
+
+                  <h3>Interpreting the Score (-1.0 to +1.0)</h3>
+                  <ul style="line-height: 1.8;">
+                    <li>
+                      <strong>> 0.6 (High):</strong> Dense, healthy vegetation (Rainforest,
+                      crops).
+                    </li>
+                    <li>
+                      <strong>0.2 to 0.4 (Moderate):</strong> Shrub, grassland, or senescing
+                      (dying) crops.
+                    </li>
+                    <li>
+                      <strong>0.0 to 0.1 (Low):</strong> Bare soil, concrete, or dead grass.
+                    </li>
+                    <li><strong>Negative (< 0):</strong> Water, clouds, or snow.</li>
+                  </ul>
+
+                  <div class="callout warning">
+                    <strong>⚠️ Careful with Water!</strong> Water absorbs almost all IR light,
+                    often resulting in deeply negative NDVI values. However, algae blooms (which
+                    contain chlorophyll) can push water into positive territory, confusing
+                    algorithms into thinking the ocean is a forest!
+                  </div>
+                </section>
+
                 <section class="spectrum-analyzer">
                     <h3>Interactive: Spectral Explorer</h3>
                     <p>Select an object and slide across the spectrum to see how its reflectance changes across different bands.</p>

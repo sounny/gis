@@ -235,6 +235,27 @@
                     <p>One of the most powerful tasks in GIS is a <strong>Join</strong>. By matching a common field (the "foreign key") in two different tables, we can temporarily append information from a standalone table to our spatial features. This is how we map things like Census data or health statistics.</p>
                 </section>
 
+                <section class="card">
+                    <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+                        <div style="background: #ef4444; color: white; padding: 0.5rem 1rem; border-radius: 4px; font-weight: 800; font-size: 0.8rem; text-transform: uppercase;">Professor's Warning</div>
+                        <h2 style="margin:0;">The "Data Trap": Managing Legacy Files</h2>
+                    </div>
+                    <p>In the professional world, you will inevitably encounter the "Shapefile." It is the dinosaur of GIS formats—ancient, clumsy, but somehow still alive.</p>
+                    
+                    <div class="callout warning" style="background: #fff1f2; border-left: 5px solid #ef4444; color: #991b1b;">
+                        <strong>⚠️ The "One File" Myth</strong>
+                        <p>A "Shapefile" is not a single file. It is a mandatory collection of at least three files (<code>.shp</code>, <code>.shx</code>, <code>.dbf</code>) and often many more (<code>.prj</code>, <code>.xml</code>). <br><br>
+                        <strong>The Trap:</strong> New analysts often email just the <code>.shp</code> file to a client. The client tries to open it, and it fails. This is the fastest way to look like an amateur. Always zip the entire folder!</p>
+                    </div>
+
+                    <h3>The Future is Text</h3>
+                    <p>While Shapefiles dominated the massive desktop computers of the 90s, the modern web (and AI!) runs on text. Formats like <strong>GeoJSON</strong> and <strong>CSV</strong> are just simple text files that can be read by any computer, phone, or website. They don't require specialized drivers; they just need to be read.</p>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Shapefile:</strong> Binary blobs, 10-character limit on column names (from 1980s dBASE standards!), easy to corrupt.</li>
+                        <li><strong>GeoJSON:</strong> Human-readable text, web-native, flexible structure. <em>"Just add 'Geo' to JSON."</em></li>
+                    </ul>
+                </section>
+
                 <section class="sql-sandbox">
                     <div class="console-label">-- SPATIAL DATABASE CONSOLE --</div>
                     <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 1rem;">Available Table: `Cities` (City, State, Population)</p>
