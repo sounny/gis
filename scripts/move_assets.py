@@ -11,6 +11,11 @@ mapping = {}
 if not os.path.exists(DEST_DIR):
     os.makedirs(DEST_DIR)
 
+try:
+    existing_files = set(os.listdir(DEST_DIR))
+except FileNotFoundError:
+    existing_files = set()
+
 for root, dirs, files in os.walk(SOURCE_DIR):
     for file in files:
         ext = os.path.splitext(file)[1].lower()
@@ -24,8 +29,8 @@ for root, dirs, files in os.walk(SOURCE_DIR):
             # BUT ALSO check if we already moved a file with this name (unlikely since we move source)
             # Actually, shutil.move deletes the source.
             
-            while os.path.exists(os.path.join(DEST_DIR, new_name)):
-                name_part, ext_part = os.path.splitext(file)
+            name_part, ext_part = os.path.splitext(file)
+            while new_name in existing_files:
                 new_name = f"{name_part}_{counter}{ext_part}"
                 counter += 1
             
@@ -33,6 +38,7 @@ for root, dirs, files in os.walk(SOURCE_DIR):
             try:
                 shutil.move(src_path, dest_path)
                 mapping[src_path] = dest_path
+                existing_files.add(new_name)
                 # print(f"Moved {src_path} -> {dest_path}")
             except Exception as e:
                 print(f"Error moving {src_path}: {e}")
