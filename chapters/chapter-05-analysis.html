@@ -351,8 +351,9 @@
                         <p style="font-size: 0.8rem; color: var(--secondary); margin-top: 0.5rem; text-align: center;">Figure 5.4: Basic Map Algebra operations. Notice how 'Add' sums the value of each overlapping cell.</p>
                     </div>
 
-                    <div style="margin-top: 3rem; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 2rem;">
-                        <h3>Interactive: Suitability Studio</h3>
+                    <div class="interactive-panel" style="margin-top: 3rem; background: #fff; border-radius: 12px; padding: 2rem;">
+                        <div class="interactive-badge">Interactive</div>
+                        <h3>Suitability Studio</h3>
                         <p>You are siting a new <strong>Eco-Lodge</strong>. Adjust the importance (weights) of the three factors below to see which site wins. (Note: Everything must sum to 100%).</p>
                         
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;">
@@ -484,12 +485,15 @@
                         </div>
                     </div>
 
-                    <h3>Interactive: Mobility Explorer</h3>
-                    <p>Click anywhere on the map below to generate a <strong>15-minute walk-shed</strong> (Service Area) based on the local street network. Notice how the shape isn't a perfect circle—it follows the "grain" of the infrastructure.</p>
-                    
-                    <div id="mobility-map" style="height: 450px; border-radius: 12px; border: 1px solid #ddd; margin-bottom: 1rem;"></div>
-                    <div id="map-feedback" style="font-size: 0.9rem; color: #64748b; font-style: italic;">
-                        Click on the map to calculate accessibility.
+                    <div class="interactive-panel" style="margin-top: 2rem; padding: 1.5rem; background: #fff;">
+                        <div class="interactive-badge">Interactive</div>
+                        <h3>Mobility Explorer</h3>
+                        <p>Click anywhere on the map below to generate a <strong>15-minute walk-shed</strong> (Service Area) based on the local street network. Notice how the shape isn't a perfect circle—it follows the "grain" of the infrastructure.</p>
+                        
+                        <div id="mobility-map" style="height: 450px; border-radius: 12px; border: 1px solid #ddd; margin-bottom: 1rem;"></div>
+                        <div id="map-feedback" style="font-size: 0.9rem; color: #64748b; font-style: italic;">
+                            Click on the map to calculate accessibility.
+                        </div>
                     </div>
                 </section>
 

@@ -204,6 +204,28 @@
         color: #065f46;
       }
 
+      /* Interactive cards - standardized badge + red frame */
+      .card-interactive {
+        position: relative;
+        border: 2px solid #dc2626;
+      }
+      .card-interactive .interactive-badge {
+        position: absolute;
+        top: -14px;
+        left: 1rem;
+        padding: 0.42rem 0.9rem;
+        border-radius: 999px;
+        border: 2px solid #dc2626;
+        background: #dc2626;
+        color: #ffffff;
+        font-size: 0.82rem;
+        font-weight: 700;
+        line-height: 1.1;
+      }
+      .card-interactive h2 {
+        margin-top: 0.5rem;
+      }
+
       .video-container {
         position: relative;
         padding-bottom: 56.25%;
@@ -293,46 +315,74 @@
         margin-bottom: 0.75rem;
       }
 
-      /* GIS Hero Sidebar - Purple accent */
+      /* GIS Hero Sidebar - Match Local to Global visual language */
       .sidebar-gis-hero {
-        border-color: #7c3aed;
+        border-color: #1e3a8a;
         border-width: 2px;
       }
       .sidebar-gis-hero .sidebar-tabs {
         position: absolute;
-        top: -22px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: white;
-        padding: 0.25rem 0.5rem;
-        border-radius: 20px;
-        border: 2px solid #7c3aed;
+        top: -14px;
+        left: 1rem;
+        transform: none;
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        border: none;
         margin-bottom: 0;
       }
+      .sidebar-gis-hero .sidebar-tabs .tab-btn {
+        width: auto;
+        height: auto;
+        padding: 0.42rem 0.9rem;
+        border-radius: 999px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        line-height: 1.1;
+        opacity: 1;
+        background: #1e3a8a;
+        color: #ffffff;
+        border: 2px solid #1e3a8a;
+      }
       .sidebar-gis-hero .sidebar-tabs .tab-btn.active {
-        border-color: #7c3aed;
-        box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+        border-color: #1e3a8a;
+        box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
+        color: #ffffff;
       }
 
       /* Questions of Where Sidebar - Orange accent */
       .sidebar-questions-where {
-        border-color: #ea580c;
+        border-color: #1e3a8a;
         border-width: 2px;
       }
       .sidebar-questions-where .sidebar-tabs {
         position: absolute;
-        top: -22px;
+        top: -14px;
         left: 1rem;
         transform: none;
-        background: white;
-        padding: 0.25rem 0.5rem;
-        border-radius: 20px;
-        border: 2px solid #ea580c;
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        border: none;
         margin-bottom: 0;
       }
+      .sidebar-questions-where .sidebar-tabs .tab-btn {
+        width: auto;
+        height: auto;
+        padding: 0.42rem 0.9rem;
+        border-radius: 999px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        line-height: 1.1;
+        opacity: 1;
+        background: #1e3a8a;
+        color: #ffffff;
+        border: 2px solid #1e3a8a;
+      }
       .sidebar-questions-where .sidebar-tabs .tab-btn.active {
-        border-color: #ea580c;
-        box-shadow: 0 4px 12px rgba(234, 88, 12, 0.2);
+        border-color: #1e3a8a;
+        box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
+        color: #ffffff;
       }
     </style>
   </head>
@@ -735,11 +785,10 @@
           <div class="sidebar-questions-where" id="questions-where-panel">
             <div class="sidebar-tabs">
               <button class="tab-btn active" title="Questions of Where">
-                <span style="font-size: 0.7rem; font-weight: 700; line-height: 1.1; text-align: center;">Questions<br>of Where</span>
+                Questions of Where
               </button>
             </div>
             
-            <h3>Questions of Where</h3>
             <p><strong>Asking the Questions of "Where"</strong></p>
             <p>
               Watch this video to explore a real-world example of how we formulate and answer spatial questions. 
@@ -830,8 +879,9 @@
           </section>
 
           <!-- INTERACTIVE MODULE 1: MODEL PICKER -->
-          <section class="card">
-            <h2>Interactive: The Data Model Decision Matrix</h2>
+          <section class="card card-interactive">
+            <div class="interactive-badge">Interactive</div>
+            <h2>The Data Model Decision Matrix</h2>
             <p>As a GIS professional, your first decision is often choosing the right format. Click the scenarios below to see if they should be <strong>Vector</strong> or <strong>Raster</strong>.</p>
             
             <div class="decision-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
@@ -849,8 +899,9 @@
           </section>
 
           <!-- INTERACTIVE MODULE 2: PROJECTION DISTORTION VIEWER -->
-          <section class="card">
-            <h2>Interactive: Projection Distortion Viewer</h2>
+          <section class="card card-interactive">
+            <div class="interactive-badge">Interactive</div>
+            <h2>Projection Distortion Viewer</h2>
             <p>Map projections always distort Earth's surface. Choose a projection to see how area and shape are affected across different latitudes, including Texas.</p>
             
             <div style="margin: 1.5rem 0;">
@@ -859,7 +910,6 @@
                 <option value="mercator">Web Mercator (Most Common)</option>
                 <option value="equal-area">Equal Area (Preserves Size)</option>
                 <option value="albers">Albers Equal Area (Texas Standard)</option>
-                <option value="robinson">Robinson (Balanced)</option>
               </select>
             </div>
 
@@ -885,8 +935,9 @@
           </section>
 
           <!-- INTERACTIVE MODULE 3: SPECTRAL SLIDER -->
-          <section class="card">
-            <h2>Interactive: The Electromagnetic Spectrum</h2>
+          <section class="card card-interactive">
+            <div class="interactive-badge">Interactive</div>
+            <h2>The Electromagnetic Spectrum</h2>
             <p>Remote sensing satellites "see" beyond human vision. Drag the slider to explore different wavelengths and see how different land cover types reflect energy across the spectrum.</p>
             
             <!-- Spectral Signature Chart -->
@@ -949,8 +1000,9 @@
           </section>
 
           <!-- INTERACTIVE MODULE 4: AI MAP CRITIQUE -->
-          <section class="card">
-            <h2>Interactive: AI Map Bias Detection</h2>
+          <section class="card card-interactive">
+            <div class="interactive-badge">Interactive</div>
+            <h2>AI Map Bias Detection</h2>
             <p>Modern GIS analysis uses AI to classify satellite imagery. But AI models can have hidden biases. Use this tool to identify potential failure modes in an AI land-use classification.</p>
             
             <div style="margin: 1.5rem 0;">
@@ -1042,17 +1094,12 @@
           <div class="sidebar-gis-hero" id="gis-hero-panel">
             <div class="sidebar-tabs">
               <button class="tab-btn active" title="GIS Hero">
-                <span style="font-size: 1.5rem;">🦸</span>
+                GIS Hero
               </button>
             </div>
             
-            <h3>
-              <span style="font-size: 1.25em; vertical-align: text-bottom; margin-right: 0.25rem;">🦸</span>
-              GIS Hero
-            </h3>
-
             <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
-              <img src="../assets/img/people/gerardus_mercator.jpg" alt="Mercator" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid #ddd;">
+              <img src="../assets/img/people/gerardus_mercator.jpg" alt="Mercator" style="width: 76px; height: 76px; border-radius: 50%; object-fit: cover; border: 3px solid #ddd;">
               <div>
                 <p style="margin: 0; font-weight: 600; font-size: 1.1rem; color: #1e293b;">Gerardus Mercator</p>
                 <span style="color: #64748b; font-size: 0.85rem;">(1512–1594)</span>
@@ -1811,8 +1858,7 @@
         const projections = {
           mercator: () => d3.geoMercator().center([-99.5, 31.5]).scale(1600).translate([width / 2, height / 2]),
           'equal-area': () => d3.geoAlbersUsa().scale(1400).translate([width / 2 + 80, height / 2 - 40]),
-          albers: () => d3.geoAlbers().center([0, 31.5]).rotate([99.5, 0]).parallels([27.5, 35]).scale(2400).translate([width / 2, height / 2]),
-          robinson: () => d3.geoRobinson().center([-99.5, 31.5]).scale(800).translate([width / 2, height / 2])
+          albers: () => d3.geoAlbers().center([0, 31.5]).rotate([99.5, 0]).parallels([27.5, 35]).scale(2400).translate([width / 2, height / 2])
         };
 
         const projectionInfo = {
@@ -1833,12 +1879,6 @@
             distortion: 'Minimal distortion across Texas latitude range. Preserves area perfectly within Texas.',
             useCase: 'Official Texas state mapping, land surveys, and property assessment. Standard for TNRIS data.',
             texas: 'This is THE projection for Texas work. Shape and area are both well-preserved across the state.'
-          },
-          robinson: {
-            title: 'Robinson (Balanced)',
-            distortion: 'Compromise projection - neither conformal nor equal-area. Balances multiple distortions.',
-            useCase: 'World maps in textbooks and atlases. Good "looks right" aesthetics for general audiences.',
-            texas: 'Texas appears reasonably accurate but this projection is designed for global, not regional, views.'
           }
         };
 
@@ -1871,9 +1911,21 @@
           if (!usData) return;
 
           const projection = projections[projType]();
-          projection.translate([width / 2, height / 2]);
+          let path = d3.geoPath().projection(projection);
 
-          const path = d3.geoPath().projection(projection);
+          // Keep Texas centered across all projection choices for easier comparison.
+          const texasFeature = usData.features.find(f => f.properties.name === 'Texas');
+          if (texasFeature) {
+            const initialCentroid = path.centroid(texasFeature);
+            if (initialCentroid && Number.isFinite(initialCentroid[0]) && Number.isFinite(initialCentroid[1])) {
+              const currentTranslate = projection.translate();
+              projection.translate([
+                currentTranslate[0] + (width / 2 - initialCentroid[0]),
+                currentTranslate[1] + (height / 2 - initialCentroid[1])
+              ]);
+              path = d3.geoPath().projection(projection);
+            }
+          }
 
           // Draw states
           svg.selectAll('path')
@@ -1897,7 +1949,6 @@
             });
 
           // Add Texas label
-          const texasFeature = usData.features.find(f => f.properties.name === 'Texas');
           if (texasFeature) {
             const centroid = path.centroid(texasFeature);
             if (centroid && !isNaN(centroid[0])) {

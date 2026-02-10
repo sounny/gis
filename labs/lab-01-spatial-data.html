@@ -60,7 +60,9 @@
             <p>The goal is not complex analysis; the goal is <strong>communication</strong>. Can you produce a clean, readable map?</p>
             
             <div class="callout info">
-                <strong>Data Needed:</strong> None! We will use the built-in "Basemaps" (Satellite or Street layers) provided by the software.
+                <strong>Data Needed:</strong> None! We will use the built-in "Basemaps" (Satellite or Street layers) provided by the software. 
+                <br><br>
+                <em>Theory Corner: These basemaps are technically <strong>IMS (Internet Mapping Services)</strong>. Instead of living on your hard drive, they are streamed to you from GIS servers (often hosted on AWS cloud infrastructure).</em>
             </div>
         </section>
 
@@ -167,6 +169,8 @@
                 <div class="step-num">3</div>
                 <div class="step-content">
                     <h3>Geocoding (Find Location)</h3>
+                    <p>What is Geocoding? It is the process of converting geographic information (like an address) into computer language (Longitude and Latitude). Think of a <strong>Geolocator</strong> as a <strong>Telephone Operator</strong>: you ask for a name (or address), and they provide the number (or coordinates).</p>
+                    
                     <p>1. Go to <strong>Plugins &rarr; Geocoding &rarr; Geocoding</strong>.<br>
                        2. Type an address (e.g., "Austin, Texas" or "Strasbourg, France").<br>
                        <img src="../assets/img/lab01_geocoding_dialog.png" alt="Geocoding Dialog" class="step-img"><br>
@@ -216,9 +220,15 @@
                 <div class="step-num">2</div>
                 <div class="step-content">
                     <h3>Batch Geocoding (Import CSV)</h3>
-                    <p>Instead of searching one-by-one, you can upload a list of addresses.</p>
+                    <p>Instead of searching one-by-one, you can upload a list of addresses. In the professional world, this is one of the most expensive GIS operations.</p>
+                    
+                    <div class="callout warning">
+                        <strong>Why does it cost "Credits"?</strong> On platforms like ArcGIS Online, geocoding often requires credits. This is because every search costs the company money for cloud processing (AWS compute time). They are simply passing that cost to you!
+                    </div>
+
                     <ol>
                         <li>Download the <a href="../assets/data/european_space_agencies.csv" download>European Space Agency CSV</a>.</li>
+                        <li><strong>Pro Tip:</strong> Always use <strong>CSV</strong> (Comma Separated Values) instead of XLS. Ensure your columns are clean: <code>Street</code>, <code>City</code>, <code>Country</code>. If you have all of them in one column, ArcGIS might get confused—it's better to separate them!</li>
                         <li>In the Map Viewer, click <strong>"Add"</strong> (left toolbar) &rarr; <strong>"Upload Shapefile or GeoJSON"</strong> (or simply drag the CSV file onto the map).</li>
                         <li>The "Add Layer" dialog will appear. Ensure it maps <strong>"Address"</strong> to the Location field.</li>
                         <li>Select <strong>"Geocode addresses"</strong>. ArcGIS Online will find all the locations at once!</li>

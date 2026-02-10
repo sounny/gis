@@ -252,6 +252,40 @@
                     </ul>
                     <p><strong>Further reading:</strong> https://www.ucgis.org/site/gis-t-body-of-knowledge</p>
                 </div>
+                <section class="card" style="background: #fffbeb; border-left: 5px solid #f59e0b;">
+                    <h2>🚀 The Future: Is Software Dead?</h2>
+                    <p>In the "Future Way" of GIS, we are moving away from monolithic software platforms towards <strong>AI-Assisted Workflows</strong>. Instead of installing a massive GIS application, you might simply ask an AI agent to build a custom tool for your exact problem.</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1rem;">
+                        <div>
+                            <h4>The "Old Way"</h4>
+                            <p style="font-size: 0.9rem;">Install Desktop GIS &rarr; Learn 500 menus &rarr; Click 20 buttons &rarr; Export PDF.</p>
+                        </div>
+                        <div>
+                            <h4>The "AI Way"</h4>
+                            <p style="font-size: 0.9rem;">Start with raw data &rarr; Ask AI to geocode &rarr; Ask AI to create an interactive web map &rarr; Deploy instantly.</p>
+                        </div>
+                    </div>
+
+                    <div class="callout secondary" style="background: #f8fafc; border: 1px dashed #64748b; margin-top: 1.5rem;">
+                        <strong>The "Scaffolding" Principle:</strong>
+                        <p>If the AI can do everything, why learn the basics? Because you need a <strong>frame of reference</strong>. If the geocoding is off by 100 meters, you must know enough about projections and spatial logic to spot the error. We learn the "Old School" foundational skills so we have the balance to ride the "AI Motorcycle" without crashing.</p>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>Summary of Big Ideas</h2>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Scalability:</strong> Manual digitization is slow. AI can map every building in a country in a few hours.</li>
+                        <li><strong>Training Data:</strong> AI is only as good as the examples you give it. Garbage in, garbage out.</li>
+                        <li><strong>Validation:</strong> Because AI makes statistical guesses, human verification (QA/QC) is absolutely essential.</li>
+                    </ul>
+
+                    <div class="callout warning" style="background: #fdf4ff; border-left: 5px solid #d946ef; color: #701a75; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                        <strong>Critical GIS: Algorithmic Bias in Space</strong>
+                        <p>AI models are only as good as their training data. If a model is trained to recognize "houses" using only images of American suburbs, it will fail to recognize informal settlements in Rio de Janeiro or thatched roofs in Kenya. This "bias" makes millions of people invisible to disaster relief algorithms. We must ask: who trained the model, and on what data?</p>
+                    </div>
+                </section>
             </div>
         </details></section>
 
@@ -284,8 +318,9 @@
                     <p>Beyond analysis, AI is now creating art. Styles like "Neural Style Transfer" allow cartographers to re-render a satellite image of New York City in the style of Van Gogh's <em>Starry Night</em>. This blurring of lines between data and expression challenges our definition of what a map is.</p>
                 </div>
 
-                <section class="ai-demo">
-                    <h3>👁️ Interactive: Object Detection</h3>
+                <section class="ai-demo interactive-panel">
+                    <div class="interactive-badge">Interactive</div>
+                    <h3>Object Detection</h3>
                     <p style="color: #94a3b8; margin-bottom: 1rem;">Click "Analyze" to run the computer vision model on this satellite scene.</p>
                     
                     <div class="vision-box" id="visionCanvas">
@@ -343,23 +378,6 @@
                         <li><strong>Efficiency:</strong> Tasks that took years (like mapping every driveway in a county) can now be done in weeks.</li>
                         <li><strong>Scale:</strong> AI applies the same rigor to 10 square miles as it does to 10,000 square miles.</li>
                         <li><strong>Cost-Savings:</strong> Reduces the "cost per feature" significantly, allowing budgets to focus on analysis rather than data creation.</li>
-                        <li><strong>Standardization:</strong> Humans get tired and subjective; AI follows the exact same logic for every single pixel, ensuring consistency.</li>
-                        <li><strong>Update Frequency:</strong> Cheaper production means maps can be updated annually (or even daily) rather than once a decade.</li>
-                    </ul>
-                </section>
-
-                <section class="card">
-                    <h2>Summary of Big Ideas</h2>
-                    <ul style="line-height: 1.8;">
-                        <li><strong>Scalability:</strong> Manual digitization is slow. AI can map every building in a country in a few hours.</li>
-                        <li><strong>Training Data:</strong> AI is only as good as the examples you give it. Garbage in, garbage out.</li>
-                        <li><strong>Validation:</strong> Because AI makes statistical guesses, human verification (QA/QC) is absolutely essential.</li>
-                    </ul>
-
-                    <div class="callout warning" style="background: #fdf4ff; border-left: 5px solid #d946ef; color: #701a75; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
-                        <strong>Critical GIS: Algorithmic Bias in Space</strong>
-                        <p>AI models are only as good as their training data. If a model is trained to recognize "houses" using only images of American suburbs, it will fail to recognize informal settlements in Rio de Janeiro or thatched roofs in Kenya. This "bias" makes millions of people invisible to disaster relief algorithms. We must ask: who trained the model, and on what data?</p>
-                    </div>
                 </section>
 
                 <div class="quiz-container">

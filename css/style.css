@@ -308,6 +308,35 @@ footer {
   gap: 0.5rem;
 }
 
+/* 1b. Interactive Panel Standard */
+.card-interactive,
+.interactive-panel {
+  position: relative;
+  border: 2px solid var(--accent);
+  border-radius: var(--radius-md);
+}
+
+.interactive-badge {
+  position: absolute;
+  top: -14px;
+  left: 1rem;
+  padding: 0.42rem 0.9rem;
+  border-radius: 999px;
+  border: 2px solid var(--accent);
+  background: var(--accent);
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.card-interactive > h2:first-of-type,
+.card-interactive > h3:first-of-type,
+.interactive-panel > h2:first-of-type,
+.interactive-panel > h3:first-of-type {
+  margin-top: 0.5rem;
+}
+
 /* =========================================
    ACCESSIBILITY BASELINES
    ========================================= */
