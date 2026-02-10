@@ -135,30 +135,80 @@
             <div class="step">
                 <div class="step-num">1</div>
                 <div class="step-content">
-                    <h3>Download QGIS</h3>
-                    <p>Go to the official QGIS download page. We recommend the <strong>Long Term Release (LTR)</strong> version for stability.</p>
-                    <p><a href="https://qgis.org/en/site/forusers/download.html" target="_blank" class="btn btn-sm btn-primary">Download QGIS LTR &rarr;</a></p>
+                    <h3>Navigate to QGIS.org</h3>
+                    <p>Open your web browser and go to the official website: <a href="https://qgis.org/" target="_blank"><strong>https://qgis.org/</strong></a>.</p>
+                    <img src="../assets/img/qgis_setup_01_web.png" alt="QGIS Website Download Page" class="step-img">
+                    <p>Click the large <strong>"Download Now"</strong> button on the main page.</p>
                 </div>
             </div>
 
             <div class="step">
                 <div class="step-num">2</div>
                 <div class="step-content">
-                    <h3>Install</h3>
-                    <p>Run the installer. It is quite large (~1GB), so be patient.</p>
-                    <p><strong>Mac Users:</strong> You may need to right-click the file and select "Open" to bypass security warnings about unidentified developers.</p>
+                    <h3>Select Your Operating System</h3>
+                    <p>The website will usually detect your system, but you can manually select:</p>
+                    <ul style="list-style-type: none; padding-left: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <li style="background:#f8f9fa; padding:10px; border-radius:6px; border:1px solid #dee2e6;">🪟 <strong>Windows:</strong> Click <strong>"Get OSGeo4W Installer"</strong> (Online Installer). This is the best way to manage multiple versions.
+                        <img src="../assets/img/qgis_setup_02_osgeo4w.png" alt="OSGeo4W Installer Option" class="step-img" style="margin-top: 0.5rem;"></li>
+                        <li style="background:#f8f9fa; padding:10px; border-radius:6px; border:1px solid #dee2e6;">🍎 <strong>macOS:</strong> Download the official "QGIS macOS Installer" (.dmg).</li>
+                        <li style="background:#f8f9fa; padding:10px; border-radius:6px; border:1px solid #dee2e6;">🐧 <strong>Linux:</strong> Follow the specific command-line instructions for your distro.</li>
+                    </ul>
+                    <p style="font-size: 0.9em; color: #666; margin-top: 0.5rem;"><em>Tip: You will see two versions usually. The "Long Term Release" (LTR) is most stable, while the "Latest Release" has the newest features. For this class, either works!</em></p>
                 </div>
             </div>
 
             <div class="step">
                 <div class="step-num">3</div>
                 <div class="step-content">
-                    <h3>Launch QGIS Desktop</h3>
-                    <p>Search your computer for "QGIS Desktop" (avoid "OSGeo4W Shell").</p>
-                    <p>When it opens, you will see a blank canvas. To verify it works, go to the <strong>Browser Panel</strong> (left side), expand <strong>XYZ Tiles</strong>, and double-click <strong>OpenStreetMap</strong>. A map should appear.</p>
+                    <h3>Install & Launch</h3>
+                    <p>Run the installer you downloaded. It is large (~1GB), so it may take a few minutes.</p>
+                    <div style="background: #eef2ff; border-left: 4px solid var(--primary); padding: 1rem; margin: 1rem 0;">
+                        <strong>🪟 Windows (OSGeo4W) Users:</strong>
+                        <img src="../assets/img/qgis_setup_03_express.png" alt="Express Install Selection" class="step-img">
+                        <ul style="margin-top: 0.5rem; margin-bottom: 1rem;">
+                            <li>Select <strong>"Express Install"</strong>. This will automatically install QGIS and its dependencies.</li>
+                            <li>When asked to <strong>"Choose A Download Site"</strong>, select <strong>any URL</strong> from the list (e.g., <code>download.osgeo.org</code>) and click Next.
+                            <img src="../assets/img/qgis_setup_04b_sites.png" alt="Choose Download Site" class="step-img"></li>
+                            <li><strong>Select Packages:</strong> Ensure <strong>ALL</strong> checkboxes are selected.
+                            <img src="../assets/img/qgis_setup_04_packages.png" alt="Select All Packages" class="step-img"></li>
+                            <li>If prompted with <strong>"Unmet Dependencies Found"</strong>, ensure the "Install these packages..." box is checked and click Next.
+                            <img src="../assets/img/qgis_setup_04c_dependencies.png" alt="Unmet Dependencies Found" class="step-img"></li>
+                            <li>Finally, <strong>Agree</strong> to any license terms (e.g., "Non-Open Source License Agreements") to begin the installation.
+                            <img src="../assets/img/qgis_setup_04d_license.png" alt="License Agreement" class="step-img"></li>
+                            <li><strong>Wait for Completion:</strong> The installer will now download and install the packages. Watch the progress bars! ☕ This is a good time to grab a coffee.
+                            <img src="../assets/img/qgis_setup_04e_progress.png" alt="Installation Progress" class="step-img"></li>
+                            <li>When the status says <strong>"Installation Complete"</strong>, click <strong>Finish</strong>.
+                            <img src="../assets/img/qgis_setup_04f_finish.png" alt="Installation Complete" class="step-img"></li>
+                        </ul>
+                        <details>
+                            <summary style="cursor: pointer; font-weight: 600; color: var(--primary);">What am I installing?</summary>
+                            <ul style="font-size: 0.9em; color: #4b5563; margin-top: 0.5rem;">
+                                <li><strong>QGIS:</strong> The "Latest Release" with the newest features.</li>
+                                <li><strong>QGIS LTR:</strong> The "Long Term Release" (most stable version).</li>
+                                <li><strong>GDAL:</strong> The "Geospatial Data Abstraction Library" – the heavy-lifting engine that reads/writes data formats.</li>
+                                <li><strong>GRASS GIS:</strong> A powerful analytical engine for complex geoprocessing tasks.</li>
+                            </ul>
+                        </details>
+                    </div>
+                    <p><strong>🍏 Mac Users:</strong> If you see a security warning ("Unidentified Developer"), Right-Click the app icon and select "Open" to bypass it.</p>
+                    <p><strong>🚀 Launching QGIS:</strong> Open your Start Menu (Windows) or Applications (Mac) and search for <strong>"QGIS Desktop"</strong>. Click it to launch the program.</p>
+                    <div class="callout warning">
+                        <strong>Avoid "OSGeo4W Shell":</strong> You might see several icons. Do not click the one that says "Shell". Look for the green QGIS logo.
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <h3>Success: The Blank Canvas</h3>
+                    <p>When QGIS opens, you will see a large empty white space (the "Canvas") surrounded by toolbars. This means you have successfully installed the software.</p>
+                    <img src="../assets/img/qgis_setup_05_success.png" alt="QGIS Blank Canvas" class="step-img">
+                    <p style="color: #166534; font-weight: 700; background: #dcfce7; padding: 0.5rem; border-radius: 6px; display: inline-block;">🎉 You are now ready for Lab 01!</p>
                 </div>
             </div>
         </div>
+
 
         <!-- Web GIS Pane -->
         <div class="instruction-pane" data-platform="web">

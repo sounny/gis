@@ -133,44 +133,62 @@
             <div class="step">
                 <div class="step-num">1</div>
                 <div class="step-content">
-                    <h3>Load Basemap</h3>
-                    <p>In the Browser Panel (left), double-click <strong>XYZ Tiles &rarr; OpenStreetMap</strong>.</p>
-                    <p>Use the Pan (Hand) and Zoom tool to find your location. (Tip: You can install the "QuickMapServices" plugin for Google Satellite imagery).</p>
+                    <h3>Start QGIS & Install Plugins</h3>
+                    <p><strong>1. Launch QGIS Desktop:</strong> Open the program from your Start Menu (Windows) or Applications (Mac). You should see a blank canvas.</p>
+                    <img src="../assets/img/lab01_qgis_start.png" alt="QGIS Interface Start" class="step-img">
+                    <p>QGIS uses plugins to extend its functionality. We need tools for Basemaps and Geocoding.</p>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/ib0hYtt-7wA?si=Hlj2PEE4jschuTV6" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </div>
+                    <p>2. Go to <strong>Plugins &rarr; Manage and Install Plugins</strong>.<br>
+                       <img src="../assets/img/lab01_plugins_menu.png" alt="Plugins Menu" class="step-img"><br>
+                       3. Search for and install <strong>QuickMapServices</strong> (for basemaps).<br>
+                       <img src="../assets/img/lab01_quickmapservices.png" alt="QuickMapServices Plugin" class="step-img"><br>
+                       4. Search for and install <strong>Geocoding</strong> (for finding addresses).</p>
+                       <img src="../assets/img/lab01_geocoding.png" alt="Geocoding Plugin" class="step-img"><br>
                 </div>
             </div>
 
             <div class="step">
                 <div class="step-num">2</div>
                 <div class="step-content">
-                    <h3>Create Print Layout</h3>
-                    <p>QGIS separates the canvas from the printer page.</p>
-                    <ol>
-                        <li>Go to <strong>Project &rarr; New Print Layout</strong>. Name it "Lab1_Map".</li>
-                        <li>Click the <strong>Add Map</strong> icon (looks like a scroll) on the left sidebar. Draw a box on the page.</li>
-                        <li>Use the "Move Item Content" tool to adjust the zoom inside the box.</li>
-                    </ol>
+                    <h3>Add Basemap & Zoom</h3>
+                    <p>1. Click the <strong>Add Map Service</strong> icon (added by QuickMapServices) or go to <strong>Web &rarr; QuickMapServices</strong>.<br>
+                       2. Choose <strong>OSM Standard</strong>. This streams data without downloading it.<br>
+                       3. <strong>Zoom to Extent:</strong> Use the Zoom tool (magnifying glass) and draw a box around your area of interest (e.g., Texas) to zoom precisely.</p>
                 </div>
             </div>
 
             <div class="step">
                 <div class="step-num">3</div>
                 <div class="step-content">
-                    <h3>Add Elements</h3>
-                    <p>Use the Left Sidebar tools:</p>
-                    <ul>
-                        <li><strong>Add Label (Text):</strong> Add Title and your Name. (Edit text in the Right Sidebar "Item Properties").</li>
-                        <li><strong>Add Scale Bar:</strong> Draw a box. Adjust units in Item Properties.</li>
-                        <li><strong>Add North Arrow:</strong> Draw a box.</li>
-                    </ul>
+                    <h3>Geocoding (Find Location)</h3>
+                    <p>1. Go to <strong>Plugins &rarr; Geocoding &rarr; Geocoding</strong>.<br>
+                       2. Type an address (e.g., "Austin, Texas").<br>
+                       3. Only choose the result that has the correct hierarchy (e.g., Travis County). Click OK.<br>
+                       4. A point is created! Double-click it in the Layers panel to change its <strong>Symbology</strong> (e.g., big green dot) or turn off labels.</p>
                 </div>
             </div>
 
             <div class="step">
                 <div class="step-num">4</div>
                 <div class="step-content">
-                    <h3>Export Image</h3>
-                    <p>Go to the top toolbar: <strong>Layout &rarr; Export as Image</strong>.</p>
-                    <p>Save as a JPG/PNG. Recommended 300 dpi.</p>
+                    <h3>Create Print Layout</h3>
+                    <p>1. Go to <strong>Project &rarr; New Print Layout</strong>. Name it.<br>
+                       2. Use the <strong>Add Map</strong> tool to draw a box on the blank page. Your map view appears.<br>
+                       3. Add Elements: Use the sidebar tools to draw boxes for <strong>North Arrow</strong>, <strong>Scale Bar</strong>, and <strong>Label (Title)</strong>.<br>
+                       4. Customize fonts and sizes in the <strong>Item Properties</strong> tab.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">5</div>
+                <div class="step-content">
+                    <h3>Export to PDF</h3>
+                    <p>1. Once happy, click <strong>Export as PDF</strong> (top toolbar).<br>
+                       2. Ignore the "WMS Server" warning if it appears (just limits data download).<br>
+                       3. Save it to your desktop. <br>
+                       <em>Pro Tip: PDF exports often render sharper than the screen preview!</em></p>
                 </div>
             </div>
         </div>
