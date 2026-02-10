@@ -88,6 +88,7 @@
                     <h3>Explore and Locate</h3>
                     <p>Open your project from Lab 00. Use the <strong>Locate</strong> tool (magnifying glass) at the top right to search for your chosen location.</p>
                     <p>Change your Basemap: Go to the <strong>Map Tab &rarr; Basemap</strong>. Choose "Imagery Hybrid" or "Topographic".</p>
+                    <p><strong>Batch Geocoding Challenge:</strong> Download the <a href="../assets/data/european_space_agencies.csv" download>European Space Agency CSV</a>. Drag the file into your ArcGIS Pro "Contents" pane, right-click it, and select <strong>"Geocode Table"</strong> to place all agencies on your map at once!</p>
                 </div>
             </div>
 
@@ -169,6 +170,7 @@
                     <p>1. Go to <strong>Plugins &rarr; Geocoding &rarr; Geocoding</strong>.<br>
                        2. Type an address (e.g., "Austin, Texas" or "Strasbourg, France").<br>
                        <img src="../assets/img/lab01_geocoding_dialog.png" alt="Geocoding Dialog" class="step-img"><br>
+                       <em>Alternative: If you have trouble with the plugin, use the <a href="https://sounny.github.io/osmgeocoder/" target="_blank">OSM Geocoder Website</a> to find coordinates manually.</em><br>
                        3. Only choose the result that has the correct hierarchy (e.g., Travis County, Texas). Click OK.<br>
                        4. A point is created! Double-click it in the Layers panel to change its <strong>Symbology</strong> (e.g., big green dot).<br>
                        <img src="../assets/img/lab01_symbology.png" alt="Symbology Interface" class="step-img"></p>
@@ -213,6 +215,20 @@
             <div class="step">
                 <div class="step-num">2</div>
                 <div class="step-content">
+                    <h3>Batch Geocoding (Import CSV)</h3>
+                    <p>Instead of searching one-by-one, you can upload a list of addresses.</p>
+                    <ol>
+                        <li>Download the <a href="../assets/data/european_space_agencies.csv" download>European Space Agency CSV</a>.</li>
+                        <li>In the Map Viewer, click <strong>"Add"</strong> (left toolbar) &rarr; <strong>"Upload Shapefile or GeoJSON"</strong> (or simply drag the CSV file onto the map).</li>
+                        <li>The "Add Layer" dialog will appear. Ensure it maps <strong>"Address"</strong> to the Location field.</li>
+                        <li>Select <strong>"Geocode addresses"</strong>. ArcGIS Online will find all the locations at once!</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
                     <h3>Add Sketch Layers</h3>
                     <p>Click <strong>"Sketch"</strong> (Pencil icon) on the right toolbar.</p>
                     <p>Use the "Stamp" or "Text" tool to place a label on the map naming the site (Site Title). Add another text box with your Name.</p>
@@ -220,7 +236,7 @@
             </div>
 
             <div class="step">
-                <div class="step-num">3</div>
+                <div class="step-num">4</div>
                 <div class="step-content">
                     <h3>Print / Export</h3>
                     <p>On the left toolbar, click <strong>"Print"</strong> (Printer icon).</p>
@@ -233,6 +249,62 @@
                 </div>
             </div>
         </div>
+
+        <!-- 3b. Geocoding Challenge -->
+        <section class="card" style="margin-top: 3rem; background: #fdf2f2; border: 2px solid #ef4444;">
+            <h2 style="color: #b91c1c;">🚀 Space Agency Geocoding Challenge</h2>
+            <p>For your afternoon lab, you must map the major European Space Agency (ESA) headquarters and establishments. This will test your manual and batch geocoding skills.</p>
+            
+            <div class="callout info" style="margin-bottom: 1rem;">
+                <strong>Mission:</strong> Use the table below and the <a href="https://sounny.github.io/osmgeocoder/" target="_blank" style="font-weight: 700;">OSM Geocoder Website</a> to find the exact coordinates.
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem;">
+                    <thead>
+                        <tr style="background: #fee2e2; border-bottom: 2px solid #ef4444;">
+                            <th style="padding: 0.75rem; text-align: left;">Agency</th>
+                            <th style="padding: 0.75rem; text-align: left;">Facility</th>
+                            <th style="padding: 0.75rem; text-align: left;">Street Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #fee2e2;">
+                            <td style="padding: 0.75rem;">ESA</td>
+                            <td style="padding: 0.75rem;">Headquarters</td>
+                            <td style="padding: 0.75rem;">8-10 rue Mario Nikis, 75015 Paris, France</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #fee2e2;">
+                            <td style="padding: 0.75rem;">ESA</td>
+                            <td style="padding: 0.75rem;">ESTEC (Tech Centre)</td>
+                            <td style="padding: 0.75rem;">Keplerlaan 1, 2201 AZ Noordwijk, Netherlands</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #fee2e2;">
+                            <td style="padding: 0.75rem;">ESA</td>
+                            <td style="padding: 0.75rem;">ESOC (Operations)</td>
+                            <td style="padding: 0.75rem;">Robert-Bosch-Strasse 5, 64293 Darmstadt, Germany</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #fee2e2;">
+                            <td style="padding: 0.75rem;">ESA</td>
+                            <td style="padding: 0.75rem;">ESRIN (Earth Obs)</td>
+                            <td style="padding: 0.75rem;">Largo Galileo Galilei 1, 00044 Frascati, Italy</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #fee2e2;">
+                            <td style="padding: 0.75rem;">CNES</td>
+                            <td style="padding: 0.75rem;">Headquarters</td>
+                            <td style="padding: 0.75rem;">2 Place Maurice Quentin, 75001 Paris, France</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #fee2e2;">
+                            <td style="padding: 0.75rem;">DLR</td>
+                            <td style="padding: 0.75rem;">Headquarters</td>
+                            <td style="padding: 0.75rem;">Linder Höhe, 51147 Köln, Germany</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <p><strong>Deliverable:</strong> Your final map layout must show at least 5 of these agencies as distinct points on a European-scale basemap.</p>
+        </section>
 
         <!-- 4. Deliverables -->
         <section class="card" style="margin-top: 4rem; border-top: 4px solid var(--accent);">
