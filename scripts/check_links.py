@@ -2,96 +2,91 @@ import os
 import re
 from pathlib import Path
 from urllib.parse import unquote
+from concurrent.futures import ThreadPoolExecutor
 
-def check_chapters(chapters_dir):
-    chapters_path = Path(chapters_dir)
-    html_files = sorted(list(chapters_path.glob("*.html")))
-    
-    report = []
-    
-    print(f"Checking {len(html_files)} chapters in {chapters_path}...")
-
-    total_errors = 0
-
-    for file_path in html_files:
-        try:
-            content = file_path.read_text(encoding='utf-8')
-        except Exception as e:
-            report.append(f"ERROR: Could not read {file_path.name}: {e}")
-            continue
-
-        # Simple regex to find links and images
-        # This is not perfect HTML parsing but good enough for checking validity in well-formed files
-        # Matches href="..." or src="..."
-        links = re.findall(r'href=["\'](.*?)["\']', content)
-        images = re.findall(r'src=["\'](.*?)["\']', content)
-        
-        file_errors = []
+def check_file_links(args):
+    """
+    Helper function to check links in a single file.
+    args is a tuple: (file_path, root_path, link_pattern, img_pattern)
+    """
+    file_path, root_path, link_pattern, img_pattern = args
+    file_broken_links = []
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
 
         # Check links
+        links = link_pattern.findall(content)
         for link in links:
-            if link.startswith(('http://', 'https://', 'mailto:', 'tel:')):
-                continue # Skip external links
-            if link.startswith('#'):
-                continue # Skip internal anchors for now
-            if link.startswith('javascript:'):
+            if not link or link.startswith(('http://', 'https://', 'mailto:', 'tel:', 'javascript:', '#')):
                 continue
-                
-            # Handle anchors in file paths (e.g. page.html#section)
-            link_clean = link.split('#')[0]
+
+            # Handle anchors and query params in file paths
+            link_clean = link.split('#')[0].split('?')[0]
             if not link_clean:
                 continue
-                
-            # Check existence
-            target_path = (file_path.parent / link_clean).resolve()
-            
-            # Handle potential query params ?v=...
-            target_path_str = str(target_path).split('?')[0]
-            target_path = Path(target_path_str)
 
+            target_path = (file_path.parent / link_clean).resolve()
             if not target_path.exists():
                 # Try unquoting
                 decoded_link = unquote(link_clean)
                 target_path_decoded = (file_path.parent / decoded_link).resolve()
-                target_path_decoded_str = str(target_path_decoded).split('?')[0]
-                target_path_decoded = Path(target_path_decoded_str)
-                
                 if not target_path_decoded.exists():
-                     file_errors.append(f"Broken Link: {link} (resolved: {target_path_str})")
+                    file_broken_links.append(f"Broken Link: {link} (resolved: {target_path})")
 
         # Check images
+        images = img_pattern.findall(content)
         for img in images:
-            if img.startswith(('http://', 'https://', 'data:')):
+            if not img or img.startswith(('http://', 'https://', 'data:')):
                 continue
-                
-            target_path = (file_path.parent / img).resolve()
-            target_path_str = str(target_path).split('?')[0]
-            target_path = Path(target_path_str)
-            
-            if not target_path.exists():
-                 # Try unquoting
-                decoded_img = unquote(img)
-                target_path_decoded = (file_path.parent / decoded_img).resolve()
-                target_path_decoded_str = str(target_path_decoded).split('?')[0]
-                target_path_decoded = Path(target_path_decoded_str)
-                
-                if not target_path_decoded.exists():
-                    file_errors.append(f"Broken Image: {img} (resolved: {target_path_str})")
 
-        if file_errors:
-            report.append(f"\n📄 {file_path.name}")
-            for err in file_errors:
-                report.append(f"  - {err}")
-            total_errors += len(file_errors)
+            img_clean = img.split('?')[0]
+            target_path = (file_path.parent / img_clean).resolve()
+            if not target_path.exists():
+                # Try unquoting
+                decoded_img = unquote(img_clean)
+                target_path_decoded = (file_path.parent / decoded_img).resolve()
+                if not target_path_decoded.exists():
+                    file_broken_links.append(f"Broken Image: {img} (resolved: {target_path})")
+
+    except Exception as e:
+        print(f"Error processing {file_path.name}: {e}")
+
+    if file_broken_links:
+        return (file_path.name, file_broken_links)
+    return None
+
+def check_chapters(chapters_dir):
+    chapters_path = Path(chapters_dir)
+    html_files = sorted(list(chapters_path.glob("*.html")))
+    root_path = chapters_path.parent
+    
+    print(f"Checking {len(html_files)} chapters in {chapters_path}...")
+
+    link_pattern = re.compile(r'href=["\'](.*?)["\']')
+    img_pattern = re.compile(r'src=["\'](.*?)["\']')
+
+    args_list = [(f, root_path, link_pattern, img_pattern) for f in html_files]
+
+    all_broken_links = []
+    
+    with ThreadPoolExecutor() as executor:
+        results = executor.map(check_file_links, args_list)
+        for res in results:
+            if res:
+                all_broken_links.append(res)
+
+    total_errors = sum(len(links) for _, links in all_broken_links)
 
     if total_errors == 0:
         print("✅ No broken local links or images found!")
     else:
         print(f"❌ Found {total_errors} broken links/images in {len(html_files)} files.")
-        print("\n".join(report))
+        for filename, errors in all_broken_links:
+            print(f"\n📄 {filename}")
+            for err in errors:
+                print(f"  - {err}")
 
 if __name__ == "__main__":
-    # Assuming script is run from root or scripts/ dir, adjust path
-    # based on user info: c:\Users\sounn\Git\gis\
-    base_dir = Path(r"c:\Users\sounn\Git\gis\chapters")
+    base_dir = Path(__file__).parent.parent / "chapters"
     check_chapters(base_dir)
