@@ -284,7 +284,7 @@
                 </div>
 
                 <section class="card">
-                    <h2>Locational Privacy & Surveillance</h2>
+                    <h2>Locational Privacy &amp; Surveillance</h2>
                     <p>In the age of smartphones, we generate a digital exhaust of location data every day. <strong>Geoprivacy</strong> is the right of individuals to prevent the disclosure of their movements. GIS professionals have a duty to practice "Location Masking" (geomasking) when dealing with human subjects to prevent re-identification.</p>
 
                     <div class="callout warning" style="background: #fef2f2; border-left: 5px solid #ef4444; color: #7f1d1d; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
@@ -292,6 +292,51 @@
                         <p>Every time you use a navigation app, you are creating a digital twin of yourself—a "Data Double." This shadow profile is sold to advertisers, insurance companies, and even data brokers. You might own your phone, but who owns the <em>pattern</em> of your life recorded by it?</p>
                     </div>
                 </section>
+
+                <!-- NEW: Data Sovereignty & Indigenous GIS -->
+                <section class="card">
+                    <h2>🌎 Data Sovereignty &amp; Indigenous GIS</h2>
+                    <p>For centuries, Indigenous communities were mapped <em>by</em> colonial powers — their territories divided, renamed, and claimed. Today, a growing movement of <strong>Indigenous GIS</strong> reclaims this power. Data Sovereignty is the principle that communities have the right to govern the collection, ownership, and application of data about their own people and lands.</p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;">
+                        <div style="background: #f0fdf4; padding: 1.5rem; border-radius: 12px; border-left: 4px solid #16a34a;">
+                            <h4 style="margin-top:0; color: #15803d;">CARE Principles</h4>
+                            <p style="font-size: 0.9rem;">The <strong>CARE Principles</strong> (Collective Benefit, Authority to Control, Responsibility, Ethics) were developed by the Global Indigenous Data Alliance as a counterpart to FAIR data principles, centering Indigenous rights in data governance.</p>
+                        </div>
+                        <div style="background: #eff6ff; padding: 1.5rem; border-radius: 12px; border-left: 4px solid #3b82f6;">
+                            <h4 style="margin-top:0; color: #1d4ed8;">Counter-Mapping</h4>
+                            <p style="font-size: 0.9rem;"><strong>Counter-mapping</strong> is the practice of communities creating their own maps to challenge official narratives, assert land rights, and document traditional knowledge that is invisible on government maps.</p>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1.5rem;">In Texas, the Tigua (Ysleta del Sur Pueblo) and Kickapoo Traditional Tribe have used GIS to document ancestral territories and support land rights claims. Globally, the <strong>Local Contexts</strong> initiative provides Traditional Knowledge (TK) Labels that can be embedded in GIS metadata to indicate Indigenous cultural protocols for data use.</p>
+                </section>
+
+                <!-- NEW: Feminist GIS -->
+                <section class="card">
+                    <h2>♀️ Feminist GIS &amp; Participatory Mapping</h2>
+                    <p>Feminist geographers like Mei-Po Kwan and Nadine Schuurman challenged the assumption that GIS is a neutral, objective tool. <strong>Feminist GIS</strong> argues that all spatial data reflects the values, biases, and power structures of those who collect and analyze it. It advocates for:</p>
+                    <ul style="line-height: 2; margin-top: 1rem;">
+                        <li><strong>Incorporating qualitative data:</strong> Lived experiences, oral histories, and community knowledge are as valid as sensor data.</li>
+                        <li><strong>Participatory GIS (PGIS):</strong> Involving affected communities in the mapping process, not just as data subjects but as co-creators.</li>
+                        <li><strong>Reflexivity:</strong> Acknowledging the positionality of the researcher — who you are shapes what you map and how you interpret it.</li>
+                    </ul>
+                    <div class="callout secondary" style="background: #fdf2f8; border-left: 5px solid #db2777; color: #831843; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                        <strong>Example:</strong> A city planner mapping "safe routes" for women at night would get very different results using official crime statistics vs. participatory mapping workshops where women draw their own perceived danger zones. Both datasets are "true" — but they tell completely different stories.
+                    </div>
+                </section>
+
+                <!-- NEW: Regional Decisions Exercise -->
+                <div class="callout secondary" style="background: #fef3c7; border-left: 5px solid #d97706; color: #78350f; padding: 2rem; border-radius: 12px; margin: 1.5rem 0;">
+                    <h3 style="margin-top: 0; color: #92400e;">🎭 Regional Decisions: The Ethics of the Map</h3>
+                    <p><strong>Scenario:</strong> You are a GIS analyst for a public health department in San Antonio. You have been asked to create a public-facing web map showing the locations of all active tuberculosis (TB) cases in the city to "help the public understand the outbreak."</p>
+                    <p><strong>Your task:</strong> Evaluate this request using the "Do No Harm" framework. Consider:</p>
+                    <ul>
+                        <li>What are the privacy risks of mapping exact TB case locations, even without patient names?</li>
+                        <li>What level of geographic aggregation (block, census tract, ZIP code, city) would be most appropriate, and why?</li>
+                        <li>What additional context (socioeconomic data, healthcare access) would make the map more useful without increasing harm?</li>
+                        <li>Who should be consulted before publishing this map? (Patients? Community organizations? Legal counsel?)</li>
+                    </ul>
+                    <p><em>Draft a 1-page "Ethics Review" memo recommending whether to publish the map, at what scale, and with what caveats.</em></p>
+                </div>
 
                 <div class="callout secondary" style="background: #f0fdf4; border-left: 5px solid #16a34a; color: #14532d; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0;">
                     <h3 style="margin-top: 0; color: #15803d;">🤝 Interdisciplinary GIS: Philosophy & Law</h3>
@@ -312,16 +357,34 @@
                     <h2>Chapter 18 Checkpoint</h2>
                     <div class="question">
                         <p><strong>1. Why is "Location Masking" used in health GIS?</strong></p>
-                        <div class="option" onclick="this.classList.add('correct')">To protect the privacy of patients by slightly shifting their coordinates.</div>
-                        <div class="option" onclick="this.classList.add('wrong')">To make the map icons look more organized.</div>
+                        <div class="option" onclick="checkAnswer18(this, true)">To protect the privacy of patients by slightly shifting their coordinates.</div>
+                        <div class="option" onclick="checkAnswer18(this, false)">To make the map icons look more organized.</div>
                     </div>
                     <div class="question">
                         <p><strong>2. What is "Critical GIS"?</strong></p>
-                        <div class="option" onclick="this.classList.add('wrong')">Using GIS for critical infrastructure only.</div>
-                        <div class="option" onclick="this.classList.add('correct')">Examining the social, political, and ethical implications of mapping.</div>
+                        <div class="option" onclick="checkAnswer18(this, false)">Using GIS for critical infrastructure only.</div>
+                        <div class="option" onclick="checkAnswer18(this, true)">Examining the social, political, and ethical implications of mapping.</div>
                     </div>
+                    <div class="question">
+                        <p><strong>3. What is "Data Sovereignty" in the context of Indigenous GIS?</strong></p>
+                        <div class="option" onclick="checkAnswer18(this, true)">The right of Indigenous communities to govern the collection, ownership, and use of data about their people and territories.</div>
+                        <div class="option" onclick="checkAnswer18(this, false)">The government's right to classify geospatial data as secret.</div>
+                        <div class="option" onclick="checkAnswer18(this, false)">The ability to store data on sovereign cloud servers.</div>
+                    </div>
+                    <div class="question">
+                        <p><strong>4. What is the "Mosaic Effect" in spatial data privacy?</strong></p>
+                        <div class="option" onclick="checkAnswer18(this, false)">A cartographic technique for blending raster tiles.</div>
+                        <div class="option" onclick="checkAnswer18(this, true)">The ability to re-identify individuals by combining multiple seemingly anonymous datasets (e.g., location + time + demographics).</div>
+                        <div class="option" onclick="checkAnswer18(this, false)">A method for creating seamless satellite image composites.</div>
+                    </div>
+                    <div class="question">
+                        <p><strong>5. Feminist GIS challenges the assumption that:</strong></p>
+                        <div class="option" onclick="checkAnswer18(this, false)">Women cannot use GIS software effectively.</div>
+                        <div class="option" onclick="checkAnswer18(this, true)">GIS is a neutral, objective tool, arguing instead that it reflects the values and power structures of those who design and use it.</div>
+                        <div class="option" onclick="checkAnswer18(this, false)">Qualitative data is more accurate than quantitative data.</div>
+                    </div>
+                    <div id="quiz18-score" style="margin-top:1rem; font-weight:700; color: var(--primary);"></div>
                 </div>
-
                 <div class="section-glossary">
                     <h2>📚 Chapter Glossary</h2>
                     <div class="glossary-list">
@@ -337,6 +400,42 @@
                             <span class="glossary-term">Geomasking</span>
                             <span class="glossary-def">A technique to protect privacy by displacing point data (random perturbation) while preserving the spatial distribution for analysis.</span>
                         </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Data Sovereignty</span>
+                            <span class="glossary-def">The right of a group (especially Indigenous peoples) to govern the collection, ownership, and application of data about their communities and territories.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Cartographic Silence</span>
+                            <span class="glossary-def">The intentional or unintentional omission of features, communities, or phenomena from a map, which is itself a political act that shapes what is considered real or important.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Feminist GIS</span>
+                            <span class="glossary-def">A critical approach to GIS that challenges the assumption of objectivity, advocates for incorporating qualitative and experiential knowledge, and examines how gender and power shape spatial data collection and representation.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Mosaic Effect</span>
+                            <span class="glossary-def">The privacy risk that arises when multiple individually anonymous datasets are combined to re-identify specific individuals (e.g., combining location history, demographics, and purchase records).</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">GDPR (General Data Protection Regulation)</span>
+                            <span class="glossary-def">A European Union law (2018) that governs how personal data — including location data — may be collected, stored, and used, establishing a legal framework for data ethics.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Indigenous GIS</span>
+                            <span class="glossary-def">The practice of Indigenous communities using geospatial technologies to map, manage, and assert sovereignty over their lands, resources, and cultural heritage.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">CARE Principles</span>
+                            <span class="glossary-def">An ethical framework for Indigenous data governance: Collective Benefit, Authority to Control, Responsibility, Ethics.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Counter-Mapping</span>
+                            <span class="glossary-def">The practice of creating maps that challenge dominant narratives, assert alternative perspectives, or document marginalized knowledge, often used by Indigenous or local communities.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Participatory GIS (PGIS)</span>
+                            <span class="glossary-def">An approach that involves local communities and stakeholders directly in the GIS process, from data collection to analysis and map creation, to ensure their perspectives are represented.</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -348,6 +447,11 @@
                         <h3>William Bunge</h3>
                         <span class="bio-dates">(1928–2013)</span>
                         <p>A radical geographer who pioneered "Critical Geography." In the 1970s, he created the "Detroit Geographical Expedition," working with inner-city residents to map social injustice (like where children were hit by cars). He proved that maps could be tools for social revolution, not just military or government control.</p>
+                        <ul style="font-size: 0.85rem; margin-top: 0.75rem; padding-left: 1.2rem; line-height: 1.8;">
+                            <li><strong>Impact:</strong> Pioneered participatory mapping with marginalized communities.</li>
+                            <li><strong>Key Idea:</strong> Maps are political documents that reflect power.</li>
+                            <li><strong>Modern Use:</strong> His methods inspire today's community GIS and counter-mapping movements.</li>
+                        </ul>
                     </div>
                 </div>
 
@@ -355,12 +459,27 @@
                     <h3>🇨🇱 Texas Connection</h3>
                     <p><strong>Redlining in Austin</strong></p>
                     <p>Maps have immense power to shape wealth. In 1935, Austin's master plan and subsequent HOLC "Redlining" maps funneled minority populations into East Austin while denying them home loans.</p>
-                    <p>Understanding these historic vector polygons is essential to understanding the "Inverse L" of segregation that still defines the city's racial and economic geography today. GIS can uncover these past injustices.</p>
+                    <p>Understanding these historic vector polygons is essential to understanding the "Inverse L" of segregation that still defines the city's racial and economic geography today. GIS can uncover these past injustices. Globally, similar redlining maps were used in cities from London to Johannesburg, making this a universal story of cartographic power.</p>
                 </div>
 
                 <div class="sidebar-box" style="border-top: 4px solid #7e22ce;">
                     <h3>✊ Equity in GIS</h3>
                     <p><strong><a href="https://www.northstarofgis.org/" target="_blank" style="color:inherit;">NorthStar of GIS</a></strong> is a global movement uplifting Black geo-leadership, challenging systemic inequities, and advancing antiracist geospatial practices that honor the Black diaspora.</p>
+                </div>
+
+                <!-- NEW: Do No Harm Checklist -->
+                <div class="sidebar-box" style="border-top: 4px solid #ef4444;">
+                    <h3>✅ "Do No Harm" Checklist</h3>
+                    <p style="font-size: 0.85rem;">Before publishing any map with human data, ask:</p>
+                    <ul style="font-size: 0.85rem; line-height: 1.9; padding-left: 1.2rem;">
+                        <li>☐ Could this map be used to target or harm individuals?</li>
+                        <li>☐ Is the data aggregated to protect privacy?</li>
+                        <li>☐ Did the affected community consent to being mapped?</li>
+                        <li>☐ Are data sources and limitations clearly cited?</li>
+                        <li>☐ Could this map reinforce existing stereotypes or biases?</li>
+                        <li>☐ Is the map accessible to people with color blindness?</li>
+                    </ul>
+                    <p style="font-size: 0.8rem; margin-top: 0.75rem; color: #64748b;">Source: Adapted from UCGIS GS-01-004 (Location Privacy) and GS-03-021 (Balancing Data Access).</p>
                 </div>
             </aside>
         </div>
@@ -411,10 +530,97 @@
         function ethicalChoice(isGood) {
             const box = document.getElementById('scenario');
             if (isGood) {
-                box.innerHTML = '<p style="color: #10b981; font-weight: 800;">✅ Ethical Choice!</p><p>By aggregating the data, you protected individual privacy while still providing the spatial information needed for public safety. You have earned the "Ethical Cartographer" badge.</p>';
+                box.innerHTML = '<p style="color: #10b981; font-weight: 800;">&#x2705; Ethical Choice!</p><p>By aggregating the data, you protected individual privacy while still providing the spatial information needed for public safety. You have earned the "Ethical Cartographer" badge.</p><button class="btn-choice" onclick="nextScenario()">Next Scenario &rarr;</button>';
             } else {
-                box.innerHTML = '<p style="color: #f43f5e; font-weight: 800;">❌ Privacy Breach!</p><p>Mapping exact home addresses of patients violates HIPAA and other privacy laws. It can lead to harassment of families during a crisis. Try again.</p><button class="btn-choice" onclick="location.reload()">Reset Scenario</button>';
+                box.innerHTML = '<p style="color: #f43f5e; font-weight: 800;">&#x274C; Privacy Breach!</p><p>Mapping exact home addresses of patients violates HIPAA and other privacy laws. It can lead to harassment of families during a crisis. Try again.</p><button class="btn-choice" onclick="resetScenario()">Try Again</button>';
             }
+        }
+
+        const scenarios = [
+            {
+                text: '<p><strong>Scenario 1:</strong> You are mapping disease clusters during an outbreak. The government wants you to publish a map showing the exact home addresses of the infected to "protect the public."</p>',
+                choices: [
+                    { label: 'Map Exact Points', correct: false },
+                    { label: 'Aggregate by ZIP Code', correct: true }
+                ],
+                feedback: {
+                    correct: 'By aggregating the data, you protected individual privacy while still providing the spatial information needed for public safety.',
+                    wrong: 'Mapping exact home addresses of patients violates HIPAA and other privacy laws. It can lead to harassment of families during a crisis.'
+                }
+            },
+            {
+                text: '<p><strong>Scenario 2:</strong> A city agency asks you to publish a real-time map showing the GPS locations of all registered sex offenders, updated every 15 minutes, as a public safety tool.</p>',
+                choices: [
+                    { label: 'Publish Real-Time GPS Map', correct: false },
+                    { label: 'Show Last Known Address Only (Aggregated)', correct: true }
+                ],
+                feedback: {
+                    correct: 'Showing aggregated, non-real-time location data balances public safety with the legal and ethical constraints on surveillance. Real-time tracking raises serious civil liberties concerns.',
+                    wrong: 'Real-time GPS tracking of individuals — even those with criminal records — raises serious civil liberties and legal concerns. It can also enable vigilante violence.'
+                }
+            },
+            {
+                text: '<p><strong>Scenario 3:</strong> You are mapping endangered species habitat for a conservation report. A journalist asks for the exact GPS coordinates of nesting sites to "raise public awareness."</p>',
+                choices: [
+                    { label: 'Share Exact Coordinates', correct: false },
+                    { label: 'Share General Habitat Zones Only', correct: true }
+                ],
+                feedback: {
+                    correct: 'Sharing general habitat zones protects the species from poachers and collectors while still communicating the conservation message. Exact coordinates of sensitive species locations are often legally protected.',
+                    wrong: 'Publishing exact GPS coordinates of endangered species nesting sites can enable poaching and illegal collection. This is a well-documented threat to conservation efforts.'
+                }
+            }
+        ];
+
+        let currentScenario = 0;
+
+        function loadScenario(idx) {
+            const s = scenarios[idx];
+            const box = document.getElementById('scenario');
+            let choicesHTML = s.choices.map(c =>
+                `<button class="btn-choice" onclick="handleScenarioChoice(${c.correct}, '${c.label}')">` + c.label + `</button>`
+            ).join('');
+            box.innerHTML = s.text + `<div style="margin-top: 1.5rem;">${choicesHTML}</div>`;
+        }
+
+        function handleScenarioChoice(isCorrect, label) {
+            const s = scenarios[currentScenario];
+            const box = document.getElementById('scenario');
+            if (isCorrect) {
+                box.innerHTML = `<p style="color: #10b981; font-weight: 800;">&#x2705; Ethical Choice!</p><p>${s.feedback.correct}</p>` +
+                    (currentScenario < scenarios.length - 1 ? `<button class="btn-choice" onclick="nextScenario()">Next Scenario &rarr;</button>` : `<p style="color: #10b981; font-weight: 700;">&#x1F3C6; You completed all scenarios! You are an Ethical Cartographer.</p>`);
+            } else {
+                box.innerHTML = `<p style="color: #f43f5e; font-weight: 800;">&#x274C; Reconsider!</p><p>${s.feedback.wrong}</p><button class="btn-choice" onclick="loadScenario(${currentScenario})">Try Again</button>`;
+            }
+        }
+
+        function nextScenario() {
+            currentScenario++;
+            if (currentScenario < scenarios.length) loadScenario(currentScenario);
+        }
+
+        function resetScenario() { currentScenario = 0; loadScenario(0); }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => { loadScenario(0); });
+
+        // Quiz answer checker
+        let quiz18Correct = 0;
+        let quiz18Total = 0;
+        function checkAnswer18(el, isCorrect) {
+            if (el.classList.contains('correct') || el.classList.contains('wrong')) return;
+            const siblings = el.parentElement.querySelectorAll('.option');
+            siblings.forEach(s => s.style.pointerEvents = 'none');
+            if (isCorrect) {
+                el.classList.add('correct');
+                quiz18Correct++;
+            } else {
+                el.classList.add('wrong');
+                siblings.forEach(s => { if (s !== el && s.getAttribute('onclick').includes('true')) s.classList.add('correct'); });
+            }
+            quiz18Total++;
+            const scoreEl = document.getElementById('quiz18-score');
+            if (scoreEl) scoreEl.textContent = `Score: ${quiz18Correct} / ${quiz18Total} answered`;
         }
     </script>
 

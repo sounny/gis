@@ -111,3 +111,14 @@ When you see files named `*.html.OCNOTES.md`, they are **proposed insertions** m
 ## 7. Known Issues / To Do
 
 - **Action Item (Claude):** The visual alignment of the "GIS Hero" sidebar in Chapter 00 works functionally but does not perfectly match the "Local to Global" sidebar's aesthetic polish. This needs to be revisited and solved (likely by Claude) to ensure pixel-perfect consistency across all sidebar types.
+
+---
+
+## 8. Job Market Alignment
+
+To bridge the gap between academia and career readiness, we proactively align textbook content with current GIS job market demands.
+
+- **The Folder:** `references/job market/`
+- **Purpose:** This directory contains analyses of modern GIS job postings (e.g., USSS Jr. Cartographer).
+- **Agent Directive:** When developing or updating a chapter, review this folder to identify specific technical skills (like Section 508 compliance, metadata standards, or specific agency branding) that should be integrated into labs and theoretical sections.
+- **Goal:** Ensure every student finishing this book is not just "competent" but "employable" by federal and private standards.

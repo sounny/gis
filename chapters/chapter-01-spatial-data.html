@@ -170,6 +170,52 @@
         .decision-btn:hover { border-color: var(--primary); transform: translateY(-2px); }
         .decision-btn.active-vector { background: var(--primary); color: white; border-color: var(--primary); }
         .decision-btn.active-raster { background: var(--success); color: white; border-color: var(--success); }
+
+        /* Local to Global tabbed panel (Chapter 00 pattern) */
+        .sidebar-local-global .sidebar-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 0.5rem 0 1rem 0;
+            padding: 0.5rem;
+            background: #f8fafc;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+        }
+        .sidebar-local-global .tab-btn {
+            background: white;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            opacity: 0.75;
+        }
+        .sidebar-local-global .tab-btn img {
+            width: 24px;
+            height: auto;
+        }
+        .sidebar-local-global .tab-btn:hover {
+            opacity: 1;
+            transform: translateY(-1px);
+        }
+        .sidebar-local-global .tab-btn.active {
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(239, 65, 53, 0.22);
+            opacity: 1;
+        }
+        .sidebar-local-global .tab-content { display: none; }
+        .sidebar-local-global .tab-content.active { display: block; }
+        .sidebar-local-global .tab-flag-header {
+            height: 1.1em;
+            vertical-align: text-bottom;
+            margin-right: 0.35rem;
+        }
     </style>
     <script>
         function revealDecision(btn, type, explanation) {
@@ -539,11 +585,45 @@
                     </div>
                 </div>
 
-                <div class="sidebar-local-global">
-                    <h3>Texas Connection</h3>
-                    <p><strong>The Texas Parcel Map</strong></p>
-                    <p>In Texas, the General Land Office (GLO) and local appraisals districts manage one of the most complex <strong>vector</strong> datasets in the country: Land Parcels. Every fence line and property boundary in the state is a polygon with detailed ownership attributes.</p>
-                    <p>Globally, these patterns are mirrored in "Cadastral Maps" used for taxation and urban planning across the world.</p>
+                <div class="sidebar-local-global" id="local-global-panel-ch01">
+                    <div class="sidebar-tabs">
+                        <button class="tab-btn active" onclick="switchLocalGlobalTab('local-global-panel-ch01','texas')" title="Texas">
+                            <img src="../assets/img/flags/texas.svg" alt="Texas">
+                        </button>
+                        <button class="tab-btn" onclick="switchLocalGlobalTab('local-global-panel-ch01','florida')" title="Florida">
+                            <img src="../assets/img/flags/florida.svg" alt="Florida">
+                        </button>
+                        <button class="tab-btn" onclick="switchLocalGlobalTab('local-global-panel-ch01','france')" title="France">
+                            <img src="../assets/img/flags/france.svg" alt="France">
+                        </button>
+                        <button class="tab-btn" onclick="switchLocalGlobalTab('local-global-panel-ch01','morocco')" title="Morocco">
+                            <img src="../assets/img/flags/morocco.svg" alt="Morocco">
+                        </button>
+                    </div>
+
+                    <div id="ch01-tab-texas" class="tab-content active">
+                        <h3><img src="../assets/img/flags/texas.svg" alt="Texas Flag" class="tab-flag-header">Texas Connection</h3>
+                        <p><strong>The Texas Parcel Map</strong></p>
+                        <p>In Texas, the General Land Office (GLO) and local appraisal districts maintain one of the most complex <strong>vector</strong> cadastral systems in the U.S. Property boundaries, easements, and ownership records are modeled as polygons for taxation, permitting, and legal decisions.</p>
+                    </div>
+
+                    <div id="ch01-tab-florida" class="tab-content">
+                        <h3><img src="../assets/img/flags/florida.svg" alt="Florida Flag" class="tab-flag-header">Florida Connection</h3>
+                        <p><strong>Coastal Parcel Risk Mapping</strong></p>
+                        <p>Florida counties rely on parcel polygons with flood zones, elevation, and insurance overlays to manage hurricane exposure. Vector-based parcel data helps planners identify which neighborhoods face the highest storm-surge and sea-level-rise risk.</p>
+                    </div>
+
+                    <div id="ch01-tab-france" class="tab-content">
+                        <h3><img src="../assets/img/flags/france.svg" alt="France Flag" class="tab-flag-header">France Connection</h3>
+                        <p><strong>Cadastre and Urban Governance</strong></p>
+                        <p>France's national cadastre uses parcel-level vector datasets to support taxation, zoning, and infrastructure planning. Like Texas, each polygon is both geometry and policy: a legal boundary linked to ownership, value, and land-use rules.</p>
+                    </div>
+
+                    <div id="ch01-tab-morocco" class="tab-content">
+                        <h3><img src="../assets/img/flags/morocco.svg" alt="Morocco Flag" class="tab-flag-header">Morocco Connection</h3>
+                        <p><strong>Land Administration Modernization</strong></p>
+                        <p>Morocco's land agencies are digitizing cadastral and agricultural boundaries into vector systems to improve land tenure security and investment planning. Spatially explicit parcel records reduce disputes and strengthen regional development decisions.</p>
+                    </div>
                 </div>
             </aside>
         </div>
@@ -645,6 +725,26 @@
                 el.style.background = '#fef2f2';
                 el.style.color = '#991b1b';
             }
+        }
+
+        function switchLocalGlobalTab(panelId, tabName) {
+            const panel = document.getElementById(panelId);
+            if (!panel) return;
+
+            const tabs = panel.querySelectorAll('.tab-btn');
+            tabs.forEach((tab, idx) => {
+                tab.classList.remove('active');
+                if (tabName === 'texas' && idx === 0) tab.classList.add('active');
+                if (tabName === 'florida' && idx === 1) tab.classList.add('active');
+                if (tabName === 'france' && idx === 2) tab.classList.add('active');
+                if (tabName === 'morocco' && idx === 3) tab.classList.add('active');
+            });
+
+            const contents = panel.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            const target = document.getElementById(`ch01-tab-${tabName}`);
+            if (target) target.classList.add('active');
         }
     </script>
 

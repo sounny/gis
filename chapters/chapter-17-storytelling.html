@@ -290,6 +290,57 @@
                     <p>Storytelling with maps has opened a new frontier in the Humanities. Historians now use "Deep Maps" to layer literature, census records, and old photographs onto a single place. Innovative Art History projects use GIS to map the social networks of Renaissance painters. This blends qualitative richness with spatial precision.</p>
                 </div>
 
+                <!-- NEW: 5-Step Narrative Framework -->
+                <section class="card">
+                    <h2>🗺️ The Five-Step Narrative Framework</h2>
+                    <p>Effective map narratives are not improvised — they follow a deliberate structure. Drawing from journalism, documentary filmmaking, and academic cartography, the following five-step framework will help you build a story that is both compelling and credible.</p>
+                    <ol style="line-height: 2.2; margin-top: 1rem;">
+                        <li><strong>Step 1 — The Hook:</strong> Open with a striking statistic, image, or question that makes the reader ask "Why?" (e.g., "One in four Houston residents lives in a flood-prone zone.")</li>
+                        <li><strong>Step 2 — The Context:</strong> Establish the geographic setting. Show the study area at a regional scale before zooming in. Provide historical background.</li>
+                        <li><strong>Step 3 — The Evidence:</strong> Present your data layers, analysis results, and imagery. This is the analytical core of the story. Cite every source.</li>
+                        <li><strong>Step 4 — The Uncertainty:</strong> Acknowledge what the data <em>cannot</em> tell you. Discuss scale, temporal gaps, and classification errors. This builds credibility.</li>
+                        <li><strong>Step 5 — The Call to Action:</strong> What should the reader do? Who should they contact? What policy should change? A story without a call to action is just a display.</li>
+                    </ol>
+                    <div class="callout" style="background: #fdf2f8; border-left: 5px solid #ec4899; color: #831843; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                        <strong>📐 Design Tip:</strong> Each step in the framework should correspond to a distinct <em>panel</em> in your StoryMap. Use visual transitions (zoom, fade, layer toggle) to signal movement from one step to the next.
+                    </div>
+                </section>
+
+                <!-- NEW: Map Audience Section (from UCGIS BoK CV-06-023) -->
+                <section class="card">
+                    <h2>👥 Know Your Audience</h2>
+                    <p>The UCGIS Body of Knowledge defines <strong>Map Audience</strong> as "the people for whom the map is intended, to influence their understanding or actions" (CV-06-023). Designing without a clear audience in mind is the most common cause of failed map communication.</p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;">
+                        <div style="background: #f0f9ff; padding: 1.5rem; border-radius: 12px; border-top: 3px solid #0ea5e9;">
+                            <h4 style="margin-top:0; color: #0369a1;">🏛️ Policy Makers</h4>
+                            <p style="font-size: 0.9rem;">Need: Executive summary, clear recommendations, simple symbology. Avoid: Technical jargon, raw data tables.</p>
+                        </div>
+                        <div style="background: #f0fdf4; padding: 1.5rem; border-radius: 12px; border-top: 3px solid #16a34a;">
+                            <h4 style="margin-top:0; color: #15803d;">🔬 Scientists</h4>
+                            <p style="font-size: 0.9rem;">Need: Methodology, uncertainty estimates, data citations, reproducibility. Avoid: Oversimplification.</p>
+                        </div>
+                        <div style="background: #fff7ed; padding: 1.5rem; border-radius: 12px; border-top: 3px solid #f97316;">
+                            <h4 style="margin-top:0; color: #9a3412;">🌍 General Public</h4>
+                            <p style="font-size: 0.9rem;">Need: Relatable context, emotional hook, clear legend, accessible language. Avoid: Dense statistics.</p>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1.5rem;">Before building your StoryMap, write one sentence: <em>"My audience is ___ and they need to know ___ so that they can ___"</em>. This simple exercise will guide every design decision you make.</p>
+                </section>
+
+                <!-- NEW: Regional Decisions Exercise -->
+                <div class="callout secondary" style="background: #fef3c7; border-left: 5px solid #d97706; color: #78350f; padding: 2rem; border-radius: 12px; margin: 1.5rem 0;">
+                    <h3 style="margin-top: 0; color: #92400e;">🎭 Regional Decisions: The Story You Tell</h3>
+                    <p><strong>Scenario:</strong> You are a GIS analyst for the City of Houston. The city has commissioned a StoryMap about the 2017 Hurricane Harvey flooding. You have two datasets: (A) FEMA flood insurance claims by ZIP code, and (B) 311 service calls for flooded homes by exact address.</p>
+                    <p><strong>Your task:</strong> Decide which dataset to use as your primary evidence layer and justify your choice. Consider:</p>
+                    <ul>
+                        <li>Which dataset tells a more complete story of the flooding's impact?</li>
+                        <li>Which dataset poses a greater privacy risk to residents?</li>
+                        <li>How does your choice of geographic unit (ZIP code vs. exact address) change the <em>story</em> the map tells?</li>
+                        <li>What would you include in your "Uncertainty" panel for each dataset?</li>
+                    </ul>
+                    <p><em>Write a 1-paragraph justification and share it with a classmate. Discuss whether you made the same choice and why.</em></p>
+                </div>
+
                 <section class="card">
                     <h2>Summary of Big Ideas</h2>
                     <ul style="line-height: 1.8;">
@@ -297,6 +348,8 @@
                         <li><strong>Multimedia Integration:</strong> A map is better when supported by photos, videos, and scientific text.</li>
                         <li><strong>Mobile-First Design:</strong> Ensure your StoryMap works on a phone as well as it does on a desktop.</li>
                         <li><strong>Ethical Storytelling:</strong> Always cite your data sources and avoid "lying" with maps through manipulation of scales.</li>
+                        <li><strong>Know Your Audience:</strong> Design every element — color, scale, language — for the specific person who will read your map.</li>
+                        <li><strong>Acknowledge Uncertainty:</strong> A credible story map always includes a section on data limitations and what the analysis cannot prove.</li>
                     </ul>
                 </section>
 
@@ -304,14 +357,33 @@
                     <h2>Chapter 17 Checkpoint</h2>
                     <div class="question">
                         <p><strong>1. What is the primary advantage of a StoryMap over a traditional paper map?</strong></p>
-                        <div class="option" onclick="this.classList.add('correct')">It allows for an interactive, multimedia narrative experience.</div>
-                        <div class="option" onclick="this.classList.add('wrong')">It is easier to print out for a report.</div>
+                        <div class="option" onclick="checkAnswer(this, true)">It allows for an interactive, multimedia narrative experience.</div>
+                        <div class="option" onclick="checkAnswer(this, false)">It is easier to print out for a report.</div>
                     </div>
                     <div class="question">
                         <p><strong>2. In "Scrollytelling", what triggers the changes in the map view?</strong></p>
-                        <div class="option" onclick="this.classList.add('wrong')">The user clicking a "Next" button.</div>
-                        <div class="option" onclick="this.classList.add('correct')">The user scrolling down the page.</div>
+                        <div class="option" onclick="checkAnswer(this, false)">The user clicking a "Next" button.</div>
+                        <div class="option" onclick="checkAnswer(this, true)">The user scrolling down the page.</div>
                     </div>
+                    <div class="question">
+                        <p><strong>3. According to the Five-Step Narrative Framework, what is the purpose of the "Uncertainty" step?</strong></p>
+                        <div class="option" onclick="checkAnswer(this, false)">To make the story more dramatic by highlighting what is unknown.</div>
+                        <div class="option" onclick="checkAnswer(this, true)">To build credibility by acknowledging the limitations of the data and analysis.</div>
+                        <div class="option" onclick="checkAnswer(this, false)">To confuse the audience so they ask more questions.</div>
+                    </div>
+                    <div class="question">
+                        <p><strong>4. When designing a StoryMap for a policy maker, which of the following is MOST important?</strong></p>
+                        <div class="option" onclick="checkAnswer(this, false)">Including all raw data tables and statistical outputs.</div>
+                        <div class="option" onclick="checkAnswer(this, false)">Using the most complex symbology available to show expertise.</div>
+                        <div class="option" onclick="checkAnswer(this, true)">Providing a clear executive summary with actionable recommendations.</div>
+                    </div>
+                    <div class="question">
+                        <p><strong>5. What is "Cartographic Silence" in the context of narrative mapping?</strong></p>
+                        <div class="option" onclick="checkAnswer(this, true)">The intentional or unintentional omission of data or communities from a map, which shapes the story being told.</div>
+                        <div class="option" onclick="checkAnswer(this, false)">A technique to remove all text labels from a map for a cleaner look.</div>
+                        <div class="option" onclick="checkAnswer(this, false)">The use of white space in map design.</div>
+                    </div>
+                    <div id="quiz17-score" style="margin-top:1rem; font-weight:700; color: var(--primary);"></div>
                 </div>
 
                 <div class="section-glossary">
@@ -329,6 +401,22 @@
                             <span class="glossary-term">Thematic Map</span>
                             <span class="glossary-def">A map designed to show a particular theme connected with a specific geographic area (e.g., population density, climate), as opposed to a general reference map.</span>
                         </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Narrative Cartography</span>
+                            <span class="glossary-def">The practice of combining maps with storytelling techniques to communicate geographic data in a compelling, structured, and audience-focused way.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Map Audience</span>
+                            <span class="glossary-def">The people for whom a map is intended, whose needs, background knowledge, and goals should guide every design decision (UCGIS BoK CV-06-023).</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Call to Action</span>
+                            <span class="glossary-def">The final element of a narrative map that directs the reader toward a specific response — a policy change, a donation, a vote, or further research.</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Deep Map</span>
+                            <span class="glossary-def">A layered, multimedia map that combines spatial data with historical records, photographs, oral histories, and literature to create a rich, multi-dimensional portrait of a place.</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -339,6 +427,11 @@
                     <div>
                         <h3>Allen Carroll</h3>
                         <p>A former Chief Cartographer at National Geographic, Carroll is the founder of the <strong>Esri StoryMaps</strong> team. He pioneered the concept of combining interactive maps with multimedia narrative, transforming GIS from a purely analytical tool into a mass media communication platform.</p>
+                        <ul style="font-size: 0.85rem; margin-top: 0.75rem; padding-left: 1.2rem; line-height: 1.8;">
+                            <li><strong>Impact:</strong> Brought narrative cartography to millions of non-GIS users worldwide.</li>
+                            <li><strong>Key Idea:</strong> Maps should tell stories, not just display data.</li>
+                            <li><strong>Modern Use:</strong> ArcGIS StoryMaps is now used by journalists, NGOs, and governments globally.</li>
+                        </ul>
                     </div>
                 </div>
 
@@ -346,8 +439,21 @@
                     <h3>🇨🇱 Texas Connection</h3>
                     <p><strong>The Texas Slavery Project</strong></p>
                     <p>A landmark digital humanities project from the University of Virginia and University of North Texas. It uses interactive maps to tell the story of the expansion of slavery in Texas from 1837 to 1860.</p>
-                    <p>By connecting census records to a dynamic timeline map, the project visualizes the human tragedy behind the data, proving that GIS can be a powerful tool for historical storytelling.</p>
+                    <p>By connecting census records to a dynamic timeline map, the project visualizes the human tragedy behind the data, proving that GIS can be a powerful tool for historical storytelling. Globally, similar projects like <em>Slave Voyages</em> (slavevoyages.org) map the transatlantic slave trade, showing how narrative GIS can reshape our understanding of history.</p>
                     <a href="http://www.texasslaveryproject.org/" target="_blank" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem; width:100%; text-align:center;">View the Project</a>
+                </div>
+
+                <!-- NEW: Job Market Connection Sidebar -->
+                <div class="sidebar-box" style="border-top: 4px solid #8b5cf6;">
+                    <h3>💼 Job Market Connection</h3>
+                    <p>Storytelling with maps is a <strong>top-5 requested skill</strong> in GIS job postings. Employers specifically look for:</p>
+                    <ul style="font-size: 0.85rem; line-height: 1.8; padding-left: 1.2rem;">
+                        <li>ArcGIS StoryMaps proficiency</li>
+                        <li>Dashboard design (ArcGIS Dashboards)</li>
+                        <li>Data visualization for non-technical audiences</li>
+                        <li>Web map publishing (AGOL)</li>
+                    </ul>
+                    <p style="font-size: 0.85rem; margin-top: 0.75rem;">A strong portfolio StoryMap demonstrating the Five-Step Framework is often more impressive to hiring managers than a resume alone.</p>
                 </div>
             </aside>
         </div>
@@ -406,6 +512,26 @@
             layers.forEach((l, i) => {
                 document.getElementById('layer' + l).classList.toggle('active', i === activeIdx);
             });
+        }
+
+        // Quiz answer checker with score tracking
+        let quiz17Correct = 0;
+        let quiz17Total = 0;
+        function checkAnswer(el, isCorrect) {
+            if (el.classList.contains('correct') || el.classList.contains('wrong')) return;
+            const siblings = el.parentElement.querySelectorAll('.option');
+            siblings.forEach(s => s.style.pointerEvents = 'none');
+            if (isCorrect) {
+                el.classList.add('correct');
+                quiz17Correct++;
+            } else {
+                el.classList.add('wrong');
+                // Highlight the correct one
+                siblings.forEach(s => { if (s !== el) s.classList.add('correct'); });
+            }
+            quiz17Total++;
+            const scoreEl = document.getElementById('quiz17-score');
+            if (scoreEl) scoreEl.textContent = `Score: ${quiz17Correct} / ${quiz17Total} answered`;
         }
     </script>
 

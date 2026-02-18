@@ -79,11 +79,11 @@ def check_chapters(chapters_dir):
     total_errors = sum(len(links) for _, links in all_broken_links)
 
     if total_errors == 0:
-        print("✅ No broken local links or images found!")
+        print("[SUCCESS] No broken local links or images found!")
     else:
-        print(f"❌ Found {total_errors} broken links/images in {len(html_files)} files.")
+        print(f"[ERROR] Found {total_errors} broken links/images in {len(html_files)} files.")
         for filename, errors in all_broken_links:
-            print(f"\n📄 {filename}")
+            print(f"\n[FILE] {filename}")
             for err in errors:
                 print(f"  - {err}")
 

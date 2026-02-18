@@ -160,6 +160,52 @@
             font-size: 0.8rem;
             text-shadow: 0 1px 2px rgba(0,0,0,0.3);
         }
+
+        /* Local to Global tabbed panel (Chapter 00 pattern) */
+        .sidebar-local-global .sidebar-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 0.5rem 0 1rem 0;
+            padding: 0.5rem;
+            background: #f8fafc;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+        }
+        .sidebar-local-global .tab-btn {
+            background: white;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            opacity: 0.75;
+        }
+        .sidebar-local-global .tab-btn img {
+            width: 24px;
+            height: auto;
+        }
+        .sidebar-local-global .tab-btn:hover {
+            opacity: 1;
+            transform: translateY(-1px);
+        }
+        .sidebar-local-global .tab-btn.active {
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(239, 65, 53, 0.22);
+            opacity: 1;
+        }
+        .sidebar-local-global .tab-content { display: none; }
+        .sidebar-local-global .tab-content.active { display: block; }
+        .sidebar-local-global .tab-flag-header {
+            height: 1.1em;
+            vertical-align: text-bottom;
+            margin-right: 0.35rem;
+        }
     </style>
     <script>
         const dataValues = [2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12];
@@ -579,6 +625,7 @@
                       <p>
                         Texas Governor Rick Perry once famously described Austin as a
                         <strong>"Blueberry in a bowl of Tomato Soup."</strong>
+                        <a href="https://austin.culturemap.com/news/entertainment/03-12-14-rick-perry-jimmy-kimmel-live-austin-blueberries-sxsw/" target="_blank" style="font-size: 0.8rem; display: block; margin-top: 0.5rem; color: var(--primary);">Source: CultureMap Austin</a>
                       </p>
                       <p>
                         Why? Because on a standard map, the large rural counties (Red) dominate
@@ -792,11 +839,30 @@
                                 <h3 style="margin: 0; font-size: 1.1rem;">🌊 Example 4: The Blue Background</h3>
                             </div>
                             <div style="padding: 1.5rem;">
-                                <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 1rem;"><em>(Imagine a map of exploration routes where the land is beige but the background is a deep, ocean blue...)</em></p>
+                                <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                                    <img src="../assets/img/bad-maps/textbookexamplewrong1.png" alt="Bad map example 1" style="flex: 1; min-width: 250px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                    <img src="../assets/img/bad-maps/textbookexamplewrong2.png" alt="Bad map example 2" style="flex: 1; min-width: 250px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                </div>
                                 <div class="answer-reveal" style="display: block; margin-top: 1rem; padding: 1rem; background: #eff6ff; border-radius: 8px; border-left: 4px solid #1e3a8a;">
                                     <p style="margin: 0; font-weight: 700; color: #1e3a8a;">❌ The Problem:</p>
                                     <p style="margin: 0.5rem 0 0 0;"><strong>Figure-Ground Confusion!</strong> A textbook publisher once printed a history map on a dark blue background to look "cool." To a reader, <strong>Blue = Water</strong>. The students thought the continents were oceans and the oceans were land. It was a cognitive disaster.</p>
                                     <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #1e3a8a;"><strong>Principles Violated:</strong> Clarity (convention requires blue for water), Contrast (background overpowered foreground)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bad Map 5: Grayscale Information Loss -->
+                        <div class="bad-map-card" style="background: #f8fafc; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0;">
+                            <div style="padding: 1rem; background: linear-gradient(135deg, #4b5563 0%, #1f2937 100%); color: white;">
+                                <h3 style="margin: 0; font-size: 1.1rem;">📄 Example 5: The Grayscale Trap</h3>
+                            </div>
+                            <div style="padding: 1.5rem;">
+                                <img src="../assets/img/bad-maps/newspaperexamplegrayscalelosinginfo.png" alt="Newspaper map in grayscale losing information" style="width: 100%; max-height: 400px; object-fit: contain; border-radius: 8px; border: 1px solid #e2e8f0; cursor: pointer;" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none';">
+                                <div class="answer-reveal" style="display: none; margin-top: 1rem; padding: 1rem; background: #f3f4f6; border-radius: 8px; border-left: 4px solid #4b5563;">
+                                    <p style="margin: 0; font-weight: 700; color: #1f2937;">❌ The Problem:</p>
+                                    <p style="margin: 0.5rem 0 0 0;"><strong>Information Loss via Media!</strong> The cartographer designed a beautiful color-coded map, but it was printed in a black-and-white newspaper. The different colors (e.g., Red for Risk, Green for Safety) collapsed into identical shades of gray, making the legend impossible to read.</p>
+                                    <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #1f2937;"><strong>Principles Violated:</strong> Clarity (the key is unusable), Contrast (shades became indistinguishable)</p>
+                                    <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; font-style: italic;">💡 <strong>Lesson:</strong> "Design for the medium." If your map might be photocopied or printed in B&W, use patterns (dots, stripes) or highly varying intensities (very light vs. very black) instead of just colors.</p>
                                 </div>
                             </div>
                         </div>
@@ -863,12 +929,49 @@
                     </div>
                 </div>
 
-                <div class="sidebar-local-global">
-                    <h3>Texas Connection</h3>
-                    <p><strong>The Texas GLO Archive</strong></p>
-                    <p>The Texas General Land Office maintains some of the state's oldest and most historically significant maps. From hand-drawn Spanish land grants to modern digital oil and gas maps, the GLO archives show how map elements like <em>Source</em> and <em>Title</em> have evolved over centuries.</p>
-                    <p>Checking these records is crucial for modern property law and resource management.</p>
-                    <a href="https://www.glo.texas.gov/history/archives/map-store/index.html" target="_blank" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem; width:100%; text-align:center;">Visit Map Store</a>
+                <div class="sidebar-local-global" id="local-global-panel-ch02">
+                    <div class="sidebar-tabs">
+                        <button class="tab-btn active" onclick="switchLocalGlobalTab('local-global-panel-ch02','texas')" title="Texas">
+                            <img src="../assets/img/flags/texas.svg" alt="Texas">
+                        </button>
+                        <button class="tab-btn" onclick="switchLocalGlobalTab('local-global-panel-ch02','florida')" title="Florida">
+                            <img src="../assets/img/flags/florida.svg" alt="Florida">
+                        </button>
+                        <button class="tab-btn" onclick="switchLocalGlobalTab('local-global-panel-ch02','france')" title="France">
+                            <img src="../assets/img/flags/france.svg" alt="France">
+                        </button>
+                        <button class="tab-btn" onclick="switchLocalGlobalTab('local-global-panel-ch02','morocco')" title="Morocco">
+                            <img src="../assets/img/flags/morocco.svg" alt="Morocco">
+                        </button>
+                    </div>
+
+                    <div id="ch02-tab-texas" class="tab-content active">
+                        <h3><img src="../assets/img/flags/texas.svg" alt="Texas Flag" class="tab-flag-header">Texas Connection</h3>
+                        <p><strong>The Texas GLO Archive</strong></p>
+                        <p>The Texas General Land Office maintains some of the state's oldest and most historically significant maps. From hand-drawn Spanish land grants to modern digital oil and gas maps, the GLO archives show how map elements like <em>Source</em> and <em>Title</em> have evolved over centuries.</p>
+                        <p>Checking these records is crucial for modern property law and resource management.</p>
+                        <a href="https://www.glo.texas.gov/history/archives/map-store/index.html" target="_blank" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem; width:100%; text-align:center;">Visit Map Store</a>
+                    </div>
+
+                    <div id="ch02-tab-florida" class="tab-content">
+                        <h3><img src="../assets/img/flags/florida.svg" alt="Florida Flag" class="tab-flag-header">Florida Connection</h3>
+                        <p><strong>Florida Memory Map Collections</strong></p>
+                        <p>Florida's State Library preserves historical coastal charts, transportation maps, and city plans that show how cartographic design evolved with growth and hurricanes. Analysts compare old and modern map layouts to track changing coastlines and infrastructure risk.</p>
+                        <a href="https://www.floridamemory.com/collections/maps/" target="_blank" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem; width:100%; text-align:center;">Explore Florida Maps</a>
+                    </div>
+
+                    <div id="ch02-tab-france" class="tab-content">
+                        <h3><img src="../assets/img/flags/france.svg" alt="France Flag" class="tab-flag-header">France Connection</h3>
+                        <p><strong>Bibliotheque nationale de France Cartes</strong></p>
+                        <p>France's national map archive documents centuries of cartographic design, from engraved atlases to modern thematic maps. It is a rich source for studying visual hierarchy, typographic choices, and legend conventions in professional map communication.</p>
+                        <a href="https://gallica.bnf.fr/html/und/cartes" target="_blank" class="btn btn-primary" style="margin-top:1rem; font-size:0.8rem; width:100%; text-align:center;">Browse French Maps</a>
+                    </div>
+
+                    <div id="ch02-tab-morocco" class="tab-content">
+                        <h3><img src="../assets/img/flags/morocco.svg" alt="Morocco Flag" class="tab-flag-header">Morocco Connection</h3>
+                        <p><strong>Urban and Territorial Atlas Work</strong></p>
+                        <p>In Morocco, planning agencies and universities use thematic atlases to communicate urban expansion, water stress, and transport access. Good map design is essential so decision-makers can quickly read risk patterns across diverse regions.</p>
+                    </div>
                 </div>
             </aside>
         </div>
@@ -997,6 +1100,26 @@
               el.style.background = '#fef2f2';
               el.style.color = '#991b1b';
           }
+      }
+
+      function switchLocalGlobalTab(panelId, tabName) {
+          const panel = document.getElementById(panelId);
+          if (!panel) return;
+
+          const tabs = panel.querySelectorAll('.tab-btn');
+          tabs.forEach((tab, idx) => {
+              tab.classList.remove('active');
+              if (tabName === 'texas' && idx === 0) tab.classList.add('active');
+              if (tabName === 'florida' && idx === 1) tab.classList.add('active');
+              if (tabName === 'france' && idx === 2) tab.classList.add('active');
+              if (tabName === 'morocco' && idx === 3) tab.classList.add('active');
+          });
+
+          const contents = panel.querySelectorAll('.tab-content');
+          contents.forEach(content => content.classList.remove('active'));
+
+          const target = document.getElementById(`ch02-tab-${tabName}`);
+          if (target) target.classList.add('active');
       }
     </script>
 
