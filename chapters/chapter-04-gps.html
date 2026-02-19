@@ -304,42 +304,7 @@
                                 <p style="margin: 0; font-size: 0.85rem; color: #78350f;"><strong>Poor Geometry = Poor Accuracy:</strong> Even though you may lock onto 4+ satellites, if they're all from the same part of the sky, the trilateration "intersection zone" becomes elongated and uncertain.</p>
                             </div>
                         </div>
-                        
-                        <p style="margin-top: 1rem; margin-bottom: 0; font-size: 0.9rem; color: #92400e;"><strong>💡 Real-World Example:</strong> This is why your phone's GPS often struggles in downtown Houston or Austin—the tall buildings create artificial canyons that limit sky visibility, just like being at the bottom of a natural canyon in Big Bend.</p>
                     </div>
-                </section>
-
-                <section class="card" style="border-left: 5px solid #64748b;">
-                  <h2>The 20-Minute Gap: Autonomy vs. Control</h2>
-                  <p>
-                    In GIS, we are used to real-time data. Google Maps updates traffic
-                    instantly. But deep space reintroduces the <strong>Time Lag</strong>.
-                  </p>
-
-                  <p>
-                    <strong>The "Mars Delay":</strong> It takes up to 20 minutes for a radio
-                    signal to reach Mars. That means a 40-minute round trip for a "Yes/No"
-                    question.
-                  </p>
-
-                  <blockquote style="background: #e2e8f0; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
-                    "We can't rely on 'Ground Control' to read the test results. The device must
-                    be autonomous."
-                  </blockquote>
-
-                  <p>
-                    This forces a shift from <strong>Remote Control</strong> (Earth driving the
-                    rover) to <strong>Edge Computing</strong> (the rover driving itself). In the
-                    future of GIS, our sensors must be smart enough to analyze data
-                    <em>before</em> sending it home.
-                  </p>
-                </section>
-
-                <section class="viz-container">
-                    <h3>Accuracy Visualizer</h3>
-                    <p style="color: #94a3b8; font-size: 0.8rem; margin-bottom: 1rem;">Reading satellite signals in real-time...</p>
-                    <canvas id="gpsCanvas" width="400" height="300"></canvas>
-                    <div style="margin-top: 1rem; font-family: monospace;" id="accuracy-readout">Accuracy: ±2.5m</div>
                 </section>
 
                 <section class="card">
