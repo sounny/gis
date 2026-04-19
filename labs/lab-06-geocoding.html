@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lab 06: Geocoding Addresses | GIS Lab Manual</title>
+    <meta name="description" content="Learn geocoding by converting street addresses into map coordinates. Practice batch geocoding with ArcGIS Pro, QGIS, or ArcGIS Online using Houston landmarks.">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="css/lab.css">
 </head>
@@ -16,94 +17,545 @@
             </nav>
             <span class="lab-badge">Lab 06</span>
             <h1>Geocoding Addresses</h1>
-            <p class="subtitle">Convert address lists into spatial data points.</p>
+            <p class="subtitle">Convert a list of real-world addresses into geographic coordinates and map them. This is one of the most common (and expensive) GIS operations in the industry.</p>
         </div>
     </header>
+
+    <!-- STICKY NAVIGATION BAR -->
+    <nav class="sticky-chapter-bar">
+      <div class="nav-container">
+        <div class="nav-left">
+          <span class="nav-chapter-num">Lab 06</span>
+        </div>
+        <div class="nav-center">
+          <span class="nav-current-title">Geocoding Addresses</span>
+        </div>
+        <div class="nav-right">
+          <a href="index.html" class="nav-toc-btn" title="Table of Contents">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            <span class="toc-text">TOC</span>
+          </a>
+        </div>
+      </div>
+      <div class="nav-progress-bar"></div>
+    </nav>
+
 
     <main class="container">
         <!-- 1. Learning Objectives -->
         <section class="card">
             <h2>🎯 Learning Objectives</h2>
             <ul>
-                <li>Understand the concept of Geocoding</li>
-                <li>Clean address data for processing</li>
-                <li>Map locations from CSV files</li>
+                <li>Understand what <strong>geocoding</strong> is and why it matters in GIS.</li>
+                <li>Prepare a clean <strong>CSV file</strong> with structured address data.</li>
+                <li>Perform <strong>batch geocoding</strong> to convert multiple addresses into map coordinates at once.</li>
+                <li>Produce a professional map with <strong>T.O.L.S.</strong> elements (Title, Orientation, Legend, Scale).</li>
             </ul>
+        </section>
+
+        <!-- What is Geocoding? -->
+        <section class="card" style="background: linear-gradient(135deg, #eff6ff, #f0f9ff); border-left: 5px solid #3b82f6;">
+            <h2>💡 What is Geocoding?</h2>
+            <p><strong>Geocoding</strong> is the process of converting a human-readable address (like "3100 Cleburne St, Houston, TX") into geographic coordinates (latitude and longitude) so it can be placed on a map.</p>
+            <p>Think of it this way: when you type an address into Google Maps or Uber, the app performs geocoding behind the scenes. It takes your text and finds the exact spot on Earth.</p>
+            
+            <div class="callout info" style="margin-top: 1rem;">
+                <strong>Industry Fact:</strong> Geocoding is one of the most <em>expensive</em> operations in commercial GIS. Services like Esri, Google, and Mapbox charge per address. A company geocoding millions of customer addresses could spend thousands of dollars. Your TSU ArcGIS account gives you this capability for free!
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+                <div style="background: white; padding: 1.25rem; border-radius: 10px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">📝</div>
+                    <strong>Input</strong>
+                    <p style="font-size: 0.85rem; color: #64748b; margin: 0.25rem 0 0;">Street addresses in a table (CSV)</p>
+                </div>
+                <div style="background: white; padding: 1.25rem; border-radius: 10px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">⚙️</div>
+                    <strong>Process</strong>
+                    <p style="font-size: 0.85rem; color: #64748b; margin: 0.25rem 0 0;">Geocoding engine matches addresses to coordinates</p>
+                </div>
+                <div style="background: white; padding: 1.25rem; border-radius: 10px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">📍</div>
+                    <strong>Output</strong>
+                    <p style="font-size: 0.85rem; color: #64748b; margin: 0.25rem 0 0;">Points on a map with lat/lon values</p>
+                </div>
+            </div>
         </section>
 
         <!-- 2. Scenario & Data -->
         <section class="card">
-            <h2>📂 Scenario & Requirements</h2>
-            <p>You have a list of customer addresses that need to be mapped for a delivery route analysis.</p>
+            <h2>📂 Your Mission</h2>
+            <p>You are a GIS analyst at a Houston tourism company. Your boss hands you a list of popular landmarks and says: <em>"Put these on a map by end of day."</em></p>
+            <p>Your job: <strong>geocode at least 5 addresses</strong> from the list below (or choose 5 of your own, like your favorite restaurants, parks, or landmarks) and produce a clean, labeled map.</p>
             
+            <h3 style="margin-top: 1.5rem;">Addresses to Geocode</h3>
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem;">
+                    <thead>
+                        <tr style="background: #f1f5f9; border-bottom: 2px solid #e2e8f0;">
+                            <th style="padding: 0.75rem; text-align: left;">Name</th>
+                            <th style="padding: 0.75rem; text-align: left;">Address</th>
+                            <th style="padding: 0.75rem; text-align: left;">City</th>
+                            <th style="padding: 0.75rem; text-align: left;">State</th>
+                            <th style="padding: 0.75rem; text-align: left;">Zip</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #e2e8f0;">
+                            <td style="padding: 0.75rem;">Texas Southern University</td>
+                            <td style="padding: 0.75rem;">3100 Cleburne St</td>
+                            <td style="padding: 0.75rem;">Houston</td>
+                            <td style="padding: 0.75rem;">TX</td>
+                            <td style="padding: 0.75rem;">77004</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #e2e8f0; background: #fafafa;">
+                            <td style="padding: 0.75rem;">Museum of Fine Arts Houston</td>
+                            <td style="padding: 0.75rem;">1500 Binz St</td>
+                            <td style="padding: 0.75rem;">Houston</td>
+                            <td style="padding: 0.75rem;">TX</td>
+                            <td style="padding: 0.75rem;">77004</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #e2e8f0;">
+                            <td style="padding: 0.75rem;">Texas Medical Center</td>
+                            <td style="padding: 0.75rem;">6001 Fannin St</td>
+                            <td style="padding: 0.75rem;">Houston</td>
+                            <td style="padding: 0.75rem;">TX</td>
+                            <td style="padding: 0.75rem;">77030</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #e2e8f0; background: #fafafa;">
+                            <td style="padding: 0.75rem;">Downtown Houston</td>
+                            <td style="padding: 0.75rem;">1600 Smith St</td>
+                            <td style="padding: 0.75rem;">Houston</td>
+                            <td style="padding: 0.75rem;">TX</td>
+                            <td style="padding: 0.75rem;">77002</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #e2e8f0;">
+                            <td style="padding: 0.75rem;">MacGregor Park</td>
+                            <td style="padding: 0.75rem;">2800 S MacGregor Way</td>
+                            <td style="padding: 0.75rem;">Houston</td>
+                            <td style="padding: 0.75rem;">TX</td>
+                            <td style="padding: 0.75rem;">77021</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #e2e8f0; background: #fafafa;">
+                            <td style="padding: 0.75rem;">NRG Stadium</td>
+                            <td style="padding: 0.75rem;">8400 Kirby Dr</td>
+                            <td style="padding: 0.75rem;">Houston</td>
+                            <td style="padding: 0.75rem;">TX</td>
+                            <td style="padding: 0.75rem;">77054</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.75rem;">Minute Maid Park</td>
+                            <td style="padding: 0.75rem;">500 Crawford St</td>
+                            <td style="padding: 0.75rem;">Houston</td>
+                            <td style="padding: 0.75rem;">TX</td>
+                            <td style="padding: 0.75rem;">77002</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
             <div class="data-download-card">
                 <div>
-                    <strong>Data Package:</strong> <code>lab-06-data.zip</code>
-                    <p style="margin:0; font-size: 0.85rem; color: #64748b;">Contains CSV Address Lists</p>
+                    <strong>Ready-Made CSV:</strong> <code>houston_landmarks.csv</code>
+                    <p style="margin:0; font-size: 0.85rem; color: #64748b;">All 7 addresses, pre-formatted and ready to upload. No editing needed.</p>
                 </div>
-                <a href="#" class="btn btn-primary">Download Data</a>
+                <a href="../data/houston_landmarks.csv" download class="btn btn-primary">Download CSV</a>
+            </div>
+            
+            <div class="callout warning" style="margin-top: 1rem;">
+                <strong>Want to use your own addresses?</strong> That is great! Just make sure your CSV has these exact column headers: <code>Name</code>, <code>Address</code>, <code>City</code>, <code>State</code>, <code>Zip</code>. Use at least 5 addresses. The column names matter because ArcGIS uses them to identify which field is the street, city, etc.
+            </div>
+        </section>
+
+        <!-- T.O.L.S. Checklist -->
+        <section class="card" style="background: #fffbeb; border: 2px solid #f59e0b;">
+            <h2>📋 T.O.L.S. Checklist (Easy 30 Points!)</h2>
+            <p>Every map you submit in this course must include these four elements. Missing even one will cost you points.</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                <div style="background: white; padding: 1rem; border-radius: 10px; border-left: 4px solid #f59e0b;">
+                    <strong>T</strong>itle
+                    <p style="font-size: 0.85rem; color: #64748b; margin: 0.25rem 0 0;">A descriptive title (NOT "Map 1" or "Lab 4")</p>
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: 10px; border-left: 4px solid #f59e0b;">
+                    <strong>O</strong>rientation
+                    <p style="font-size: 0.85rem; color: #64748b; margin: 0.25rem 0 0;">A north arrow</p>
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: 10px; border-left: 4px solid #f59e0b;">
+                    <strong>L</strong>egend
+                    <p style="font-size: 0.85rem; color: #64748b; margin: 0.25rem 0 0;">Explains symbols and colors</p>
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: 10px; border-left: 4px solid #f59e0b;">
+                    <strong>S</strong>cale
+                    <p style="font-size: 0.85rem; color: #64748b; margin: 0.25rem 0 0;">A scale bar showing distance</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ArcGIS Sign-In Help -->
+        <section class="card" style="background: #f0f9ff; border-left: 5px solid #005e95;">
+            <h2>🔑 ArcGIS Account: How to Sign In</h2>
+            <p>You have a <strong>free ArcGIS Online account</strong> through TSU. Here is how to access it:</p>
+            <ol>
+                <li>Go to <a href="https://arcgis.com" target="_blank"><strong>arcgis.com</strong></a></li>
+                <li>Click <strong>Sign In</strong> (top right)</li>
+                <li>Click <strong>"Your ArcGIS organization's URL"</strong></li>
+                <li>Type: <code>tsu</code> (this takes you to the TSU login page)</li>
+                <li>Sign in with your <strong>TSU credentials</strong> (same as Canvas/email)</li>
+            </ol>
+            <div class="callout warning">
+                <strong>Cannot sign in?</strong> Email Dr. Sounny immediately. Do not let login issues stop you from starting. You can also use QGIS (Option B) as a backup, which requires no account at all.
             </div>
         </section>
 
         <!-- 3. Instructions (The Switcher) -->
         <h2>🛠️ Step-by-Step Instructions</h2>
-        <p>Select your preferred GIS platform to view instructions:</p>
+        <p>Select your preferred GIS platform:</p>
 
         <nav class="platform-switcher">
+            <button class="tab-btn" data-platform="web">
+                <span class="icon">🟧</span> ArcGIS Online <span style="font-size: 0.75rem; background: #16a34a; color: white; padding: 2px 8px; border-radius: 10px; margin-left: 4px;">Recommended</span>
+            </button>
             <button class="tab-btn active" data-platform="arcgis">
                 <span class="icon">🟦</span> ArcGIS Pro
             </button>
             <button class="tab-btn" data-platform="qgis">
-                <span class="icon">🟩 QGIS</span>
-            </button>
-            <button class="tab-btn" data-platform="web">
-                <span class="icon">🟧 Web GIS</span>
+                <span class="icon">🟩</span> QGIS
             </button>
         </nav>
 
-        <!-- ArcGIS Pro Pane -->
+        <!-- ============================================ -->
+        <!-- ArcGIS Online (Web GIS) Pane - RECOMMENDED  -->
+        <!-- ============================================ -->
+        <div class="instruction-pane" data-platform="web">
+            <div class="callout info" style="margin-bottom: 2rem;">
+                <strong>Estimated Time:</strong> 15 to 20 minutes. This is the fastest and simplest option!
+            </div>
+
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Prepare Your CSV File</h3>
+                    <p>You have two options:</p>
+                    <ul>
+                        <li><strong>Option A (Easiest):</strong> <a href="../data/houston_landmarks.csv" download>Download the ready-made CSV</a> and skip to Step 2.</li>
+                        <li><strong>Option B (Custom):</strong> Open <strong>Excel</strong>, <strong>Google Sheets</strong>, or even <strong>Notepad</strong>. Create a table with these exact headers:</li>
+                    </ul>
+                    <pre style="background: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 8px; overflow-x: auto; font-size: 0.85rem;">Name,Address,City,State,Zip
+Texas Southern University,3100 Cleburne St,Houston,TX,77004
+Museum of Fine Arts Houston,1500 Binz St,Houston,TX,77004
+Texas Medical Center,6001 Fannin St,Houston,TX,77030
+Downtown Houston,1600 Smith St,Houston,TX,77002
+MacGregor Park,2800 S MacGregor Way,Houston,TX,77021
+NRG Stadium,8400 Kirby Dr,Houston,TX,77054
+Minute Maid Park,500 Crawford St,Houston,TX,77002</pre>
+                    <p>Save the file as <code>addresses.csv</code> (not .xlsx, not .txt).</p>
+
+                    <div class="callout warning">
+                        <strong>Common Mistake #1:</strong> Saving as <code>.xlsx</code> instead of <code>.csv</code>. In Excel, go to <strong>File &rarr; Save As</strong> and change the file type dropdown to <strong>"CSV (Comma delimited)"</strong>. In Google Sheets, go to <strong>File &rarr; Download &rarr; Comma Separated Values (.csv)</strong>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Sign In and Open Map Viewer</h3>
+                    <ol>
+                        <li>Go to <a href="https://arcgis.com" target="_blank">arcgis.com</a> and sign in with your TSU account (see Sign-In instructions above).</li>
+                        <li>Click <strong>"Map"</strong> in the top navigation bar to open the Map Viewer.</li>
+                        <li>You should see a blank world map with a dark toolbar on the left.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Upload and Geocode Your CSV</h3>
+                    <ol>
+                        <li>On the left toolbar, click the <strong>"Add"</strong> button (the <strong>+</strong> icon).</li>
+                        <li>Click <strong>"Add layer from file"</strong>.</li>
+                        <li>Drag your CSV file into the upload area, or click "Your device" to browse for it.</li>
+                        <li>ArcGIS will detect the address columns and ask how to locate the features. Make sure <strong>"Addresses"</strong> is selected (not "Coordinates").</li>
+                        <li>Click <strong>"Next"</strong>, then <strong>"Create layer"</strong>.</li>
+                        <li>Wait a few seconds. Your points will appear on the map!</li>
+                    </ol>
+
+                    <div class="callout warning">
+                        <strong>Common Mistake #2:</strong> If your points do not appear, check that your CSV column headers are exactly <code>Name</code>, <code>Address</code>, <code>City</code>, <code>State</code>, <code>Zip</code> with no extra spaces. ArcGIS uses these names to match address fields.
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <h3>Customize Your Map</h3>
+                    <ol>
+                        <li><strong>Labels:</strong> Click your layer name in the Layers panel on the left. Click the <strong>"Labels"</strong> icon (tag icon). Turn labels ON and set the label field to <code>Name</code>.</li>
+                        <li><strong>Basemap:</strong> Click the <strong>"Basemap"</strong> button (left toolbar). Try "Streets" or "Navigation" for a clean look.</li>
+                        <li><strong>Symbology:</strong> Click your layer, then click the <strong>"Styles"</strong> icon (paintbrush). Choose a bold, visible symbol color.</li>
+                        <li><strong>Zoom:</strong> Zoom in so all your points are visible and fill most of the screen.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">5</div>
+                <div class="step-content">
+                    <h3>Print and Export as PDF</h3>
+                    <ol>
+                        <li>On the left toolbar, click the <strong>"Print"</strong> button (printer icon).</li>
+                        <li>Enter a <strong>descriptive title</strong> for your map (e.g., "Houston Landmarks Geocoding Lab").</li>
+                        <li>Layout: Choose <strong>"Letter ANSI A Landscape"</strong>.</li>
+                        <li>Format: <strong>PDF</strong>.</li>
+                        <li>Click <strong>"Export"</strong>. Wait a few seconds, then click the result to <strong>download your PDF</strong>.</li>
+                    </ol>
+                    <p>The PDF will automatically include a north arrow, scale bar, and legend. That is your T.O.L.S. covered!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- ArcGIS Pro Pane                              -->
+        <!-- ============================================ -->
         <div class="instruction-pane active" data-platform="arcgis">
             <div class="step">
                 <div class="step-num">1</div>
                 <div class="step-content">
-                    <h3>Locate the Geocoding Service</h3>
-                    <p>Instructions for ArcGIS Pro Geocoding...</p>
+                    <h3>Prepare Your CSV File</h3>
+                    <p>Create a CSV file with columns <code>Name</code>, <code>Address</code>, <code>City</code>, <code>State</code>, <code>Zip</code> (or <a href="../data/houston_landmarks.csv" download>download the ready-made CSV</a>). Save it somewhere easy to find, like your Desktop.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Add the CSV to Your Project</h3>
+                    <ol>
+                        <li>Open <strong>ArcGIS Pro</strong> and create a new Map project (or open an existing one).</li>
+                        <li>In the <strong>Catalog Pane</strong> (right side), navigate to where you saved your CSV.</li>
+                        <li>Drag the CSV file into the <strong>Contents Pane</strong> (left side). It will appear as a table (no points yet).</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Geocode the Addresses</h3>
+                    <ol>
+                        <li>Right-click the CSV table in the Contents Pane &rarr; select <strong>"Geocode Table"</strong>.</li>
+                        <li>For <strong>Input Locator</strong>, choose the <strong>ArcGIS World Geocoding Service</strong>.</li>
+                        <li>Map your fields: <code>Address</code> &rarr; Address, <code>City</code> &rarr; City, <code>State</code> &rarr; State, <code>Zip</code> &rarr; ZIP.</li>
+                        <li>Click <strong>Run</strong>. The geocoded points will appear on your map.</li>
+                    </ol>
+
+                    <div class="callout info">
+                        <strong>Alternative Method:</strong> Go to <strong>Analysis &rarr; Tools</strong>. Search for <strong>"Geocode Addresses"</strong>. Set the input table to your CSV and the locator to the ArcGIS World Geocoding Service. This is the same thing, just accessed from the toolbox.
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <h3>Label and Style Your Points</h3>
+                    <ol>
+                        <li>Right-click your geocoded layer &rarr; <strong>Label Features</strong>.</li>
+                        <li>In the <strong>Labeling Tab</strong>, set the label field to <code>Name</code>.</li>
+                        <li>Double-click a point to open <strong>Symbology</strong>. Choose a bold color and size 12+ for visibility.</li>
+                        <li>Change the <strong>Basemap</strong> (Map Tab &rarr; Basemap) to "Streets" or "Topographic".</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">5</div>
+                <div class="step-content">
+                    <h3>Create a Layout and Export</h3>
+                    <ol>
+                        <li>Go to <strong>Insert &rarr; New Layout</strong>. Select <strong>"Letter (8.5 x 11) Landscape"</strong>.</li>
+                        <li>Go to <strong>Insert &rarr; Map Frame</strong>. Draw a rectangle to place your map.</li>
+                        <li>Add T.O.L.S. elements from the <strong>Insert Tab</strong>:
+                            <ul>
+                                <li><strong>Text:</strong> Your map title</li>
+                                <li><strong>North Arrow:</strong> For orientation</li>
+                                <li><strong>Scale Bar:</strong> For distance</li>
+                                <li><strong>Legend:</strong> For symbol explanation</li>
+                            </ul>
+                        </li>
+                        <li>Go to <strong>Share &rarr; Export Layout</strong>. Format: PDF. DPI: 300. Save it.</li>
+                    </ol>
                 </div>
             </div>
         </div>
 
-        <!-- QGIS Pane -->
+        <!-- ============================================ -->
+        <!-- QGIS Pane                                    -->
+        <!-- ============================================ -->
         <div class="instruction-pane" data-platform="qgis">
+            <div class="callout info" style="margin-bottom: 2rem;">
+                <strong>No Account Required!</strong> QGIS is free and open-source. If you are having trouble with ArcGIS login, this is your best backup option.
+            </div>
+
             <div class="step">
                 <div class="step-num">1</div>
                 <div class="step-content">
-                    <h3>Install MMQGIS Plugin</h3>
-                    <p>Instructions for QGIS Geocoding...</p>
+                    <h3>Install the MMQGIS Plugin</h3>
+                    <ol>
+                        <li>Open <strong>QGIS Desktop</strong>.</li>
+                        <li>Go to <strong>Plugins &rarr; Manage and Install Plugins</strong>.</li>
+                        <li>In the search bar, type <strong>MMQGIS</strong>.</li>
+                        <li>Click <strong>Install Plugin</strong>. You will see a new <strong>MMQGIS</strong> menu appear at the top.</li>
+                    </ol>
+                    <div class="callout info">
+                        <strong>What is MMQGIS?</strong> It is a popular plugin that adds geocoding (and many other features) to QGIS. It uses the free OpenStreetMap/Nominatim geocoding service, so you do not need any API keys or accounts.
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Prepare Your CSV File</h3>
+                    <p>Create a CSV or <a href="../data/houston_landmarks.csv" download>download the ready-made CSV</a>. Same rules apply: columns must be <code>Name</code>, <code>Address</code>, <code>City</code>, <code>State</code>, <code>Zip</code>.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Geocode the CSV</h3>
+                    <ol>
+                        <li>Go to <strong>MMQGIS &rarr; Geocode &rarr; Geocode CSV with Web Service</strong>.</li>
+                        <li>Select your CSV file as the input.</li>
+                        <li>Web Service: Choose <strong>OpenStreetMap / Nominatim</strong>.</li>
+                        <li>Map the columns:
+                            <ul>
+                                <li>Address &rarr; <code>Address</code></li>
+                                <li>City &rarr; <code>City</code></li>
+                                <li>State &rarr; <code>State</code></li>
+                                <li>Country &rarr; (leave blank or type "US")</li>
+                            </ul>
+                        </li>
+                        <li>Click <strong>Run</strong>. After a moment, points will appear on your canvas!</li>
+                    </ol>
+                    <div class="callout warning">
+                        <strong>Common Issue:</strong> Nominatim has a rate limit (1 request per second). If you have many addresses, the process may take a minute. Be patient and do not close QGIS during processing.
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <h3>Add a Basemap and Style</h3>
+                    <ol>
+                        <li>Add a basemap: Go to <strong>Web &rarr; QuickMapServices &rarr; OSM &rarr; OSM Standard</strong>.
+                            <br><em>(If you do not have QuickMapServices, install it: Plugins &rarr; Manage Plugins &rarr; search "QuickMapServices")</em></li>
+                        <li>Make sure your geocoded points layer is <strong>above</strong> the basemap in the Layers panel (drag to reorder).</li>
+                        <li>Right-click the points layer &rarr; <strong>Properties &rarr; Labels</strong>. Set to "Single Labels" and choose <code>Name</code> as the label field.</li>
+                        <li>Under <strong>Symbology</strong>, choose a bold marker color and increase the size.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">5</div>
+                <div class="step-content">
+                    <h3>Create Print Layout and Export</h3>
+                    <ol>
+                        <li>Go to <strong>Project &rarr; New Print Layout</strong>. Name it "Geocoding Lab".</li>
+                        <li>Use <strong>Add Map</strong> to draw your map frame on the page.</li>
+                        <li>Add T.O.L.S. elements using the toolbar:
+                            <ul>
+                                <li><strong>Add Label:</strong> For your title</li>
+                                <li><strong>Add North Arrow:</strong> For orientation</li>
+                                <li><strong>Add Scale Bar:</strong> For distance</li>
+                                <li><strong>Add Legend:</strong> For symbol explanation</li>
+                            </ul>
+                        </li>
+                        <li>Click <strong>Layout &rarr; Export as PDF</strong>. Save to your computer.</li>
+                    </ol>
                 </div>
             </div>
         </div>
 
-        <!-- Web GIS Pane -->
-        <div class="instruction-pane" data-platform="web">
-            <div class="step">
-                <div class="step-num">1</div>
-                <div class="step-content">
-                    <h3>Drag and Drop CSV</h3>
-                    <p>Instructions for Web GIS Geocoding...</p>
+        <!-- Common Mistakes Section -->
+        <section class="card" style="margin-top: 3rem; background: #fef2f2; border: 2px solid #ef4444;">
+            <h2 style="color: #b91c1c;">⚠️ Common Mistakes (Read Before Submitting!)</h2>
+            <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+                <div style="background: white; padding: 1rem; border-radius: 8px; border-left: 4px solid #ef4444;">
+                    <strong>#1: Saving as .xlsx instead of .csv</strong>
+                    <p style="font-size: 0.9rem; color: #64748b; margin: 0.25rem 0 0;">ArcGIS Online and QGIS expect CSV files. If you save from Excel, make sure to change the format to "CSV (Comma delimited)" in the Save As dialog.</p>
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: 8px; border-left: 4px solid #ef4444;">
+                    <strong>#2: Missing or misspelled column headers</strong>
+                    <p style="font-size: 0.9rem; color: #64748b; margin: 0.25rem 0 0;">Your CSV must have columns named exactly <code>Name</code>, <code>Address</code>, <code>City</code>, <code>State</code>, <code>Zip</code>. Extra spaces or different names (like "Street" or "Zipcode") will cause geocoding to fail.</p>
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: 8px; border-left: 4px solid #ef4444;">
+                    <strong>#3: Submitting a screenshot instead of a PDF</strong>
+                    <p style="font-size: 0.9rem; color: #64748b; margin: 0.25rem 0 0;">Use the Print/Export tool to generate a proper PDF with T.O.L.S. elements. Phone screenshots and Windows Snipping Tool captures will not have a title, legend, or scale bar.</p>
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: 8px; border-left: 4px solid #ef4444;">
+                    <strong>#4: Fewer than 5 geocoded points</strong>
+                    <p style="font-size: 0.9rem; color: #64748b; margin: 0.25rem 0 0;">You need at least 5 addresses on the map. The ready-made CSV has 7; just use that if you are unsure.</p>
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: 8px; border-left: 4px solid #ef4444;">
+                    <strong>#5: No labels on the map points</strong>
+                    <p style="font-size: 0.9rem; color: #64748b; margin: 0.25rem 0 0;">Points must be identifiable. Turn on labels (using the <code>Name</code> field) so the reader knows which point is TSU, which is NRG Stadium, etc.</p>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- 4. Deliverables -->
+        <!-- 4. Deliverables & Grading -->
         <section class="card" style="margin-top: 4rem; border-top: 4px solid var(--accent);">
-            <h2>✅ Submission & Assessment</h2>
-            <p>To complete this lab, you must submit:</p>
-            <ul>
-                <li>A map showing the geocoded points</li>
-                <li>A report on match rates and errors</li>
-            </ul>
-            <div class="callout warning">
-                <strong>Quality Check:</strong> Ensure your map includes a Title, Legend, and North Arrow before exporting.
+            <h2>✅ Submission and Assessment</h2>
+            <p>Upload a <strong>PDF</strong> of your geocoded map to Canvas. Your map should clearly show the geocoded points with labels, a title, legend, north arrow, and scale bar.</p>
+            
+            <h3 style="margin-top: 1.5rem;">Grading Rubric (100 points)</h3>
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
+                    <thead>
+                        <tr style="background: #f1f5f9; border-bottom: 2px solid #e2e8f0;">
+                            <th style="padding: 0.75rem; text-align: left;">Criteria</th>
+                            <th style="padding: 0.75rem; text-align: center; width: 80px;">Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #e2e8f0;">
+                            <td style="padding: 0.75rem;">At least 5 addresses successfully geocoded and displayed on map</td>
+                            <td style="padding: 0.75rem; text-align: center; font-weight: 700;">30</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #e2e8f0; background: #fafafa;">
+                            <td style="padding: 0.75rem;">Points are labeled or identifiable</td>
+                            <td style="padding: 0.75rem; text-align: center; font-weight: 700;">15</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #e2e8f0;">
+                            <td style="padding: 0.75rem;">Map includes T.O.L.S. (Title, Orientation, Legend, Scale)</td>
+                            <td style="padding: 0.75rem; text-align: center; font-weight: 700;">30</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #e2e8f0; background: #fafafa;">
+                            <td style="padding: 0.75rem;">Appropriate basemap and symbology</td>
+                            <td style="padding: 0.75rem; text-align: center; font-weight: 700;">15</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.75rem;">Overall presentation and map aesthetics</td>
+                            <td style="padding: 0.75rem; text-align: center; font-weight: 700;">10</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr style="border-top: 2px solid #334155; background: #f8fafc;">
+                            <td style="padding: 0.75rem; font-weight: 700;">Total</td>
+                            <td style="padding: 0.75rem; text-align: center; font-weight: 700;">100</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="callout info" style="margin-top: 1rem;">
+                <strong>Pro Tip:</strong> The easiest 30 points on any lab are the T.O.L.S. elements. If you use ArcGIS Online's Print tool, the title, north arrow, scale bar, and legend are added automatically. Do not leave free points on the table!
             </div>
         </section>
 
@@ -116,5 +568,67 @@
     </footer>
 
     <script src="js/lab-switcher.js"></script>
+
+    <!-- DYNAMIC NAV SCRIPT -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const navTitle = document.querySelector('.nav-current-title');
+        const defaultTitle = "Geocoding Addresses";
+        const sections = document.querySelectorAll('main h2');
+        const navBar = document.querySelector('.sticky-chapter-bar');
+        const progressBar = document.querySelector('.nav-progress-bar');
+        
+        window.addEventListener('scroll', () => {
+          const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+          const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const scrolled = (winScroll / height) * 100;
+          if (progressBar) progressBar.style.width = scrolled + "%";
+          
+          if (window.scrollY > 200) {
+            navBar.classList.add('is-stuck');
+          } else {
+            navBar.classList.remove('is-stuck');
+          }
+        });
+
+        const observerOptions = {
+          root: null,
+          rootMargin: '-80px 0px -70% 0px',
+          threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const newText = entry.target.innerText;
+              if (navTitle.textContent !== newText) {
+                  navTitle.style.opacity = 0;
+                  setTimeout(() => {
+                    navTitle.textContent = newText;
+                    navTitle.style.opacity = 1;
+                  }, 200);
+              }
+            }
+          });
+        }, observerOptions);
+
+        sections.forEach(section => {
+          observer.observe(section);
+        });
+        
+        window.addEventListener('scroll', () => {
+          if (window.scrollY < 150) {
+             if (navTitle.textContent !== defaultTitle) {
+               navTitle.style.opacity = 0;
+               setTimeout(() => {
+                 navTitle.textContent = defaultTitle;
+                 navTitle.style.opacity = 1;
+               }, 200);
+             }
+          }
+        });
+      });
+    </script>
+
 </body>
 </html>
