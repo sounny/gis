@@ -2,7 +2,18 @@ import glob
 import re
 import os
 
-files = glob.glob(os.path.join('c:\\Users\\sounn\\Git\\gis\\chapters', '*.html'))
+# Pre-compile regex patterns for performance
+SECTION_PATTERN = re.compile(r'(<section\s+class=["\']card\s+learning-scaffold["\'][^>]*>)', re.IGNORECASE)
+HEAD_PATTERN = re.compile(r'(<div\s+class=["\']scaffold-head["\'][^>]*>)', re.IGNORECASE)
+TAG_RE_CACHE = {}
+
+def get_tag_pattern(tag_name):
+    if tag_name not in TAG_RE_CACHE:
+        TAG_RE_CACHE[tag_name] = re.compile(r'(</?'+tag_name+r'\b[^>]*>)', re.IGNORECASE)
+    return TAG_RE_CACHE[tag_name]
+
+# Use environment-portable relative path
+files = glob.glob(os.path.join('chapters', '*.html'))
 print(f"Found {len(files)} files.")
 
 for filepath in files:
@@ -10,9 +21,7 @@ for filepath in files:
         with open(filepath, 'r', encoding='utf-8') as f:
             content = f.read()
 
-        # Regex for section start
-        section_pattern = re.compile(r'(<section\s+class=["\']card\s+learning-scaffold["\'][^>]*>)', re.IGNORECASE)
-        match_section = section_pattern.search(content)
+        match_section = SECTION_PATTERN.search(content)
 
         if not match_section:
             print(f"Skip: No scaffold in {os.path.basename(filepath)}")
@@ -29,7 +38,7 @@ for filepath in files:
         def find_closing_tag(full_text, start_idx, tag_name):
             depth = 0
             # Matches </tag> or <tag ... >
-            p = re.compile(r'(</?'+tag_name+r'\b[^>]*>)', re.IGNORECASE)
+            p = get_tag_pattern(tag_name)
             for m in p.finditer(full_text, start_idx):
                 tag = m.group(1)
                 is_close = tag.startswith('</')
@@ -56,8 +65,7 @@ for filepath in files:
         inner_start_absolute = match_section.end()
 
         # Find scaffold-head div inside inner content
-        head_pattern = re.compile(r'(<div\s+class=["\']scaffold-head["\'][^>]*>)', re.IGNORECASE)
-        match_head = head_pattern.search(inner_content)
+        match_head = HEAD_PATTERN.search(inner_content)
         
         if not match_head:
              print(f"Error: Could not find scaffold-head in {os.path.basename(filepath)}")
