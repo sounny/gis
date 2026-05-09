@@ -1,6 +1,9 @@
 import os
+import re
 import unittest
 from urllib.parse import urlparse
+
+LINK_RE = re.compile(r'(?:href|src)=["\'](.*?)["\']')
 
 class TestLinkIntegrity(unittest.TestCase):
     def test_local_links_exist(self):
@@ -20,8 +23,7 @@ class TestLinkIntegrity(unittest.TestCase):
                     content = f.read()
                 
                 # Simple regex-based extraction
-                import re
-                links = re.findall(r'(?:href|src)=["\'](.*?)["\']', content)
+                links = LINK_RE.findall(content)
                 
                 broken_links = []
                 for link in links:
