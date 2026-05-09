@@ -130,8 +130,8 @@ def extract_concepts(html: str) -> list[str]:
     return out
 
 
-def load_reference_texts() -> dict[str, str]:
-    texts: dict[str, str] = {}
+def load_reference_texts() -> dict[str, tuple[str, str]]:
+    texts: dict[str, tuple[str, str]] = {}
     for p in REF_ROOT.rglob("*"):
         if not p.is_file() or p.suffix.lower() not in REF_EXTS:
             continue
@@ -141,11 +141,11 @@ def load_reference_texts() -> dict[str, str]:
             continue
         if len(txt) > MAX_REF_CHARS:
             txt = txt[:MAX_REF_CHARS]
-        texts[p.as_posix()] = txt
+        texts[p.as_posix()] = (txt, txt.lower())
     return texts
 
 
-def find_best_sources(ref_texts: dict[str, str], concepts: list[str], cap: int = 12) -> list[tuple[str, int]]:
+def find_best_sources(ref_texts: dict[str, tuple[str, str]], concepts: list[str], cap: int = 12) -> list[tuple[str, int]]:
     tally: dict[str, int] = {}
     for concept in concepts:
         key = concept.lower()
@@ -153,8 +153,8 @@ def find_best_sources(ref_texts: dict[str, str], concepts: list[str], cap: int =
             continue
         if key in {"gis", "map", "data", "analysis", "model", "models", "system", "chapter"}:
             continue
-        for path, txt in ref_texts.items():
-            cnt = txt.lower().count(key)
+        for path, (txt, txt_lower) in ref_texts.items():
+            cnt = txt_lower.count(key)
             if cnt:
                 tally[path] = tally.get(path, 0) + cnt
     return sorted(tally.items(), key=lambda x: x[1], reverse=True)[:cap]
@@ -174,7 +174,7 @@ def excerpt_around(txt: str, needle: str, window: int = 220) -> str:
 
 
 def texas_hits(
-    ref_texts: dict[str, str],
+    ref_texts: dict[str, tuple[str, str]],
     prefer_paths: list[str],
     concepts: list[str],
     cap: int = 4,
@@ -191,13 +191,14 @@ def texas_hits(
     def scan_paths(paths: list[str]) -> list[RefHit]:
         out: list[RefHit] = []
         for path in paths:
-            txt = ref_texts.get(path, "")
-            if not txt:
+            entry = ref_texts.get(path)
+            if not entry:
                 continue
+            txt, txt_lower = entry
             score = 0
             best_ex = ""
             for t in TEXAS_TERMS:
-                cnt = txt.lower().count(t)
+                cnt = txt_lower.count(t)
                 if cnt:
                     score += cnt
                     if not best_ex:
@@ -214,8 +215,8 @@ def texas_hits(
     # Broaden: Texas + chapter concepts
     concept_keys = [c.lower() for c in concepts if len(c) >= 5][:8]
     broad: list[RefHit] = []
-    for path, txt in ref_texts.items():
-        low = txt.lower()
+    for path, (txt, txt_lower) in ref_texts.items():
+        low = txt_lower
         texas_score = sum(low.count(t) for t in TEXAS_TERMS)
         if not texas_score:
             continue
@@ -234,7 +235,7 @@ def texas_hits(
 
 
 def generic_hits(
-    ref_texts: dict[str, str],
+    ref_texts: dict[str, tuple[str, str]],
     queries: list[str],
     cap: int = 4,
     restrict_paths: list[str] | None = None,
@@ -245,10 +246,11 @@ def generic_hits(
     for q in queries:
         ql = q.lower()
         for path in pool:
-            txt = ref_texts.get(path, "")
-            if not txt:
+            entry = ref_texts.get(path)
+            if not entry:
                 continue
-            cnt = txt.lower().count(ql)
+            txt, txt_lower = entry
+            cnt = txt_lower.count(ql)
             if not cnt:
                 continue
             scored[path] = scored.get(path, 0) + cnt
