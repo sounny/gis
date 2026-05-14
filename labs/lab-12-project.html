@@ -60,8 +60,8 @@
         <p>You have two options for your final submission format. Choose ONE.</p>
 
         <div class="platform-tabs">
-            <button class="tab-btn active" onclick="switchTab('poster')">📄 Option A: The Poster</button>
-            <button class="tab-btn" onclick="switchTab('storymap')">🌐 Option B: The StoryMap</button>
+            <button class="tab-btn active" onclick="switchTab(event, 'poster')">📄 Option A: The Poster</button>
+            <button class="tab-btn" onclick="switchTab(event, 'storymap')">🌐 Option B: The StoryMap</button>
         </div>
 
         <div id="poster" class="instruction-pane active">
@@ -137,19 +137,12 @@
         </div>
     </footer>
 
-    <script>
-        function switchTab(platform) {
+                <script>
+        function switchTab(event, platform) {
             document.querySelectorAll('.instruction-pane').forEach(el => el.style.display = 'none');
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             document.getElementById(platform).style.display = 'block';
-            
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(btn => {
-                // Approximate matching for simplicity in this demo
-                if(btn.textContent.toLowerCase().includes(platform)) {
-                    btn.classList.add('active');
-                }
-            });
+            event.currentTarget.classList.add('active');
         }
     </script>
 </body>
