@@ -52,9 +52,9 @@
         <p>Select your preferred GIS platform to view instructions:</p>
 
         <div class="platform-tabs">
-            <button class="tab-btn active" onclick="switchTab('arcgis')">🟦 ArcGIS Pro</button>
-            <button class="tab-btn" onclick="switchTab('qgis')">🟩 QGIS</button>
-            <button class="tab-btn" onclick="switchTab('web')">🟧 Web GIS (AGOL)</button>
+            <button class="tab-btn active" onclick="switchTab(event, 'arcgis')">🟦 ArcGIS Pro</button>
+            <button class="tab-btn" onclick="switchTab(event, 'qgis')">🟩 QGIS</button>
+            <button class="tab-btn" onclick="switchTab(event, 'web')">🟧 Web GIS (AGOL)</button>
         </div>
 
         <!-- ArcGIS Pro Pane -->
@@ -158,17 +158,11 @@
     </footer>
 
     <script>
-        function switchTab(platform) {
+        function switchTab(event, platform) {
             document.querySelectorAll('.instruction-pane').forEach(el => el.style.display = 'none');
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             document.getElementById(platform).style.display = 'block';
-            
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(btn => {
-                if(btn.textContent.toLowerCase().includes(platform === 'web' || platform === 'gee' ? (platform === 'gee' ? 'google' : 'web') : platform)) {
-                    btn.classList.add('active');
-                }
-            });
+            event.currentTarget.classList.add('active');
         }
     </script>
 </body>
